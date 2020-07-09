@@ -68,11 +68,8 @@ int <span class="function"><span class="title">main</span></span>() {
 <p>tags 标签</p>
 <p>categories 分类</p>
 <p><strong>7.9日更新</strong></p>
-<p>从github仓库更改的gitee仓库 </p>
+<p>同步部署到gitee/github/coding的仓库中</p>
 <p>加入图片lazy_load 效果未知</p>
-<p>增加了评论功能</p>
-<p>增加了点赞功能</p>
-<p>增加了2D动态人物</p>
 <p>Typora可视化编辑</p>
 ]]></content>
       <categories>
@@ -81,11 +78,5 @@ int <span class="function"><span class="title">main</span></span>() {
       <tags>
         <tag>First blog</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>测试</title>
-    <url>/2020/07/09/%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<p>测试</p>
-]]></content>
   </entry>
 </search>
