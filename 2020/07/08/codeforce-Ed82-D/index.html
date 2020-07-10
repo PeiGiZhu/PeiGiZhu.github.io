@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>codeforce-Ed82-D - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,D.Fill The Bag
+��������һ�� n ��Ĵ��ӣ��㻹�� m �����ӣ��� i �����ӵĳߴ��� ai �������ÿһ�� ai ���� 2 �ķǸ����,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">codeforce-Ed82-D</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">codeforce-Ed82-D</h1>
+        <div class="stuff">
+            <span>七月 08, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%CC%B0%EF%BF%BD%EF%BF%BD/" rel="tag">̰��</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%CE%BB%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/" rel="tag">λ����</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p><a href="https://codeforces.com/contest/1303/problem/D" target="_blank" rel="noopener">D.Fill The Bag</a></p>
+<p>����<br>����һ�� n ��Ĵ��ӣ��㻹�� m �����ӣ��� i �����ӵĳߴ��� ai �������ÿһ�� ai ���� 2 �ķǸ���������</p>
+<p>����԰Ѻ��ӷֳɴ�С��ȵ������֡����Ŀ������ȫװ�����ӡ�</p>
+<p>���� n=10,a=[1,1,32] ����ô������ 32 ��ĺ��ӷֳ� 16 ��������֣�Ȼ��� 16 ��ĺ��ӷֿ���������� 1 �룬1 �룬8 ��ĺ���װ�����ӡ�</p>
+<p>///���ָ������16�� 8�뻹��ʣ�µĲ�����ֱ���ӵ�</p>
+<p>�������ߴ�Ϊ n �Ĵ����������С�ָ�����<br>�������ݣ��޽���� -1 �� </p>
+<p>��������һ�� -1 �������</p>
+<p>���ǵ�����һ��������Ӱ�쵽�������ĺ͡�</p>
+<p>��ô���ǽ������������ѳ� 1 �����ںͲ��䣬��ʱ 1 �ĸ���Ϊ ��(i=1to m) a[i] ��Ҳ����˵С�ڵ��� ��(i=1to m) a[i] ���������Ա��������</p>
+<p>�ʵ� n&gt;��(i=1to m) a[i]  ʱ���޽⡣</p>
+<p>�� n �����Ʋ�ֳ� 2^k1,2^k2,…,2^kc ��</p>
+<p>Ȼ��ӵ�λ��2^k1������λ��2^kc��̰��������</p>
+<p>�������ǵ�ǰ����������Ϊ 2^ki ��</p>
+<p>���ȿ���λ��С�ڵ��� ki ���������У��ܲ��ܴճ� 2^ki �������ԣ�ֱ������ȥ�������Ƿ���λ������ ki ������������С����һ����ʹ�侭�����ɴη��ѣ����ѳ� 2^ki ��</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">ll box[(int)1e5+4];</span><br><span class="line">ll bit[60];</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll n,m,sum&#x3D;0;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        ll cnt,temp;</span><br><span class="line">        for(int i&#x3D;0;i&lt;60;i++)bit[i]&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;m;i++)&#123;</span><br><span class="line">            cin&gt;&gt;box[i];</span><br><span class="line">            sum+&#x3D;box[i];</span><br><span class="line">            temp&#x3D;box[i];cnt&#x3D;0;</span><br><span class="line">            while(temp%2&#x3D;&#x3D;0)&#123;</span><br><span class="line">                temp&#x2F;&#x3D;2;</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            bit[cnt]++;</span><br><span class="line">        &#125;</span><br><span class="line">        if(sum&lt;n)&#123;</span><br><span class="line">            cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(ll i&#x3D;0;i&lt;60;i++)&#123;</span><br><span class="line">            if(n&amp;(1ll&lt;&lt;i))&#123;&#x2F;&#x2F;&#x2F; ��n�Ķ����Ƶ�iλ Ϊ1 ��ô�ӵ�iλ�����λ���Ƿ���1����ֱ���û�ֽ�</span><br><span class="line">                for(ll j&#x3D;i;j&lt;60;j++)&#123;</span><br><span class="line">                    if(bit[j])&#123;&#x2F;&#x2F;&#x2F;�ҵ��ӵ�iλ��ʼ���λ��1 ģ����� </span><br><span class="line">			&#x2F;&#x2F;&#x2F;������Ҫһ��1000 �ҵ����λ��1��100000 ��ô100000 - 001000 &#x3D;011000</span><br><span class="line">                        bit[j]--;</span><br><span class="line">                        for(ll k&#x3D;i;k&lt;j;k++)bit[k]++;</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                    ans++;&#x2F;&#x2F;&#x2F;��δ�ҵ���ô�൱�� ��2ƽ�ֲ�����һ��</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            bit[i+1]+&#x3D;bit[i]&#x2F;2;&#x2F;&#x2F;&#x2F;��forѭ������һλʱ�����һλ�Ķ�����1�ĸ�������2��ôѡ���λ</span><br><span class="line">			       &#x2F;&#x2F;&#x2F;�ȼ��ڿ���λ��С�ڵ��� ki ���������У��ܲ��ܴճ� 2^ki </span><br><span class="line">			       &#x2F;&#x2F;&#x2F;�޷���λ���������ᱻ�õ����Բ��ÿ���</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS������͸�� - �����ɥ������`�� (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
