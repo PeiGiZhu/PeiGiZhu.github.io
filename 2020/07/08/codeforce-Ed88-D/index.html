@@ -5,19 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>始 - Welcome</title>
+    <title>codeforce-Ed88-D - Welcome</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="PeiGiZhu&#39;s Blog,7.8日更新
-search 站内搜索
-tags 标签
-categories 分类
-7.9日更新
-同步部署到gitee/github/coding的仓库中
-加入图片lazy_load 
-Typora可,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,D. Yet Another Yet Another Task
+题意
+长度为n的数组a 其中-30&amp;lt;=ai&amp;lt;=30
+要求找到“区间和-区间最大值”的最大值数组中包含负数因为答案最小为 0,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -55,7 +51,7 @@ Typora可,">
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">始</h3>
+    <h3 class="subtitle">codeforce-Ed88-D</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -71,33 +67,29 @@ Typora可,">
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">始</h1>
+        <h1 class="title">codeforce-Ed88-D</h1>
         <div class="stuff">
             <span>七月 08, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Updata/" rel="tag">Updata</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%80%E5%A4%A7%E5%AD%90%E4%B8%B2%E5%92%8C/" rel="tag">最大子串和</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换了原来主题默认的音乐</p>
-<p>替换了lazy_load 加载图片</p>
+            <p><a href="https://codeforces.ml/contest/1359/problem/D" target="_blank" rel="noopener">D. Yet Another Yet Another Task</a></p>
+<p>题意</p>
+<p>长度为n的数组a 其中-30&lt;=ai&lt;=30</p>
+<p>要求找到“区间和-区间最大值”的最大值<br>数组中包含负数<br>因为答案最小为 0<br>所以可以从 1 到 30 枚举可能的区间最大值<br>然后遍历寻找最大子段和<br>如果遍历到位置 i 时，前一段子段和小于 0 ，说明已经不是最优解，此时置nowsum为 0<br>如果遍历到位置 i 时，位置 i 的值 a[i] &gt; 枚举出的区间最大值 mx ，此时不符假设，说明第 i 个位置不可取，nowsum置 0<br>/*<br>或者将原数组中大于mx的数置为负无穷 </p>
+<p>假设最大值L,R 在某个大于mx的数的左边<br>那么他会被nowsum 记录<br>假设最大值L,R 跨越某个大于mx的数<br>那么这个nowsum非法 因为假设L,R中的最大值为mx<br>这等效于某段nowsum&lt;0则删去该子段从当前数后一个数重新开始统计一个子段类似<br>由于子段可以为空那么nowsum不会小于0所以若某个数设为ai使得当前的连续子段和小于0<br>那么这个数一定不会被包括在最终取最大sum值的子段中<br>假设某子段[L,j]包括这个ai那么子段和sum[L~j]=sum[L~i]+sum[i+1~j]<br> sum[L~i]&lt;0那么显然sum[i+1~j]&gt;sum[L~j] 所以直接抛弃[L~i]从i+1开始从新统计sum和</p>
+<p>其次为什么枚举到的区间中最大值若不存在也不会得到错误答案<br>由ans-mx构成的函数图像是<br>ans<br>|       /<br>|     /  |      / |<br>|   /    |    /   |     / |<br>| /      |  /     |   /   |<br>|         |/      |  /    |<br>|                  |/      |<br>|————————–&gt; mx</p>
+<p>(用txt画图╮(╯▽╰)╭)</p>
+<p>当mx枚举到区间中确实存在的数时函数会存在一个极值点<br>其他不存在的mx都会被更新掉 最后取max的值实际上都是极值点在比较 </p>
+<p>*/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e5+5;</span><br><span class="line">const int inf&#x3D;1e8;</span><br><span class="line">int data[Max];</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    int sum&#x3D;0;</span><br><span class="line">    for(int num&#x3D;0;num&lt;&#x3D;30;num++)&#123;</span><br><span class="line">        int now&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            now+&#x3D;data[i];</span><br><span class="line">            if(now&lt;0||data[i]&gt;num)now&#x3D;0;</span><br><span class="line">            sum&#x3D;max(now-num,sum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="/mp3/Aimer - ONE.flac">
+                <source type="audio/mpeg" src="RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
             </audio>
             
         </div>

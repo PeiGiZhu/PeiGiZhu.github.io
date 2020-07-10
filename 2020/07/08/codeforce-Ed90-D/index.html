@@ -5,19 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>始 - Welcome</title>
+    <title>codeforce-Ed90-D - Welcome</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="PeiGiZhu&#39;s Blog,7.8日更新
-search 站内搜索
-tags 标签
-categories 分类
-7.9日更新
-同步部署到gitee/github/coding的仓库中
-加入图片lazy_load 
-Typora可,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,D.Maximum Sum on Even Positions
+题意给出一个长度为n&amp;lt;2e5的数组ai你可以将数组中的一个子串 倒置使得这个数组中偶数位的sum最大
+题解倒置操作只有偶数长度子,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -55,7 +50,7 @@ Typora可,">
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">始</h3>
+    <h3 class="subtitle">codeforce-Ed90-D</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -71,33 +66,24 @@ Typora可,">
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">始</h1>
+        <h1 class="title">codeforce-Ed90-D</h1>
         <div class="stuff">
             <span>七月 08, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Updata/" rel="tag">Updata</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%80%E5%A4%A7%E5%AD%90%E4%B8%B2%E5%92%8C/" rel="tag">最大子串和</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换了原来主题默认的音乐</p>
-<p>替换了lazy_load 加载图片</p>
+            <p><a href="https://codeforces.ml/contest/1373/problem/D" target="_blank" rel="noopener">D.Maximum Sum on Even Positions</a></p>
+<p>题意<br>给出一个长度为n&lt;2e5的数组ai<br>你可以将数组中的一个子串 倒置<br>使得这个数组中偶数位的sum最大</p>
+<p>题解<br>倒置操作只有偶数长度子串会对最后sum产生影响<br>奇数长度的子串倒置后原来在偶数位的数仍然在偶数位</p>
+<p>奇数长度倒置后原来奇数位的数变为偶数那么就相当于<br>原来偶数位的sum+(子串中奇数位和-子串中偶数位和)<br>所以考虑相邻两位两两做差作为一个整体放入新数组中<br>然后对新数组求最大子段和sub 与原来sum相加更新答案<br>由于原来数组长度n可能为奇数<br>所以相邻数两两做差有两种情况 都要考虑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int Max&#x3D;2e5+5;</span><br><span class="line">const int Mod&#x3D;1e9+7;</span><br><span class="line">ll data[Max],ndata[2][Max];</span><br><span class="line">&#x2F;*</span><br><span class="line"></span><br><span class="line">*&#x2F;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        ll sum&#x3D;0,osum&#x3D;0;int cnt1&#x3D;0,cnt2&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;data[i];</span><br><span class="line">            if(i&amp;1)&#123;</span><br><span class="line">                ndata[0][cnt1++]&#x3D;data[i]-data[i-1];</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                sum+&#x3D;data[i];</span><br><span class="line">                if(i)ndata[1][cnt2++]&#x3D;data[i-1]-data[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll minn&#x3D;0,per&#x3D;0,sub&#x3D;0,ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt1;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[0][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;sum&lt;&lt;&quot; &quot;&lt;&lt;sub&lt;&lt;endl;</span><br><span class="line">        ans&#x3D;sum+sub;</span><br><span class="line">        per&#x3D;0;minn&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt2;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[1][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        ans&#x3D;max(ans,sum+sub);</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="/mp3/Aimer - ONE.flac">
+                <source type="audio/mpeg" src="RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
             </audio>
             
         </div>

@@ -5,19 +5,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>始 - Welcome</title>
+    <title>codeforce-GlobleRound7-D2 - Welcome</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="PeiGiZhu&#39;s Blog,7.8日更新
-search 站内搜索
-tags 标签
-categories 分类
-7.9日更新
-同步部署到gitee/github/coding的仓库中
-加入图片lazy_load 
-Typora可,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,D2. Prefix-Suffix Palindrome (Hard version)
+题意要求从s中找到一个t使得 t的长度不超过st是回文串存在s的前缀a和后缀b a+b=t|s|&amp;lt;1e5,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -55,7 +49,7 @@ Typora可,">
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">始</h3>
+    <h3 class="subtitle">codeforce-GlobleRound7-D2</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -71,33 +65,23 @@ Typora可,">
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">始</h1>
+        <h1 class="title">codeforce-GlobleRound7-D2</h1>
         <div class="stuff">
             <span>七月 08, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Updata/" rel="tag">Updata</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%9B%9E%E6%96%87%E4%B8%B2/" rel="tag">回文串</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag">字符串</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换了原来主题默认的音乐</p>
-<p>替换了lazy_load 加载图片</p>
+            <p><a href="https://codeforc.es/problemset/problem/1326/D2" target="_blank" rel="noopener">D2. Prefix-Suffix Palindrome (Hard version)</a></p>
+<p>题意<br>要求从s中找到一个t<br>使得 t的长度不超过s<br>t是回文串<br>存在s的前缀a和后缀b a+b=t<br>|s|&lt;1e5</p>
+<p>题解<br>先从两边取对称的前后缀，之后再取余下字符串较长的回文前缀或后缀用马拉车实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">&#x2F;&#x2F;&#x2F;字符串预处理,插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">inline string makestr(string str)&#123;</span><br><span class="line">    string t&#x3D;&quot;#&quot;;&#x2F;&#x2F;&#x2F;在开头和结尾多插入&#39;$&#39;防止越界</span><br><span class="line">    for(int i&#x3D;0;i&lt;str.size();i++)t+&#x3D;str[i],t+&#x3D;&#39;#&#39;;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br><span class="line">string malacher(string str)&#123;</span><br><span class="line">    string t&#x3D;makestr(str);</span><br><span class="line">    &#x2F;&#x2F;cout&lt;&lt;t&lt;&lt;endl;</span><br><span class="line">    vector&lt;int&gt;p(t.size(),0);</span><br><span class="line">    int mx&#x3D;0,id&#x3D;0,ilenth&#x3D;0,icenter&#x3D;0;</span><br><span class="line">    &#x2F;&#x2F;&#x2F;mx 表示当前右侧最远的回文子串右端位置 id 表示当前右侧最远的回文子串中间字符位置</span><br><span class="line">    &#x2F;&#x2F;&#x2F;ilenth表示最长回文子串长度,icenter表示最长回文子串中间位置</span><br><span class="line">    for(int i&#x3D;1;i&lt;t.size();i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;&#x2F;利用mx和id,和回文串对称性质动态更新以任意一个字符为中心的回文串半径</span><br><span class="line">        p[i]&#x3D;i&lt;mx?min(p[2*id-i],mx-i):1;&#x2F;&#x2F;&#x2F;p [2*id-i]&#x3D;p[j] (j是i关于id对称点 因为id-j&#x3D;i-id所以j&#x3D;id-(i-id)&#x3D;2*id-i )</span><br><span class="line">        while(t[i-p[i]]&#x3D;&#x3D;t[i+p[i]])p[i]++;</span><br><span class="line">        if(p[i]+i&gt;mx)&#123;</span><br><span class="line">            mx&#x3D;p[i]+i;</span><br><span class="line">            id&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">        if(p[i]&gt;ilenth)&#123;</span><br><span class="line">            ilenth&#x3D;p[i];</span><br><span class="line">            icenter&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    int Maxlen&#x3D;0;&#x2F;&#x2F;&#x2F;p[i]&#x3D;&#x3D;i+1 以第i位为中心的回文串长度&#x3D;p[i],若它是前缀则长度也&#x3D;i+1(0也计入)</span><br><span class="line">    for(int i&#x3D;0;i&lt;t.size();i++)if(p[i]&#x3D;&#x3D;i+1)Maxlen&#x3D;p[i];&#x2F;&#x2F;&#x2F;此步适应了本题做的改动</span><br><span class="line">    return str.substr(0,Maxlen-1);&#x2F;&#x2F;&#x2F;插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">    &#x2F;&#x2F;&#x2F;首位置,预处理后的长度-1</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        string s;cin&gt;&gt;s;</span><br><span class="line">        int l&#x3D;0,r&#x3D;s.size()-1;</span><br><span class="line">        while(s[l]&#x3D;&#x3D;s[r]&amp;&amp;l&lt;r)l++,r--;</span><br><span class="line">        string s1&#x3D;s.substr(l,r-l+1);</span><br><span class="line">        string s2&#x3D;s1;reverse(s1.begin(),s1.end());</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        s1&#x3D;malacher(s1);</span><br><span class="line">        s2&#x3D;malacher(s2);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;s.substr(0,l)&lt;&lt;(s1.size()&gt;s2.size()?s1:s2)&lt;&lt;s.substr(r+1)&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="/mp3/Aimer - ONE.flac">
+                <source type="audio/mpeg" src="RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
             </audio>
             
         </div>
