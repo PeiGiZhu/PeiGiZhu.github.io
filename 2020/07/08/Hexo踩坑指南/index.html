@@ -5,16 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>codeforce-Ed82-D - Welcome</title>
+    <title>Hexo踩坑指南 - Welcome</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="PeiGiZhu&#39;s Blog,D.Fill The Bag
-题意
-你有一个 n 码的袋子，你还有 m 个盒子，第 i 个盒子的尺寸是 ai ，这里的每一个 
-ai 都是 2 的非负幂整数。
-你可以把盒子分成大小相等的两部分。你的,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症
+不会js css也能也能用hexo搭建博客 网上已经有各种比较成熟的资源和解决方案
+当然会更好可以有更高自由度的体验
+hexo提供了框架  剩下,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -52,7 +51,7 @@ ai 都是 2 的非负幂整数。
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">codeforce-Ed82-D</h3>
+    <h3 class="subtitle">Hexo踩坑指南</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -68,35 +67,52 @@ ai 都是 2 的非负幂整数。
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">codeforce-Ed82-D</h1>
+        <h1 class="title">Hexo踩坑指南</h1>
         <div class="stuff">
             <span>七月 08, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E8%B4%AA%E5%BF%83/" rel="tag">贪心</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E8%B5%84%E6%96%99%E6%95%B4%E5%90%88/" rel="tag">资料整合</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p><a href="https://codeforces.com/contest/1303/problem/D" target="_blank" rel="noopener">D.Fill The Bag</a></p>
-<p>题意</p>
-<p>你有一个 n 码的袋子，你还有 m 个盒子，第 i 个盒子的尺寸是 ai ，这里的每一个 </p>
-<p>ai 都是 2 的非负幂整数。</p>
-<p>你可以把盒子分成大小相等的两部分。你的目标是完全装满袋子。</p>
-<p>例如 n=10,a=[1,1,32] ，那么你必须把 32 码的盒子分成 16 码的两部分，然后把 </p>
-<p>16 码的盒子分开，你可以用 1 码，1 码，8 码的盒子装满袋子。</p>
-<p>///被分割出来的16码 8码还有剩下的并不是直接扔掉</p>
-<p>计算填充尺寸为 n 的袋子所需的最小分割数。</p>
-<p>多组数据，无解输出 -1 。 </p>
-<p>先来讨论一下 -1 的情况：</p>
-<p>考虑到分裂一个数不会影响到所有数的和。</p>
-<p>那么我们将所有数都分裂成 1 ，由于和不变，此时 1 的个数为 ∑(i=1to m) a[i] ，</p>
-<p>也就是说小于等于 ∑(i=1to m) a[i] 的数都可以被填出来。</p>
-<p>故当 n&gt;∑(i=1to m) a[i]  时，无解。</p>
-<p>将 n 二进制拆分成 2^k1,2^k2,…,2^kc 。</p>
-<p>然后从低位（2^k1）到高位（2^kc）贪心填数。</p>
-<p>假设我们当前处理到的数为 2^ki 。</p>
-<p>首先考虑位数小于等于 ki 的所有数中，能不能凑成 2^ki ，若可以，直接填上去；否则考虑分裂位数大于 ki 的所有数中最小的那一个，使其经过若干次分裂，分裂成 2^ki 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">ll box[(int)1e5+4];</span><br><span class="line">ll bit[60];</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll n,m,sum&#x3D;0;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        ll cnt,temp;</span><br><span class="line">        for(int i&#x3D;0;i&lt;60;i++)bit[i]&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;m;i++)&#123;</span><br><span class="line">            cin&gt;&gt;box[i];</span><br><span class="line">            sum+&#x3D;box[i];</span><br><span class="line">            temp&#x3D;box[i];cnt&#x3D;0;</span><br><span class="line">            while(temp%2&#x3D;&#x3D;0)&#123;</span><br><span class="line">                temp&#x2F;&#x3D;2;</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            bit[cnt]++;</span><br><span class="line">        &#125;</span><br><span class="line">        if(sum&lt;n)&#123;</span><br><span class="line">            cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(ll i&#x3D;0;i&lt;60;i++)&#123;</span><br><span class="line">            if(n&amp;(1ll&lt;&lt;i))&#123;&#x2F;&#x2F;&#x2F; 若n的二进制第i位 为1 那么从第i位到最高位找是否有1可以直接用或分解</span><br><span class="line">                for(ll j&#x3D;i;j&lt;60;j++)&#123;</span><br><span class="line">                    if(bit[j])&#123;&#x2F;&#x2F;&#x2F;找到从第i位开始最低位的1 模拟减法 </span><br><span class="line">			&#x2F;&#x2F;&#x2F;比如需要一个1000 找到最低位的1在100000 那么100000 - 001000 &#x3D;011000</span><br><span class="line">                        bit[j]--;</span><br><span class="line">                        for(ll k&#x3D;i;k&lt;j;k++)bit[k]++;</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                    ans++;&#x2F;&#x2F;&#x2F;还未找到那么相当于 除2平分操作多一次</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            bit[i+1]+&#x3D;bit[i]&#x2F;2;&#x2F;&#x2F;&#x2F;在for循环到下一位时如果这一位的二进制1的个数大于2那么选择进位</span><br><span class="line">			       &#x2F;&#x2F;&#x2F;等价于考虑位数小于等于 ki 的所有数中，能不能凑成 2^ki </span><br><span class="line">			       &#x2F;&#x2F;&#x2F;无法进位的数将不会被用到所以不用考虑</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症</p>
+<p>不会js css也能也能用hexo搭建博客 网上已经有各种比较成熟的资源和解决方案</p>
+<p>当然会更好可以有更高自由度的体验</p>
+<p>hexo提供了框架  剩下的只要跟着搭积木(插件)就行了 </p>
+<p>hexo搭建的主要流程网上已经有许多<a href="https://www.bilibili.com/video/BV1Yb411a7ty?from=search&amp;seid=17266873825643509764" target="_blank" rel="noopener">详细教程</a> 此处不再赘述</p>
+<p>在搭建之前请先下载安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a>  <a href="https://npm.taobao.org/mirrors/git-for-windows/" target="_blank" rel="noopener">git</a>  <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo</a>  </p>
+<p>npm（Node Package Manager，节点包管理器）是NodeJS的包管理器，用于节点插件的管理（包括安装，卸载和管理依赖等）。npm是随同新版的NodeJS一起安装的包管理工具，所以我们需要安装NodeJS。</p>
+<p>安装完node.js后在控制台输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>用cnpm 从淘宝源中下载所需插件</p>
+<p>git 主要是用于clone github中的主题和其他插件</p>
+<p>在部署仓库上有三种选择 github / gitee / coding 仓库</p>
+<p>github 国外网站加载缓慢 但可以自动部署 支持Gittalk</p>
+<p>gitee 码云仓库加载快但是需要付费才能自动部署每次hexo d 都得到仓库里手动更新</p>
+<p>coding 相较之下加载快而且支持自动部署 但是地址难记</p>
+<p>win10环境下 本地部署到github时 经常会出现</p>
+<p>HttpRequestException encountered报错</p>
+<p><a href="https://blog.csdn.net/feitianlongfei/article/details/80904347" target="_blank" rel="noopener">解决方法一</a></p>
+<p>尝试后仍不能解决</p>
+<p>之后将网站根目录的配置文件 _config.yml 中的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:PeiGiZhu&#x2F;PeiGiZhu.github.io.git</span><br><span class="line">    gitee: https:&#x2F;&#x2F;gitee.com&#x2F;peigizhu&#x2F;PeiGiZhu.git</span><br><span class="line">    coding: https:&#x2F;&#x2F;e.coding.net&#x2F;peigizhu&#x2F;peigizhu&#x2F;peigizhu.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>github: 后面的仓库地址 从 http:// 改为 git@ 后就不再出现</p>
+<p>更改为git@ 需要本地和仓库间需要ssh公钥验证 才能从本地直接将代码部署到仓库</p>
+<p><a href="http://www.bubuko.com/infodetail-3334479.html" target="_blank" rel="noopener">如何生成ssh key</a> </p>
+<p><a href="https://www.jianshu.com/p/7d686d8b7857" target="_blank" rel="noopener">如何用ssh key部署</a></p>
+<p>本地生成的ssh key(public key)可以反复使用 </p>
+<p>此处以gitee和coding部署流程为例 github仓库操作类似</p>
+<p><a href="https://www.jianshu.com/p/a2d298e26dcd" target="_blank" rel="noopener">hexo常用指令</a></p>
+<p>部署时记得先清理缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo g -d &#x2F;&#x2F;&#x2F;一次性清理&amp;生成&amp;部署</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/qitong111/article/details/80217281" target="_blank" rel="noopener">可视化编辑工具-Typora</a>下载</p>
+<p><a href="https://www.cnblogs.com/yyhh/p/11058985.html" target="_blank" rel="noopener">大佬自建博客详细指导</a></p>
+<p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1381382" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
+<p>更多资源/问题在优化本站时会再更新整合</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
