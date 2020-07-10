@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>始</title>
-    <url>/2020/07/08/%E5%A7%8B/</url>
-    <content><![CDATA[<p>缓慢更新ing。。。</p>
-<p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
-<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
-<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
-<p>替换了lazy_load 加载图片</p>
-]]></content>
-      <categories>
-        <category>Notice</category>
-      </categories>
-      <tags>
-        <tag>Updata</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo踩坑指南</title>
     <url>/2020/07/10/Hexo%E8%B8%A9%E5%9D%91%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症</p>
@@ -69,29 +40,13 @@
 <p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
 <p>更多资源/问题在优化本站时会再更新整合</p>
-<p>/img/timg.gif" data-original="<img src="" data-echo="F:\PeiGiZhu\themes\diaspora\source\img\cat.gif" alt=""></p>
+<p>/img/timg.gif" data-original="<img src="" data-echo="/img/cat.gif" alt=""></p>
 ]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
       <tags>
         <tag>资料整合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-#615-C</title>
-    <url>/2020/07/08/codeforce-615-C/</url>
-    <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
-<p>题意<br>给出一个数n问是否能将他拆成三个不同数的乘积 n小于1e9</p>
-<p>由唯一分解定理得n=p1^k1<em>p2^k2</em>….pi^ki<br>sqrt(n)内枚举可能的素因子 第三个数可有n/(p1*p2)得 若能得到三个因子且都不等于1那么有解</p>
-<p>map容器的first是键值 second是映射值</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"><span class="comment">#define IO std::ios::sync_with_stdio(false);</span></span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        map&lt;int,int&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(int i=2;i*i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(n%i)<span class="built_in">continue</span>;</span><br><span class="line">            ans[i]=1;n/=i;///得到的i一定是n的素因子</span><br><span class="line">            <span class="keyword">if</span>(ans.size()==2)<span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //<span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(ans.size()&lt;3)cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">for</span>(auto i: ans)cout&lt;&lt;i.first&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>暴力</tag>
-        <tag>唯一分解定理</tag>
       </tags>
   </entry>
   <entry>
@@ -114,6 +69,22 @@
         <tag>dp</tag>
         <tag>组合数</tag>
         <tag>容斥原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-#615-C</title>
+    <url>/2020/07/08/codeforce-615-C/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
+<p>题意<br>给出一个数n问是否能将他拆成三个不同数的乘积 n小于1e9</p>
+<p>由唯一分解定理得n=p1^k1<em>p2^k2</em>….pi^ki<br>sqrt(n)内枚举可能的素因子 第三个数可有n/(p1*p2)得 若能得到三个因子且都不等于1那么有解</p>
+<p>map容器的first是键值 second是映射值</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"><span class="comment">#define IO std::ios::sync_with_stdio(false);</span></span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        map&lt;int,int&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(int i=2;i*i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(n%i)<span class="built_in">continue</span>;</span><br><span class="line">            ans[i]=1;n/=i;///得到的i一定是n的素因子</span><br><span class="line">            <span class="keyword">if</span>(ans.size()==2)<span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //<span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(ans.size()&lt;3)cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">for</span>(auto i: ans)cout&lt;&lt;i.first&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>暴力</tag>
+        <tag>唯一分解定理</tag>
       </tags>
   </entry>
   <entry>
@@ -163,22 +134,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed87-D</title>
-    <url>/2020/07/08/codeforce-Ed87-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
-<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
-<p>n q&lt;1e6 ai&lt;1e6</p>
-<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-Ed87-E</title>
     <url>/2020/07/08/codeforce-Ed87-E/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1354/problem/E" target="_blank" rel="noopener">E. Graph Coloring</a></p>
@@ -196,6 +151,22 @@
         <tag>二分图染色</tag>
         <tag>路径还原</tag>
         <tag>背包</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed87-D</title>
+    <url>/2020/07/08/codeforce-Ed87-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
+<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
+<p>n q&lt;1e6 ai&lt;1e6</p>
+<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -306,6 +277,35 @@
       <tags>
         <tag>回文串</tag>
         <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>始</title>
+    <url>/2020/07/08/%E5%A7%8B/</url>
+    <content><![CDATA[<p>缓慢更新ing。。。</p>
+<p><strong>7.8日更新</strong></p>
+<p>search 站内搜索</p>
+<p>tags 标签</p>
+<p>categories 分类</p>
+<p><strong>7.9日更新</strong></p>
+<p>同步部署到gitee/github/coding的仓库中</p>
+<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
+<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
+<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
+<p>加入图片lazy_load </p>
+<p>Typora可视化编辑</p>
+<p>加入文章置顶功能</p>
+<p><strong>7.10日更新</strong></p>
+<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
+<p>扩充了图库 封面随机抽取</p>
+<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
+<p>替换了lazy_load 加载图片</p>
+]]></content>
+      <categories>
+        <category>Notice</category>
+      </categories>
+      <tags>
+        <tag>Updata</tag>
       </tags>
   </entry>
 </search>
