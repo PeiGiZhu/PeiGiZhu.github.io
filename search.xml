@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>始</title>
+    <url>/2020/07/08/%E5%A7%8B/</url>
+    <content><![CDATA[<p>缓慢更新ing。。。</p>
+<p><strong>7.8日更新</strong></p>
+<p>search 站内搜索</p>
+<p>tags 标签</p>
+<p>categories 分类</p>
+<p><strong>7.9日更新</strong></p>
+<p>同步部署到gitee/github/coding的仓库中</p>
+<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
+<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
+<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
+<p>加入图片lazy_load </p>
+<p>Typora可视化编辑</p>
+<p>加入文章置顶功能</p>
+<p><strong>7.10日更新</strong></p>
+<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
+<p>扩充了图库 封面随机抽取</p>
+<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
+<p>替换了lazy_load 加载图片</p>
+]]></content>
+      <categories>
+        <category>Notice</category>
+      </categories>
+      <tags>
+        <tag>Updata</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo踩坑指南</title>
     <url>/2020/07/10/Hexo%E8%B8%A9%E5%9D%91%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症</p>
@@ -40,7 +69,6 @@
 <p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
 <p>更多资源/问题在优化本站时会再更新整合</p>
-<p>/img/timg.gif" data-original="<img src="" data-echo="/img/cat.gif" alt=""></p>
 ]]></content>
       <categories>
         <category>Hexo</category>
@@ -134,6 +162,22 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed87-D</title>
+    <url>/2020/07/08/codeforce-Ed87-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
+<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
+<p>n q&lt;1e6 ai&lt;1e6</p>
+<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed87-E</title>
     <url>/2020/07/08/codeforce-Ed87-E/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1354/problem/E" target="_blank" rel="noopener">E. Graph Coloring</a></p>
@@ -151,22 +195,6 @@
         <tag>二分图染色</tag>
         <tag>路径还原</tag>
         <tag>背包</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed87-D</title>
-    <url>/2020/07/08/codeforce-Ed87-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
-<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
-<p>n q&lt;1e6 ai&lt;1e6</p>
-<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -247,23 +275,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-GlobalRound9-D</title>
-    <url>/2020/07/08/codeforce-GlobalRound9-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/D" target="_blank" rel="noopener">D.Replace by MEX</a></p>
-<p>题意:</p>
-<p>你被给予了一个数组，包含n个[0, n]的整数。每一次操作，你可以选择数组中的一个元素替换成这个数组的MEX。<br>例如，如果数组是[0, 2, 2, 1, 4]，你可以选择第二个元素替换成整个数组元素的MEX，数组会变成[0, 3, 2, 1, 4]。<br>MEX的定义为不包含这个于这个数组的最小的非负整数。</p>
-<p>分析:<br>首先，题目给出操作的次数最多为2n次，这是不是暗示我们先把数组通过n次变成一个样子，再通过n次变成另一个样子？我们把ai≠i称之为一个未修复点，我们可以进行如下的操作来修复每一个点。<br>1.如果mex = n，我们就任意地替换一个未修复点。<br>2.如果mex &lt; n，我们就替换下标是mex的点。<br>这两个操作最多2n次，每一次操作可以使得未修复的点减少一次。<br>为什么这么做呢？因为每次如果求出一个mex = n的时候，就可以使得下一次修复的时候，mex &lt; n。我们的目的就是为了修复一个点的时候，让mex &lt; n，这样可以正常的修复。求mex是线性的。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int Max&#x3D;1e3+5;</span><br><span class="line">const int Mod&#x3D;1e7+7;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">bool vis[Max];</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        for(int i&#x3D;0;i&lt;&#x3D;n;i++)cnt[i]&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;data[i];</span><br><span class="line">            cnt[data[i]]++;</span><br><span class="line">            vis[i]&#x3D;0;</span><br><span class="line">        &#125;</span><br><span class="line">        int ti&#x3D;2*n;</span><br><span class="line">        vector&lt;int&gt;ops;</span><br><span class="line">        bool check&#x3D;0;</span><br><span class="line">        while(ti)&#123;&#x2F;&#x2F;&#x2F;最多2n次让原数组变成1 2 3 4 5.....</span><br><span class="line">            int num;bool ok&#x3D;1;</span><br><span class="line">            for(int i&#x3D;0;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(cnt[i])&#123;</span><br><span class="line">                    if(cnt[i]&gt;1)check&#x3D;1;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                num&#x3D;i;break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(check)&#123;&#x2F;&#x2F;&#x2F;把每个数组中的数都变成只出现一次的数 其实没必要</span><br><span class="line">                bool flag&#x3D;1;</span><br><span class="line">                for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                    if(cnt[data[i]]&gt;1)&#123;</span><br><span class="line">                        cnt[data[i]]--;</span><br><span class="line">                        cnt[num]++;ti--;</span><br><span class="line">                        data[i]&#x3D;num;flag&#x3D;0;</span><br><span class="line">                        ops.push_back(i);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if(flag)check&#x3D;0;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;&#x2F;每求出一个mex&#x3D;&#x3D;0 替换一个data[num]!&#x3D;num的数之后mex必然&gt;0 即每个位置最多被操作两次</span><br><span class="line">            else&#123;</span><br><span class="line">                if(num)&#123;&#x2F;&#x2F;&#x2F;如果不是0 将下标为num的改为num 之后这个位置的数不会在变化</span><br><span class="line">                    vis[num]&#x3D;1;</span><br><span class="line">                    cnt[data[num]]--;</span><br><span class="line">                    data[num]&#x3D;num;</span><br><span class="line">                    cnt[num]++;</span><br><span class="line">                    ops.push_back(num);</span><br><span class="line">                    ti--;</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;&#x2F;&#x2F;&#x2F;如果是0则选择一个data[num]!&#x3D;num的数 替换</span><br><span class="line">                    for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                        if(vis[i])continue;</span><br><span class="line">                        cnt[data[i]]--;</span><br><span class="line">                        data[i]&#x3D;num;</span><br><span class="line">                        cnt[num]++;ti--;</span><br><span class="line">                        ops.push_back(i);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(data[i]&lt;data[i-1])&#123;</span><br><span class="line">                    ok&#x3D;0;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ok)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;for(int i&#x3D;1;i&lt;&#x3D;n;i++)cout&lt;&lt;data[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;ops.size()&lt;&lt;endl;</span><br><span class="line">        for(auto i:ops)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>构造</tag>
-        <tag>Mex</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-GlobleRound7-D2</title>
     <url>/2020/07/08/codeforce-GlobleRound7-D2/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/problemset/problem/1326/D2" target="_blank" rel="noopener">D2. Prefix-Suffix Palindrome (Hard version)</a></p>
@@ -280,32 +291,20 @@
       </tags>
   </entry>
   <entry>
-    <title>始</title>
-    <url>/2020/07/08/%E5%A7%8B/</url>
-    <content><![CDATA[<p>缓慢更新ing。。。</p>
-<p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
-<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
-<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
-<p>替换了lazy_load 加载图片</p>
+    <title>codeforce-GlobalRound9-D</title>
+    <url>/2020/07/08/codeforce-GlobalRound9-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/D" target="_blank" rel="noopener">D.Replace by MEX</a></p>
+<p>题意:</p>
+<p>你被给予了一个数组，包含n个[0, n]的整数。每一次操作，你可以选择数组中的一个元素替换成这个数组的MEX。<br>例如，如果数组是[0, 2, 2, 1, 4]，你可以选择第二个元素替换成整个数组元素的MEX，数组会变成[0, 3, 2, 1, 4]。<br>MEX的定义为不包含这个于这个数组的最小的非负整数。</p>
+<p>分析:<br>首先，题目给出操作的次数最多为2n次，这是不是暗示我们先把数组通过n次变成一个样子，再通过n次变成另一个样子？我们把ai≠i称之为一个未修复点，我们可以进行如下的操作来修复每一个点。<br>1.如果mex = n，我们就任意地替换一个未修复点。<br>2.如果mex &lt; n，我们就替换下标是mex的点。<br>这两个操作最多2n次，每一次操作可以使得未修复的点减少一次。<br>为什么这么做呢？因为每次如果求出一个mex = n的时候，就可以使得下一次修复的时候，mex &lt; n。我们的目的就是为了修复一个点的时候，让mex &lt; n，这样可以正常的修复。求mex是线性的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int Max&#x3D;1e3+5;</span><br><span class="line">const int Mod&#x3D;1e7+7;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">bool vis[Max];</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        for(int i&#x3D;0;i&lt;&#x3D;n;i++)cnt[i]&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;data[i];</span><br><span class="line">            cnt[data[i]]++;</span><br><span class="line">            vis[i]&#x3D;0;</span><br><span class="line">        &#125;</span><br><span class="line">        int ti&#x3D;2*n;</span><br><span class="line">        vector&lt;int&gt;ops;</span><br><span class="line">        bool check&#x3D;0;</span><br><span class="line">        while(ti)&#123;&#x2F;&#x2F;&#x2F;最多2n次让原数组变成1 2 3 4 5.....</span><br><span class="line">            int num;bool ok&#x3D;1;</span><br><span class="line">            for(int i&#x3D;0;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(cnt[i])&#123;</span><br><span class="line">                    if(cnt[i]&gt;1)check&#x3D;1;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                num&#x3D;i;break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(check)&#123;&#x2F;&#x2F;&#x2F;把每个数组中的数都变成只出现一次的数 其实没必要</span><br><span class="line">                bool flag&#x3D;1;</span><br><span class="line">                for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                    if(cnt[data[i]]&gt;1)&#123;</span><br><span class="line">                        cnt[data[i]]--;</span><br><span class="line">                        cnt[num]++;ti--;</span><br><span class="line">                        data[i]&#x3D;num;flag&#x3D;0;</span><br><span class="line">                        ops.push_back(i);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if(flag)check&#x3D;0;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;&#x2F;每求出一个mex&#x3D;&#x3D;0 替换一个data[num]!&#x3D;num的数之后mex必然&gt;0 即每个位置最多被操作两次</span><br><span class="line">            else&#123;</span><br><span class="line">                if(num)&#123;&#x2F;&#x2F;&#x2F;如果不是0 将下标为num的改为num 之后这个位置的数不会在变化</span><br><span class="line">                    vis[num]&#x3D;1;</span><br><span class="line">                    cnt[data[num]]--;</span><br><span class="line">                    data[num]&#x3D;num;</span><br><span class="line">                    cnt[num]++;</span><br><span class="line">                    ops.push_back(num);</span><br><span class="line">                    ti--;</span><br><span class="line">                &#125;</span><br><span class="line">                else&#123;&#x2F;&#x2F;&#x2F;如果是0则选择一个data[num]!&#x3D;num的数 替换</span><br><span class="line">                    for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                        if(vis[i])continue;</span><br><span class="line">                        cnt[data[i]]--;</span><br><span class="line">                        data[i]&#x3D;num;</span><br><span class="line">                        cnt[num]++;ti--;</span><br><span class="line">                        ops.push_back(i);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(data[i]&lt;data[i-1])&#123;</span><br><span class="line">                    ok&#x3D;0;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ok)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;for(int i&#x3D;1;i&lt;&#x3D;n;i++)cout&lt;&lt;data[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;ops.size()&lt;&lt;endl;</span><br><span class="line">        for(auto i:ops)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Notice</category>
+        <category>codeforce</category>
       </categories>
       <tags>
-        <tag>Updata</tag>
+        <tag>构造</tag>
+        <tag>Mex</tag>
       </tags>
   </entry>
 </search>
