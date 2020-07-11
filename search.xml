@@ -21,6 +21,7 @@
 <p>扩充了图库 封面随机抽取</p>
 <p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
 <p>替换了lazy_load 加载图片</p>
+<p>加入百度自动推送</p>
 ]]></content>
       <categories>
         <category>Notice</category>
@@ -69,13 +70,15 @@
 <p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p><a href="https://cloud.tencent.com/developer/article/1381382" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
-<p>在更新文章时发现的问题</p>
+<p><strong>在更新文章时发现的问题</strong></p>
 <p>文章出现乱码 ： 尝试将文章.md 文件用笔记本打开另存为时设置编码为 UTF-8</p>
 <p>博客中进入某个标签再点菜单中的首页 加载十分缓慢 </p>
 <p>多数情况是由于引用了google源字体 导致加载缓慢 <a href="https://blog.csdn.net/MSDN_tang/article/details/106610897" target="_blank" rel="noopener">解决方案</a></p>
 <p>但是由于使用主题不同 本人没有贸然修改(主要不懂这方面)</p>
 <p>如何在百度上搜素到自己的博客而不是以链接的形式 <a href="https://www.jianshu.com/p/f37452d4978e" target="_blank" rel="noopener">参考此处</a></p>
 <p>注意！私有仓库的前提下再使用第二种主动推送 </p>
+<p>部署到仓库后网页没有更新 如果是gitee仓库请到gitee page 手动更新 </p>
+<p>若不同浏览器打开博客后内容不同 尝试清理浏览器缓存后重新加载</p>
 <p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
 <p>更多资源/问题在优化本站时会再更新整合</p>
 ]]></content>
@@ -87,25 +90,103 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-#428-D</title>
-    <url>/2020/07/08/codeforce-428-D/</url>
-    <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
+    <title>codeforce-#654-E1</title>
+    <url>/2020/07/09/codeforce-654-E1/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
 <p>题意</p>
-<p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
-<p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
-<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6
-找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </p>
-<p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;<br>∑k=∑len <em>C(x,len) {len=1,2,3,,,,x}=x</em>2^(x-1) /<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;1e9+7;</span><br><span class="line">ll num[(int)1e6+5];</span><br><span class="line">ll dp[(int)1e6+6];</span><br><span class="line">ll qpow(ll x,ll y)&#123;</span><br><span class="line">    ll ans&#x3D;1;</span><br><span class="line">    while(y)&#123;</span><br><span class="line">        if(y&amp;1)ans&#x3D;(ans*x)%mod;</span><br><span class="line">        y&gt;&gt;&#x3D;1;x&#x3D;(x*x)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    ll maxn&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">        ll x;cin&gt;&gt;x;</span><br><span class="line">        num[x]++;</span><br><span class="line">        maxn&#x3D;max(maxn,x);</span><br><span class="line">    &#125;</span><br><span class="line">    ll ans&#x3D;0;</span><br><span class="line">    for(ll i&#x3D;maxn;i&gt;1;i--)&#123;</span><br><span class="line">        ll x&#x3D;0,sum&#x3D;num[i];</span><br><span class="line">        for(ll j&#x3D;2*i;j&lt;&#x3D;maxn;j+&#x3D;i)&#123;</span><br><span class="line">            x&#x3D;(x+dp[j])%mod;</span><br><span class="line">            sum&#x3D;(sum+num[j])%mod;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;j;</span><br><span class="line">        &#125;</span><br><span class="line">        if(!sum)continue;</span><br><span class="line">        dp[i]&#x3D;(mod+(sum%mod*qpow(2,sum-1)%mod)%mod-x)%mod;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;i;</span><br><span class="line">        ans&#x3D;(ans+(i*dp[i])%mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个玩家初始能力值为x (x未知)</p>
+<p>有n个敌人 每个敌人有能力值pi</p>
+<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
+<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
+<p>否则跳过这个敌人玩家能力不变</p>
+<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
+<p>现在问对于已知n个敌人能力值和一个素数p</p>
+<p>有多少种x使得f(x)%p !=0</p>
+<p>输出种类数m 并升序输出所有x</p>
+<p>题解</p>
+<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
+<p>每次击败一个敌人自身能力值x都会+1 </p>
+<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
+<p>以此类推那么对于一个初始能力值为x的玩家</p>
+<p>f(x)= 小于等于x的敌人个数<em>小于等于x+1的敌人个数-1 </em> 小于等于x+2的敌人个数-2 ….</p>
+<p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
+<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
+<p>每次On计算f(x) 总复杂度On^2</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>gcd</tag>
-        <tag>dp</tag>
+        <tag>暴力</tag>
         <tag>组合数</tag>
-        <tag>容斥原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-GlobalRound-E</title>
+    <url>/2020/07/09/codeforce-GlobalRound-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/E" target="_blank" rel="noopener">E. Inversion SwapSort</a></p>
+<p>题意</p>
+<p>给出一个长度为n的数组a</p>
+<p>要求对它进行排序</p>
+<p>排序的要求是只能使用原数组中逆序对下标的位置进行swap</p>
+<p>比如原数组第u位和第v位形成逆序对 那么只能对数组的第u位和第v位进行swap</p>
+<p>新数组中可能有新的逆序对第x位和第y位 但不能swap(ax,ay)</p>
+<p>而且要用到所有逆序对下标 且只能用一次 (感觉怪怪的这不就直接等于逆序对?)</p>
+<p>要求给出一种swap顺序使得最终的数组非降序</p>
+<p>或者说</p>
+<p>求一种将每个<strong>原数组中的逆序对</strong>下标 (u,v) 的排列，使依次交换每个 (au,av) 后，ai 不减</p>
+<p><a href="https://www.cnblogs.com/dysyn1314/p/13246526.html" target="_blank" rel="noopener">题解参考</a></p>
+<blockquote>
+<p>考虑a  是一个排列时怎么做。</p>
+<p>我们设pos[v] 表示v  这个数在a  里出现的位置。也就是pos[a[i]]=i  </p>
+<p>从边界入手，我们先尝试把nn  放到排列的最后一个位置，然后转化为规模减11  的子问题。具体来说，假设一波操作后，我们得到的排列为bb  ，则bb  需要满足如下条件：</p>
+<ul>
+<li>b[n]=nb[n]=n  。</li>
+<li>∀1≤i,j&lt;n 如果a[i]&lt;a[j] ，则b[i]&lt;b[j]  。</li>
+<li>∀1≤i,j<n 如果a[i]>a[j] ，则b[i]&gt;b[j]  。</li>
+</ul>
+<p>也就是说，要保证前面的数的<strong><em>相对大小关系不变</em></strong>，这样才能转化为一个等价的子问题。</p>
+<p>我们怎么做呢？可以依次操作：交换(pos[a[n]+1],n)  ,(pos[a[n]+2],n)  ,(pos[a[n]+3],n)   ,……,(pos[n],n)  。 交换操作(indx , indx)</p>
+</blockquote>
+<p>具体的</p>
+<p>比如原数组 ：5 4 2 1 3</p>
+<p>第一次交换 pos[a[5]+1]=pos[4]=2 与 数组中第n个数交换</p>
+<p>交换结果为 :  5 3 2 1 4</p>
+<p>假设原数组中最大的数n不在位置n , 那么a[n]+1一定小于n 且显然a[n]+1&gt;a[n]</p>
+<p>那么数a[n]+1与a[n]显然构成逆序对</p>
+<blockquote>
+<p>容易发现，这样一轮操作完成后，首先，n  被放到了最后。同时，前面所有大于a[n] 的数，相当于集体减1  ，显然前面所有数的相对大小关系不变。并且，我们恰好用掉了所有包含（位置）n  的逆序对。所以剩下的是一个规模减1  的子问题，继续做，直到n=1  即可。</p>
+<p>于是我们就解决了排列的情况。相当于我们用构造的方法证明了，a  是一个排列时，一定有解。</p>
+<p>再考虑不是排列的时候。对于两个相等的数a[i]=a[j]   (i&lt;j  )，我们强行令a[i]&lt;a[j]  ，也就是以数值为第一关键字，位置为第二关键字，强行转成一个排列。发现转成排列后，序列里的逆序对和原来是一样的，所以直接按排列求解即可。</p>
+<p>时间复杂度O(n2)</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>sort</tag>
+        <tag>逆序对</tag>
+        <tag>离散化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-#615-C</title>
+    <url>/2020/07/08/codeforce-615-C/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
+<p>题意<br>给出一个数n问是否能将他拆成三个不同数的乘积 n小于1e9</p>
+<p>由唯一分解定理得n=p1^k1<em>p2^k2</em>….pi^ki<br>sqrt(n)内枚举可能的素因子 第三个数可有n/(p1*p2)得 若能得到三个因子且都不等于1那么有解</p>
+<p>map容器的first是键值 second是映射值</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"><span class="comment">#define IO std::ios::sync_with_stdio(false);</span></span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        map&lt;int,int&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(int i=2;i*i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(n%i)<span class="built_in">continue</span>;</span><br><span class="line">            ans[i]=1;n/=i;///得到的i一定是n的素因子</span><br><span class="line">            <span class="keyword">if</span>(ans.size()==2)<span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //<span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(ans.size()&lt;3)cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">for</span>(auto i: ans)cout&lt;&lt;i.first&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>暴力</tag>
+        <tag>唯一分解定理</tag>
       </tags>
   </entry>
   <entry>
@@ -128,19 +209,25 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-#615-C</title>
-    <url>/2020/07/08/codeforce-615-C/</url>
-    <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
-<p>题意<br>给出一个数n问是否能将他拆成三个不同数的乘积 n小于1e9</p>
-<p>由唯一分解定理得n=p1^k1<em>p2^k2</em>….pi^ki<br>sqrt(n)内枚举可能的素因子 第三个数可有n/(p1*p2)得 若能得到三个因子且都不等于1那么有解</p>
-<p>map容器的first是键值 second是映射值</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"><span class="comment">#define IO std::ios::sync_with_stdio(false);</span></span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        map&lt;int,int&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(int i=2;i*i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(n%i)<span class="built_in">continue</span>;</span><br><span class="line">            ans[i]=1;n/=i;///得到的i一定是n的素因子</span><br><span class="line">            <span class="keyword">if</span>(ans.size()==2)<span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //<span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(ans.size()&lt;3)cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">for</span>(auto i: ans)cout&lt;&lt;i.first&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>codeforce-#428-D</title>
+    <url>/2020/07/08/codeforce-428-D/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
+<p>题意</p>
+<p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
+<p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
+<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6
+找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </p>
+<p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;<br>∑k=∑len <em>C(x,len) {len=1,2,3,,,,x}=x</em>2^(x-1) /<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;1e9+7;</span><br><span class="line">ll num[(int)1e6+5];</span><br><span class="line">ll dp[(int)1e6+6];</span><br><span class="line">ll qpow(ll x,ll y)&#123;</span><br><span class="line">    ll ans&#x3D;1;</span><br><span class="line">    while(y)&#123;</span><br><span class="line">        if(y&amp;1)ans&#x3D;(ans*x)%mod;</span><br><span class="line">        y&gt;&gt;&#x3D;1;x&#x3D;(x*x)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    ll maxn&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">        ll x;cin&gt;&gt;x;</span><br><span class="line">        num[x]++;</span><br><span class="line">        maxn&#x3D;max(maxn,x);</span><br><span class="line">    &#125;</span><br><span class="line">    ll ans&#x3D;0;</span><br><span class="line">    for(ll i&#x3D;maxn;i&gt;1;i--)&#123;</span><br><span class="line">        ll x&#x3D;0,sum&#x3D;num[i];</span><br><span class="line">        for(ll j&#x3D;2*i;j&lt;&#x3D;maxn;j+&#x3D;i)&#123;</span><br><span class="line">            x&#x3D;(x+dp[j])%mod;</span><br><span class="line">            sum&#x3D;(sum+num[j])%mod;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;j;</span><br><span class="line">        &#125;</span><br><span class="line">        if(!sum)continue;</span><br><span class="line">        dp[i]&#x3D;(mod+(sum%mod*qpow(2,sum-1)%mod)%mod-x)%mod;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;i;</span><br><span class="line">        ans&#x3D;(ans+(i*dp[i])%mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>暴力</tag>
-        <tag>唯一分解定理</tag>
+        <tag>组合数</tag>
+        <tag>gcd</tag>
+        <tag>dp</tag>
+        <tag>容斥原理</tag>
       </tags>
   </entry>
   <entry>
@@ -178,6 +265,22 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed78-B</title>
+    <url>/2020/07/08/codeforce-Ed78-B/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
+<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
+<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>枚举</tag>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed77-D</title>
     <url>/2020/07/08/codeforce-Ed77-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1260/problem/D" target="_blank" rel="noopener">D. A Game with Traps</a></p>
@@ -194,19 +297,20 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed78-B</title>
-    <url>/2020/07/08/codeforce-Ed78-B/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
-<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
-<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>codeforce-Ed80-C</title>
+    <url>/2020/07/08/codeforce-Ed80-C/</url>
+    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
+<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
+<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>枚举</tag>
-        <tag>数学</tag>
+        <tag>dp</tag>
+        <tag>构造</tag>
+        <tag>问题转化</tag>
       </tags>
   </entry>
   <entry>
@@ -231,23 +335,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed80-C</title>
-    <url>/2020/07/08/codeforce-Ed80-C/</url>
-    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
-<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
-<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>dp</tag>
-        <tag>构造</tag>
-        <tag>问题转化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-Ed81-B</title>
     <url>/2020/07/08/codeforce-Ed81-B/</url>
     <content><![CDATA[<p><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fcodeforces.com%2Fcontest%2F1295%2Fproblem%2FB" target="_blank" rel="noopener">B - Infinite Prefixes</a></p>
@@ -262,23 +349,6 @@
       <tags>
         <tag>数学</tag>
         <tag>构造</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-C</title>
-    <url>/2020/07/08/codeforce-Ed81-C/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
-<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
-<p>题解</p>
-<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>贪心</tag>
-        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -301,6 +371,23 @@
         <tag>数论</tag>
         <tag>欧拉函数</tag>
         <tag>更相减损法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed81-C</title>
+    <url>/2020/07/08/codeforce-Ed81-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
+<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
+<p>题解</p>
+<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -336,6 +423,24 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed85-D</title>
+    <url>/2020/07/08/codeforce-Ed85-D/</url>
+    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1334/problem/D" target="_blank" rel="noopener">D - Minimum Euler Cycle</a></p>
+<p>题意<br>有一个n个点的完全图 编号从1 到n<br>每两个点之间有两条路 所以共 n*(n-1)条边<br>n&lt;1e5<br>要求找到一条字典序最小的欧拉路<br>并输出 在第l到r时刻经过的点</p>
+<p>构造 找规律 前缀和 二分<br>结合样例找规律容易发现路径为<br>1 2 1 3 1 4 1 5 … 1 n<br>2 3 2 4 2 5 … 2 n<br>3 4 3 5 3 6 … 3 n<br>…<br>1</p>
+<p>这里要用到前缀和+二分了，先前缀和到每个区间末尾有多少个数，然后二分找在哪个区间再结合规律输出即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line"># define TurnoffIO std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const double eps &#x3D; 1e-8;</span><br><span class="line">const ll  maxn &#x3D; 1e6 + 5;</span><br><span class="line">const int N &#x3D; 1e5 + 5;</span><br><span class="line"></span><br><span class="line">ll n,l,r,pre[N];</span><br><span class="line"></span><br><span class="line">ll judge(ll x)&#123;</span><br><span class="line">	if(x&gt;pre[n-1]) return 1;</span><br><span class="line">	int a&#x3D;lower_bound(pre+1,pre+n,x)-pre;</span><br><span class="line">	int b&#x3D;x-pre[a-1];</span><br><span class="line">	return (b&amp;1?a:b&#x2F;2+a);</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">	int T;cin&gt;&gt;T;</span><br><span class="line">	while(T--)&#123;</span><br><span class="line">		cin&gt;&gt;n&gt;&gt;l&gt;&gt;r;</span><br><span class="line">		for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">			pre[i]&#x3D;pre[i-1]+2*(n-i);</span><br><span class="line">		&#125;</span><br><span class="line">		for(ll i&#x3D;l;i&lt;&#x3D;r;i++)&#123;</span><br><span class="line">			cout&lt;&lt;judge(i)&lt;&lt;&quot; &quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>欧拉回路</tag>
+        <tag>完全图</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed83-D</title>
     <url>/2020/07/08/codeforce-Ed83-D/</url>
     <content><![CDATA[<p><a href="http://codeforces.com/contest/1312" target="_blank" rel="noopener">D. Count the Arrays</a></p>
@@ -356,21 +461,19 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed85-D</title>
-    <url>/2020/07/08/codeforce-Ed85-D/</url>
-    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1334/problem/D" target="_blank" rel="noopener">D - Minimum Euler Cycle</a></p>
-<p>题意<br>有一个n个点的完全图 编号从1 到n<br>每两个点之间有两条路 所以共 n*(n-1)条边<br>n&lt;1e5<br>要求找到一条字典序最小的欧拉路<br>并输出 在第l到r时刻经过的点</p>
-<p>构造 找规律 前缀和 二分<br>结合样例找规律容易发现路径为<br>1 2 1 3 1 4 1 5 … 1 n<br>2 3 2 4 2 5 … 2 n<br>3 4 3 5 3 6 … 3 n<br>…<br>1</p>
-<p>这里要用到前缀和+二分了，先前缀和到每个区间末尾有多少个数，然后二分找在哪个区间再结合规律输出即可。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line"># define TurnoffIO std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const double eps &#x3D; 1e-8;</span><br><span class="line">const ll  maxn &#x3D; 1e6 + 5;</span><br><span class="line">const int N &#x3D; 1e5 + 5;</span><br><span class="line"></span><br><span class="line">ll n,l,r,pre[N];</span><br><span class="line"></span><br><span class="line">ll judge(ll x)&#123;</span><br><span class="line">	if(x&gt;pre[n-1]) return 1;</span><br><span class="line">	int a&#x3D;lower_bound(pre+1,pre+n,x)-pre;</span><br><span class="line">	int b&#x3D;x-pre[a-1];</span><br><span class="line">	return (b&amp;1?a:b&#x2F;2+a);</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">	int T;cin&gt;&gt;T;</span><br><span class="line">	while(T--)&#123;</span><br><span class="line">		cin&gt;&gt;n&gt;&gt;l&gt;&gt;r;</span><br><span class="line">		for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">			pre[i]&#x3D;pre[i-1]+2*(n-i);</span><br><span class="line">		&#125;</span><br><span class="line">		for(ll i&#x3D;l;i&lt;&#x3D;r;i++)&#123;</span><br><span class="line">			cout&lt;&lt;judge(i)&lt;&lt;&quot; &quot;;</span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>codeforce-Ed87-D</title>
+    <url>/2020/07/08/codeforce-Ed87-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
+<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
+<p>n q&lt;1e6 ai&lt;1e6</p>
+<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>构造</tag>
-        <tag>欧拉回路</tag>
-        <tag>完全图</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -401,19 +504,23 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed87-D</title>
-    <url>/2020/07/08/codeforce-Ed87-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
-<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
-<p>n q&lt;1e6 ai&lt;1e6</p>
-<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>codeforce-Ed87-E</title>
+    <url>/2020/07/08/codeforce-Ed87-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1354/problem/E" target="_blank" rel="noopener">E. Graph Coloring</a></p>
+<p>题意<br>有一个n个点m条边的无自环无向图<br>要求给每个点分别赋值 val=1,2,3;<br>存在以下限制<br>val=1,2,3的点分别不能超过n1,n2,n3 (n1+n2+n3==n)<br>且相邻两点的val差的绝对值=1<br>问是否能给这些点赋值且满足要求<br>n=5000，m=1e5</p>
+<p>首先对于一个联通的子图 它可以被黑白染色成两部分<br>一部分赋值为2剩下的则为1和3</p>
+<p>其次考虑所有子图构成的图<br>利用背包求解每个子图中是黑色赋值为2还是白色赋值为2<br>bool dp i j表示对于前i个子图 有j个点赋值为2 时是否存在可行方案<br>初始化dp 0 0 =1<br>int  co i j 表示第j个子图中i(1/2)色有多少个点<br>那么前i个子图中有j+co[1/2][i]个点赋值为2时是否可行 dp i j+co[1/2][i] | = dp i-1 j 以01背包形式转移<br>那么最后若 dp 总子图数  n2 ==1则存在解<br>可以根据 dp 总子图数 n2 逆向路径还原  若dp i-1 j-co[1/2][i] 有前继值那么一定可以追溯到 dp 0 0 ,<br>若dp i-1 j-co[1/2][i]均有则任选其中一条路径<br>用mk记录对于第i个子图是子图中染成白色赋值为2还是黑色赋值为2<br>最后输出答案</p>
+<p>(转自某博客)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Start</span><br><span class="line">typedef long long ll;</span><br><span class="line">typedef double db;</span><br><span class="line"></span><br><span class="line"># define mp(a,b) make_pair(a,b)</span><br><span class="line"></span><br><span class="line"># define x(a) a.first</span><br><span class="line"></span><br><span class="line"># define y(a) a.second</span><br><span class="line"></span><br><span class="line"># define b(a) a.begin()</span><br><span class="line"></span><br><span class="line"># define e(a) a.end()</span><br><span class="line"></span><br><span class="line"># define sz(a) int((a).size())</span><br><span class="line"></span><br><span class="line"># define pb(a) push_back(a)</span><br><span class="line"></span><br><span class="line">const int inf&#x3D;0x3f3f3f3f;</span><br><span class="line">const ll INF&#x3D;0x3f3f3f3f3f3f3f3f;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Data</span><br><span class="line">const int N&#x3D;5e3,M&#x3D;1e5;</span><br><span class="line">vector&lt;int&gt; e[N+7];</span><br><span class="line">int f[N+7][N+7],mk[N+7];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Dfs</span><br><span class="line">int d[N+7],ct[N+7],co[3][N+7];</span><br><span class="line">void Dfs(int u,int t,int cn)&#123;</span><br><span class="line">	d[u]&#x3D;t,ct[u]&#x3D;cn,co[t][cn]++;</span><br><span class="line">	for(int v:e[u])</span><br><span class="line">		if(!d[v]) Dfs(v,3-t,cn); &#x2F;&#x2F;二分图染色</span><br><span class="line">		else if(d[u]+d[v]!&#x3D;3) puts(&quot;NO&quot;),exit(0); &#x2F;&#x2F;不是二分图</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Main</span><br><span class="line">int main()&#123;</span><br><span class="line">	int n,m; scanf(&quot;%d%d&quot;,&amp;n,&amp;m);</span><br><span class="line">	int a,b,c; scanf(&quot;%d%d%d&quot;,&amp;a,&amp;b,&amp;c);</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">		int u,v; scanf(&quot;%d%d&quot;,&amp;u,&amp;v);</span><br><span class="line">		e[u].pb(v),e[v].pb(u);</span><br><span class="line">	&#125;</span><br><span class="line">	int w&#x3D;0;</span><br><span class="line">	f[0][0]&#x3D;1;</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;n;i++)if(!d[i])&#123;</span><br><span class="line">		Dfs(i,1,++w); </span><br><span class="line">		for(int j&#x3D;n;j&gt;&#x3D;0;j--)&#123;</span><br><span class="line">			if(j+co[1][w]&lt;&#x3D;n&amp;&amp;f[w-1][j]) f[w][j+co[1][w]]&#x3D;1;</span><br><span class="line">			if(j+co[2][w]&lt;&#x3D;n&amp;&amp;f[w-1][j]) f[w][j+co[2][w]]&#x3D;1; &#x2F;&#x2F; 分组背包</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if(!f[w][b]) return puts(&quot;NO&quot;),0;</span><br><span class="line">	else puts(&quot;YES&quot;);</span><br><span class="line">	for(int i&#x3D;w,j&#x3D;b;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">		if(j-co[1][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[1][i]]) mk[i]&#x3D;1,j-&#x3D;co[1][i];</span><br><span class="line">		else if(j-co[2][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[2][i]]) mk[i]&#x3D;2,j-&#x3D;co[2][i]; &#x2F;&#x2F;回溯</span><br><span class="line">		&#x2F;&#x2F;if(j-co[1][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[1][i]]) mk[i]&#x3D;1,j-&#x3D;co[1][i];</span><br><span class="line">		&#x2F;&#x2F;if(j-co[2][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[2][i]]) mk[i]&#x3D;2,j-&#x3D;co[2][i]; </span><br><span class="line">		&#x2F;*</span><br><span class="line">		原来是这么写的，没想到前面j-&#x3D;co[1][i]会影响这里！！！</span><br><span class="line">		*&#x2F;</span><br><span class="line">	&#125;</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;n;i++)</span><br><span class="line">		if(mk[ct[i]]&#x3D;&#x3D;1)&#123;</span><br><span class="line">			if(d[i]&#x3D;&#x3D;1) printf(&quot;2&quot;);</span><br><span class="line">			else &#123;</span><br><span class="line">				if(a) printf(&quot;1&quot;),a--;</span><br><span class="line">				else printf(&quot;3&quot;);				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			if(d[i]&#x3D;&#x3D;2) printf(&quot;2&quot;);</span><br><span class="line">			else &#123;</span><br><span class="line">				if(a) printf(&quot;1&quot;),a--;</span><br><span class="line">				else printf(&quot;3&quot;);				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	puts(&quot;&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>二分</tag>
+        <tag>dp</tag>
+        <tag>二分图染色</tag>
+        <tag>路径还原</tag>
+        <tag>背包</tag>
       </tags>
   </entry>
   <entry>
@@ -437,26 +544,6 @@
         <tag>dp</tag>
         <tag>枚举</tag>
         <tag>最大子串和</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed87-E</title>
-    <url>/2020/07/08/codeforce-Ed87-E/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1354/problem/E" target="_blank" rel="noopener">E. Graph Coloring</a></p>
-<p>题意<br>有一个n个点m条边的无自环无向图<br>要求给每个点分别赋值 val=1,2,3;<br>存在以下限制<br>val=1,2,3的点分别不能超过n1,n2,n3 (n1+n2+n3==n)<br>且相邻两点的val差的绝对值=1<br>问是否能给这些点赋值且满足要求<br>n=5000，m=1e5</p>
-<p>首先对于一个联通的子图 它可以被黑白染色成两部分<br>一部分赋值为2剩下的则为1和3</p>
-<p>其次考虑所有子图构成的图<br>利用背包求解每个子图中是黑色赋值为2还是白色赋值为2<br>bool dp i j表示对于前i个子图 有j个点赋值为2 时是否存在可行方案<br>初始化dp 0 0 =1<br>int  co i j 表示第j个子图中i(1/2)色有多少个点<br>那么前i个子图中有j+co[1/2][i]个点赋值为2时是否可行 dp i j+co[1/2][i] | = dp i-1 j 以01背包形式转移<br>那么最后若 dp 总子图数  n2 ==1则存在解<br>可以根据 dp 总子图数 n2 逆向路径还原  若dp i-1 j-co[1/2][i] 有前继值那么一定可以追溯到 dp 0 0 ,<br>若dp i-1 j-co[1/2][i]均有则任选其中一条路径<br>用mk记录对于第i个子图是子图中染成白色赋值为2还是黑色赋值为2<br>最后输出答案</p>
-<p>(转自某博客)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Start</span><br><span class="line">typedef long long ll;</span><br><span class="line">typedef double db;</span><br><span class="line"></span><br><span class="line"># define mp(a,b) make_pair(a,b)</span><br><span class="line"></span><br><span class="line"># define x(a) a.first</span><br><span class="line"></span><br><span class="line"># define y(a) a.second</span><br><span class="line"></span><br><span class="line"># define b(a) a.begin()</span><br><span class="line"></span><br><span class="line"># define e(a) a.end()</span><br><span class="line"></span><br><span class="line"># define sz(a) int((a).size())</span><br><span class="line"></span><br><span class="line"># define pb(a) push_back(a)</span><br><span class="line"></span><br><span class="line">const int inf&#x3D;0x3f3f3f3f;</span><br><span class="line">const ll INF&#x3D;0x3f3f3f3f3f3f3f3f;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Data</span><br><span class="line">const int N&#x3D;5e3,M&#x3D;1e5;</span><br><span class="line">vector&lt;int&gt; e[N+7];</span><br><span class="line">int f[N+7][N+7],mk[N+7];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Dfs</span><br><span class="line">int d[N+7],ct[N+7],co[3][N+7];</span><br><span class="line">void Dfs(int u,int t,int cn)&#123;</span><br><span class="line">	d[u]&#x3D;t,ct[u]&#x3D;cn,co[t][cn]++;</span><br><span class="line">	for(int v:e[u])</span><br><span class="line">		if(!d[v]) Dfs(v,3-t,cn); &#x2F;&#x2F;二分图染色</span><br><span class="line">		else if(d[u]+d[v]!&#x3D;3) puts(&quot;NO&quot;),exit(0); &#x2F;&#x2F;不是二分图</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Main</span><br><span class="line">int main()&#123;</span><br><span class="line">	int n,m; scanf(&quot;%d%d&quot;,&amp;n,&amp;m);</span><br><span class="line">	int a,b,c; scanf(&quot;%d%d%d&quot;,&amp;a,&amp;b,&amp;c);</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">		int u,v; scanf(&quot;%d%d&quot;,&amp;u,&amp;v);</span><br><span class="line">		e[u].pb(v),e[v].pb(u);</span><br><span class="line">	&#125;</span><br><span class="line">	int w&#x3D;0;</span><br><span class="line">	f[0][0]&#x3D;1;</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;n;i++)if(!d[i])&#123;</span><br><span class="line">		Dfs(i,1,++w); </span><br><span class="line">		for(int j&#x3D;n;j&gt;&#x3D;0;j--)&#123;</span><br><span class="line">			if(j+co[1][w]&lt;&#x3D;n&amp;&amp;f[w-1][j]) f[w][j+co[1][w]]&#x3D;1;</span><br><span class="line">			if(j+co[2][w]&lt;&#x3D;n&amp;&amp;f[w-1][j]) f[w][j+co[2][w]]&#x3D;1; &#x2F;&#x2F; 分组背包</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if(!f[w][b]) return puts(&quot;NO&quot;),0;</span><br><span class="line">	else puts(&quot;YES&quot;);</span><br><span class="line">	for(int i&#x3D;w,j&#x3D;b;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">		if(j-co[1][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[1][i]]) mk[i]&#x3D;1,j-&#x3D;co[1][i];</span><br><span class="line">		else if(j-co[2][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[2][i]]) mk[i]&#x3D;2,j-&#x3D;co[2][i]; &#x2F;&#x2F;回溯</span><br><span class="line">		&#x2F;&#x2F;if(j-co[1][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[1][i]]) mk[i]&#x3D;1,j-&#x3D;co[1][i];</span><br><span class="line">		&#x2F;&#x2F;if(j-co[2][i]&gt;&#x3D;0&amp;&amp;f[i-1][j-co[2][i]]) mk[i]&#x3D;2,j-&#x3D;co[2][i]; </span><br><span class="line">		&#x2F;*</span><br><span class="line">		原来是这么写的，没想到前面j-&#x3D;co[1][i]会影响这里！！！</span><br><span class="line">		*&#x2F;</span><br><span class="line">	&#125;</span><br><span class="line">	for(int i&#x3D;1;i&lt;&#x3D;n;i++)</span><br><span class="line">		if(mk[ct[i]]&#x3D;&#x3D;1)&#123;</span><br><span class="line">			if(d[i]&#x3D;&#x3D;1) printf(&quot;2&quot;);</span><br><span class="line">			else &#123;</span><br><span class="line">				if(a) printf(&quot;1&quot;),a--;</span><br><span class="line">				else printf(&quot;3&quot;);				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			if(d[i]&#x3D;&#x3D;2) printf(&quot;2&quot;);</span><br><span class="line">			else &#123;</span><br><span class="line">				if(a) printf(&quot;1&quot;),a--;</span><br><span class="line">				else printf(&quot;3&quot;);				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	puts(&quot;&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>dp</tag>
-        <tag>二分图染色</tag>
-        <tag>路径还原</tag>
-        <tag>背包</tag>
       </tags>
   </entry>
   <entry>

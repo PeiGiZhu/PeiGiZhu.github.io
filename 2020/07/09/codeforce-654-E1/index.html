@@ -5,19 +5,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>始 - Welcome</title>
+    <title>codeforce-#654-E1 - Welcome</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="PeiGiZhu&#39;s Blog,缓慢更新ing。。。
-7.8日更新
-search 站内搜索
-tags 标签
-categories 分类
-7.9日更新
-同步部署到gitee/github/coding的仓库中
-gitee ：http,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,E1. Asterism (Easy Version)
+题意
+一个玩家初始能力值为x (x未知)
+有n个敌人 每个敌人有能力值pi
+玩家需要以某种顺序逐个挑战每个敌人 
+当玩家能力值x&amp;gt;=当前,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -84,7 +82,7 @@ gitee ：http,">
     <div class="bar" style="width: 0;"></div>
     <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
     <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">始</h3>
+    <h3 class="subtitle">codeforce-#654-E1</h3>
     <div class="social">
         <div>
             <div class="share">
@@ -100,38 +98,41 @@ gitee ：http,">
     <div class="section">
         <div class="article">
     <div class='main'>
-        <h1 class="title">始</h1>
+        <h1 class="title">codeforce-#654-E1</h1>
         <div class="stuff">
-            <span>七月 08, 2020</span>
+            <span>七月 09, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Updata/" rel="tag">Updata</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9A%B4%E5%8A%9B/" rel="tag">暴力</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0/" rel="tag">组合数</a></li></ul>
 
 
         </div>
         <div class="content markdown">
-            <p>缓慢更新ing。。。</p>
-<p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
-<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
-<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
-<p>替换了lazy_load 加载图片</p>
-<p>加入百度自动推送</p>
+            <p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
+<p>题意</p>
+<p>一个玩家初始能力值为x (x未知)</p>
+<p>有n个敌人 每个敌人有能力值pi</p>
+<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
+<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
+<p>否则跳过这个敌人玩家能力不变</p>
+<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
+<p>现在问对于已知n个敌人能力值和一个素数p</p>
+<p>有多少种x使得f(x)%p !=0</p>
+<p>输出种类数m 并升序输出所有x</p>
+<p>题解</p>
+<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
+<p>每次击败一个敌人自身能力值x都会+1 </p>
+<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
+<p>以此类推那么对于一个初始能力值为x的玩家</p>
+<p>f(x)= 小于等于x的敌人个数<em>小于等于x+1的敌人个数-1 </em> 小于等于x+2的敌人个数-2 ….</p>
+<p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
+<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
+<p>每次On计算f(x) 总复杂度On^2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="/mp3/Aimer - ONE.flac">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
             </audio>
             
         </div>
