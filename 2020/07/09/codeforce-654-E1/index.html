@@ -136,7 +136,7 @@ var _hmt = _hmt || [];
 <p>每次击败一个敌人自身能力值x都会+1 </p>
 <p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
 <p>以此类推那么对于一个初始能力值为x的玩家</p>
-<p>f(x)= 小于等于x的敌人个数<em>小于等于x+1的敌人个数-1 </em> 小于等于x+2的敌人个数-2 ….</p>
+<p>$f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….$</p>
 <p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
 <p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
 <p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
@@ -169,7 +169,7 @@ var _hmt = _hmt || [];
 
     </div>
 </div>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script><script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script><script>
             window.imageLazyLoadSetting = {
                 isSPA: false,
                 processImages: null,

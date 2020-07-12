@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>始</title>
-    <url>/2020/07/08/%E5%A7%8B/</url>
-    <content><![CDATA[<p>缓慢更新ing。。。</p>
-<p><strong>7.8日更新</strong></p>
-<p>search 站内搜索</p>
-<p>tags 标签</p>
-<p>categories 分类</p>
-<p><strong>7.9日更新</strong></p>
-<p>同步部署到gitee/github/coding的仓库中</p>
-<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
-<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
-<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
-<p>加入图片lazy_load </p>
-<p>Typora可视化编辑</p>
-<p>加入文章置顶功能</p>
-<p><strong>7.10日更新</strong></p>
-<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
-<p>扩充了图库 封面随机抽取</p>
-<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
-<p>替换了lazy_load 加载图片</p>
-<p>加入百度自动推送</p>
+    <title>2015ICPC-沈阳-M</title>
+    <url>/2020/07/08/2015ICPC-%E6%B2%88%E9%98%B3-M/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5521" target="_blank" rel="noopener">M.Meeting</a></p>
+<p>题意给你n(n&lt;=1e5)个点，m个关系：每个关系代表一个集合，包含权值v，表示该集合集合中两两的距离，还有集合的点的个数cnt和集合里的点的标号，相当于一个有距离的完全图。</p>
+<p>保证集合中所有的点的数量不超过1e6。</p>
+<p>两个人分别从1点和n点走，只可以在一个点相遇（一个人可以等另一个人），求最短相遇时间和最短时间的前提下在哪些编号的点相遇时间都是最短。</p>
+<p>如果无法相遇，输出“Evil John”。</p>
+<p>题解一看就是两个点的Dijkstra求最短路径，但是如何建图就很困难。因为一个完全图需要建n*(n-1)/2的边，容易超时，只能用组的方式建边。对于集合中每个点 建立一个虚拟的超级源点 下标记为(n+i)  比较常用的建图技巧</p>
+<p>建边 该集合内任意一点x到n+i的距离为0,且n+i到该集合内任意一点距离为v。</p>
+<p>这样保证集合中的任意两个点的距离是v。同时新建的图满足迪杰斯特拉算法的要求</p>
+<p>可以直接跑最短路</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn&#x3D;2e5+5;</span><br><span class="line">vector&lt;P&gt;mp[maxn];</span><br><span class="line">ll dis[2][maxn];</span><br><span class="line">bool vis[2][maxn];</span><br><span class="line">void Djstar(int start,int typ)&#123;</span><br><span class="line">    dis[typ][start]&#x3D;0;</span><br><span class="line">    priority_queue&lt;P, vector&lt;P&gt;,greater&lt;P&gt; &gt; Q;&#x2F;&#x2F;&#x2F;堆优化</span><br><span class="line">    Q.push(P(0,start));</span><br><span class="line">    while(!Q.empty())&#123;</span><br><span class="line">        P x&#x3D;Q.top();Q.pop();</span><br><span class="line">        int u&#x3D;x.second;</span><br><span class="line">        if(vis[typ][u])continue;</span><br><span class="line">        vis[typ][u]&#x3D;1;</span><br><span class="line">        for(auto i:mp[u])&#123;</span><br><span class="line">            if(dis[typ][i.first]&gt;dis[typ][u]+i.second)&#123;</span><br><span class="line">                dis[typ][i.first]&#x3D;dis[typ][u]+i.second;</span><br><span class="line">                Q.push(P(dis[typ][i.first],i.first));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;2*n;i++)&#123;</span><br><span class="line">            mp[i].clear();</span><br><span class="line">            vis[0][i]&#x3D;vis[1][i]&#x3D;0;</span><br><span class="line">            dis[0][i]&#x3D;dis[1][i]&#x3D;1e18;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            int d,num;cin&gt;&gt;d&gt;&gt;num;</span><br><span class="line">            for(int j&#x3D;0;j&lt;num;j++)&#123;</span><br><span class="line">                int indx;cin&gt;&gt;indx;</span><br><span class="line">                mp[indx].push_back(&#123;n+i,0&#125;);</span><br><span class="line">                mp[n+i].push_back(&#123;indx,d&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Djstar(1,0);Djstar(n,1);</span><br><span class="line">        ll minn&#x3D;1e18;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;dis[0][i]&lt;&lt;&quot; &quot;&lt;&lt;dis[1][i]&lt;&lt;endl;</span><br><span class="line">            minn&#x3D;min(minn,max(dis[0][i],dis[1][i]));</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;cnt++&lt;&lt;&quot;: &quot;;</span><br><span class="line">        if(minn&#x3D;&#x3D;1e18)cout&lt;&lt;&quot;Evil John&quot;&lt;&lt;endl;</span><br><span class="line">        else &#123;</span><br><span class="line">            cout&lt;&lt;minn&lt;&lt;endl;bool flag&#x3D;0;</span><br><span class="line">            for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(max(dis[0][i],dis[1][i])&#x3D;&#x3D;minn)&#123;</span><br><span class="line">                    if(!flag)cout&lt;&lt;i;</span><br><span class="line">                    else cout&lt;&lt;&quot; &quot;&lt;&lt;i;</span><br><span class="line">                    flag&#x3D;1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Notice</category>
+        <category>ICPC</category>
       </categories>
       <tags>
-        <tag>Updata</tag>
+        <tag>最短路</tag>
+        <tag>超源点</tag>
+        <tag>Dijkstra</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2015ICPC-沈阳-B</title>
+    <url>/2020/07/08/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
+<p>题意<br>给出n&lt;500个字符串每个字符串长度不超过2000 要求找到某个最大的i是的对于j&lt;i 存在s[j]不是s[i]的子串</p>
+<p>题解<br>首先想到m*n^2 的算法 </p>
+<p>再根据子串的传递性 :假如a是b的子串 且b是c的子串那么a也是c的子串</p>
+<p>剪枝优化暴力 首先判断两个相邻的是否前一个s[j]是后一个的子串s[i]  </p>
+<p>若是则将前面的标记为1  一直比较s[i]与s[i+1] s[i+1]与s[i+2]….</p>
+<p>对于某个子串s[x] ,x&gt;i 若s[i]是s[x]的子串那么 s[j] ,j&lt;i, 被标记为1的一定都是s[i]的子串也是s[x]的子串</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn &#x3D; 500+5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int n,m;</span><br><span class="line">int nex[maxn];</span><br><span class="line">char s[maxn][2005];</span><br><span class="line"></span><br><span class="line">inline void getnex(char *b)&#123;</span><br><span class="line">    nex[0] &#x3D; -1;</span><br><span class="line">    int len&#x3D;strlen(b);</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;len-1;i++)&#123;</span><br><span class="line">        int j &#x3D; nex[i-1];</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; b[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(b[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        nex[i] &#x3D; j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline int kmp(char *a ,char *b)&#123;</span><br><span class="line">    int  j &#x3D; -1;</span><br><span class="line">    int lena&#x3D;strlen(a),lenb&#x3D;strlen(b);</span><br><span class="line">    getnex(b);</span><br><span class="line">    for(int i&#x3D;0;i&lt;lena;i++)&#123;</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; a[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(a[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        if(j &#x3D;&#x3D; lenb-1) return i-lenb+2;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line">bool vis[505];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;</span><br><span class="line">    scanf(&quot;%d&quot;,&amp;t);</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">        memset(vis,0,sizeof vis);</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            scanf(&quot;%s&quot;,&amp;s[i]);</span><br><span class="line">            &#x2F;&#x2F;vis[i]&#x3D;0;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;n;i++)&#123;</span><br><span class="line">            if(kmp(s[i],s[i-1])&gt;&#x3D;0)&#123;</span><br><span class="line">                vis[i-1]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int ans&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;n-1;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;i;j++)&#123;</span><br><span class="line">                &#x2F;&#x2F;a&#x3D;s[i],b&#x3D;s[j];</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">                if(vis[j])continue;</span><br><span class="line">                if(kmp(s[i],s[j])&gt;&#x3D;0)continue;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;&lt;&lt;s[j]&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;i+1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ans&gt;0)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;&quot;Case #&quot;&lt;&lt; cnt++ &lt;&lt;&quot;: &quot;;</span><br><span class="line">        printf(&quot;Case #%d: %d\n&quot;,cnt++,ans);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ICPC</category>
+      </categories>
+      <tags>
+        <tag>kmp</tag>
+        <tag>暴力</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -62,6 +76,7 @@
 <p><a href="https://www.jianshu.com/p/7d686d8b7857" target="_blank" rel="noopener">如何用ssh key部署</a></p>
 <p>本地生成的ssh key(public key)可以反复使用 </p>
 <p>此处以gitee和coding部署流程为例 github仓库操作类似</p>
+<p><a href="https://www.jianshu.com/p/79bd6fb15790" target="_blank" rel="noopener">这篇博客</a>里有图文流程可以参考</p>
 <p><a href="https://www.jianshu.com/p/a2d298e26dcd" target="_blank" rel="noopener">hexo常用指令</a></p>
 <p>部署时记得先清理缓存</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean &amp; hexo g -d &#x2F;&#x2F;&#x2F;一次性清理&amp;生成&amp;部署</span><br></pre></td></tr></table></figure>
@@ -83,6 +98,9 @@
 <p>可以在要编辑的md同目录下新建一个img文件夹 </p>
 <p>然后在要插入的地方写入以下html语句</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;img&#x2F;xxx.jpg&quot; width&#x3D;&quot;100px&quot; height&#x3D;&quot;100px&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>有些主题没有自带百度统计功能 需要手动写入</p>
+<p>具体方法参考<a href="https://www.cnblogs.com/fazero/p/7976651.html" target="_blank" rel="noopener">此处</a></p>
+<p>置顶功能没有达到理想效果 <a href="https://www.cnblogs.com/lqerio/p/11117467.html" target="_blank" rel="noopener">参考</a></p>
 <p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
 <p>更多资源/问题在优化本站时会再更新整合</p>
 ]]></content>
@@ -91,90 +109,6 @@
       </categories>
       <tags>
         <tag>资料整合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-#654-E1</title>
-    <url>/2020/07/09/codeforce-654-E1/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
-<p>题意</p>
-<p>一个玩家初始能力值为x (x未知)</p>
-<p>有n个敌人 每个敌人有能力值pi</p>
-<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
-<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
-<p>否则跳过这个敌人玩家能力不变</p>
-<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
-<p>现在问对于已知n个敌人能力值和一个素数p</p>
-<p>有多少种x使得f(x)%p !=0</p>
-<p>输出种类数m 并升序输出所有x</p>
-<p>题解</p>
-<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
-<p>每次击败一个敌人自身能力值x都会+1 </p>
-<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
-<p>以此类推那么对于一个初始能力值为x的玩家</p>
-<p>f(x)= 小于等于x的敌人个数<em>小于等于x+1的敌人个数-1 </em> 小于等于x+2的敌人个数-2 ….</p>
-<p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
-<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
-<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
-<p>每次On计算f(x) 总复杂度On^2</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>组合数</tag>
-        <tag>暴力</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-GlobalRound-E</title>
-    <url>/2020/07/09/codeforce-GlobalRound-E/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/E" target="_blank" rel="noopener">E. Inversion SwapSort</a></p>
-<p>题意</p>
-<p>给出一个长度为n的数组a</p>
-<p>要求对它进行排序</p>
-<p>排序的要求是只能使用原数组中逆序对下标的位置进行swap</p>
-<p>比如原数组第u位和第v位形成逆序对 那么只能对数组的第u位和第v位进行swap</p>
-<p>新数组中可能有新的逆序对第x位和第y位 但不能swap(ax,ay)</p>
-<p>而且要用到所有逆序对下标 且只能用一次 (感觉怪怪的这不就直接等于逆序对?)</p>
-<p>要求给出一种swap顺序使得最终的数组非降序</p>
-<p>或者说</p>
-<p>求一种将每个<strong>原数组中的逆序对</strong>下标 (u,v) 的排列，使依次交换每个 (au,av) 后，ai 不减</p>
-<p><a href="https://www.cnblogs.com/dysyn1314/p/13246526.html" target="_blank" rel="noopener">题解参考</a></p>
-<blockquote>
-<p>考虑a  是一个排列时怎么做。</p>
-<p>我们设pos[v] 表示v  这个数在a  里出现的位置。也就是pos[a[i]]=i  </p>
-<p>从边界入手，我们先尝试把nn  放到排列的最后一个位置，然后转化为规模减11  的子问题。具体来说，假设一波操作后，我们得到的排列为bb  ，则bb  需要满足如下条件：</p>
-<ul>
-<li>b[n]=nb[n]=n  。</li>
-<li>∀1≤i,j&lt;n 如果a[i]&lt;a[j] ，则b[i]&lt;b[j]  。</li>
-<li>∀1≤i,j<n 如果a[i]>a[j] ，则b[i]&gt;b[j]  。</li>
-</ul>
-<p>也就是说，要保证前面的数的<strong><em>相对大小关系不变</em></strong>，这样才能转化为一个等价的子问题。</p>
-<p>我们怎么做呢？可以依次操作：交换(pos[a[n]+1],n)  ,(pos[a[n]+2],n)  ,(pos[a[n]+3],n)   ,……,(pos[n],n)  。 交换操作(indx , indx)</p>
-</blockquote>
-<p>具体的</p>
-<p>比如原数组 ：5 4 2 1 3</p>
-<p>第一次交换 pos[a[5]+1]=pos[4]=2 与 数组中第n个数交换</p>
-<p>交换结果为 :  5 3 2 1 4</p>
-<p>假设原数组中最大的数n不在位置n , 那么a[n]+1一定小于n 且显然a[n]+1&gt;a[n]</p>
-<p>那么数a[n]+1与a[n]显然构成逆序对</p>
-<blockquote>
-<p>容易发现，这样一轮操作完成后，首先，n  被放到了最后。同时，前面所有大于a[n] 的数，相当于集体减1  ，显然前面所有数的相对大小关系不变。并且，我们恰好用掉了所有包含（位置）n  的逆序对。所以剩下的是一个规模减1  的子问题，继续做，直到n=1  即可。</p>
-<p>于是我们就解决了排列的情况。相当于我们用构造的方法证明了，a  是一个排列时，一定有解。</p>
-<p>再考虑不是排列的时候。对于两个相等的数a[i]=a[j]   (i&lt;j  )，我们强行令a[i]&lt;a[j]  ，也就是以数值为第一关键字，位置为第二关键字，强行转成一个排列。发现转成排列后，序列里的逆序对和原来是一样的，所以直接按排列求解即可。</p>
-<p>时间复杂度O(n2)</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>构造</tag>
-        <tag>sort</tag>
-        <tag>逆序对</tag>
-        <tag>离散化</tag>
       </tags>
   </entry>
   <entry>
@@ -204,7 +138,8 @@
     <url>/2020/07/08/codeforce-615-C/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
 <p>题意<br>给出一个数n问是否能将他拆成三个不同数的乘积 n小于1e9</p>
-<p>由唯一分解定理得n=p1^k1<em>p2^k2</em>….pi^ki<br>sqrt(n)内枚举可能的素因子 第三个数可有n/(p1*p2)得 若能得到三个因子且都不等于1那么有解</p>
+<p>由唯一分解定理得a=(p1 ^ k1) × (p2 ^ k2) × (p3 ^ k3)…..​  </p>
+<p>sqrt(n)内枚举可能的素因子 第三个数可有$n/(p1*p2)$得 若能得到三个因子且都不等于1那么有解</p>
 <p>map容器的first是键值 second是映射值</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include&lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"><span class="comment">#define IO std::ios::sync_with_stdio(false);</span></span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line">int <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        map&lt;int,int&gt;ans;</span><br><span class="line">        <span class="keyword">for</span>(int i=2;i*i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(n%i)<span class="built_in">continue</span>;</span><br><span class="line">            ans[i]=1;n/=i;///得到的i一定是n的素因子</span><br><span class="line">            <span class="keyword">if</span>(ans.size()==2)<span class="built_in">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        //<span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(n!=1)ans[n]=1;</span><br><span class="line">        <span class="keyword">if</span>(ans.size()&lt;3)cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">for</span>(auto i: ans)cout&lt;&lt;i.first&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
@@ -232,6 +167,40 @@
         <tag>数据结构</tag>
         <tag>MEX</tag>
         <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-#654-E1</title>
+    <url>/2020/07/09/codeforce-654-E1/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
+<p>题意</p>
+<p>一个玩家初始能力值为x (x未知)</p>
+<p>有n个敌人 每个敌人有能力值pi</p>
+<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
+<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
+<p>否则跳过这个敌人玩家能力不变</p>
+<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
+<p>现在问对于已知n个敌人能力值和一个素数p</p>
+<p>有多少种x使得f(x)%p !=0</p>
+<p>输出种类数m 并升序输出所有x</p>
+<p>题解</p>
+<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
+<p>每次击败一个敌人自身能力值x都会+1 </p>
+<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
+<p>以此类推那么对于一个初始能力值为x的玩家</p>
+<p>$f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….$</p>
+<p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
+<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
+<p>每次On计算f(x) 总复杂度On^2</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>暴力</tag>
+        <tag>组合数</tag>
       </tags>
   </entry>
   <entry>
@@ -339,6 +308,23 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed81-C</title>
+    <url>/2020/07/08/codeforce-Ed81-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
+<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
+<p>题解</p>
+<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+        <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed81-B</title>
     <url>/2020/07/08/codeforce-Ed81-B/</url>
     <content><![CDATA[<p><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fcodeforces.com%2Fcontest%2F1295%2Fproblem%2FB" target="_blank" rel="noopener">B - Infinite Prefixes</a></p>
@@ -353,45 +339,6 @@
       <tags>
         <tag>数学</tag>
         <tag>构造</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-C</title>
-    <url>/2020/07/08/codeforce-Ed81-C/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
-<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
-<p>题解</p>
-<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>贪心</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-D</title>
-    <url>/2020/07/08/codeforce-Ed81-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
-<p>题意<br>求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
-<p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
-<p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
-<p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
-<p>那问题又从有多少个y&lt;a 使得gcd(y,m)=gcd(a,m) 变成了有多少个 小于m/gcd(a,m)的数与m/gcd(a,m)互质 这个就是欧拉函数所表示的 phi [n]= 有多少个[i&lt;n] gcd(i,n)==1</p>
-<p>即1到m/gcd(a,m)中与m/gcd(a,m)互质的个数 == phi[m/gcd(a,m)] </p>
-<p> gcd(y,m)==gcd的数量其实就是 gcd(a+x,m) ==gcd  (a+x&gt;=m) 的数量</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">&#x2F;&#x2F;int de[(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        ll a,m;cin&gt;&gt;a&gt;&gt;m;</span><br><span class="line">        ll gcd&#x3D;__gcd(a,m);</span><br><span class="line">        a&#x2F;&#x3D;gcd;m&#x2F;&#x3D;gcd;</span><br><span class="line">        ll ans&#x3D;m;</span><br><span class="line">        for(ll i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i&#x3D;&#x3D;0)&#123;</span><br><span class="line">                ans-&#x3D;ans&#x2F;i;&#x2F;&#x2F;&#x2F;1~m中有ans&#x2F;i个数是i的倍数</span><br><span class="line">                while(m%i&#x3D;&#x3D;0)m&#x2F;&#x3D;i;&#x2F;&#x2F;&#x2F;将m中的因子i剔除</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(m&gt;1)ans-&#x3D;ans&#x2F;m;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>数论</tag>
-        <tag>欧拉函数</tag>
-        <tag>更相减损法</tag>
       </tags>
   </entry>
   <entry>
@@ -424,6 +371,28 @@
       <tags>
         <tag>贪心</tag>
         <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed81-D</title>
+    <url>/2020/07/08/codeforce-Ed81-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
+<p>题意<br>求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
+<p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
+<p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
+<p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
+<p>那问题又从有多少个y&lt;a 使得gcd(y,m)=gcd(a,m) 变成了有多少个 小于m/gcd(a,m)的数与m/gcd(a,m)互质 这个就是欧拉函数所表示的 phi [n]= 有多少个[i&lt;n] gcd(i,n)==1</p>
+<p>即1到m/gcd(a,m)中与m/gcd(a,m)互质的个数 == phi[m/gcd(a,m)] </p>
+<p> gcd(y,m)==gcd的数量其实就是 gcd(a+x,m) ==gcd  (a+x&gt;=m) 的数量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">&#x2F;&#x2F;int de[(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        ll a,m;cin&gt;&gt;a&gt;&gt;m;</span><br><span class="line">        ll gcd&#x3D;__gcd(a,m);</span><br><span class="line">        a&#x2F;&#x3D;gcd;m&#x2F;&#x3D;gcd;</span><br><span class="line">        ll ans&#x3D;m;</span><br><span class="line">        for(ll i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i&#x3D;&#x3D;0)&#123;</span><br><span class="line">                ans-&#x3D;ans&#x2F;i;&#x2F;&#x2F;&#x2F;1~m中有ans&#x2F;i个数是i的倍数</span><br><span class="line">                while(m%i&#x3D;&#x3D;0)m&#x2F;&#x3D;i;&#x2F;&#x2F;&#x2F;将m中的因子i剔除</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(m&gt;1)ans-&#x3D;ans&#x2F;m;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>数论</tag>
+        <tag>欧拉函数</tag>
+        <tag>更相减损法</tag>
       </tags>
   </entry>
   <entry>
@@ -605,6 +574,56 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-GlobalRound-E</title>
+    <url>/2020/07/09/codeforce-GlobalRound-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/E" target="_blank" rel="noopener">E. Inversion SwapSort</a></p>
+<p>题意</p>
+<p>给出一个长度为n的数组a</p>
+<p>要求对它进行排序</p>
+<p>排序的要求是只能使用原数组中逆序对下标的位置进行swap</p>
+<p>比如原数组第u位和第v位形成逆序对 那么只能对数组的第u位和第v位进行swap</p>
+<p>新数组中可能有新的逆序对第x位和第y位 但不能swap(ax,ay)</p>
+<p>而且要用到所有逆序对下标 且只能用一次 (感觉怪怪的这不就直接等于逆序对?)</p>
+<p>要求给出一种swap顺序使得最终的数组非降序</p>
+<p>或者说</p>
+<p>求一种将每个<strong>原数组中的逆序对</strong>下标 (u,v) 的排列，使依次交换每个 (au,av) 后，ai 不减</p>
+<p><a href="https://www.cnblogs.com/dysyn1314/p/13246526.html" target="_blank" rel="noopener">题解参考</a></p>
+<blockquote>
+<p>考虑a  是一个排列时怎么做。</p>
+<p>我们设pos[v] 表示v  这个数在a  里出现的位置。也就是pos[a[i]]=i  </p>
+<p>从边界入手，我们先尝试把nn  放到排列的最后一个位置，然后转化为规模减11  的子问题。具体来说，假设一波操作后，我们得到的排列为bb  ，则bb  需要满足如下条件：</p>
+<ul>
+<li>b[n]=nb[n]=n  。</li>
+<li>∀1≤i,j&lt;n 如果a[i]&lt;a[j] ，则b[i]&lt;b[j]  。</li>
+<li>∀1≤i,j<n 如果a[i]>a[j] ，则b[i]&gt;b[j]  。</li>
+</ul>
+<p>也就是说，要保证前面的数的<strong><em>相对大小关系不变</em></strong>，这样才能转化为一个等价的子问题。</p>
+<p>我们怎么做呢？可以依次操作：交换(pos[a[n]+1],n)  ,(pos[a[n]+2],n)  ,(pos[a[n]+3],n)   ,……,(pos[n],n)  。 交换操作(indx , indx)</p>
+</blockquote>
+<p>具体的</p>
+<p>比如原数组 ：5 4 2 1 3</p>
+<p>第一次交换 pos[a[5]+1]=pos[4]=2 与 数组中第n个数交换</p>
+<p>交换结果为 :  5 3 2 1 4</p>
+<p>假设原数组中最大的数n不在位置n , 那么a[n]+1一定小于n 且显然a[n]+1&gt;a[n]</p>
+<p>那么数a[n]+1与a[n]显然构成逆序对</p>
+<blockquote>
+<p>容易发现，这样一轮操作完成后，首先，n  被放到了最后。同时，前面所有大于a[n] 的数，相当于集体减1  ，显然前面所有数的相对大小关系不变。并且，我们恰好用掉了所有包含（位置）n  的逆序对。所以剩下的是一个规模减1  的子问题，继续做，直到n=1  即可。</p>
+<p>于是我们就解决了排列的情况。相当于我们用构造的方法证明了，a  是一个排列时，一定有解。</p>
+<p>再考虑不是排列的时候。对于两个相等的数a[i]=a[j]   (i&lt;j  )，我们强行令a[i]&lt;a[j]  ，也就是以数值为第一关键字，位置为第二关键字，强行转成一个排列。发现转成排列后，序列里的逆序对和原来是一样的，所以直接按排列求解即可。</p>
+<p>时间复杂度O(n2)</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>sort</tag>
+        <tag>逆序对</tag>
+        <tag>离散化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-GlobalRound9-D</title>
     <url>/2020/07/08/codeforce-GlobalRound9-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/D" target="_blank" rel="noopener">D.Replace by MEX</a></p>
@@ -635,6 +654,37 @@
       <tags>
         <tag>字符串</tag>
         <tag>回文串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>始</title>
+    <url>/2020/07/08/%E5%A7%8B/</url>
+    <content><![CDATA[<p>缓慢更新ing。。。</p>
+<p><strong>7.8日更新</strong></p>
+<p>search 站内搜索</p>
+<p>tags 标签</p>
+<p>categories 分类</p>
+<p><strong>7.9日更新</strong></p>
+<p>同步部署到gitee/github/coding的仓库中</p>
+<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
+<p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
+<p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
+<p>加入图片lazy_load </p>
+<p>Typora可视化编辑</p>
+<p>加入文章置顶功能</p>
+<p><strong>7.10日更新</strong></p>
+<p>添加了Gittalk 评论 但是只能在peigizhu.github.io 中使用</p>
+<p>扩充了图库 封面随机抽取</p>
+<p>替换原版主题音乐 (进入某个页面后点击上方播放按钮即可)</p>
+<p>替换了lazy_load 加载图片</p>
+<p>加入百度自动推送</p>
+<p>加入百度统计</p>
+]]></content>
+      <categories>
+        <category>Notice</category>
+      </categories>
+      <tags>
+        <tag>Updata</tag>
       </tags>
   </entry>
 </search>
