@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2015ICPC-沈阳-B</title>
+    <url>/2020/07/08/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
+<p>题意<br>给出n&lt;500个字符串每个字符串长度不超过2000 要求找到某个最大的i是的对于j&lt;i 存在s[j]不是s[i]的子串</p>
+<p>题解<br>首先想到m*n^2 的算法 </p>
+<p>再根据子串的传递性 :假如a是b的子串 且b是c的子串那么a也是c的子串</p>
+<p>剪枝优化暴力 首先判断两个相邻的是否前一个s[j]是后一个的子串s[i]  </p>
+<p>若是则将前面的标记为1  一直比较s[i]与s[i+1] s[i+1]与s[i+2]….</p>
+<p>对于某个子串s[x] ,x&gt;i 若s[i]是s[x]的子串那么 s[j] ,j&lt;i, 被标记为1的一定都是s[i]的子串也是s[x]的子串</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn &#x3D; 500+5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int n,m;</span><br><span class="line">int nex[maxn];</span><br><span class="line">char s[maxn][2005];</span><br><span class="line"></span><br><span class="line">inline void getnex(char *b)&#123;</span><br><span class="line">    nex[0] &#x3D; -1;</span><br><span class="line">    int len&#x3D;strlen(b);</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;len-1;i++)&#123;</span><br><span class="line">        int j &#x3D; nex[i-1];</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; b[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(b[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        nex[i] &#x3D; j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline int kmp(char *a ,char *b)&#123;</span><br><span class="line">    int  j &#x3D; -1;</span><br><span class="line">    int lena&#x3D;strlen(a),lenb&#x3D;strlen(b);</span><br><span class="line">    getnex(b);</span><br><span class="line">    for(int i&#x3D;0;i&lt;lena;i++)&#123;</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; a[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(a[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        if(j &#x3D;&#x3D; lenb-1) return i-lenb+2;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line">bool vis[505];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;</span><br><span class="line">    scanf(&quot;%d&quot;,&amp;t);</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">        memset(vis,0,sizeof vis);</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            scanf(&quot;%s&quot;,&amp;s[i]);</span><br><span class="line">            &#x2F;&#x2F;vis[i]&#x3D;0;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;n;i++)&#123;</span><br><span class="line">            if(kmp(s[i],s[i-1])&gt;&#x3D;0)&#123;</span><br><span class="line">                vis[i-1]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int ans&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;n-1;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;i;j++)&#123;</span><br><span class="line">                &#x2F;&#x2F;a&#x3D;s[i],b&#x3D;s[j];</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">                if(vis[j])continue;</span><br><span class="line">                if(kmp(s[i],s[j])&gt;&#x3D;0)continue;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;&lt;&lt;s[j]&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;i+1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ans&gt;0)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;&quot;Case #&quot;&lt;&lt; cnt++ &lt;&lt;&quot;: &quot;;</span><br><span class="line">        printf(&quot;Case #%d: %d\n&quot;,cnt++,ans);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ICPC</category>
+      </categories>
+      <tags>
+        <tag>kmp</tag>
+        <tag>暴力</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2015ICPC-沈阳-M</title>
     <url>/2020/07/08/2015ICPC-%E6%B2%88%E9%98%B3-M/</url>
     <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5521" target="_blank" rel="noopener">M.Meeting</a></p>
@@ -21,27 +42,6 @@
         <tag>最短路</tag>
         <tag>超源点</tag>
         <tag>Dijkstra</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2015ICPC-沈阳-B</title>
-    <url>/2020/07/08/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
-    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
-<p>题意<br>给出n&lt;500个字符串每个字符串长度不超过2000 要求找到某个最大的i是的对于j&lt;i 存在s[j]不是s[i]的子串</p>
-<p>题解<br>首先想到m*n^2 的算法 </p>
-<p>再根据子串的传递性 :假如a是b的子串 且b是c的子串那么a也是c的子串</p>
-<p>剪枝优化暴力 首先判断两个相邻的是否前一个s[j]是后一个的子串s[i]  </p>
-<p>若是则将前面的标记为1  一直比较s[i]与s[i+1] s[i+1]与s[i+2]….</p>
-<p>对于某个子串s[x] ,x&gt;i 若s[i]是s[x]的子串那么 s[j] ,j&lt;i, 被标记为1的一定都是s[i]的子串也是s[x]的子串</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn &#x3D; 500+5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int n,m;</span><br><span class="line">int nex[maxn];</span><br><span class="line">char s[maxn][2005];</span><br><span class="line"></span><br><span class="line">inline void getnex(char *b)&#123;</span><br><span class="line">    nex[0] &#x3D; -1;</span><br><span class="line">    int len&#x3D;strlen(b);</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;len-1;i++)&#123;</span><br><span class="line">        int j &#x3D; nex[i-1];</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; b[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(b[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        nex[i] &#x3D; j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline int kmp(char *a ,char *b)&#123;</span><br><span class="line">    int  j &#x3D; -1;</span><br><span class="line">    int lena&#x3D;strlen(a),lenb&#x3D;strlen(b);</span><br><span class="line">    getnex(b);</span><br><span class="line">    for(int i&#x3D;0;i&lt;lena;i++)&#123;</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; a[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(a[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        if(j &#x3D;&#x3D; lenb-1) return i-lenb+2;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line">bool vis[505];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;</span><br><span class="line">    scanf(&quot;%d&quot;,&amp;t);</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">        memset(vis,0,sizeof vis);</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            scanf(&quot;%s&quot;,&amp;s[i]);</span><br><span class="line">            &#x2F;&#x2F;vis[i]&#x3D;0;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;n;i++)&#123;</span><br><span class="line">            if(kmp(s[i],s[i-1])&gt;&#x3D;0)&#123;</span><br><span class="line">                vis[i-1]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int ans&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;n-1;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;i;j++)&#123;</span><br><span class="line">                &#x2F;&#x2F;a&#x3D;s[i],b&#x3D;s[j];</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">                if(vis[j])continue;</span><br><span class="line">                if(kmp(s[i],s[j])&gt;&#x3D;0)continue;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;&lt;&lt;s[j]&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;i+1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ans&gt;0)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;&quot;Case #&quot;&lt;&lt; cnt++ &lt;&lt;&quot;: &quot;;</span><br><span class="line">        printf(&quot;Case #%d: %d\n&quot;,cnt++,ans);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ICPC</category>
-      </categories>
-      <tags>
-        <tag>kmp</tag>
-        <tag>暴力</tag>
-        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -270,6 +270,23 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed80-C</title>
+    <url>/2020/07/08/codeforce-Ed80-C/</url>
+    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
+<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
+<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+        <tag>构造</tag>
+        <tag>问题转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed78-C</title>
     <url>/2020/07/08/codeforce-Ed78-C/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/C" target="_blank" rel="noopener">C - Berry Jam</a></p>
@@ -288,23 +305,6 @@
         <tag>数据结构</tag>
         <tag>贪心</tag>
         <tag>实现</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed80-C</title>
-    <url>/2020/07/08/codeforce-Ed80-C/</url>
-    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
-<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
-<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>dp</tag>
-        <tag>构造</tag>
-        <tag>问题转化</tag>
       </tags>
   </entry>
   <entry>
@@ -342,6 +342,28 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed81-D</title>
+    <url>/2020/07/08/codeforce-Ed81-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
+<p>题意<br>求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
+<p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
+<p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
+<p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
+<p>那问题又从有多少个y&lt;a 使得gcd(y,m)=gcd(a,m) 变成了有多少个 小于m/gcd(a,m)的数与m/gcd(a,m)互质 这个就是欧拉函数所表示的 phi [n]= 有多少个[i&lt;n] gcd(i,n)==1</p>
+<p>即1到m/gcd(a,m)中与m/gcd(a,m)互质的个数 == phi[m/gcd(a,m)] </p>
+<p> gcd(y,m)==gcd的数量其实就是 gcd(a+x,m) ==gcd  (a+x&gt;=m) 的数量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">&#x2F;&#x2F;int de[(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        ll a,m;cin&gt;&gt;a&gt;&gt;m;</span><br><span class="line">        ll gcd&#x3D;__gcd(a,m);</span><br><span class="line">        a&#x2F;&#x3D;gcd;m&#x2F;&#x3D;gcd;</span><br><span class="line">        ll ans&#x3D;m;</span><br><span class="line">        for(ll i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i&#x3D;&#x3D;0)&#123;</span><br><span class="line">                ans-&#x3D;ans&#x2F;i;&#x2F;&#x2F;&#x2F;1~m中有ans&#x2F;i个数是i的倍数</span><br><span class="line">                while(m%i&#x3D;&#x3D;0)m&#x2F;&#x3D;i;&#x2F;&#x2F;&#x2F;将m中的因子i剔除</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(m&gt;1)ans-&#x3D;ans&#x2F;m;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>数论</tag>
+        <tag>欧拉函数</tag>
+        <tag>更相减损法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed82-D</title>
     <url>/2020/07/08/codeforce-Ed82-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1303/problem/D" target="_blank" rel="noopener">D.Fill The Bag</a></p>
@@ -371,28 +393,6 @@
       <tags>
         <tag>贪心</tag>
         <tag>位运算</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-D</title>
-    <url>/2020/07/08/codeforce-Ed81-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
-<p>题意<br>求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
-<p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
-<p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
-<p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
-<p>那问题又从有多少个y&lt;a 使得gcd(y,m)=gcd(a,m) 变成了有多少个 小于m/gcd(a,m)的数与m/gcd(a,m)互质 这个就是欧拉函数所表示的 phi [n]= 有多少个[i&lt;n] gcd(i,n)==1</p>
-<p>即1到m/gcd(a,m)中与m/gcd(a,m)互质的个数 == phi[m/gcd(a,m)] </p>
-<p> gcd(y,m)==gcd的数量其实就是 gcd(a+x,m) ==gcd  (a+x&gt;=m) 的数量</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">&#x2F;&#x2F;int de[(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        ll a,m;cin&gt;&gt;a&gt;&gt;m;</span><br><span class="line">        ll gcd&#x3D;__gcd(a,m);</span><br><span class="line">        a&#x2F;&#x3D;gcd;m&#x2F;&#x3D;gcd;</span><br><span class="line">        ll ans&#x3D;m;</span><br><span class="line">        for(ll i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i&#x3D;&#x3D;0)&#123;</span><br><span class="line">                ans-&#x3D;ans&#x2F;i;&#x2F;&#x2F;&#x2F;1~m中有ans&#x2F;i个数是i的倍数</span><br><span class="line">                while(m%i&#x3D;&#x3D;0)m&#x2F;&#x3D;i;&#x2F;&#x2F;&#x2F;将m中的因子i剔除</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(m&gt;1)ans-&#x3D;ans&#x2F;m;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>数论</tag>
-        <tag>欧拉函数</tag>
-        <tag>更相减损法</tag>
       </tags>
   </entry>
   <entry>
