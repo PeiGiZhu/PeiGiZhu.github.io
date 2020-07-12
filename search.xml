@@ -79,6 +79,10 @@
 <p>注意！私有仓库的前提下再使用第二种主动推送 </p>
 <p>部署到仓库后网页没有更新 如果是gitee仓库请到gitee page 手动更新 </p>
 <p>若不同浏览器打开博客后内容不同 尝试清理浏览器缓存后重新加载</p>
+<p>typora插入图片 网页中不显示？<a href="https://blog.csdn.net/xh13096/article/details/103510129" target="_blank" rel="noopener">原因</a></p>
+<p>可以在要编辑的md同目录下新建一个img文件夹 </p>
+<p>然后在要插入的地方写入以下html语句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;img&#x2F;xxx.jpg&quot; width&#x3D;&quot;100px&quot; height&#x3D;&quot;100px&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
 <p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
 <p>更多资源/问题在优化本站时会再更新整合</p>
 ]]></content>
@@ -281,22 +285,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed78-B</title>
-    <url>/2020/07/08/codeforce-Ed78-B/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
-<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
-<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>枚举</tag>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-Ed78-C</title>
     <url>/2020/07/08/codeforce-Ed78-C/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/C" target="_blank" rel="noopener">C - Berry Jam</a></p>
@@ -315,6 +303,22 @@
         <tag>数据结构</tag>
         <tag>贪心</tag>
         <tag>实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed78-B</title>
+    <url>/2020/07/08/codeforce-Ed78-B/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
+<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
+<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>枚举</tag>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -352,6 +356,23 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed81-C</title>
+    <url>/2020/07/08/codeforce-Ed81-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
+<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
+<p>题解</p>
+<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed81-D</title>
     <url>/2020/07/08/codeforce-Ed81-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
@@ -371,23 +392,6 @@
         <tag>数论</tag>
         <tag>欧拉函数</tag>
         <tag>更相减损法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-C</title>
-    <url>/2020/07/08/codeforce-Ed81-C/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
-<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
-<p>题解</p>
-<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>贪心</tag>
-        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -584,23 +588,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed90-D</title>
-    <url>/2020/07/08/codeforce-Ed90-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1373/problem/D" target="_blank" rel="noopener">D.Maximum Sum on Even Positions</a></p>
-<p>题意<br>给出一个长度为n&lt;2e5的数组ai<br>你可以将数组中的一个子串 倒置<br>使得这个数组中偶数位的sum最大</p>
-<p>题解<br>倒置操作只有偶数长度子串会对最后sum产生影响<br>奇数长度的子串倒置后原来在偶数位的数仍然在偶数位</p>
-<p>奇数长度倒置后原来奇数位的数变为偶数那么就相当于<br>原来偶数位的sum+(子串中奇数位和-子串中偶数位和)<br>所以考虑相邻两位两两做差作为一个整体放入新数组中<br>然后对新数组求最大子段和sub 与原来sum相加更新答案<br>由于原来数组长度n可能为奇数<br>所以相邻数两两做差有两种情况 都要考虑</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int Max&#x3D;2e5+5;</span><br><span class="line">const int Mod&#x3D;1e9+7;</span><br><span class="line">ll data[Max],ndata[2][Max];</span><br><span class="line">&#x2F;*</span><br><span class="line"></span><br><span class="line">*&#x2F;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        ll sum&#x3D;0,osum&#x3D;0;int cnt1&#x3D;0,cnt2&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;data[i];</span><br><span class="line">            if(i&amp;1)&#123;</span><br><span class="line">                ndata[0][cnt1++]&#x3D;data[i]-data[i-1];</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                sum+&#x3D;data[i];</span><br><span class="line">                if(i)ndata[1][cnt2++]&#x3D;data[i-1]-data[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll minn&#x3D;0,per&#x3D;0,sub&#x3D;0,ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt1;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[0][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;sum&lt;&lt;&quot; &quot;&lt;&lt;sub&lt;&lt;endl;</span><br><span class="line">        ans&#x3D;sum+sub;</span><br><span class="line">        per&#x3D;0;minn&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt2;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[1][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        ans&#x3D;max(ans,sum+sub);</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>dp</tag>
-        <tag>最大子串和</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-GlobalRound9-D</title>
     <url>/2020/07/08/codeforce-GlobalRound9-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/D" target="_blank" rel="noopener">D.Replace by MEX</a></p>
@@ -615,6 +602,23 @@
       <tags>
         <tag>MEX</tag>
         <tag>构造</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed90-D</title>
+    <url>/2020/07/08/codeforce-Ed90-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1373/problem/D" target="_blank" rel="noopener">D.Maximum Sum on Even Positions</a></p>
+<p>题意<br>给出一个长度为n&lt;2e5的数组ai<br>你可以将数组中的一个子串 倒置<br>使得这个数组中偶数位的sum最大</p>
+<p>题解<br>倒置操作只有偶数长度子串会对最后sum产生影响<br>奇数长度的子串倒置后原来在偶数位的数仍然在偶数位</p>
+<p>奇数长度倒置后原来奇数位的数变为偶数那么就相当于<br>原来偶数位的sum+(子串中奇数位和-子串中偶数位和)<br>所以考虑相邻两位两两做差作为一个整体放入新数组中<br>然后对新数组求最大子段和sub 与原来sum相加更新答案<br>由于原来数组长度n可能为奇数<br>所以相邻数两两做差有两种情况 都要考虑</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int Max&#x3D;2e5+5;</span><br><span class="line">const int Mod&#x3D;1e9+7;</span><br><span class="line">ll data[Max],ndata[2][Max];</span><br><span class="line">&#x2F;*</span><br><span class="line"></span><br><span class="line">*&#x2F;</span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        ll sum&#x3D;0,osum&#x3D;0;int cnt1&#x3D;0,cnt2&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;data[i];</span><br><span class="line">            if(i&amp;1)&#123;</span><br><span class="line">                ndata[0][cnt1++]&#x3D;data[i]-data[i-1];</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                sum+&#x3D;data[i];</span><br><span class="line">                if(i)ndata[1][cnt2++]&#x3D;data[i-1]-data[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll minn&#x3D;0,per&#x3D;0,sub&#x3D;0,ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt1;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[0][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;sum&lt;&lt;&quot; &quot;&lt;&lt;sub&lt;&lt;endl;</span><br><span class="line">        ans&#x3D;sum+sub;</span><br><span class="line">        per&#x3D;0;minn&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;cnt2;i++)&#123;</span><br><span class="line">            per+&#x3D;ndata[1][i];</span><br><span class="line">            minn&#x3D;min(minn,per);</span><br><span class="line">            sub&#x3D;max(sub,per-minn);</span><br><span class="line">        &#125;</span><br><span class="line">        ans&#x3D;max(ans,sum+sub);</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+        <tag>最大子串和</tag>
       </tags>
   </entry>
   <entry>
