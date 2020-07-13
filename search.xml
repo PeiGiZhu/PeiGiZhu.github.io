@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2015ICPC-沈阳-M</title>
+    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-M/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5521" target="_blank" rel="noopener">M.Meeting</a></p>
+<p>题意给你n(n&lt;=1e5)个点，m个关系：每个关系代表一个集合，包含权值v，表示该集合集合中两两的距离，还有集合的点的个数cnt和集合里的点的标号，相当于一个有距离的完全图。</p>
+<p>保证集合中所有的点的数量不超过1e6。</p>
+<p>两个人分别从1点和n点走，只可以在一个点相遇（一个人可以等另一个人），求最短相遇时间和最短时间的前提下在哪些编号的点相遇时间都是最短。</p>
+<p>如果无法相遇，输出“Evil John”。</p>
+<p>题解</p>
+<p>就是求两个点的Dijkstra求最短路径，但是如何建图就很困难。因为一个完全图需要建n*(n-1)/2的边，容易超时，只能用组的方式建边。对于集合中每个点 建立一个虚拟的超级源点 下标记为(n+i)  比较常用的建图技巧</p>
+<p>建边 该集合内任意一点x到n+i的距离为0,且n+i到该集合内任意一点距离为v。</p>
+<p>这样保证集合中的任意两个点的距离是v。同时新建的图满足迪杰斯特拉算法的要求</p>
+<p>可以直接跑最短路</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn&#x3D;2e5+5;</span><br><span class="line">vector&lt;P&gt;mp[maxn];</span><br><span class="line">ll dis[2][maxn];</span><br><span class="line">bool vis[2][maxn];</span><br><span class="line">void Djstar(int start,int typ)&#123;</span><br><span class="line">    dis[typ][start]&#x3D;0;</span><br><span class="line">    priority_queue&lt;P, vector&lt;P&gt;,greater&lt;P&gt; &gt; Q;&#x2F;&#x2F;&#x2F;堆优化</span><br><span class="line">    Q.push(P(0,start));</span><br><span class="line">    while(!Q.empty())&#123;</span><br><span class="line">        P x&#x3D;Q.top();Q.pop();</span><br><span class="line">        int u&#x3D;x.second;</span><br><span class="line">        if(vis[typ][u])continue;</span><br><span class="line">        vis[typ][u]&#x3D;1;</span><br><span class="line">        for(auto i:mp[u])&#123;</span><br><span class="line">            if(dis[typ][i.first]&gt;dis[typ][u]+i.second)&#123;</span><br><span class="line">                dis[typ][i.first]&#x3D;dis[typ][u]+i.second;</span><br><span class="line">                Q.push(P(dis[typ][i.first],i.first));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;2*n;i++)&#123;</span><br><span class="line">            mp[i].clear();</span><br><span class="line">            vis[0][i]&#x3D;vis[1][i]&#x3D;0;</span><br><span class="line">            dis[0][i]&#x3D;dis[1][i]&#x3D;1e18;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            int d,num;cin&gt;&gt;d&gt;&gt;num;</span><br><span class="line">            for(int j&#x3D;0;j&lt;num;j++)&#123;</span><br><span class="line">                int indx;cin&gt;&gt;indx;</span><br><span class="line">                mp[indx].push_back(&#123;n+i,0&#125;);</span><br><span class="line">                mp[n+i].push_back(&#123;indx,d&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Djstar(1,0);Djstar(n,1);</span><br><span class="line">        ll minn&#x3D;1e18;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;dis[0][i]&lt;&lt;&quot; &quot;&lt;&lt;dis[1][i]&lt;&lt;endl;</span><br><span class="line">            minn&#x3D;min(minn,max(dis[0][i],dis[1][i]));</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;cnt++&lt;&lt;&quot;: &quot;;</span><br><span class="line">        if(minn&#x3D;&#x3D;1e18)cout&lt;&lt;&quot;Evil John&quot;&lt;&lt;endl;</span><br><span class="line">        else &#123;</span><br><span class="line">            cout&lt;&lt;minn&lt;&lt;endl;bool flag&#x3D;0;</span><br><span class="line">            for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(max(dis[0][i],dis[1][i])&#x3D;&#x3D;minn)&#123;</span><br><span class="line">                    if(!flag)cout&lt;&lt;i;</span><br><span class="line">                    else cout&lt;&lt;&quot; &quot;&lt;&lt;i;</span><br><span class="line">                    flag&#x3D;1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ICPC</category>
+      </categories>
+      <tags>
+        <tag>最短路</tag>
+        <tag>超源点</tag>
+        <tag>Dijkstra</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2015ICPC-沈阳-B</title>
     <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
     <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
@@ -136,37 +160,13 @@
       </tags>
   </entry>
   <entry>
-    <title>2015ICPC-沈阳-M</title>
-    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-M/</url>
-    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5521" target="_blank" rel="noopener">M.Meeting</a></p>
-<p>题意给你n(n&lt;=1e5)个点，m个关系：每个关系代表一个集合，包含权值v，表示该集合集合中两两的距离，还有集合的点的个数cnt和集合里的点的标号，相当于一个有距离的完全图。</p>
-<p>保证集合中所有的点的数量不超过1e6。</p>
-<p>两个人分别从1点和n点走，只可以在一个点相遇（一个人可以等另一个人），求最短相遇时间和最短时间的前提下在哪些编号的点相遇时间都是最短。</p>
-<p>如果无法相遇，输出“Evil John”。</p>
-<p>题解</p>
-<p>就是求两个点的Dijkstra求最短路径，但是如何建图就很困难。因为一个完全图需要建n*(n-1)/2的边，容易超时，只能用组的方式建边。对于集合中每个点 建立一个虚拟的超级源点 下标记为(n+i)  比较常用的建图技巧</p>
-<p>建边 该集合内任意一点x到n+i的距离为0,且n+i到该集合内任意一点距离为v。</p>
-<p>这样保证集合中的任意两个点的距离是v。同时新建的图满足迪杰斯特拉算法的要求</p>
-<p>可以直接跑最短路</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn&#x3D;2e5+5;</span><br><span class="line">vector&lt;P&gt;mp[maxn];</span><br><span class="line">ll dis[2][maxn];</span><br><span class="line">bool vis[2][maxn];</span><br><span class="line">void Djstar(int start,int typ)&#123;</span><br><span class="line">    dis[typ][start]&#x3D;0;</span><br><span class="line">    priority_queue&lt;P, vector&lt;P&gt;,greater&lt;P&gt; &gt; Q;&#x2F;&#x2F;&#x2F;堆优化</span><br><span class="line">    Q.push(P(0,start));</span><br><span class="line">    while(!Q.empty())&#123;</span><br><span class="line">        P x&#x3D;Q.top();Q.pop();</span><br><span class="line">        int u&#x3D;x.second;</span><br><span class="line">        if(vis[typ][u])continue;</span><br><span class="line">        vis[typ][u]&#x3D;1;</span><br><span class="line">        for(auto i:mp[u])&#123;</span><br><span class="line">            if(dis[typ][i.first]&gt;dis[typ][u]+i.second)&#123;</span><br><span class="line">                dis[typ][i.first]&#x3D;dis[typ][u]+i.second;</span><br><span class="line">                Q.push(P(dis[typ][i.first],i.first));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;2*n;i++)&#123;</span><br><span class="line">            mp[i].clear();</span><br><span class="line">            vis[0][i]&#x3D;vis[1][i]&#x3D;0;</span><br><span class="line">            dis[0][i]&#x3D;dis[1][i]&#x3D;1e18;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            int d,num;cin&gt;&gt;d&gt;&gt;num;</span><br><span class="line">            for(int j&#x3D;0;j&lt;num;j++)&#123;</span><br><span class="line">                int indx;cin&gt;&gt;indx;</span><br><span class="line">                mp[indx].push_back(&#123;n+i,0&#125;);</span><br><span class="line">                mp[n+i].push_back(&#123;indx,d&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Djstar(1,0);Djstar(n,1);</span><br><span class="line">        ll minn&#x3D;1e18;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;dis[0][i]&lt;&lt;&quot; &quot;&lt;&lt;dis[1][i]&lt;&lt;endl;</span><br><span class="line">            minn&#x3D;min(minn,max(dis[0][i],dis[1][i]));</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;cnt++&lt;&lt;&quot;: &quot;;</span><br><span class="line">        if(minn&#x3D;&#x3D;1e18)cout&lt;&lt;&quot;Evil John&quot;&lt;&lt;endl;</span><br><span class="line">        else &#123;</span><br><span class="line">            cout&lt;&lt;minn&lt;&lt;endl;bool flag&#x3D;0;</span><br><span class="line">            for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">                if(max(dis[0][i],dis[1][i])&#x3D;&#x3D;minn)&#123;</span><br><span class="line">                    if(!flag)cout&lt;&lt;i;</span><br><span class="line">                    else cout&lt;&lt;&quot; &quot;&lt;&lt;i;</span><br><span class="line">                    flag&#x3D;1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ICPC</category>
-      </categories>
-      <tags>
-        <tag>最短路</tag>
-        <tag>超源点</tag>
-        <tag>Dijkstra</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-#428-D</title>
     <url>/2020/07/08/codeforce-428-D/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
 <p>题意</p>
 <p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
 <p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
-<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6
+<p>给出一个长度为n n<1e5 的序列a ai<1e6
 找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </p>
 <p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;</p>
 <p>∑k=∑len <em>C(x,len) ,(len=1,2,3,,,,x) = x </em> 2^ {x-1}</p>
@@ -275,7 +275,8 @@
 <p>每次击败一个敌人自身能力值x都会+1 </p>
 <p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
 <p>以此类推那么对于一个初始能力值为x的玩家</p>
-<p>$$<br>f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….<br>$$<br>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<script type="math/tex; mode=display">
+f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于等于x+2的敌人个数-2) ....</script><p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
 <p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
 <p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
 <p>每次On计算f(x) 总复杂度On^2</p>
@@ -287,22 +288,6 @@
       <tags>
         <tag>暴力</tag>
         <tag>组合数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed76-D</title>
-    <url>/2020/07/08/codeforce-Ed76-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1257/problem/D" target="_blank" rel="noopener">D. Yet Another Monster Killing Problem</a></p>
-<p>题意<br>有n个怪物每个怪物有ai攻击力<br>有m个勇者每个勇者有pi攻击力和si耐力<br>当且仅当pi&gt;=ai时这个勇者才可击败怪物<br>一个勇者最多能战斗si次<br>消耗完si次或遇到打不过的一天结束<br>问最少几天打完所有怪物</p>
-<p>先判断能否打败所有怪物<br>贪心关键：<br>建立一个hero[si]存耐力值大于等于si的攻击力最大的勇士<br>然后双指针遍历去一个连续区间len怪物攻击力最大值maxn假如hero[len]&gt;=maxn那么可以继续寻找更长len是否满足<br>len大于最大勇士耐久或不满足等式时天数++<br>(原来想的是找到每种耐力值下最大攻击力的勇士但是还不够贪心)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"> using namespace std;</span><br><span class="line"> typedef long long ll;</span><br><span class="line"> int mon[(int)2e5+5];</span><br><span class="line"> int hero[(int)2e5+5];</span><br><span class="line"> int main()&#123;</span><br><span class="line">    std::ios::sync_with_stdio(false);</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n,maxm&#x3D;0;cin&gt;&gt;n;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;mon[i];hero[i]&#x3D;0;</span><br><span class="line">            maxm&#x3D;max(maxm,mon[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        int m,maxs&#x3D;0;cin&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            int p,s;cin&gt;&gt;p&gt;&gt;s;</span><br><span class="line">            hero[s]&#x3D;max(hero[s],p);maxs&#x3D;max(maxs,s);</span><br><span class="line">        &#125;</span><br><span class="line">        int maxp&#x3D;hero[maxs];</span><br><span class="line">        for(int i&#x3D;maxs-1;i&gt;0;i--)&#123;</span><br><span class="line">            maxp&#x3D;max(maxp,hero[i]);</span><br><span class="line">            hero[i]&#x3D;maxp;</span><br><span class="line">        &#125;</span><br><span class="line">        if(maxp&lt;maxm)&#123;</span><br><span class="line">            cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        maxm&#x3D;0;int cnt&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1,x&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            maxm&#x3D;max(maxm,mon[i]);</span><br><span class="line">            if(hero[x]&gt;&#x3D;maxm)&#123;</span><br><span class="line">                x++;</span><br><span class="line">                if(x&gt;maxs||i&#x3D;&#x3D;n)x&#x3D;1,maxm&#x3D;0,cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                cnt++;x&#x3D;1;i--;</span><br><span class="line">                maxm&#x3D;0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;cnt&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>标程<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int N &#x3D; int(2e5) + 99;</span><br><span class="line"></span><br><span class="line">int t;</span><br><span class="line">int n;</span><br><span class="line">int a[N];</span><br><span class="line">int m;</span><br><span class="line">int p[N], s[N];</span><br><span class="line">int bst[N];</span><br><span class="line"></span><br><span class="line">int main() &#123;	</span><br><span class="line">	scanf(&quot;%d&quot;, &amp;t);</span><br><span class="line">	for(int tc &#x3D; 0; tc &lt; t; ++tc)&#123;</span><br><span class="line">		scanf(&quot;%d&quot;, &amp;n);</span><br><span class="line">		for(int i &#x3D; 0; i &lt;&#x3D; n; ++i) bst[i] &#x3D; 0;</span><br><span class="line">		for(int i &#x3D; 0; i &lt; n; ++i)</span><br><span class="line">			scanf(&quot;%d&quot;, a + i);</span><br><span class="line">		scanf(&quot;%d&quot;, &amp;m);</span><br><span class="line">		for(int i &#x3D; 0; i &lt; m; ++i)&#123;</span><br><span class="line">			scanf(&quot;%d %d&quot;, p + i, s + i);</span><br><span class="line">			bst[s[i]] &#x3D; max(bst[s[i]], p[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i &#x3D; n - 1; i &gt;&#x3D; 0; --i)</span><br><span class="line">			bst[i] &#x3D; max(bst[i], bst[i + 1]);	</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		int pos &#x3D; 0;</span><br><span class="line">		int res &#x3D; 0;</span><br><span class="line">		bool ok &#x3D; true;</span><br><span class="line">		while(pos &lt; n)&#123;</span><br><span class="line">			++res;</span><br><span class="line">			int npos &#x3D; pos;</span><br><span class="line">			int mx &#x3D; 0;</span><br><span class="line">			while(true)&#123;</span><br><span class="line">				mx &#x3D; max(mx, a[npos]);</span><br><span class="line">				if(mx &gt; bst[npos - pos + 1]) break;</span><br><span class="line">				++npos;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if(pos &#x3D;&#x3D; npos)&#123;</span><br><span class="line">				ok &#x3D; false;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			pos &#x3D; npos;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if(!ok) res &#x3D; -1;</span><br><span class="line">		printf(&quot;%d\n&quot;, res);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -321,6 +306,22 @@
       <tags>
         <tag>gcd</tag>
         <tag>数论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed76-D</title>
+    <url>/2020/07/08/codeforce-Ed76-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1257/problem/D" target="_blank" rel="noopener">D. Yet Another Monster Killing Problem</a></p>
+<p>题意<br>有n个怪物每个怪物有ai攻击力<br>有m个勇者每个勇者有pi攻击力和si耐力<br>当且仅当pi&gt;=ai时这个勇者才可击败怪物<br>一个勇者最多能战斗si次<br>消耗完si次或遇到打不过的一天结束<br>问最少几天打完所有怪物</p>
+<p>先判断能否打败所有怪物<br>贪心关键：<br>建立一个hero[si]存耐力值大于等于si的攻击力最大的勇士<br>然后双指针遍历去一个连续区间len怪物攻击力最大值maxn假如hero[len]&gt;=maxn那么可以继续寻找更长len是否满足<br>len大于最大勇士耐久或不满足等式时天数++<br>(原来想的是找到每种耐力值下最大攻击力的勇士但是还不够贪心)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"> using namespace std;</span><br><span class="line"> typedef long long ll;</span><br><span class="line"> int mon[(int)2e5+5];</span><br><span class="line"> int hero[(int)2e5+5];</span><br><span class="line"> int main()&#123;</span><br><span class="line">    std::ios::sync_with_stdio(false);</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n,maxm&#x3D;0;cin&gt;&gt;n;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            cin&gt;&gt;mon[i];hero[i]&#x3D;0;</span><br><span class="line">            maxm&#x3D;max(maxm,mon[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        int m,maxs&#x3D;0;cin&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            int p,s;cin&gt;&gt;p&gt;&gt;s;</span><br><span class="line">            hero[s]&#x3D;max(hero[s],p);maxs&#x3D;max(maxs,s);</span><br><span class="line">        &#125;</span><br><span class="line">        int maxp&#x3D;hero[maxs];</span><br><span class="line">        for(int i&#x3D;maxs-1;i&gt;0;i--)&#123;</span><br><span class="line">            maxp&#x3D;max(maxp,hero[i]);</span><br><span class="line">            hero[i]&#x3D;maxp;</span><br><span class="line">        &#125;</span><br><span class="line">        if(maxp&lt;maxm)&#123;</span><br><span class="line">            cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line">        maxm&#x3D;0;int cnt&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1,x&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            maxm&#x3D;max(maxm,mon[i]);</span><br><span class="line">            if(hero[x]&gt;&#x3D;maxm)&#123;</span><br><span class="line">                x++;</span><br><span class="line">                if(x&gt;maxs||i&#x3D;&#x3D;n)x&#x3D;1,maxm&#x3D;0,cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                cnt++;x&#x3D;1;i--;</span><br><span class="line">                maxm&#x3D;0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;cnt&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>标程<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int N &#x3D; int(2e5) + 99;</span><br><span class="line"></span><br><span class="line">int t;</span><br><span class="line">int n;</span><br><span class="line">int a[N];</span><br><span class="line">int m;</span><br><span class="line">int p[N], s[N];</span><br><span class="line">int bst[N];</span><br><span class="line"></span><br><span class="line">int main() &#123;	</span><br><span class="line">	scanf(&quot;%d&quot;, &amp;t);</span><br><span class="line">	for(int tc &#x3D; 0; tc &lt; t; ++tc)&#123;</span><br><span class="line">		scanf(&quot;%d&quot;, &amp;n);</span><br><span class="line">		for(int i &#x3D; 0; i &lt;&#x3D; n; ++i) bst[i] &#x3D; 0;</span><br><span class="line">		for(int i &#x3D; 0; i &lt; n; ++i)</span><br><span class="line">			scanf(&quot;%d&quot;, a + i);</span><br><span class="line">		scanf(&quot;%d&quot;, &amp;m);</span><br><span class="line">		for(int i &#x3D; 0; i &lt; m; ++i)&#123;</span><br><span class="line">			scanf(&quot;%d %d&quot;, p + i, s + i);</span><br><span class="line">			bst[s[i]] &#x3D; max(bst[s[i]], p[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i &#x3D; n - 1; i &gt;&#x3D; 0; --i)</span><br><span class="line">			bst[i] &#x3D; max(bst[i], bst[i + 1]);	</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">		int pos &#x3D; 0;</span><br><span class="line">		int res &#x3D; 0;</span><br><span class="line">		bool ok &#x3D; true;</span><br><span class="line">		while(pos &lt; n)&#123;</span><br><span class="line">			++res;</span><br><span class="line">			int npos &#x3D; pos;</span><br><span class="line">			int mx &#x3D; 0;</span><br><span class="line">			while(true)&#123;</span><br><span class="line">				mx &#x3D; max(mx, a[npos]);</span><br><span class="line">				if(mx &gt; bst[npos - pos + 1]) break;</span><br><span class="line">				++npos;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if(pos &#x3D;&#x3D; npos)&#123;</span><br><span class="line">				ok &#x3D; false;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			pos &#x3D; npos;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if(!ok) res &#x3D; -1;</span><br><span class="line">		printf(&quot;%d\n&quot;, res);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -431,7 +432,8 @@
     <title>codeforce-Ed81-D</title>
     <url>/2020/07/08/codeforce-Ed81-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
-<p>题意<br>求有多少x符合gcd(a+x,m)=gcd(a,m)=gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
+<p>题意<br>求有多少x符合gcd(a+x,m)=gcd(a,m)=gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y<a:
+但由于a+x>m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
 <p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
 <p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
 <p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
@@ -547,6 +549,22 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed87-D</title>
+    <url>/2020/07/08/codeforce-Ed87-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
+<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
+<p>n q&lt;1e6 ai&lt;1e6</p>
+<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x<point, count=m x>=point, count=m+1</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed87-E</title>
     <url>/2020/07/08/codeforce-Ed87-E/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1354/problem/E" target="_blank" rel="noopener">E. Graph Coloring</a></p>
@@ -567,30 +585,18 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed87-D</title>
-    <url>/2020/07/08/codeforce-Ed87-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1354/problem/D" target="_blank" rel="noopener">D. Multiset</a></p>
-<p>题意<br>要求实现一种multiset<br>可以插入数删除数<br>现在原来的multiset有n个数每个数为ai<br>q次操作<br>每次操作输入一个数x<br>若x&gt;0 则插入x<br>若x&lt;0则删除当前set中第|x|个数<br>问最后set中存在什么数输出其中一个</p>
-<p>n q&lt;1e6 ai&lt;1e6</p>
-<p>假设我们要找到最后set中第1个数<br>需要一个函数count能统计出在经过所有操作后set中比某数x小的有几个<br>可以用树状数组维护前缀和 (若n大于1e8)<br>二分枚举某数x查询它是否是set中的第k大 若count(x)==k 那么x就是set中第k大的数<br>为什么二分枚举的数x最后一定会落在set中某一个确定数中,因为二分的依据是判断set中比数x小的数有几个(count函数)<br>最后二分结果一定是逐渐逼近于“临界点”即在某个point 当x&lt;point, count=m x&gt;=point, count=m+1</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e6+5;</span><br><span class="line">int data[Max],ndata[Max];</span><br><span class="line">int n,q;</span><br><span class="line">int count_arr(int bound)&#123;</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)if(data[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)&#123;</span><br><span class="line">        if(ndata[i]&gt;0)&#123;</span><br><span class="line">            if(ndata[i]&lt;&#x3D;bound)cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            if(abs(ndata[i])&lt;&#x3D;cnt)cnt--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return cnt;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    for(int i&#x3D;0;i&lt;q;i++)cin&gt;&gt;ndata[i];</span><br><span class="line">    if(!count_arr(Max))cout&lt;&lt;0&lt;&lt;endl;</span><br><span class="line">    else&#123;</span><br><span class="line">        int L&#x3D;0,R&#x3D;Max,ans&#x3D;0;</span><br><span class="line">        while(L+1&lt;R)&#123;</span><br><span class="line">            int mid&#x3D;(L+R)&gt;&gt;1;</span><br><span class="line">            if(count_arr(mid)&gt;&#x3D;1)&#123;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;mid&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;mid;</span><br><span class="line">                R&#x3D;mid;</span><br><span class="line">            &#125;</span><br><span class="line">            else L&#x3D;mid;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-Ed88-D</title>
     <url>/2020/07/08/codeforce-Ed88-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1359/problem/D" target="_blank" rel="noopener">D. Yet Another Yet Another Task</a></p>
 <p>题意</p>
 <p>长度为n的数组a 其中-30&lt;=ai&lt;=30</p>
 <p>要求找到“区间和-区间最大值”的最大值<br>数组中包含负数<br>因为答案最小为 0<br>所以可以从 1 到 30 枚举可能的区间最大值<br>然后遍历寻找最大子段和<br>如果遍历到位置 i 时，前一段子段和小于 0 ，说明已经不是最优解，此时置nowsum为 0<br>如果遍历到位置 i 时，位置 i 的值 a[i] &gt; 枚举出的区间最大值 mx ，此时不符假设，说明第 i 个位置不可取，nowsum置 0<br>/*<br>或者将原数组中大于mx的数置为负无穷 </p>
-<p>假设最大值L,R 在某个大于mx的数的左边<br>那么他会被nowsum 记录<br>假设最大值L,R 跨越某个大于mx的数<br>那么这个nowsum非法 因为假设L,R中的最大值为mx<br>这等效于某段nowsum&lt;0则删去该子段从当前数后一个数重新开始统计一个子段类似<br>由于子段可以为空那么nowsum不会小于0所以若某个数设为ai使得当前的连续子段和小于0<br>那么这个数一定不会被包括在最终取最大sum值的子段中<br>假设某子段[L,j]包括这个ai那么子段和sum[L~j]=sum[L~i]+sum[i+1~j]<br> sum[L~i]&lt;0那么显然sum[i+1~j]&gt;sum[L~j] 所以直接抛弃[L~i]从i+1开始从新统计sum和</p>
-<p>其次为什么枚举到的区间中最大值若不存在也不会得到错误答案<br>由ans-mx构成的函数图像是<br>ans<br>|       /<br>|     /  |      / |<br>|   /    |    /   |     / |<br>| /      |  /     |   /   |<br>|         |/      |  /    |<br>|                  |/      |<br>|————————–&gt; mx</p>
+<p>假设最大值L,R 在某个大于mx的数的左边<br>那么他会被nowsum 记录<br>假设最大值L,R 跨越某个大于mx的数<br>那么这个nowsum非法 因为假设L,R中的最大值为mx<br>这等效于某段nowsum<0则删去该子段从当前数后一个数重新开始统计一个子段类似
+由于子段可以为空那么nowsum不会小于0所以若某个数设为ai使得当前的连续子段和小于0
+那么这个数一定不会被包括在最终取最大sum值的子段中
+假设某子段[L,j]包括这个ai那么子段和sum[L~j]=sum[L~i]+sum[i+1~j] 
+ sum[L~i]<0那么显然sum[i+1~j]>sum[L~j] 所以直接抛弃[L~i]从i+1开始从新统计sum和</p>
+<p>其次为什么枚举到的区间中最大值若不存在也不会得到错误答案<br>由ans-mx构成的函数图像是<br>ans<br>|       /<br>|     /  |      / |<br>|   /    |    /   |     / |<br>| /      |  /     |   /   |<br>|         |/      |  /    |<br>|                  |/      |<br>|—————————————&gt; mx</p>
 <p>(用txt画图╮(╯▽╰)╭)</p>
 <p>当mx枚举到区间中确实存在的数时函数会存在一个极值点<br>其他不存在的mx都会被更新掉 最后取max的值实际上都是极值点在比较 </p>
 <p>*/</p>
@@ -710,22 +716,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-GlobleRound7-D2</title>
-    <url>/2020/07/08/codeforce-GlobleRound7-D2/</url>
-    <content><![CDATA[<p><a href="https://codeforc.es/problemset/problem/1326/D2" target="_blank" rel="noopener">D2. Prefix-Suffix Palindrome (Hard version)</a></p>
-<p>题意<br>要求从s中找到一个t<br>使得 t的长度不超过s<br>t是回文串<br>存在s的前缀a和后缀b a+b=t<br>|s|&lt;1e5</p>
-<p>题解<br>先从两边取对称的前后缀，之后再取余下字符串较长的回文前缀或后缀用马拉车实现</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">&#x2F;&#x2F;&#x2F;字符串预处理,插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">inline string makestr(string str)&#123;</span><br><span class="line">    string t&#x3D;&quot;#&quot;;&#x2F;&#x2F;&#x2F;在开头和结尾多插入&#39;$&#39;防止越界</span><br><span class="line">    for(int i&#x3D;0;i&lt;str.size();i++)t+&#x3D;str[i],t+&#x3D;&#39;#&#39;;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br><span class="line">string malacher(string str)&#123;</span><br><span class="line">    string t&#x3D;makestr(str);</span><br><span class="line">    &#x2F;&#x2F;cout&lt;&lt;t&lt;&lt;endl;</span><br><span class="line">    vector&lt;int&gt;p(t.size(),0);</span><br><span class="line">    int mx&#x3D;0,id&#x3D;0,ilenth&#x3D;0,icenter&#x3D;0;</span><br><span class="line">    &#x2F;&#x2F;&#x2F;mx 表示当前右侧最远的回文子串右端位置 id 表示当前右侧最远的回文子串中间字符位置</span><br><span class="line">    &#x2F;&#x2F;&#x2F;ilenth表示最长回文子串长度,icenter表示最长回文子串中间位置</span><br><span class="line">    for(int i&#x3D;1;i&lt;t.size();i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;&#x2F;利用mx和id,和回文串对称性质动态更新以任意一个字符为中心的回文串半径</span><br><span class="line">        p[i]&#x3D;i&lt;mx?min(p[2*id-i],mx-i):1;&#x2F;&#x2F;&#x2F;p [2*id-i]&#x3D;p[j] (j是i关于id对称点 因为id-j&#x3D;i-id所以j&#x3D;id-(i-id)&#x3D;2*id-i )</span><br><span class="line">        while(t[i-p[i]]&#x3D;&#x3D;t[i+p[i]])p[i]++;</span><br><span class="line">        if(p[i]+i&gt;mx)&#123;</span><br><span class="line">            mx&#x3D;p[i]+i;</span><br><span class="line">            id&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">        if(p[i]&gt;ilenth)&#123;</span><br><span class="line">            ilenth&#x3D;p[i];</span><br><span class="line">            icenter&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    int Maxlen&#x3D;0;&#x2F;&#x2F;&#x2F;p[i]&#x3D;&#x3D;i+1 以第i位为中心的回文串长度&#x3D;p[i],若它是前缀则长度也&#x3D;i+1(0也计入)</span><br><span class="line">    for(int i&#x3D;0;i&lt;t.size();i++)if(p[i]&#x3D;&#x3D;i+1)Maxlen&#x3D;p[i];&#x2F;&#x2F;&#x2F;此步适应了本题做的改动</span><br><span class="line">    return str.substr(0,Maxlen-1);&#x2F;&#x2F;&#x2F;插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">    &#x2F;&#x2F;&#x2F;首位置,预处理后的长度-1</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        string s;cin&gt;&gt;s;</span><br><span class="line">        int l&#x3D;0,r&#x3D;s.size()-1;</span><br><span class="line">        while(s[l]&#x3D;&#x3D;s[r]&amp;&amp;l&lt;r)l++,r--;</span><br><span class="line">        string s1&#x3D;s.substr(l,r-l+1);</span><br><span class="line">        string s2&#x3D;s1;reverse(s1.begin(),s1.end());</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        s1&#x3D;malacher(s1);</span><br><span class="line">        s2&#x3D;malacher(s2);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;s.substr(0,l)&lt;&lt;(s1.size()&gt;s2.size()?s1:s2)&lt;&lt;s.substr(r+1)&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>字符串</tag>
-        <tag>回文串</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-GlobalRound9-D</title>
     <url>/2020/07/08/codeforce-GlobalRound9-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.ml/contest/1375/problem/D" target="_blank" rel="noopener">D.Replace by MEX</a></p>
@@ -740,6 +730,22 @@
       <tags>
         <tag>MEX</tag>
         <tag>构造</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-GlobleRound7-D2</title>
+    <url>/2020/07/08/codeforce-GlobleRound7-D2/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/problemset/problem/1326/D2" target="_blank" rel="noopener">D2. Prefix-Suffix Palindrome (Hard version)</a></p>
+<p>题意<br>要求从s中找到一个t<br>使得 t的长度不超过s<br>t是回文串<br>存在s的前缀a和后缀b a+b=t<br>|s|&lt;1e5</p>
+<p>题解<br>先从两边取对称的前后缀，之后再取余下字符串较长的回文前缀或后缀用马拉车实现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">&#x2F;&#x2F;&#x2F;字符串预处理,插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">inline string makestr(string str)&#123;</span><br><span class="line">    string t&#x3D;&quot;#&quot;;&#x2F;&#x2F;&#x2F;在开头和结尾多插入&#39;$&#39;防止越界</span><br><span class="line">    for(int i&#x3D;0;i&lt;str.size();i++)t+&#x3D;str[i],t+&#x3D;&#39;#&#39;;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br><span class="line">string malacher(string str)&#123;</span><br><span class="line">    string t&#x3D;makestr(str);</span><br><span class="line">    &#x2F;&#x2F;cout&lt;&lt;t&lt;&lt;endl;</span><br><span class="line">    vector&lt;int&gt;p(t.size(),0);</span><br><span class="line">    int mx&#x3D;0,id&#x3D;0,ilenth&#x3D;0,icenter&#x3D;0;</span><br><span class="line">    &#x2F;&#x2F;&#x2F;mx 表示当前右侧最远的回文子串右端位置 id 表示当前右侧最远的回文子串中间字符位置</span><br><span class="line">    &#x2F;&#x2F;&#x2F;ilenth表示最长回文子串长度,icenter表示最长回文子串中间位置</span><br><span class="line">    for(int i&#x3D;1;i&lt;t.size();i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;&#x2F;利用mx和id,和回文串对称性质动态更新以任意一个字符为中心的回文串半径</span><br><span class="line">        p[i]&#x3D;i&lt;mx?min(p[2*id-i],mx-i):1;&#x2F;&#x2F;&#x2F;p [2*id-i]&#x3D;p[j] (j是i关于id对称点 因为id-j&#x3D;i-id所以j&#x3D;id-(i-id)&#x3D;2*id-i )</span><br><span class="line">        while(t[i-p[i]]&#x3D;&#x3D;t[i+p[i]])p[i]++;</span><br><span class="line">        if(p[i]+i&gt;mx)&#123;</span><br><span class="line">            mx&#x3D;p[i]+i;</span><br><span class="line">            id&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">        if(p[i]&gt;ilenth)&#123;</span><br><span class="line">            ilenth&#x3D;p[i];</span><br><span class="line">            icenter&#x3D;i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    int Maxlen&#x3D;0;&#x2F;&#x2F;&#x2F;p[i]&#x3D;&#x3D;i+1 以第i位为中心的回文串长度&#x3D;p[i],若它是前缀则长度也&#x3D;i+1(0也计入)</span><br><span class="line">    for(int i&#x3D;0;i&lt;t.size();i++)if(p[i]&#x3D;&#x3D;i+1)Maxlen&#x3D;p[i];&#x2F;&#x2F;&#x2F;此步适应了本题做的改动</span><br><span class="line">    return str.substr(0,Maxlen-1);&#x2F;&#x2F;&#x2F;插入#,则实际回文串长度等于插入后半径p[i]-1</span><br><span class="line">    &#x2F;&#x2F;&#x2F;首位置,预处理后的长度-1</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        string s;cin&gt;&gt;s;</span><br><span class="line">        int l&#x3D;0,r&#x3D;s.size()-1;</span><br><span class="line">        while(s[l]&#x3D;&#x3D;s[r]&amp;&amp;l&lt;r)l++,r--;</span><br><span class="line">        string s1&#x3D;s.substr(l,r-l+1);</span><br><span class="line">        string s2&#x3D;s1;reverse(s1.begin(),s1.end());</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        s1&#x3D;malacher(s1);</span><br><span class="line">        s2&#x3D;malacher(s2);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;s1&lt;&lt;&quot; &quot;&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;s.substr(0,l)&lt;&lt;(s1.size()&gt;s2.size()?s1:s2)&lt;&lt;s.substr(r+1)&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+        <tag>回文串</tag>
       </tags>
   </entry>
   <entry>
