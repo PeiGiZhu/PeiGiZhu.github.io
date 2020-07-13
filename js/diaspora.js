@@ -100,7 +100,7 @@ var Diaspora = {
             setTimeout(function() {
                 Diaspora.player();
                 $('#top').show();
-                comment = $("#gitalk-container");
+                comment = $("#comment-container");
                 if (comment.data('ae') == true){
                     comment.click();
                 }
@@ -601,9 +601,10 @@ $(function() {
                 break;
             // comment
             case - 1 != tag.indexOf("comment"): 
-				if($('#gitalk-container').data('enable') == true){
+      
+				if($('#comment-container').data('enable') == true){
 					Diaspora.loading(),
-					comment = $('#gitalk-container');
+					comment = $('#comment-container');
 					gitalk = new Gitalk({
 					  clientID: comment.data('ci'),
 					  clientSecret: comment.data('cs'),
@@ -614,10 +615,32 @@ $(function() {
 					  distractionFreeMode: comment.data('d')
 					})
 					$(".comment").removeClass("link")
-					gitalk.render('gitalk-container')
+					gitalk.render('comment-container')
 					Diaspora.loaded();
-				}else{
-					$('#gitalk-container').html("评论已关闭");
+        }else if ($('.valine_comment').data('enable') == true) {
+          Diaspora.loading(),
+          comment = $('.valine_comment');
+          
+          valine = new Valine({
+            av: AV,
+            el: comment.data('el'),
+            notify: comment.data('notify'),  // 有人回复时的通知
+            verify: comment.data('verify'),  // 回复时的验证码
+            visitor: comment.data('visitor'),
+            avatar: comment.data('avatar'),
+            emoticon_url: comment.data('emurl'),
+            emoticon_list: comment.data('emlist'),
+            app_id: comment.data('appid'),
+            app_key: comment.data('appkey'),
+            pageSize: comment.data('pagesize'),
+            placeholder: comment.data('placeholder')
+          })
+          $(".valine_comment").removeClass("link")
+          // valine.render('valine_comment')
+          Diaspora.loaded();
+        }else{
+          $('#comment-container').html("评论已关闭");
+					// location.reload();
 				}
                 return false;
                 break;
@@ -627,9 +650,13 @@ $(function() {
         }
     })
     // 是否自动展开评论
-    comment = $("#gitalk-container");
+    comment = $("#comment-container");
     if (comment.data('ae') == true){
         comment.click();
+    }
+    comment_valine = $(".valine_comment");
+    if (comment_valine.data('ae') == true){
+      comment_valine.click();
     }
 		
     console.log("%c Github %c","background:#24272A; color:#ffffff","","https://github.com/Fechin/hexo-theme-diaspora")
