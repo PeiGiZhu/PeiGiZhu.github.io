@@ -120,12 +120,11 @@ var _hmt = _hmt || [];
 <p>不会js css也能也能用hexo搭建博客 网上已经有各种比较成熟的资源和解决方案</p>
 <p>当然会更好可以有更高自由度的体验</p>
 <p>hexo提供了框架  剩下的只要跟着搭积木(插件)就行了 </p>
-<p>hexo搭建的主要流程网上已经有许多<a href="https://www.bilibili.com/video/BV1Yb411a7ty?from=search&seid=17266873825643509764" target="_blank" rel="noopener">详细教程</a> 此处不再赘述</p>
+<p>hexo搭建的主要流程网上已经有许多<a href="https://www.bilibili.com/video/BV1Yb411a7ty?from=search&amp;seid=17266873825643509764" target="_blank" rel="noopener">详细教程</a> 此处不再赘述</p>
 <p>在搭建之前请先下载安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a>  <a href="https://npm.taobao.org/mirrors/git-for-windows/" target="_blank" rel="noopener">git</a>  <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo</a>  </p>
 <p>npm（Node Package Manager，节点包管理器）是NodeJS的包管理器，用于节点插件的管理（包括安装，卸载和管理依赖等）。npm是随同新版的NodeJS一起安装的包管理工具，所以我们需要安装NodeJS。</p>
 <p>安装完node.js后在控制台输入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-
 <p>用cnpm 从淘宝源中下载所需插件</p>
 <p>git 主要是用于clone github中的主题和其他插件</p>
 <p>在部署仓库上有三种选择 github / gitee / coding 仓库</p>
@@ -140,7 +139,6 @@ var _hmt = _hmt || [];
 <p>尝试后仍不能解决</p>
 <p>之后将网站根目录的配置文件 _config.yml 中的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:PeiGiZhu&#x2F;PeiGiZhu.github.io.git</span><br><span class="line">    gitee: https:&#x2F;&#x2F;gitee.com&#x2F;peigizhu&#x2F;PeiGiZhu.git</span><br><span class="line">    coding: https:&#x2F;&#x2F;e.coding.net&#x2F;peigizhu&#x2F;peigizhu&#x2F;peigizhu.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
 <p>github: 后面的仓库地址 从 http:// 改为 git@ 后就不再出现</p>
 <p>更改为git@ 需要本地和仓库间需要ssh公钥验证 才能从本地直接将代码部署到仓库</p>
 <p><a href="http://www.bubuko.com/infodetail-3334479.html" target="_blank" rel="noopener">如何生成ssh key</a> </p>
@@ -151,10 +149,9 @@ var _hmt = _hmt || [];
 <p><a href="https://www.jianshu.com/p/a2d298e26dcd" target="_blank" rel="noopener">hexo常用指令</a></p>
 <p>部署时记得先清理缓存</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo g -d &#x2F;&#x2F;&#x2F;一次性清理&amp;生成&amp;部署</span><br></pre></td></tr></table></figure>
-
 <p><a href="https://blog.csdn.net/qitong111/article/details/80217281" target="_blank" rel="noopener">可视化编辑工具-Typora</a>下载</p>
 <p><a href="https://www.cnblogs.com/yyhh/p/11058985.html" target="_blank" rel="noopener">大佬自建博客详细指导</a></p>
-<p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p><a href="https://cloud.tencent.com/developer/article/1381382" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
 <p><strong>在更新文章时发现的问题</strong></p>
@@ -170,9 +167,6 @@ var _hmt = _hmt || [];
 <p>可以在要编辑的md同目录下新建一个img文件夹 </p>
 <p>然后在要插入的地方写入以下html语句</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;img&#x2F;xxx.jpg&quot; width&#x3D;&quot;100px&quot; height&#x3D;&quot;100px&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
-
-
-
 <p>有些主题没有自带百度统计功能 需要手动写入</p>
 <p>具体方法参考<a href="https://www.cnblogs.com/fazero/p/7976651.html" target="_blank" rel="noopener">此处</a></p>
 <p>置顶功能没有达到理想效果 <a href="https://www.cnblogs.com/lqerio/p/11117467.html" target="_blank" rel="noopener">参考</a></p>
@@ -268,68 +262,6 @@ var _hmt = _hmt || [];
             };
         </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 
-
-<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/typed.js"></script>
-<script src="/js/diaspora.js"></script>
-
-
-<link rel="stylesheet" href="/photoswipe/photoswipe.css">
-<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
-
-
-<script src="/photoswipe/photoswipe.min.js"></script>
-<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 

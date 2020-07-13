@@ -120,14 +120,12 @@ var _hmt = _hmt || [];
 <p>题意</p>
 <p>长度为n的数组a 其中-30&lt;=ai&lt;=30</p>
 <p>要求找到“区间和-区间最大值”的最大值<br>数组中包含负数<br>因为答案最小为 0<br>所以可以从 1 到 30 枚举可能的区间最大值<br>然后遍历寻找最大子段和<br>如果遍历到位置 i 时，前一段子段和小于 0 ，说明已经不是最优解，此时置nowsum为 0<br>如果遍历到位置 i 时，位置 i 的值 a[i] &gt; 枚举出的区间最大值 mx ，此时不符假设，说明第 i 个位置不可取，nowsum置 0<br>/*<br>或者将原数组中大于mx的数置为负无穷 </p>
-<p>假设最大值L,R 在某个大于mx的数的左边<br>那么他会被nowsum 记录<br>假设最大值L,R 跨越某个大于mx的数<br>那么这个nowsum非法 因为假设L,R中的最大值为mx<br>这等效于某段nowsum&lt;0则删去该子段从当前数后一个数重新开始统计一个子段类似<br>由于子段可以为空那么nowsum不会小于0所以若某个数设为ai使得当前的连续子段和小于0<br>那么这个数一定不会被包括在最终取最大sum值的子段中<br>假设某子段[L,j]包括这个ai那么子段和sum[L<del>j]=sum[L</del>i]+sum[i+1<del>j]<br> sum[L</del>i]&lt;0那么显然sum[i+1<del>j]&gt;sum[L</del>j] 所以直接抛弃[L~i]从i+1开始从新统计sum和</p>
+<p>假设最大值L,R 在某个大于mx的数的左边<br>那么他会被nowsum 记录<br>假设最大值L,R 跨越某个大于mx的数<br>那么这个nowsum非法 因为假设L,R中的最大值为mx<br>这等效于某段nowsum&lt;0则删去该子段从当前数后一个数重新开始统计一个子段类似<br>由于子段可以为空那么nowsum不会小于0所以若某个数设为ai使得当前的连续子段和小于0<br>那么这个数一定不会被包括在最终取最大sum值的子段中<br>假设某子段[L,j]包括这个ai那么子段和sum[L~j]=sum[L~i]+sum[i+1~j]<br> sum[L~i]&lt;0那么显然sum[i+1~j]&gt;sum[L~j] 所以直接抛弃[L~i]从i+1开始从新统计sum和</p>
 <p>其次为什么枚举到的区间中最大值若不存在也不会得到错误答案<br>由ans-mx构成的函数图像是<br>ans<br>|       /<br>|     /  |      / |<br>|   /    |    /   |     / |<br>| /      |  /     |   /   |<br>|         |/      |  /    |<br>|                  |/      |<br>|————————–&gt; mx</p>
 <p>(用txt画图╮(╯▽╰)╭)</p>
 <p>当mx枚举到区间中确实存在的数时函数会存在一个极值点<br>其他不存在的mx都会被更新掉 最后取max的值实际上都是极值点在比较 </p>
 <p>*/</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line"># define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const ll Max&#x3D;1e5+5;</span><br><span class="line">const int inf&#x3D;1e8;</span><br><span class="line">int data[Max];</span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line">    int sum&#x3D;0;</span><br><span class="line">    for(int num&#x3D;0;num&lt;&#x3D;30;num++)&#123;</span><br><span class="line">        int now&#x3D;0;</span><br><span class="line">        for(int i&#x3D;1;i&lt;&#x3D;n;i++)&#123;</span><br><span class="line">            now+&#x3D;data[i];</span><br><span class="line">            if(now&lt;0||data[i]&gt;num)now&#x3D;0;</span><br><span class="line">            sum&#x3D;max(now-num,sum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
@@ -218,68 +216,6 @@ var _hmt = _hmt || [];
             };
         </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 
-
-<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/typed.js"></script>
-<script src="/js/diaspora.js"></script>
-
-
-<link rel="stylesheet" href="/photoswipe/photoswipe.css">
-<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
-
-
-<script src="/photoswipe/photoswipe.min.js"></script>
-<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
