@@ -11,7 +11,7 @@
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Fechin,"> 
     <meta name="description" content="PeiGiZhu&#39;s Blog,D.Same GCDs
-题意求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;且m&amp;gt;x&amp;gt;=0;直接求phi[m/gcd(a,m)];存在gcd(y,m)=gcd(a,m),"> 
+题意求有多少x符合gcd(a+x,m)=gcd(a,m)=gcd;且m&amp;gt;x&amp;gt;=0;直接求phi[m/gcd(a,m)];存在gcd(y,m)=gcd(a,m) y,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -115,7 +115,7 @@ var _hmt = _hmt || [];
         </div>
         <div class="content markdown">
             <p><a href="https://codeforces.com/problemset/problem/1295/D" target="_blank" rel="noopener">D.Same GCDs</a></p>
-<p>题意<br>求有多少x符合gcd(a+x,m)==gcd(a,m)==gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
+<p>题意<br>求有多少x符合gcd(a+x,m)=gcd(a,m)=gcd;<br>且m&gt;x&gt;=0;<br>直接求phi[m/gcd(a,m)];<br>存在gcd(y,m)=gcd(a,m) y&lt;a:<br>但由于a+x&gt;m,<br>gcd(y,m)=gcd(y+m,m) (更相减损术)<br>y+m&gt;=a且 y+m&lt;a+m </p>
 <p>[a,a+m]中总有一个数z可以通过更相减损变成y</p>
 <p>所以问题变成了有多少个y&lt;a 使得gcd(y,m)=gcd(a,m)</p>
 <p>这里用到一个性质gcd(y,m)=gcd(a,m)=d -&gt; 两边同除d -&gt; gcd(y,m/d)=1</p>
