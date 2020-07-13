@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2015ICPC-沈阳-F</title>
+    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-F/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5514" target="_blank" rel="noopener">F.Frog</a></p>
+<p>题意</p>
+<p>n个青蛙m个石子 下标从0到m-1</p>
+<p>每只青蛙一次条ai格 假如它在x处下次它会在 (ai+x)%m 处</p>
+<p>让这n只青蛙一直跳 求被青蛙跳到的石子下标和 被跳过多次只计算1次</p>
+<p>题解</p>
+<p>不难发现 对于某只青蛙而言它能跳到的石头一定是gcd(a[i],m)的倍数</p>
+<p>而对于某块石头x而言若存在gcd(a[i],m)是x的因子 即 gcd(a[i],m)|m 那它就会被跳到</p>
+<p>那我们对于gcd(a[i],m)=g，它产生的贡献是：</p>
+<p>g ×(首项+末项)× (项数)/2=g×(1+m/g-1)×(m/g-1)/2=m×(m/g-1)/2</p>
+<p>那么问题来了，被重复计算的怎么减掉呢？</p>
+<p>由于gcd(a[i],m)一定是m的因子集合的子集 我们可以用它的因子来计算贡献</p>
+<p>先求出m的所有因子x,存入phi中,再判断这些因子x中哪些是gcd(a[i],m)的倍数</p>
+<p>cnt[x]=1 表示第x个因子是gcd(a[i],m)的倍数 要被计算到贡献中1次</p>
+<p>最后在遍历所有因子 求它们对ans的贡献</p>
+<p>对于第x个因子它产生的贡献是 ：m × (m/phi[x]-1)/2 ×(cnt[x]-repeat[x])</p>
+<p>repeat[x]表示是第x个因子倍数的石子已经被重复计算过的次数 要从贡献中减去</p>
+<p>每次求完这个因子x的贡献后 for循环找出比它大的因子y中有哪些是因子x的倍数</p>
+<p>​并更新 repeat[y]+=（cnt[x]-repeat[x])  表示因子y的贡献被它更小的因子x已经多计算了</p>
+<p> (cnt[x]-repeat[x]) 次 这部分就是容斥原理的体现</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int Max&#x3D;1e5+5;</span><br><span class="line">int gcd[Max],cnt[Max],repeat[Max];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,ti&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        vector&lt;ll&gt;phi;</span><br><span class="line">        memset(cnt,0,sizeof cnt);</span><br><span class="line">        memset(repeat,0,sizeof repeat);</span><br><span class="line">        ll n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ll temp;cin&gt;&gt;temp;</span><br><span class="line">            gcd[i]&#x3D;__gcd(temp,m);</span><br><span class="line">        &#125;</span><br><span class="line">        phi.push_back(1);</span><br><span class="line">        for(int i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i)continue;</span><br><span class="line">            phi.push_back(i);</span><br><span class="line">            if(i*i!&#x3D;m)phi.push_back(m&#x2F;i);</span><br><span class="line">        &#125;</span><br><span class="line">        sort(phi.begin(),phi.end());</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;phi.size();j++)&#123;</span><br><span class="line">                if(phi[j]%gcd[i])continue;</span><br><span class="line">                cnt[j]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;phi.size();i++)&#123;</span><br><span class="line">            if(!cnt[i])continue;</span><br><span class="line">            ans+&#x3D;m*(m&#x2F;phi[i]-1)&#x2F;2*(cnt[i]-repeat[i]);</span><br><span class="line">            for(int j&#x3D;i+1;j&lt;phi.size();j++)&#123;</span><br><span class="line">                if(phi[j]%phi[i])continue;</span><br><span class="line">                repeat[j]+&#x3D;(cnt[i]-repeat[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;ti++&lt;&lt;&quot;: &quot;&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么不能直接通过枚举gcd(a[i],m)容斥直接计算贡献 就是用gcd(a[i],m)组成的集合来计算ans呢</p>
+<p><strong>不加入求m的因子集合</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int Max&#x3D;1e5+5;</span><br><span class="line">int gcd[Max],cnt[Max],repeat[Max];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,ti&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        vector&lt;ll&gt;phi;</span><br><span class="line">        memset(repeat,0,sizeof repeat);</span><br><span class="line">        ll n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ll temp;cin&gt;&gt;temp;</span><br><span class="line">            gcd[i]&#x3D;__gcd(temp,m);</span><br><span class="line">            cnt[i]&#x3D;1;</span><br><span class="line">        &#125;</span><br><span class="line">        sort(gcd,gcd+n);</span><br><span class="line"></span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ans+&#x3D;m*(m&#x2F;gcd[i]-1)&#x2F;2*(cnt[i]-repeat[i]);</span><br><span class="line">            for(int j&#x3D;i+1;j&lt;n;j++)&#123;</span><br><span class="line">                if(gcd[j]%gcd[i])continue;</span><br><span class="line">                repeat[j]+&#x3D;(cnt[i]-repeat[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;ti++&lt;&lt;&quot;: &quot;&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;*</span><br><span class="line">3</span><br><span class="line">2 12</span><br><span class="line">9 10</span><br><span class="line">3 60</span><br><span class="line">22 33 66</span><br><span class="line">9 96</span><br><span class="line">81 40 48 32 64 16 96 42 72</span><br><span class="line">*&#x2F;</span><br><span class="line">&#x2F;&#x2F;&#x2F;对于第一个样例正确答案是42 而不用m的因子的方法得到的答案是48</span><br><span class="line">&#x2F;&#x2F;&#x2F;因为6 是gcd(10,12)&#x3D;2的倍数也是gcd(9,12)&#x3D;3的倍数 若用这种方法无法消除被重复计算的石子的贡献</span><br><span class="line">&#x2F;&#x2F;&#x2F;而用m的因子集合来求贡献就一定可以 因为gcd(a[i],m)的集合是因子集合的子集 </span><br><span class="line">&#x2F;&#x2F;&#x2F;能被跳到的石子一定是m的因子 所以6会被计入因子集合而 gcd的集合中不包括它</span><br></pre></td></tr></table></figure>
+<p>此外还有一种分析</p>
+<p>因为gcd(x,m)|m  所以枚举m的因子 假如对于m的一个因数k，如果存在一个i使得k能被ai整除(能被跳到)，则此时对于所有石头x符合gcd(x,m)==k的都对答案产生贡献：</p>
+<p>∑x,{gcd(x,m)=k} = k*∑x/k,{gcd(x/k,m/k)=1}</p>
+<p>而</p>
+<p>∑x/k,{gcd(x/k,m/k)=1} = φ(m/k)*(m/k)/2</p>
+<p>这里用到一个结论小于n于n互质的数的和 sum=φ(n)*n/2</p>
+<p>推倒 假设一个数xi与n互质 那么 n-xi也与n互质 (更相减损法求gcd)</p>
+<p>所以  sum=(x1 +n-x1)+(x2+n-x2)+…..(xφ(n)+n-xφ(n))/2</p>
+<p>​除2是因为每个与n互质的数都被枚举了2次即(n-xi)=xj </p>
+<p><a href="https://blog.csdn.net/Joker_He/article/details/107085525" target="_blank" rel="noopener">参考博客</a></p>
+]]></content>
+      <categories>
+        <category>ICPC</category>
+      </categories>
+      <tags>
+        <tag>gcd</tag>
+        <tag>数论</tag>
+        <tag>容斥原理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2015ICPC-沈阳-B</title>
+    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
+    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
+<p>题意<br>给出n&lt;500个字符串每个字符串长度不超过2000 要求找到某个最大的i是的对于j&lt;i 存在s[j]不是s[i]的子串</p>
+<p>题解<br>首先想到m*n^2 的算法 </p>
+<p>再根据子串的传递性 :假如a是b的子串 且b是c的子串那么a也是c的子串</p>
+<p>剪枝优化暴力 首先判断两个相邻的是否前一个s[j]是后一个的子串s[i]  </p>
+<p>若是则将前面的标记为1  一直比较s[i]与s[i+1] s[i+1]与s[i+2]….</p>
+<p>对于某个子串s[x] ,x&gt;i 若s[i]是s[x]的子串那么 s[j] ,j&lt;i, 被标记为1的一定都是s[i]的子串也是s[x]的子串</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn &#x3D; 500+5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int n,m;</span><br><span class="line">int nex[maxn];</span><br><span class="line">char s[maxn][2005];</span><br><span class="line"></span><br><span class="line">inline void getnex(char *b)&#123;</span><br><span class="line">    nex[0] &#x3D; -1;</span><br><span class="line">    int len&#x3D;strlen(b);</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;len-1;i++)&#123;</span><br><span class="line">        int j &#x3D; nex[i-1];</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; b[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(b[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        nex[i] &#x3D; j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline int kmp(char *a ,char *b)&#123;</span><br><span class="line">    int  j &#x3D; -1;</span><br><span class="line">    int lena&#x3D;strlen(a),lenb&#x3D;strlen(b);</span><br><span class="line">    getnex(b);</span><br><span class="line">    for(int i&#x3D;0;i&lt;lena;i++)&#123;</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; a[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(a[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        if(j &#x3D;&#x3D; lenb-1) return i-lenb+2;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line">bool vis[505];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;</span><br><span class="line">    scanf(&quot;%d&quot;,&amp;t);</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">        memset(vis,0,sizeof vis);</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            scanf(&quot;%s&quot;,&amp;s[i]);</span><br><span class="line">            &#x2F;&#x2F;vis[i]&#x3D;0;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;n;i++)&#123;</span><br><span class="line">            if(kmp(s[i],s[i-1])&gt;&#x3D;0)&#123;</span><br><span class="line">                vis[i-1]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int ans&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;n-1;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;i;j++)&#123;</span><br><span class="line">                &#x2F;&#x2F;a&#x3D;s[i],b&#x3D;s[j];</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">                if(vis[j])continue;</span><br><span class="line">                if(kmp(s[i],s[j])&gt;&#x3D;0)continue;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;&lt;&lt;s[j]&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;i+1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ans&gt;0)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;&quot;Case #&quot;&lt;&lt; cnt++ &lt;&lt;&quot;: &quot;;</span><br><span class="line">        printf(&quot;Case #%d: %d\n&quot;,cnt++,ans);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ICPC</category>
+      </categories>
+      <tags>
+        <tag>kmp</tag>
+        <tag>暴力</tag>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2015ICPC-沈阳-M</title>
     <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-M/</url>
     <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5521" target="_blank" rel="noopener">M.Meeting</a></p>
@@ -92,74 +160,6 @@
       </tags>
   </entry>
   <entry>
-    <title>2015ICPC-沈阳-F</title>
-    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-F/</url>
-    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5514" target="_blank" rel="noopener">F.Frog</a></p>
-<p>题意</p>
-<p>n个青蛙m个石子 下标从0到m-1</p>
-<p>每只青蛙一次条ai格 假如它在x处下次它会在 (ai+x)%m 处</p>
-<p>让这n只青蛙一直跳 求被青蛙跳到的石子下标和 被跳过多次只计算1次</p>
-<p>题解</p>
-<p>不难发现 对于某只青蛙而言它能跳到的石头一定是gcd(a[i],m)的倍数</p>
-<p>而对于某块石头x而言若存在gcd(a[i],m)是x的因子 即 gcd(a[i],m)|m 那它就会被跳到</p>
-<p>那我们对于gcd(a[i],m)=g，它产生的贡献是：</p>
-<p>g ×(首项+末项)× (项数)/2=g×(1+m/g-1)×(m/g-1)/2=m×(m/g-1)/2</p>
-<p>那么问题来了，被重复计算的怎么减掉呢？</p>
-<p>由于gcd(a[i],m)一定是m的因子集合的子集 我们可以用它的因子来计算贡献</p>
-<p>先求出m的所有因子x,存入phi中,再判断这些因子x中哪些是gcd(a[i],m)的倍数</p>
-<p>cnt[x]=1 表示第x个因子是gcd(a[i],m)的倍数 要被计算到贡献中1次</p>
-<p>最后在遍历所有因子 求它们对ans的贡献</p>
-<p>对于第x个因子它产生的贡献是 ：m × (m/phi[x]-1)/2 ×(cnt[x]-repeat[x])</p>
-<p>repeat[x]表示是第x个因子倍数的石子已经被重复计算过的次数 要从贡献中减去</p>
-<p>每次求完这个因子x的贡献后 for循环找出比它大的因子y中有哪些是因子x的倍数</p>
-<p>​并更新 repeat[y]+=（cnt[x]-repeat[x])  表示因子y的贡献被它更小的因子x已经多计算了</p>
-<p> (cnt[x]-repeat[x]) 次 这部分就是容斥原理的体现</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int Max&#x3D;1e5+5;</span><br><span class="line">int gcd[Max],cnt[Max],repeat[Max];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,ti&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        vector&lt;ll&gt;phi;</span><br><span class="line">        memset(cnt,0,sizeof cnt);</span><br><span class="line">        memset(repeat,0,sizeof repeat);</span><br><span class="line">        ll n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ll temp;cin&gt;&gt;temp;</span><br><span class="line">            gcd[i]&#x3D;__gcd(temp,m);</span><br><span class="line">        &#125;</span><br><span class="line">        phi.push_back(1);</span><br><span class="line">        for(int i&#x3D;2;i*i&lt;&#x3D;m;i++)&#123;</span><br><span class="line">            if(m%i)continue;</span><br><span class="line">            phi.push_back(i);</span><br><span class="line">            if(i*i!&#x3D;m)phi.push_back(m&#x2F;i);</span><br><span class="line">        &#125;</span><br><span class="line">        sort(phi.begin(),phi.end());</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;phi.size();j++)&#123;</span><br><span class="line">                if(phi[j]%gcd[i])continue;</span><br><span class="line">                cnt[j]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;phi.size();i++)&#123;</span><br><span class="line">            if(!cnt[i])continue;</span><br><span class="line">            ans+&#x3D;m*(m&#x2F;phi[i]-1)&#x2F;2*(cnt[i]-repeat[i]);</span><br><span class="line">            for(int j&#x3D;i+1;j&lt;phi.size();j++)&#123;</span><br><span class="line">                if(phi[j]%phi[i])continue;</span><br><span class="line">                repeat[j]+&#x3D;(cnt[i]-repeat[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;ti++&lt;&lt;&quot;: &quot;&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>为什么不能直接通过枚举gcd(a[i],m)容斥直接计算贡献 就是用gcd(a[i],m)组成的集合来计算ans呢</p>
-<p><strong>不加入求m的因子集合</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int Max&#x3D;1e5+5;</span><br><span class="line">int gcd[Max],cnt[Max],repeat[Max];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t,ti&#x3D;1;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        vector&lt;ll&gt;phi;</span><br><span class="line">        memset(repeat,0,sizeof repeat);</span><br><span class="line">        ll n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ll temp;cin&gt;&gt;temp;</span><br><span class="line">            gcd[i]&#x3D;__gcd(temp,m);</span><br><span class="line">            cnt[i]&#x3D;1;</span><br><span class="line">        &#125;</span><br><span class="line">        sort(gcd,gcd+n);</span><br><span class="line"></span><br><span class="line">        ll ans&#x3D;0;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            ans+&#x3D;m*(m&#x2F;gcd[i]-1)&#x2F;2*(cnt[i]-repeat[i]);</span><br><span class="line">            for(int j&#x3D;i+1;j&lt;n;j++)&#123;</span><br><span class="line">                if(gcd[j]%gcd[i])continue;</span><br><span class="line">                repeat[j]+&#x3D;(cnt[i]-repeat[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;&quot;Case #&quot;&lt;&lt;ti++&lt;&lt;&quot;: &quot;&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;*</span><br><span class="line">3</span><br><span class="line">2 12</span><br><span class="line">9 10</span><br><span class="line">3 60</span><br><span class="line">22 33 66</span><br><span class="line">9 96</span><br><span class="line">81 40 48 32 64 16 96 42 72</span><br><span class="line">*&#x2F;</span><br><span class="line">&#x2F;&#x2F;&#x2F;对于第一个样例正确答案是42 而不用m的因子的方法得到的答案是48</span><br><span class="line">&#x2F;&#x2F;&#x2F;因为6 是gcd(10,12)&#x3D;2的倍数也是gcd(9,12)&#x3D;3的倍数 若用这种方法无法消除被重复计算的石子的贡献</span><br><span class="line">&#x2F;&#x2F;&#x2F;而用m的因子集合来求贡献就一定可以 因为gcd(a[i],m)的集合是因子集合的子集 </span><br><span class="line">&#x2F;&#x2F;&#x2F;能被跳到的石子一定是m的因子 所以6会被计入因子集合而 gcd的集合中不包括它</span><br></pre></td></tr></table></figure>
-<p>此外还有一种分析</p>
-<p>因为gcd(x,m)|m  所以枚举m的因子 假如对于m的一个因数k，如果存在一个i使得k能被ai整除(能被跳到)，则此时对于所有石头x符合gcd(x,m)==k的都对答案产生贡献：</p>
-<p>∑x,{gcd(x,m)=k} = k*∑x/k,{gcd(x/k,m/k)=1}</p>
-<p>而</p>
-<p>∑x/k,{gcd(x/k,m/k)=1} = φ(m/k)*(m/k)/2</p>
-<p>这里用到一个结论小于n于n互质的数的和 sum=φ(n)*n/2</p>
-<p>推倒 假设一个数xi与n互质 那么 n-xi也与n互质 (更相减损法求gcd)</p>
-<p>所以  sum=(x1 +n-x1)+(x2+n-x2)+…..(xφ(n)+n-xφ(n))/2</p>
-<p>​除2是因为每个与n互质的数都被枚举了2次即(n-xi)=xj </p>
-<p><a href="https://blog.csdn.net/Joker_He/article/details/107085525" target="_blank" rel="noopener">参考博客</a></p>
-]]></content>
-      <categories>
-        <category>ICPC</category>
-      </categories>
-      <tags>
-        <tag>gcd</tag>
-        <tag>数论</tag>
-        <tag>容斥原理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2015ICPC-沈阳-B</title>
-    <url>/2020/07/12/2015ICPC-%E6%B2%88%E9%98%B3-B/</url>
-    <content><![CDATA[<p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=5510" target="_blank" rel="noopener">B.Bazinga</a></p>
-<p>题意<br>给出n&lt;500个字符串每个字符串长度不超过2000 要求找到某个最大的i是的对于j&lt;i 存在s[j]不是s[i]的子串</p>
-<p>题解<br>首先想到m*n^2 的算法 </p>
-<p>再根据子串的传递性 :假如a是b的子串 且b是c的子串那么a也是c的子串</p>
-<p>剪枝优化暴力 首先判断两个相邻的是否前一个s[j]是后一个的子串s[i]  </p>
-<p>若是则将前面的标记为1  一直比较s[i]与s[i+1] s[i+1]与s[i+2]….</p>
-<p>对于某个子串s[x] ,x&gt;i 若s[i]是s[x]的子串那么 s[j] ,j&lt;i, 被标记为1的一定都是s[i]的子串也是s[x]的子串</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line"></span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">const int maxn &#x3D; 500+5;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int n,m;</span><br><span class="line">int nex[maxn];</span><br><span class="line">char s[maxn][2005];</span><br><span class="line"></span><br><span class="line">inline void getnex(char *b)&#123;</span><br><span class="line">    nex[0] &#x3D; -1;</span><br><span class="line">    int len&#x3D;strlen(b);</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;len-1;i++)&#123;</span><br><span class="line">        int j &#x3D; nex[i-1];</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; b[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(b[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        nex[i] &#x3D; j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline int kmp(char *a ,char *b)&#123;</span><br><span class="line">    int  j &#x3D; -1;</span><br><span class="line">    int lena&#x3D;strlen(a),lenb&#x3D;strlen(b);</span><br><span class="line">    getnex(b);</span><br><span class="line">    for(int i&#x3D;0;i&lt;lena;i++)&#123;</span><br><span class="line">        while(j &gt;&#x3D; 0 &amp;&amp; a[i] !&#x3D; b[j+1]) j &#x3D; nex[j];</span><br><span class="line">        if(a[i] &#x3D;&#x3D; b[j+1]) ++j;</span><br><span class="line">        if(j &#x3D;&#x3D; lenb-1) return i-lenb+2;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line">bool vis[505];</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    &#x2F;&#x2F;Turnoff;</span><br><span class="line">    int t,cnt&#x3D;1;</span><br><span class="line">    scanf(&quot;%d&quot;,&amp;t);</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        int n;scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">        memset(vis,0,sizeof vis);</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            scanf(&quot;%s&quot;,&amp;s[i]);</span><br><span class="line">            &#x2F;&#x2F;vis[i]&#x3D;0;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;1;i&lt;n;i++)&#123;</span><br><span class="line">            if(kmp(s[i],s[i-1])&gt;&#x3D;0)&#123;</span><br><span class="line">                vis[i-1]&#x3D;1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int ans&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;n-1;i&gt;&#x3D;1;i--)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;i;j++)&#123;</span><br><span class="line">                &#x2F;&#x2F;a&#x3D;s[i],b&#x3D;s[j];</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">                if(vis[j])continue;</span><br><span class="line">                if(kmp(s[i],s[j])&gt;&#x3D;0)continue;</span><br><span class="line">                &#x2F;&#x2F;cout&lt;&lt;s[i]&lt;&lt;&quot; &quot;&lt;&lt;s[j]&lt;&lt;endl;</span><br><span class="line">                ans&#x3D;i+1;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(ans&gt;0)break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;&quot;Case #&quot;&lt;&lt; cnt++ &lt;&lt;&quot;: &quot;;</span><br><span class="line">        printf(&quot;Case #%d: %d\n&quot;,cnt++,ans);</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ICPC</category>
-      </categories>
-      <tags>
-        <tag>kmp</tag>
-        <tag>暴力</tag>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-#615-C</title>
     <url>/2020/07/08/codeforce-615-C/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/1294/problem/C" target="_blank" rel="noopener">C. Product of Three Numbers</a></p>
@@ -175,30 +175,6 @@
       <tags>
         <tag>暴力</tag>
         <tag>唯一分解定理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-#428-D</title>
-    <url>/2020/07/08/codeforce-428-D/</url>
-    <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
-<p>题意</p>
-<p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
-<p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
-<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6
-找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </p>
-<p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;</p>
-<p>∑k=∑len <em>C(x,len) ,(len=1,2,3,,,,x) = x </em> 2^ {x-1}</p>
-<p>/<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;1e9+7;</span><br><span class="line">ll num[(int)1e6+5];</span><br><span class="line">ll dp[(int)1e6+6];</span><br><span class="line">ll qpow(ll x,ll y)&#123;</span><br><span class="line">    ll ans&#x3D;1;</span><br><span class="line">    while(y)&#123;</span><br><span class="line">        if(y&amp;1)ans&#x3D;(ans*x)%mod;</span><br><span class="line">        y&gt;&gt;&#x3D;1;x&#x3D;(x*x)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    ll maxn&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">        ll x;cin&gt;&gt;x;</span><br><span class="line">        num[x]++;</span><br><span class="line">        maxn&#x3D;max(maxn,x);</span><br><span class="line">    &#125;</span><br><span class="line">    ll ans&#x3D;0;</span><br><span class="line">    for(ll i&#x3D;maxn;i&gt;1;i--)&#123;</span><br><span class="line">        ll x&#x3D;0,sum&#x3D;num[i];</span><br><span class="line">        for(ll j&#x3D;2*i;j&lt;&#x3D;maxn;j+&#x3D;i)&#123;</span><br><span class="line">            x&#x3D;(x+dp[j])%mod;</span><br><span class="line">            sum&#x3D;(sum+num[j])%mod;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;j;</span><br><span class="line">        &#125;</span><br><span class="line">        if(!sum)continue;</span><br><span class="line">        dp[i]&#x3D;(mod+(sum%mod*qpow(2,sum-1)%mod)%mod-x)%mod;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;i;</span><br><span class="line">        ans&#x3D;(ans+(i*dp[i])%mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>gcd</tag>
-        <tag>容斥原理</tag>
-        <tag>dp</tag>
-        <tag>组合数</tag>
       </tags>
   </entry>
   <entry>
@@ -239,35 +215,26 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-#654-E1</title>
-    <url>/2020/07/09/codeforce-654-E1/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
+    <title>codeforce-#428-D</title>
+    <url>/2020/07/08/codeforce-428-D/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
 <p>题意</p>
-<p>一个玩家初始能力值为x (x未知)</p>
-<p>有n个敌人 每个敌人有能力值pi</p>
-<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
-<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
-<p>否则跳过这个敌人玩家能力不变</p>
-<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
-<p>现在问对于已知n个敌人能力值和一个素数p</p>
-<p>有多少种x使得f(x)%p !=0</p>
-<p>输出种类数m 并升序输出所有x</p>
-<p>题解</p>
-<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
-<p>每次击败一个敌人自身能力值x都会+1 </p>
-<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
-<p>以此类推那么对于一个初始能力值为x的玩家</p>
-<p>$$<br>f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….<br>$$<br>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
-<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
-<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
-<p>每次On计算f(x) 总复杂度On^2</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
+<p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
+<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6
+找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </p>
+<p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;</p>
+<p>∑k=∑len <em>C(x,len) ,(len=1,2,3,,,,x) = x </em> 2^ {x-1}</p>
+<p>/<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;1e9+7;</span><br><span class="line">ll num[(int)1e6+5];</span><br><span class="line">ll dp[(int)1e6+6];</span><br><span class="line">ll qpow(ll x,ll y)&#123;</span><br><span class="line">    ll ans&#x3D;1;</span><br><span class="line">    while(y)&#123;</span><br><span class="line">        if(y&amp;1)ans&#x3D;(ans*x)%mod;</span><br><span class="line">        y&gt;&gt;&#x3D;1;x&#x3D;(x*x)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n;cin&gt;&gt;n;</span><br><span class="line">    ll maxn&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">        ll x;cin&gt;&gt;x;</span><br><span class="line">        num[x]++;</span><br><span class="line">        maxn&#x3D;max(maxn,x);</span><br><span class="line">    &#125;</span><br><span class="line">    ll ans&#x3D;0;</span><br><span class="line">    for(ll i&#x3D;maxn;i&gt;1;i--)&#123;</span><br><span class="line">        ll x&#x3D;0,sum&#x3D;num[i];</span><br><span class="line">        for(ll j&#x3D;2*i;j&lt;&#x3D;maxn;j+&#x3D;i)&#123;</span><br><span class="line">            x&#x3D;(x+dp[j])%mod;</span><br><span class="line">            sum&#x3D;(sum+num[j])%mod;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;j;</span><br><span class="line">        &#125;</span><br><span class="line">        if(!sum)continue;</span><br><span class="line">        dp[i]&#x3D;(mod+(sum%mod*qpow(2,sum-1)%mod)%mod-x)%mod;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;i;</span><br><span class="line">        ans&#x3D;(ans+(i*dp[i])%mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>暴力</tag>
+        <tag>gcd</tag>
+        <tag>容斥原理</tag>
+        <tag>dp</tag>
         <tag>组合数</tag>
       </tags>
   </entry>
@@ -306,6 +273,39 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-#654-E1</title>
+    <url>/2020/07/09/codeforce-654-E1/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1371/E1" target="_blank" rel="noopener">E1. Asterism (Easy Version)</a></p>
+<p>题意</p>
+<p>一个玩家初始能力值为x (x未知)</p>
+<p>有n个敌人 每个敌人有能力值pi</p>
+<p>玩家需要以某种顺序逐个挑战每个敌人 </p>
+<p>当玩家能力值x&gt;=当前敌人能力值pi 那么可以击败它 然后玩家能力值x++</p>
+<p>否则跳过这个敌人玩家能力不变</p>
+<p>定义f(x)为 玩家初始能力为x时 有多少种不同的挑战顺序能击败所有敌人</p>
+<p>现在问对于已知n个敌人能力值和一个素数p</p>
+<p>有多少种x使得f(x)%p !=0</p>
+<p>输出种类数m 并升序输出所有x</p>
+<p>题解</p>
+<p>从变化中寻找不变的因素 一个显然的事实是 无论以哪种顺序依次击败所有敌人</p>
+<p>每次击败一个敌人自身能力值x都会+1 </p>
+<p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
+<p>以此类推那么对于一个初始能力值为x的玩家</p>
+<p>$$<br>f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….<br>$$<br>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
+<p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
+<p>每次On计算f(x) 总复杂度On^2</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl &#39;\n&#39;</span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(false)</span><br><span class="line">const int Max&#x3D;2e3+5;</span><br><span class="line">const int mod&#x3D;2e3;</span><br><span class="line">int data[Max],cnt[Max];</span><br><span class="line">vector&lt;int&gt;ans;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int n,p;cin&gt;&gt;n&gt;&gt;p;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)cin&gt;&gt;data[i];</span><br><span class="line"></span><br><span class="line">    sort(data+1,data+n+1);</span><br><span class="line">    for(ll x&#x3D;1;x&lt;&#x3D;data[n];x++)&#123;</span><br><span class="line">        ll now&#x3D;x,pos&#x3D;1,temp&#x3D;1;</span><br><span class="line">        for(ll eatten&#x3D;0;eatten&lt;n;)&#123;</span><br><span class="line">            while(pos&lt;&#x3D;n&amp;&amp;data[pos]&lt;&#x3D;now)pos++;</span><br><span class="line">            temp&#x3D;(pos-eatten-1)%p;</span><br><span class="line">            if(!temp)break;</span><br><span class="line">            &#x2F;&#x2F;f&#x3D;(f*temp)%p;</span><br><span class="line">            eatten++;now++;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;endl;</span><br><span class="line">        if(temp)ans.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans.size()&lt;&lt;endl;</span><br><span class="line">    for(auto i:ans)cout&lt;&lt;i&lt;&lt;&quot; &quot;;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>暴力</tag>
+        <tag>组合数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed77-C</title>
     <url>/2020/07/08/codeforce-Ed77-C/</url>
     <content><![CDATA[<p><a href="http://codeforces.ml/contest/1260/problem/C" target="_blank" rel="noopener">C. Infinite Fence</a></p>
@@ -324,22 +324,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed78-B</title>
-    <url>/2020/07/08/codeforce-Ed78-B/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
-<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
-<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>枚举</tag>
-        <tag>数学</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforce-Ed77-D</title>
     <url>/2020/07/08/codeforce-Ed77-D/</url>
     <content><![CDATA[<p><a href="https://codeforces.com/contest/1260/problem/D" target="_blank" rel="noopener">D. A Game with Traps</a></p>
@@ -353,6 +337,22 @@
       <tags>
         <tag>二分</tag>
         <tag>差分前缀</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforce-Ed78-B</title>
+    <url>/2020/07/08/codeforce-Ed78-B/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1278/problem/B" target="_blank" rel="noopener">B. A and B</a></p>
+<p>题意<br>给出两个数 a b<br>第i次操作可以给a+=i或给b+=i；<br>问最少几次操作使得a==b</p>
+<p>启发点:因为对于两数和a’+b’=sum一定等于a+b+(n+1)*n/2<br>a’==b’所以sum%2==0 且有a’&gt;=a b’&gt;=b<br>循环累加i判断是否成立即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include &lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    while(t--)&#123;</span><br><span class="line">        ll a,b;cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        ll sum&#x3D;a+b;ll i&#x3D;1;</span><br><span class="line">        while(sum%2!&#x3D;0||sum&#x2F;2&lt;a||sum&#x2F;2&lt;b)&#123;</span><br><span class="line">            sum+&#x3D;i;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;i-1&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>枚举</tag>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -377,6 +377,23 @@
       </tags>
   </entry>
   <entry>
+    <title>codeforce-Ed80-C</title>
+    <url>/2020/07/08/codeforce-Ed80-C/</url>
+    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
+<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
+<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforce</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+        <tag>构造</tag>
+        <tag>问题转化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>codeforce-Ed81-B</title>
     <url>/2020/07/08/codeforce-Ed81-B/</url>
     <content><![CDATA[<p><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fcodeforces.com%2Fcontest%2F1295%2Fproblem%2FB" target="_blank" rel="noopener">B - Infinite Prefixes</a></p>
@@ -394,20 +411,20 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforce-Ed80-C</title>
-    <url>/2020/07/08/codeforce-Ed80-C/</url>
-    <content><![CDATA[<p><a href="http://codeforces.ml/contest/1288/problem/C" target="_blank" rel="noopener">C. Two Arrays</a></p>
-<p>题意<br>要求构造出两个长度为m 且每一位数在1到n之间取值的数列a b<br>且 a要为非递减 b要为非递增<br>ai&lt;=bi<br>问能构造出多少对a和b</p>
-<p>由于am&lt;=bm &amp;&amp; a非递减 b非递增<br>那么问题转化为构造 一个长为2*m的非递减数列且每个数在1到n之间的方案数 mod1e9+7 </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"># define endl &quot;\n&quot;</span><br><span class="line"></span><br><span class="line">typedef long long ll;</span><br><span class="line">const ll mod&#x3D;(ll)1e9+7;</span><br><span class="line">ll sum[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为1~j的方案数</span><br><span class="line">ll dp[30][1005];&#x2F;&#x2F;&#x2F; 表示第i个数为j的方案数</span><br><span class="line">int main()&#123;</span><br><span class="line">    int n,m;cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;n;i++)sum[0][i]&#x3D;1;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;2*m;i++)&#123;</span><br><span class="line">        for(int j&#x3D;1;j&lt;&#x3D;n;j++)&#123;</span><br><span class="line">            dp[i][j]&#x3D;(dp[i][j]+sum[i-1][j])%mod;</span><br><span class="line">            sum[i][j]&#x3D;(sum[i][j-1]+dp[i][j])%mod;&#x2F;&#x2F;&#x2F;前缀和优化dp</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;sum[2*m][n]&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>codeforce-Ed81-C</title>
+    <url>/2020/07/08/codeforce-Ed81-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
+<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
+<p>题解</p>
+<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>codeforce</category>
       </categories>
       <tags>
-        <tag>dp</tag>
-        <tag>构造</tag>
-        <tag>问题转化</tag>
+        <tag>字符串</tag>
+        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -430,23 +447,6 @@
         <tag>数论</tag>
         <tag>欧拉函数</tag>
         <tag>更相减损法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>codeforce-Ed81-C</title>
-    <url>/2020/07/08/codeforce-Ed81-C/</url>
-    <content><![CDATA[<p><a href="https://codeforces.com/contest/1295/problem/C" target="_blank" rel="noopener">C - Obtain The String</a></p>
-<p>题意<br>给出s串 和目标串t<br>你可以从s串中取出任意子序列拼接<br>问最少取出几个子序列才能拼出目标串t</p>
-<p>题解</p>
-<p>发现 如果t串某个字母需要取到 t上一个字母在s串中取得字符的位置之前<br>那么结果就需要增加一个子序列产能拼接出t</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># include&lt;bits&#x2F;stdc++.h&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line"># define IO std::ios::sync_with_stdio(false);</span><br><span class="line"></span><br><span class="line"># define endl &#39;\n&#39;</span><br><span class="line"></span><br><span class="line">string s,t;</span><br><span class="line">const int maxn&#x3D;(int)1e6+5;</span><br><span class="line">int first[30];</span><br><span class="line">int have[30][(int)1e5+5];</span><br><span class="line">int main() &#123;</span><br><span class="line">    int T;cin&gt;&gt;T;</span><br><span class="line">    while(T--)&#123;</span><br><span class="line">        cin&gt;&gt;s&gt;&gt;t;</span><br><span class="line">        int lens&#x3D;s.size();</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)first[i]&#x3D;-1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lens;i++)&#123;</span><br><span class="line">            if(first[s[i]-&#39;a&#39;]&#x3D;&#x3D;-1)first[s[i]-&#39;a&#39;]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)have[j][i]&#x3D;maxn;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;30;i++)have[i][lens]&#x3D;maxn;</span><br><span class="line">        for(int i&#x3D;lens-1;i&gt;&#x3D;0;i--)&#123;</span><br><span class="line">            have[s[i]-&#39;a&#39;][i]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;0;j&lt;30;j++)&#123;</span><br><span class="line">                have[j][i]&#x3D;min(have[j][i],have[j][i+1]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int lent&#x3D;t.size();int per&#x3D;-1,ans&#x3D;1;bool flag&#x3D;1;</span><br><span class="line">        for(int i&#x3D;0;i&lt;lent;i++)&#123;</span><br><span class="line">            &#x2F;&#x2F;cout&lt;&lt;first[t[i]-&#39;a&#39;]&lt;&lt;&quot; &quot;&lt;&lt;per&lt;&lt;endl;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&#x3D;&#x3D;-1)&#123;flag&#x3D;0;break;&#125;</span><br><span class="line">            bool vis&#x3D;0;</span><br><span class="line">            if(first[t[i]-&#39;a&#39;]&lt;&#x3D;per&amp;&amp;have[t[i]-&#39;a&#39;][per+1]&#x3D;&#x3D;maxn)ans++,vis&#x3D;1;</span><br><span class="line">            if(vis)per&#x3D;first[t[i]-&#39;a&#39;];</span><br><span class="line">            else per&#x3D;have[t[i]-&#39;a&#39;][per+1];</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        if(flag)cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">        else cout&lt;&lt;-1&lt;&lt;endl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>codeforce</category>
-      </categories>
-      <tags>
-        <tag>字符串</tag>
-        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -752,7 +752,7 @@
 <p>categories 分类</p>
 <p><strong>7.9日更新</strong></p>
 <p>同步部署到gitee/github/coding的仓库中</p>
-<p>gitee ：<a href="https://peigizhu.gitee.io" target="_blank" rel="noopener">https://peigizhu.gitee.io</a> (不能自动部署)</p>
+<p>gitee ：<a href="https://peigizhu.gitee.io">https://peigizhu.gitee.io</a> (不能自动部署)</p>
 <p>github: <a href="https://peigizhu.github.io" target="_blank" rel="noopener">https://peigizhu.github.io</a> (访问加载缓慢)</p>
 <p>coding: <a href="http://551qze.coding-pages.com" target="_blank" rel="noopener">http://551qze.coding-pages.com</a> (地址难记)</p>
 <p>加入图片lazy_load </p>
