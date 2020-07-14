@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 <p>在搭建之前请先下载安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a>  <a href="https://npm.taobao.org/mirrors/git-for-windows/" target="_blank" rel="noopener">git</a>  <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo</a>  </p>
 <p>npm（Node Package Manager，节点包管理器）是NodeJS的包管理器，用于节点插件的管理（包括安装，卸载和管理依赖等）。npm是随同新版的NodeJS一起安装的包管理工具，所以我们需要安装NodeJS。</p>
 <p>安装完node.js后在控制台输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">npm</span> install cnpm -g --registry=https://registry.<span class="built_in">npm</span>.taobao.org</span><br></pre></td></tr></table></figure>
 <p>用cnpm 从淘宝源中下载所需插件</p>
 <p>git 主要是用于clone github中的主题和其他插件</p>
 <p>在部署仓库上有三种选择 github / gitee / coding 仓库</p>
@@ -138,7 +138,7 @@ var _hmt = _hmt || [];
 <p><a href="https://blog.csdn.net/feitianlongfei/article/details/80904347" target="_blank" rel="noopener">解决方法一</a></p>
 <p>尝试后仍不能解决</p>
 <p>之后将网站根目录的配置文件 _config.yml 中的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: </span><br><span class="line">    github: git@github.com:PeiGiZhu&#x2F;PeiGiZhu.github.io.git</span><br><span class="line">    gitee: https:&#x2F;&#x2F;gitee.com&#x2F;peigizhu&#x2F;PeiGiZhu.git</span><br><span class="line">    coding: https:&#x2F;&#x2F;e.coding.net&#x2F;peigizhu&#x2F;peigizhu&#x2F;peigizhu.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>: </span><br><span class="line">    <span class="attribute">github</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:PeiGiZhu/PeiGiZhu.github.io.git</span><br><span class="line">    <span class="attribute">gitee</span>: <span class="attribute">https</span>:<span class="comment">//gitee.com/peigizhu/PeiGiZhu.git</span></span><br><span class="line">    <span class="attribute">coding</span>: <span class="attribute">https</span>:<span class="comment">//e.coding.net/peigizhu/peigizhu/peigizhu.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
 <p>github: 后面的仓库地址 从 http:// 改为 git@ 后就不再出现</p>
 <p>更改为git@ 需要本地和仓库间需要ssh公钥验证 才能从本地直接将代码部署到仓库</p>
 <p><a href="http://www.bubuko.com/infodetail-3334479.html" target="_blank" rel="noopener">如何生成ssh key</a> </p>
@@ -148,7 +148,7 @@ var _hmt = _hmt || [];
 <p><a href="https://www.jianshu.com/p/79bd6fb15790" target="_blank" rel="noopener">这篇博客</a>里有图文流程可以参考</p>
 <p><a href="https://www.jianshu.com/p/a2d298e26dcd" target="_blank" rel="noopener">hexo常用指令</a></p>
 <p>部署时记得先清理缓存</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp; hexo g -d &#x2F;&#x2F;&#x2F;一次性清理&amp;生成&amp;部署</span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean <span class="meta">&amp; hexo g -d <span class="comment">///一次性清理&amp;生成&amp;部署</span></span></span><br></pre></td></tr></table></figure>
 <p><a href="https://blog.csdn.net/qitong111/article/details/80217281" target="_blank" rel="noopener">可视化编辑工具-Typora</a>下载</p>
 <p><a href="https://www.cnblogs.com/yyhh/p/11058985.html" target="_blank" rel="noopener">大佬自建博客详细指导</a></p>
 <p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
@@ -166,7 +166,7 @@ var _hmt = _hmt || [];
 <p>typora插入图片 网页中不显示？<a href="https://blog.csdn.net/xh13096/article/details/103510129" target="_blank" rel="noopener">原因</a></p>
 <p>可以在要编辑的md同目录下新建一个img文件夹 </p>
 <p>然后在要插入的地方写入以下html语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;img&#x2F;xxx.jpg&quot; width&#x3D;&quot;100px&quot; height&#x3D;&quot;100px&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">"img/xxx.jpg"</span> <span class="attribute">width</span>=<span class="string">"100px"</span> <span class="attribute">height</span>=<span class="string">"100px"</span> /&gt;</span><br></pre></td></tr></table></figure>
 <p>有些主题没有自带百度统计功能 需要手动写入</p>
 <p>具体方法参考<a href="https://www.cnblogs.com/fazero/p/7976651.html" target="_blank" rel="noopener">此处</a></p>
 <p>置顶功能没有达到理想效果 <a href="https://www.cnblogs.com/lqerio/p/11117467.html" target="_blank" rel="noopener">参考</a></p>
@@ -198,7 +198,7 @@ var _hmt = _hmt || [];
         
         
           <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
-            <!--载入js，在<script>
+            <!--载入js，在<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":true,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script><script>
             window.imageLazyLoadSetting = {
                 isSPA: false,
                 processImages: null,
@@ -213,7 +213,7 @@ var _hmt = _hmt || [];
                 isSPA: false,
                 processImages: null,
             };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":true,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>之前插入即可-->
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
 <!--Leancloud 操作库:-->
 <!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
 <!--Valine 的核心代码库-->
@@ -255,12 +255,12 @@ var _hmt = _hmt || [];
 
     </div>
 </div>
-<script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":true,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script><script>
             window.imageLazyLoadSetting = {
                 isSPA: false,
                 processImages: null,
             };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":true,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":145,"height":315},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 
 
 
