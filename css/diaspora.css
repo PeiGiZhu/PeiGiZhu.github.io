@@ -192,6 +192,7 @@ h1.title {font-size:30px;color:#333;line-height:1.3;position:relative;font-weigh
 .icon-wechat:before{content:"\e603"}
 .icon-left:before{content:"\e604"}
 
+
 /* tags style  */
 .post-tags-list {margin-top:10px;display:table;}
 .post-tags-list-item {float:left;margin-right:10px;background:rgba(102,128,153,0.075);border-radius:0;padding:2px 5px;}
