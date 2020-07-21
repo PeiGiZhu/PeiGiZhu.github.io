@@ -122,17 +122,21 @@ var _hmt = _hmt || [];
         <div class="content markdown">
             <blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
 <p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example1.png">
+
+
+
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
-<p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_flowchart.png">
+
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
 <h3 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h3><blockquote>
 <p>在向前传播过程中具体包括: </p>
@@ -141,7 +145,8 @@ var _hmt = _hmt || [];
 </blockquote>
 <h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动==步长(stride)==、==填充长度(padding)==、==卷积核窗口大(filtersize)==、==分组数(groups)==、==扩张系数(dilation rate)== 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example3.png">
+
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
 <p>比如特征图 为RGB三通道 6×6的 三维矩阵</p>
 <p>每层对应的Xi×Yi 最后求和 得到Fi</p>
@@ -149,7 +154,8 @@ var _hmt = _hmt || [];
 <p>由于处于特征图边缘的值对卷积结果影响较小(参与<strong>运算</strong>次数少) 而靠进中心的则被多次运算 对结果影响大</p>
 <p>所以引入了<strong>padding</strong> 即给原特征图周围加上几层值为0(一般)的像素点 使得原图边缘的值的影响因子更大</p>
 <p>所以整个卷积过程可以表示为</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example2.png">
+
 <p>最后得到一次卷积后的结果为 Nc(卷积核的个数) ×n[i]×n[i] 的矩阵 </p>
 <p>其中$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
 <p>持续更新ing。。。</p>
