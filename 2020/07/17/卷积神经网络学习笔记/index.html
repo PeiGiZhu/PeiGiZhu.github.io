@@ -122,43 +122,57 @@ var _hmt = _hmt || [];
         <div class="content markdown">
             <blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
 <p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
-<img src="/.io//timg.gif" data-original="CNN_example1.png">
-
-
-
+<p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
-<img src="/.io//timg.gif" data-original="CNN_flowchart.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
 <h3 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h3><blockquote>
+<p>向前传播过程主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程</p>
 <p>在向前传播过程中具体包括: </p>
 <p>卷积层 → 池化层 → …(Repeat)… → 全连接层 → …(Repeat)…</p>
 <p>convolution → pooling → …(Repeat)… → full connected …</p>
 </blockquote>
-<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动==步长(stride)==、==填充长度(padding)==、==卷积核窗口大(filtersize)==、==分组数(groups)==、==扩张系数(dilation rate)== 来决定如何计算。 </p>
+<h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate)== 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
-<img src="/.io//timg.gif" data-original="CNN_example3.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
 <p>比如特征图 为RGB三通道 6×6的 三维矩阵</p>
-<p>每层对应的Xi×Yi 最后求和 得到Fi</p>
+<p>每层对应的Xi×Yi 最后求和(三层中所有点求和) 得到Fi</p>
 <p>步长即卷积核每次平移的单位 每次平移后再次进行<strong>运算</strong> 得到新的 Fi</p>
 <p>由于处于特征图边缘的值对卷积结果影响较小(参与<strong>运算</strong>次数少) 而靠进中心的则被多次运算 对结果影响大</p>
 <p>所以引入了<strong>padding</strong> 即给原特征图周围加上几层值为0(一般)的像素点 使得原图边缘的值的影响因子更大</p>
 <p>所以整个卷积过程可以表示为</p>
-<img src="/.io//timg.gif" data-original="CNN_example2.png">
-
-<p>最后得到一次卷积后的结果为 Nc(卷积核的个数) ×n[i]×n[i] 的矩阵 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
+<p>最后得到一次卷积后的结果为 </p>
+<p>Nc(卷积核的个数而非特征图或卷积核的通道数) ×n[i]×n[i] 的矩阵 </p>
 <p>其中$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
-<p>持续更新ing。。。</p>
+<p>实际上一个卷积核表示某种特征 比如对于垂直边缘卷积核 是要提取图片中垂直分界区域 也就是垂直特征</p>
+<p>水平边缘卷积核 是要提取图片中水平垂直分界区域也就是 水平特征 卷积核越多 代表所提取的特征因素越多</p>
+<p>而经过卷积的图片被逐渐降维则代表抽象化程度更高, 即从具体到抽象的特征提取 </p>
+<p>具体表现在卷积后Fi一个数值来表示上一层某块区域的值</p>
+<p>####池化层</p>
+<p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
+<p>避免过度拟合的意思是 比如说训练一个识别面部的神经网络</p>
+<p>你希望能辨别出所有人的脸 而不仅仅是你的脸</p>
+<p><img src="/.io//timg.gif" data-original="CNN_example4.png"></p>
+<p>池化操作也有对应的超级参数(固定值不受反馈学习影响) 大小(size)以及步长(stride),通常没有pading</p>
+<p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
+<p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
+<p>对于多通道的池化操作 每层对应的区域取Max value 池化后输出的通道数Nc与原特征图相同</p>
+<h3 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h3><blockquote>
+<p><em>LeNet-5  </em>AlexNet  *VGG</p>
+<p><em>ResNet  </em>Inception</p>
+</blockquote>
+<h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
+<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><h4 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h4><h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h4><h4 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h4><p>持续更新ing。。。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
