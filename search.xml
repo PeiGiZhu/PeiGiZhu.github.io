@@ -451,7 +451,7 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforces-656-E</title>
+    <title>codeforces-#656-E</title>
     <url>/2020/07/17/codeforces-656-E/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/problemset/problem/1385/E" target="_blank" rel="noopener">E. Directing Edges</a> </p>
 <p>题意 </p>
@@ -475,10 +475,8 @@
 <p>否则将无向边的方向定为先遍历的点指向后遍历的点 两者的拓扑序大小不变 不会构成返祖边</p>
 <p>bfs实现：</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//dfn[]表示该点被访问的时间戳即拓扑序</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="keyword">int</span> in[Max],dfn[Max],u[Max],v[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">if</span>(!in[i])q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> pos=q.front();q.pop();</span><br><span class="line">        dfn[pos]=cnt++;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;pos&lt;&lt;" ";</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> i:mp[pos])&#123;</span><br><span class="line">            in[i]--;</span><br><span class="line">            <span class="keyword">if</span>(in[i]==<span class="number">0</span>)q.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>完整代码</p>
 <figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;ll,ll&gt; P;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod=<span class="number">2e3</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> in[Max],dfn[Max],u[Max],v[Max];</span><br><span class="line"><span class="keyword">int</span> n,m,cnt=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> tp[Max];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="comment">/* */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">if</span>(!in[i])q.push(i);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> pos=q.front();q.pop();</span><br><span class="line">        dfn[pos]=cnt++;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;pos&lt;&lt;" ";</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> i:mp[pos])&#123;</span><br><span class="line">            in[i]--;</span><br><span class="line">            <span class="keyword">if</span>(in[i]==<span class="number">0</span>)q.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;cnt=<span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;pair&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; &gt;temp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            in[i]=<span class="number">0</span>,dfn[i]=<span class="number">0</span>;</span><br><span class="line">            mp[i].<span class="built_in">clear</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;tp[i]&gt;&gt;u[i]&gt;&gt;v[i];</span><br><span class="line">            <span class="keyword">if</span>(tp[i])mp[u[i]].push_back(v[i]),in[v[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        bfs();</span><br><span class="line">        <span class="comment">//cout&lt;&lt;cnt&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(cnt!=n)<span class="built_in">cout</span>&lt;&lt;<span class="string">"No"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"Yes"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(tp[i])<span class="built_in">cout</span>&lt;&lt;u[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;v[i]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(dfn[u[i]]&lt;dfn[v[i]])<span class="built_in">cout</span>&lt;&lt;u[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;v[i]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;v[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;u[i]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>codeforces</category>
@@ -1189,12 +1187,15 @@
 <p>参考资料</p>
 <p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
 <p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
+<p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
 <p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络能做什么呢？</p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
+<p>除了CNN卷积神经网络还有其他的深度学习神经网络</p>
+<p><img src="/.io//timg.gif" data-original="CNN_example0.png"></p>
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
 <p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
@@ -1214,6 +1215,9 @@
 <p>步长即卷积核每次平移的单位 每次平移后再次进行<strong>运算</strong> 得到新的 Fi</p>
 <p>由于处于特征图边缘的值对卷积结果影响较小(参与<strong>运算</strong>次数少) 而靠进中心的则被多次运算 对结果影响大</p>
 <p>所以引入了<strong>padding</strong> 即给原特征图周围加上几层值为0(一般)的像素点 使得原图边缘的值的影响因子更大</p>
+<p>有两种较为常用的<strong>pading</strong>策略</p>
+<p><strong>Same pading</strong>  输出结果的大小与处理前一致 </p>
+<p><strong>valid pading</strong>  输出的结果的大小比处理前小</p>
 <p>所以整个卷积过程可以表示为</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
 <p>最后得到一次卷积后的结果为 </p>
@@ -1234,11 +1238,24 @@
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
 <p>对于多通道的池化操作 每层对应的区域取Max value 池化后输出的通道数Nc与原特征图相同</p>
 <h3 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h3><blockquote>
-<p><em>LeNet-5  </em>AlexNet  *VGG</p>
-<p><em>ResNet  </em>Inception</p>
+<p>介绍几类经典神经网络模型</p>
+<p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
+<p>残差网络: <em>ResNet</em>，<em>Inception</em> </p>
 </blockquote>
-<h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
-<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><h4 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h4><h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h4><h4 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h4><p>持续更新ing。。。</p>
+<h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><p>针对灰度图像训练</p>
+<p>论文来源:[LeCun et al., 1998. Gradient-based learning applied to document recongintion]</p>
+<p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
+<h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><p>论文来源:[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]</p>
+<p>使用了Relu激活函数 涉及到将图分组放入两个互相关联的gpu进行训练</p>
+<p>有一种独有的类型层 “局部响应归一化层” 对局部神经元的活动创建竞争机制，使得其中响应比较大的值变得相对更大，并抑制其他反馈较小的神经元，<strong>增强了模型的泛化能力</strong> </p>
+<p>一般的“归一化” 是指将一个[L,R]区间内浮动的变量集 映射到[l,r]一个更小的区间变量集</p>
+<p>具体的归一化有具体的转换公式 </p>
+<p>后来被发现用处不大。。</p>
+<p><img src="/.io//timg.gif" data-original="CNN_example6.png"></p>
+<h4 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h4><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
+<p>VGG-16模型图解 (same表示使用same pading)</p>
+<p><img src="/.io//timg.gif" data-original="CNN_example7.png"></p>
+<h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h4><h4 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h4><p>持续更新ing。。。</p>
 ]]></content>
       <categories>
         <category>资料整理</category>
@@ -1666,7 +1683,7 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforces-#658-C2</title>
+    <title>codeforces-#658-D</title>
     <url>/2020/07/22/codeforces-658-D/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/1382/problem/C2" target="_blank" rel="noopener">C2. Prefix Flip (Hard Version)</a> </p>
 <p>题意<br>给出一个长度为2n的排列p</p>
