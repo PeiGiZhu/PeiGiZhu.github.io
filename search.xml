@@ -170,26 +170,6 @@
       </tags>
   </entry>
   <entry>
-    <title>codeforces-#597-D</title>
-    <url>/2020/07/10/codeforces-#597-D/</url>
-    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1245/problem/D" target="_blank" rel="noopener">D. Shichikuji and Power Grid</a> </p>
-<p>题意</p>
-<p>给定 n 个点，在某个点上建立一个基站要花费ci，连接两点要花费(|xi−xj|+|yi−yj|)∗(ki+kj)。<br>对于一个点要么建立基站，要么连接建立基站的点。问最小代价是多少，同时输出建立基站的点和线路。</p>
-<p>题解</p>
-<p>建立一个超级根，对于每个城市建立发电站，连接一条权值为ci的边再把每个城市之间连接电线的花费算出来<br>跑最小生成树 kruskal</p>
-<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">2005</span>;</span><br><span class="line">ll x[maxn],y[maxn],cont=<span class="number">0</span>;</span><br><span class="line">ll costA[maxn],costB[maxn];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; station,<span class="built_in">connect</span>[maxn];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span></span><br><span class="line">    ll st,to;</span><br><span class="line">    ll val;</span><br><span class="line">&#125;G[maxn*maxn];</span><br><span class="line"><span class="keyword">int</span> root[maxn];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">found</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root[x]!=x)root[x]=found(root[x]);</span><br><span class="line">    <span class="keyword">return</span> root[x];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">kruskal</span><span class="params">(<span class="keyword">int</span> cnt)</span></span>&#123;</span><br><span class="line">    ll sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">30</span>;i++)root[i]=i;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cnt;i++)&#123;</span><br><span class="line">         <span class="keyword">int</span> u=G[i].st;</span><br><span class="line">         <span class="keyword">int</span> v=G[i].to;</span><br><span class="line">         <span class="comment">///cout&lt;&lt;u&lt;&lt;" "&lt;&lt;found(u)&lt;&lt;" "&lt;&lt;v&lt;&lt;" "&lt;&lt;found(v)&lt;&lt;endl;</span></span><br><span class="line">         <span class="keyword">if</span>(found(u)!=found(v))&#123;</span><br><span class="line">             root[found(u)]=root[found(v)];</span><br><span class="line">             sum+=G[i].val;</span><br><span class="line">             <span class="keyword">if</span>(G[i].st==<span class="number">0</span>)station.push_back(G[i].to);</span><br><span class="line">             <span class="keyword">else</span> <span class="built_in">connect</span>[G[i].st].push_back(G[i].to),cont++;</span><br><span class="line">             <span class="comment">///cout&lt;&lt;G[i].st&lt;&lt;" "&lt;&lt;G[i].to&lt;&lt;" "&lt;&lt;G[i].val&lt;&lt;endl;</span></span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Node a,Node b)</span></span>&#123;<span class="keyword">return</span> a.val&lt;b.val;&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,cnt=<span class="number">0</span>;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)root[i]=i;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;x[i]&gt;&gt;y[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;costA[i];</span><br><span class="line">        G[cnt].st=<span class="number">0</span>;</span><br><span class="line">        G[cnt].to=i;</span><br><span class="line">        G[cnt].val=costA[i];</span><br><span class="line">        cnt++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;costB[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i==j)<span class="keyword">continue</span>;</span><br><span class="line">            G[cnt].st=i;</span><br><span class="line">            G[cnt].to=j;</span><br><span class="line">            G[cnt].val=(<span class="built_in">abs</span>(x[i]-x[j])+<span class="built_in">abs</span>(y[i]-y[j]))*(costB[i]+costB[j]);</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(G,G+cnt,cmp);</span><br><span class="line">    ll ans=kruskal(cnt);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;station.<span class="built_in">size</span>()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">int</span> lenth=station.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lenth;i++)<span class="built_in">cout</span>&lt;&lt;station[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>&lt;&lt;cont&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">connect</span>[i].empty())<span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> len=<span class="built_in">connect</span>[i].<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;len;j++)&#123;</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>&lt;&lt;<span class="built_in">connect</span>[i][j]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>codeforces</category>
-      </categories>
-      <tags>
-        <tag>超源点</tag>
-        <tag>图论</tag>
-        <tag>最小生成树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>codeforces-#428-D</title>
     <url>/2020/07/08/codeforces-428-D/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/839/problem/D" target="_blank" rel="noopener">D. Winter is here</a></p>
@@ -1207,21 +1187,17 @@
     <url>/2020/07/17/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
 <p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
-<img src="/.io//timg.gif" data-original="CNN_example1.png">
-
-
-
+<p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
-<img src="/.io//timg.gif" data-original="CNN_flowchart.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
 <h3 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h3><blockquote>
 <p>向前传播过程主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程</p>
@@ -1231,8 +1207,7 @@
 </blockquote>
 <h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate)== 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
-<img src="/.io//timg.gif" data-original="CNN_example3.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
 <p>比如特征图 为RGB三通道 6×6的 三维矩阵</p>
 <p>每层对应的Xi×Yi 最后求和(三层中所有点求和) 得到Fi</p>
@@ -1240,30 +1215,29 @@
 <p>由于处于特征图边缘的值对卷积结果影响较小(参与<strong>运算</strong>次数少) 而靠进中心的则被多次运算 对结果影响大</p>
 <p>所以引入了<strong>padding</strong> 即给原特征图周围加上几层值为0(一般)的像素点 使得原图边缘的值的影响因子更大</p>
 <p>所以整个卷积过程可以表示为</p>
-<img src="/.io//timg.gif" data-original="CNN_example2.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
 <p>最后得到一次卷积后的结果为 </p>
 <p>Nc(卷积核的个数而非特征图或卷积核的通道数) ×n[i]×n[i] 的矩阵 </p>
 <p>其中$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
-<p>实际上一个卷积核表示某种特征 比如对于垂直边缘卷积核 是要提取图片中垂直分界区域 也就是垂直特征</p>
-<p>水平边缘卷积核 是要提取图片中水平垂直分界区域也就是 水平特征 卷积核越多 代表所提取的特征因素越多</p>
+<p>实际上一个卷积核表示某种特征 </p>
+<p>比如对于垂直边缘卷积核 是要提取图片中垂直分界区域 也就是垂直特征</p>
+<p>水平边缘卷积核 是要提取图片中水平垂直分界区域</p>
+<p>也就是 水平特征 卷积核越多 代表所提取的特征因素越多</p>
 <p>而经过卷积的图片被逐渐降维则代表抽象化程度更高, 即从具体到抽象的特征提取 </p>
 <p>具体表现在卷积后Fi一个数值来表示上一层某块区域的值</p>
 <h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
 <p>避免过度拟合的意思是 比如说训练一个识别面部的神经网络</p>
 <p>你希望能辨别出所有人的脸 而不仅仅是你的脸</p>
-<img src="/.io//timg.gif" data-original="CNN_example4.png">
-
+<p><img src="/.io//timg.gif" data-original="CNN_example4.png"></p>
 <p>池化操作也有对应的超级参数(固定值不受反馈学习影响) 大小(size)以及步长(stride),通常没有pading</p>
 <p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
 <p>对于多通道的池化操作 每层对应的区域取Max value 池化后输出的通道数Nc与原特征图相同</p>
 <h3 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h3><blockquote>
-<p>*LeNet-5  *AlexNet  *VGG</p>
-<p>*ResNet  *Inception</p>
+<p><em>LeNet-5  </em>AlexNet  *VGG</p>
+<p><em>ResNet  </em>Inception</p>
 </blockquote>
-<h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><img src="/.io//timg.gif" data-original="CNN_example5.png">
-
+<h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
 <h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><h4 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h4><h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h4><h4 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h4><p>持续更新ing。。。</p>
 ]]></content>
       <categories>
@@ -1629,6 +1603,97 @@
       <tags>
         <tag>数论</tag>
         <tag>优化技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#658-C2</title>
+    <url>/2020/07/22/codeforces-658-C2/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1382/problem/C2" target="_blank" rel="noopener">C2. Prefix Flip (Hard Version)</a> </p>
+<p>题意<br>给出两个长度为n&lt;2e5的01串</p>
+<p>一个原串s和一个目标串t</p>
+<p>要求不超过2n次操作将s变为t串</p>
+<p>一次操作：</p>
+<p>选择s的一个前缀 将前缀中的0变成1，1变成0</p>
+<p>然后将这个前缀翻转 </p>
+<p>题解</p>
+<p>有很多种构造方法</p>
+<p>easy版On^2 复杂度用2n次操作:</p>
+<p>从后往前遍历 逐个修改s[i]</p>
+<p>若s[i]!=t[i] 它必然需要被操作 由于一次操作时一定有一个前缀的整体翻转</p>
+<p>所以s[i]处的bit一定是由s[0]处翻转得到的</p>
+<p>所以策略是先操作第一个bit s[0] (要判断是否需要) 然后再操作前缀s[0~i]</p>
+<p>On^2是需要模拟操作种的取反+反转</p>
+<p>hard版可以用同样策略优化到</p>
+<p>需要考虑如何优化掉模拟操作带来的复杂度</p>
+<p>注意到每次取反翻转 使得s[i]=t[i]  对于当前状态的s的前缀对应最初s的某一段子串</p>
+<p>只需要追踪当前状态的s的前缀对应最初s串中那个下标 并且是否是翻转得到</p>
+<p>就可以On处理处答案</p>
+<p>实际实现时出了一对bug调到心累 逻辑不够清晰代码写的稀烂</p>
+<p>另一种策略:</p>
+<p>更直观的策略是用n次操作将s变为全0串</p>
+<p>再用n次操作将t变为全0串</p>
+<p>那么答案是 将s变为全0串的过程+t变为全0串的逆过程</p>
+<p>官方代码 </p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//方案2，摘自社论</span></span><br><span class="line"><span class="comment">//我们不进行模拟，而是存储两个变量idx和flip</span></span><br><span class="line"><span class="comment">//它们告诉我们足够的信息来询问过程中第一个比特的值</span></span><br><span class="line"><span class="comment">//如果flip为false，则表示子字符串s[idx，…， idx + i)目前是s的开始</span></span><br><span class="line"><span class="comment">//如果翻转为真，则表示翻转子字符串s[idx - i + 1，…目前是s的开始</span></span><br><span class="line"><span class="comment">//我们在每位O(1)时间或O(n)时间内正确地更新idx和翻转</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> t, n;</span><br><span class="line"><span class="built_in">string</span> a, b;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::sync_with_stdio(<span class="literal">false</span>);</span><br><span class="line">    <span class="built_in">cin</span>.tie(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; t;</span><br><span class="line">    <span class="keyword">while</span>(t--) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="keyword">bool</span> flip = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> idx = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ops;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = n - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span>(flip ^ (a[idx] == b[i])) &#123;</span><br><span class="line">                ops.push_back(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ops.push_back(i + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(flip) idx -= i;</span><br><span class="line">            <span class="keyword">else</span> idx += i;</span><br><span class="line">            flip = !flip;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; ops.<span class="built_in">size</span>() &lt;&lt; <span class="string">' '</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> x : ops) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="string">' '</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二种实现方法</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#include &lt;bits/stdc++.h&gt;</span></span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">typedef pair&lt;ll,ll&gt; P;</span><br><span class="line"><span class="comment">#define endl '\n'</span></span><br><span class="line"><span class="comment">#define Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"></span><br><span class="line">const int mod=2e3;</span><br><span class="line">const int Max=2000+5;</span><br><span class="line">int data[Max],dp[2][Max];</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">4</span><br><span class="line">10</span><br><span class="line">0110011011</span><br><span class="line">1000110100</span><br><span class="line">7 1 10 8 7 1 2 1</span><br><span class="line">*/</span><br><span class="line">string s,ns;int n;</span><br><span class="line">int <span class="function"><span class="title">main</span></span>()&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    int t;cin&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        int n;cin&gt;&gt;n;</span><br><span class="line">        string s,ns;cin&gt;&gt;s&gt;&gt;ns;</span><br><span class="line">        s+=<span class="string">'0'</span>,ns+=<span class="string">'0'</span>;</span><br><span class="line">        vector&lt;int&gt;ans,temp;</span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]!=s[i+1])ans.push_back(i+1);</span><br><span class="line">            <span class="keyword">if</span>(ns[i]!=ns[i+1])temp.push_back(i+1);</span><br><span class="line">        &#125;</span><br><span class="line">        reverse(temp.begin(),temp.end());</span><br><span class="line">        cout&lt;&lt;ans.size()+temp.size();</span><br><span class="line">        <span class="keyword">for</span>(auto i:ans)cout&lt;&lt;<span class="string">" "</span>&lt;&lt;i;</span><br><span class="line">        <span class="keyword">for</span>(auto i:temp)cout&lt;&lt;<span class="string">" "</span>&lt;&lt;i;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>实现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#597-D</title>
+    <url>/2020/07/10/codeforces-597-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1245/problem/D" target="_blank" rel="noopener">D. Shichikuji and Power Grid</a> </p>
+<p>题意</p>
+<p>给定 n 个点，在某个点上建立一个基站要花费ci，连接两点要花费(|xi−xj|+|yi−yj|)∗(ki+kj)。<br>对于一个点要么建立基站，要么连接建立基站的点。问最小代价是多少，同时输出建立基站的点和线路。</p>
+<p>题解</p>
+<p>建立一个超级根，对于每个城市建立发电站，连接一条权值为ci的边再把每个城市之间连接电线的花费算出来<br>跑最小生成树 kruskal</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">2005</span>;</span><br><span class="line">ll x[maxn],y[maxn],cont=<span class="number">0</span>;</span><br><span class="line">ll costA[maxn],costB[maxn];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; station,<span class="built_in">connect</span>[maxn];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span></span><br><span class="line">    ll st,to;</span><br><span class="line">    ll val;</span><br><span class="line">&#125;G[maxn*maxn];</span><br><span class="line"><span class="keyword">int</span> root[maxn];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">found</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root[x]!=x)root[x]=found(root[x]);</span><br><span class="line">    <span class="keyword">return</span> root[x];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">kruskal</span><span class="params">(<span class="keyword">int</span> cnt)</span></span>&#123;</span><br><span class="line">    ll sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">30</span>;i++)root[i]=i;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cnt;i++)&#123;</span><br><span class="line">         <span class="keyword">int</span> u=G[i].st;</span><br><span class="line">         <span class="keyword">int</span> v=G[i].to;</span><br><span class="line">         <span class="comment">///cout&lt;&lt;u&lt;&lt;" "&lt;&lt;found(u)&lt;&lt;" "&lt;&lt;v&lt;&lt;" "&lt;&lt;found(v)&lt;&lt;endl;</span></span><br><span class="line">         <span class="keyword">if</span>(found(u)!=found(v))&#123;</span><br><span class="line">             root[found(u)]=root[found(v)];</span><br><span class="line">             sum+=G[i].val;</span><br><span class="line">             <span class="keyword">if</span>(G[i].st==<span class="number">0</span>)station.push_back(G[i].to);</span><br><span class="line">             <span class="keyword">else</span> <span class="built_in">connect</span>[G[i].st].push_back(G[i].to),cont++;</span><br><span class="line">             <span class="comment">///cout&lt;&lt;G[i].st&lt;&lt;" "&lt;&lt;G[i].to&lt;&lt;" "&lt;&lt;G[i].val&lt;&lt;endl;</span></span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Node a,Node b)</span></span>&#123;<span class="keyword">return</span> a.val&lt;b.val;&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,cnt=<span class="number">0</span>;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)root[i]=i;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;x[i]&gt;&gt;y[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;costA[i];</span><br><span class="line">        G[cnt].st=<span class="number">0</span>;</span><br><span class="line">        G[cnt].to=i;</span><br><span class="line">        G[cnt].val=costA[i];</span><br><span class="line">        cnt++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;costB[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i==j)<span class="keyword">continue</span>;</span><br><span class="line">            G[cnt].st=i;</span><br><span class="line">            G[cnt].to=j;</span><br><span class="line">            G[cnt].val=(<span class="built_in">abs</span>(x[i]-x[j])+<span class="built_in">abs</span>(y[i]-y[j]))*(costB[i]+costB[j]);</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(G,G+cnt,cmp);</span><br><span class="line">    ll ans=kruskal(cnt);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;station.<span class="built_in">size</span>()&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">int</span> lenth=station.<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lenth;i++)<span class="built_in">cout</span>&lt;&lt;station[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>&lt;&lt;cont&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">connect</span>[i].empty())<span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> len=<span class="built_in">connect</span>[i].<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;len;j++)&#123;</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>&lt;&lt;<span class="built_in">connect</span>[i][j]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>超源点</tag>
+        <tag>图论</tag>
+        <tag>最小生成树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#658-C2</title>
+    <url>/2020/07/22/codeforces-658-D/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1382/problem/C2" target="_blank" rel="noopener">C2. Prefix Flip (Hard Version)</a> </p>
+<p>题意<br>给出一个长度为2n的排列p</p>
+<p>要求判断能否还原出两个等长的数组a b</p>
+<p>使得merge(a,b)=p</p>
+<p>定义merge运算：</p>
+<p>merge(空集,a)=a</p>
+<p>merge(a[1~n] , b[1~n])= a[1]&lt;b[1]?a[1]+merge(a[2~n], b[1~n]) : b[1]+ merge(a[1~n], b[2~n]);</p>
+<p>就是比较a和b数组第一个数谁大 就把谁放到新数组(最初为空)的下一个位置</p>
+<p>题解</p>
+<p>观察样例发现merge运算实际上是当 max(a[l~r]) &lt;b[i] or max(b[l~r]) &lt; a[i]时，</p>
+<p>将a[l~r]/ b[l~r] 放在一个b[i]/a[i]前</p>
+<p>根据这个性质将2n的排列p打碎成尽量多的子串 假设最后子串有m个 </p>
+<p><strong>例如3 , 1 , 4 ,5 , 2 , 63. 这个例子被分为(3 , 1) , (4) , (5 , 2) ,(6)</strong></p>
+<p>每一个子串属于a/b中的1个 现在可以将问题转化成01背包模型</p>
+<p>对于一个容量为n的 背包 m个物品每个 物品体积=价值=这个子串的长度</p>
+<p>求能装下物品的前提下最大价值</p>
+<p>若最后dp[n]=n说明存在解 否者输出no</p>
+<p><a href="https://blog.csdn.net/spnooyseed/article/details/107508343" target="_blank" rel="noopener">参考博客</a></p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;ll,ll&gt; P;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> mod=<span class="number">2e3</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">4000</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> data[Max],dp[Max];</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">string</span> s,ns;<span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;group;<span class="keyword">int</span> cnt=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>*n;i++)<span class="built_in">cin</span>&gt;&gt;data[i],dp[i]=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxn=data[<span class="number">0</span>];data[<span class="number">2</span>*n]=<span class="number">2</span>*n+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(data[i]&gt;maxn)&#123;</span><br><span class="line">                group.push_back(cnt);</span><br><span class="line">                cnt=<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> cnt++;</span><br><span class="line">            maxn=<span class="built_in">max</span>(maxn,data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//for(auto i:group)cout&lt;&lt;i&lt;&lt;" ";</span></span><br><span class="line">        <span class="comment">//cout&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">int</span> len=group.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> w=n;w&gt;=group[i];w--)&#123;</span><br><span class="line">                dp[w]=<span class="built_in">max</span>(dp[w],dp[w-group[i]]+group[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;dp[n]&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(dp[n]!=n)<span class="built_in">cout</span>&lt;&lt;<span class="string">"No"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">"Yes"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>实现</tag>
       </tags>
   </entry>
 </search>
