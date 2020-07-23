@@ -1713,4 +1713,68 @@
         <tag>实现</tag>
       </tags>
   </entry>
+  <entry>
+    <title>codeforces-#642-E</title>
+    <url>/2020/07/17/codeforces-642-E/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1353/problem/E" target="_blank" rel="noopener">E. K-periodic Garland</a> </p>
+<p>题意 </p>
+<p>给出一个01串长为n&lt;1e6</p>
+<p>要求将它改为1的间隔=k的01串</p>
+<p>比如k=3则</p>
+<p>“00010010”,”1001001”,”00010”,”0000” 都合法</p>
+<p>每次操作只改变一个位置的0/1状态</p>
+<p>问最小操作次数</p>
+<p>题解</p>
+<p>设计dp[i][0] 表示第i位是第一个1</p>
+<p>dp[i][1] 表示第i为不是第一个1</p>
+<p>同时维护前缀pre[i]表示到第i位有几个1</p>
+<p>那么可以得到转移方程</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">	<span class="keyword">int</span> last;</span><br><span class="line">    <span class="keyword">if</span>(i-k&gt;<span class="number">0</span>)&#123;</span><br><span class="line">    	last=<span class="built_in">min</span>(dp[i-k][<span class="number">0</span>],dp[i-k][<span class="number">1</span>]);<span class="comment">///到第i-k位合法的最小操作</span></span><br><span class="line">        dp[i][<span class="number">1</span>]=last+pre[i<span class="number">-1</span>]-pre[i-k]+(arr[i<span class="number">-1</span>]==<span class="string">'0'</span>);</span><br><span class="line">        <span class="comment">///dp[i][1]是由dp[i-k][1]+中间全变0,第位变1的操作次数</span></span><br><span class="line">        <span class="comment">///或dp[i-k][0]+中间全变0,第位变1的操作次数或者说退化成dp[i][0]含义</span></span><br><span class="line">        <span class="comment">///两者中取min</span></span><br><span class="line">    &#125;</span><br><span class="line">    ans=<span class="built_in">min</span>(ans,<span class="built_in">min</span>(dp[i][<span class="number">1</span>],dp[i][<span class="number">0</span>])+(pre[n]-pre[i]));</span><br><span class="line">    <span class="comment">///ans是到第i位合法的最小操作次数+后缀全为0的操作次数取min</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">2e6</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> pre[Max];</span><br><span class="line"><span class="keyword">int</span> dp[Max][<span class="number">2</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="keyword">int</span> n,k;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">        <span class="built_in">string</span> arr;<span class="built_in">cin</span>&gt;&gt;arr;</span><br><span class="line">        <span class="keyword">bool</span> flag=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            pre[i]=pre[i<span class="number">-1</span>]+(arr[i<span class="number">-1</span>]==<span class="string">'1'</span>);</span><br><span class="line">            dp[i][<span class="number">1</span>]=Max;</span><br><span class="line">            dp[i][<span class="number">0</span>]=pre[i<span class="number">-1</span>]+(arr[i<span class="number">-1</span>]==<span class="string">'0'</span>);</span><br><span class="line">            <span class="keyword">if</span>(pre[i]&gt;<span class="number">0</span>)flag=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!flag)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="number">0</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> ans=Max;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> last;</span><br><span class="line">            <span class="keyword">if</span>(i-k&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                last=<span class="built_in">min</span>(dp[i-k][<span class="number">0</span>],dp[i-k][<span class="number">1</span>]);</span><br><span class="line">                dp[i][<span class="number">1</span>]=last+pre[i<span class="number">-1</span>]-pre[i-k]+(arr[i<span class="number">-1</span>]==<span class="string">'0'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ans=<span class="built_in">min</span>(ans,<span class="built_in">min</span>(dp[i][<span class="number">1</span>],dp[i][<span class="number">0</span>])+(pre[n]-pre[i]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.cnblogs.com/streamazure/p/12896935.html" target="_blank" rel="noopener">其他dp设计方案</a></p>
+<p>dp[i][0/1]表示到第i位合法时第i位是0还是1</p>
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#642-F</title>
+    <url>/2020/07/22/codeforces-642-F/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1353/problem/F" target="_blank" rel="noopener">F. Decreasing Heights</a></p>
+<p>题意<br>给出一个n*m的矩阵 n,m&lt;100</p>
+<p>每个位置的值表示高度</p>
+<p>现在从(1,1)走到(n,m);</p>
+<p>只能走(i+1,j) or (i,j+1) 且当前所在位置的高度=要走到位置的高度-1</p>
+<p>在出发前可以任意个位置-1高度 视为1次操作</p>
+<p>问能使两点通路的最小操作</p>
+<p>题解</p>
+<p>按照题目要求</p>
+<p>形成通路的前提条件是 存在一条路径</p>
+<p>b0,b1,b2….bn+m-2  为了符合 b[i]+1=b[i+1]</p>
+<p>那么这相当于第i个点 要比初始位置高出i的高度</p>
+<p>所以原路径上所有的高度b[i]都可以转化成b[i]-i 变为可调整的高度</p>
+<p>(对于每个点b[i]不可变化的高度是i)</p>
+<p>则限制条件b[i]+1=b[i+1]变为b[i]=b[i+1] </p>
+<p>那么对于b0,b1,b2….bn+m-2  这条路径需要修改的次数为</p>
+<p>转化后求$∑b[i]-min(b[0,1,2,…,n+m-2])$;</p>
+<p>取min操作是将路径中的最低点作为基准点</p>
+<p>所以枚举路径中可能的最低值low On^2</p>
+<p>再On^2 dp转移 整体On^4</p>
+<p><a href="https://www.cnblogs.com/DeepJay/p/12895385.html" target="_blank" rel="noopener">参考博客</a></p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">100</span>+<span class="number">5</span>;</span><br><span class="line">ll data[Max][Max];</span><br><span class="line">ll dp[Max][Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="keyword">int</span> n,m;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cin</span>&gt;&gt;data[i][j];</span><br><span class="line">                data[i][j]-=(i+j<span class="number">-2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ll ans=<span class="number">1e18</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                ll low=data[i][j];</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> r=<span class="number">1</span>;r&lt;=n;r++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> c=<span class="number">1</span>;c&lt;=m;c++)dp[r][c]=<span class="number">1e18</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> r=<span class="number">1</span>;r&lt;=n;r++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="keyword">int</span> c=<span class="number">1</span>;c&lt;=m;c++)&#123;</span><br><span class="line">                        <span class="comment">//cout&lt;&lt;data[r][c]&lt;&lt;" "&lt;&lt;low&lt;&lt;endl;</span></span><br><span class="line">                        ll de=data[r][c]&gt;=low?data[r][c]-low:<span class="number">1e18</span>;</span><br><span class="line">                        <span class="keyword">if</span>(r==<span class="number">1</span>&amp;&amp;c==<span class="number">1</span>)dp[r][c]=<span class="built_in">min</span>(dp[r][c],de);</span><br><span class="line">                        <span class="keyword">if</span>(r&gt;<span class="number">1</span>)dp[r][c]=<span class="built_in">min</span>(dp[r][c],dp[r<span class="number">-1</span>][c]+de);</span><br><span class="line">                        <span class="keyword">if</span>(c&gt;<span class="number">1</span>)dp[r][c]=<span class="built_in">min</span>(dp[r][c],dp[r][c<span class="number">-1</span>]+de);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                ans=<span class="built_in">min</span>(ans,dp[n][m]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+      </tags>
+  </entry>
 </search>
