@@ -1185,21 +1185,66 @@
     <url>/2020/07/17/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
 <p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
 <p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example1.png">
+
+
+
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
 <p>除了CNN卷积神经网络还有其他的深度学习神经网络</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example0.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example0.png">
+
+
+
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
-<p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_flowchart.png">
+
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
+<h3 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h3><img src="/.io//timg.gif" data-original="CNN_example8.png">
+
+<p>对于一个二分类问题 比如判断图片中是否存在猫</p>
+<p>输入一个特征向量$x$ 由训练集经过卷积和池化后获得的特征图得到</p>
+<p>对于上面这个例子来说 $x$ 是一个 $nx × 1$ 的向量(矩阵) 其中$nx=n×n×nc$ ，而 $y=0,1$  </p>
+<p>对于m个图形成的训练集 Mtest ={$(x^1, y^1), (x^2, y^2), (x^3, y^3) … (x^m, y^m)$}</p>
+<p>(此处参考资料整理作者 黄海广 在参考栏第三个链接)</p>
+<img src="/.io//timg.gif" data-original="CNN_example9.png">
+
+<img src="/.io//timg.gif" data-original="CNN_example10.png">
+
+<p>所有训练数据集的输入值和输出集合以如下方式组成矩阵$X$,$Y$ 一般$X$的每一列是$x^i$ </p>
+<img src="/.io//timg.gif" data-original="CNN_example11.png">
+
+
+
+
+
+<h3 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h3><img src="/.io//timg.gif" data-original="CNN_example12.png">
+
+<p>$w^T$是一个$nx$维向量（因为$w$实际上是特征权重，维度与特征向量相同） </p>
+<p>$b$是一个实数（表示偏差）</p>
+<p>而$x$就是输入的训练数据集 </p>
+<p>我们想让$yhat$ 通过计算得到的预测值 它表示[0,1]的概率</p>
+<p>所以需要一个sigmoid函数做映射转换</p>
+<h4 id="逻辑回归的代价函数"><a href="#逻辑回归的代价函数" class="headerlink" title="逻辑回归的代价函数"></a>逻辑回归的代价函数</h4><p>为了训练逻辑回归模型的参数参数$w$和参数$b$我们，需要一个代价函数，通过训练代价 函数来得到参数$w$和参数$b$。</p>
+<p>为了让模型通过学习调整参数，你需要给予一个$m$样本的训练集，这会让你在训练集上 找到参数$w$和参数$b$，来得到你的输出 。</p>
+<img src="/.io//timg.gif" data-original="CNN_example13.png">
+
+<p>我们在逻辑回归中用到的损失函数是：$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$</p>
+<p>当𝑦 = 1时损失函数$𝐿 = −log(𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可能大， 因为 </p>
+<p>sigmoid 函数取值[0,1]，所以𝑦hat会无限接近于 1。 </p>
+<p>当𝑦 = 0时损失函数$𝐿 = −log(1 − 𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可 能小，因</p>
+<p>为 sigmoid 函数取值[0,1]，所以$𝑦hat$会无限接近于 0。 </p>
+<p>一般我们用预 测值和实际值的平方差或者它们平方差的一半，但是通常在逻辑回归中我们不这么</p>
+<p>做，因为 当我们在学习逻辑回归参数的时候，会发现我们的优化目标不是凸优化，只能找到多个局</p>
+<p>部 最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我 们在</p>
+<p>逻辑回归模型中会定义另外一个损失函数。 </p>
 <h3 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h3><blockquote>
 <p>向前传播过程主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程</p>
 <p>在向前传播过程中具体包括: </p>
@@ -1208,7 +1253,8 @@
 </blockquote>
 <h4 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h4><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate)== 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example3.png">
+
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
 <p>比如特征图 为RGB三通道 6×6的 三维矩阵</p>
 <p>每层对应的Xi×Yi 最后求和(三层中所有点求和) 得到Fi</p>
@@ -1219,7 +1265,8 @@
 <p><strong>Same pading</strong>  输出结果的大小与处理前一致 </p>
 <p><strong>valid pading</strong>  输出的结果的大小比处理前小</p>
 <p>所以整个卷积过程可以表示为</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example2.png">
+
 <p>最后得到一次卷积后的结果为 </p>
 <p>Nc(卷积核的个数而非特征图或卷积核的通道数) ×n[i]×n[i] 的矩阵 </p>
 <p>其中$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
@@ -1232,7 +1279,8 @@
 <h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
 <p>避免过度拟合的意思是 比如说训练一个识别面部的神经网络</p>
 <p>你希望能辨别出所有人的脸 而不仅仅是你的脸</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example4.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example4.png">
+
 <p>池化操作也有对应的超级参数(固定值不受反馈学习影响) 大小(size)以及步长(stride),通常没有pading</p>
 <p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
@@ -1244,17 +1292,24 @@
 </blockquote>
 <h4 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h4><p>针对灰度图像训练</p>
 <p>论文来源:[LeCun et al., 1998. Gradient-based learning applied to document recongintion]</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example5.png">
+
+
+
 <h4 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h4><p>论文来源:[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]</p>
 <p>使用了Relu激活函数 涉及到将图分组放入两个互相关联的gpu进行训练</p>
 <p>有一种独有的类型层 “局部响应归一化层” 对局部神经元的活动创建竞争机制，使得其中响应比较大的值变得相对更大，并抑制其他反馈较小的神经元，<strong>增强了模型的泛化能力</strong> </p>
 <p>一般的“归一化” 是指将一个[L,R]区间内浮动的变量集 映射到[l,r]一个更小的区间变量集</p>
 <p>具体的归一化有具体的转换公式 </p>
 <p>后来被发现用处不大。。</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example6.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example6.png">
+
+
+
 <h4 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h4><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
 <p>VGG-16模型图解 (same表示使用same pading)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example7.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example7.png">
+
 <h4 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h4><h4 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h4><p>持续更新ing。。。</p>
 ]]></content>
       <categories>
