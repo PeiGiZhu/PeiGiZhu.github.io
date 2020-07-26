@@ -1237,14 +1237,31 @@
 <img src="/.io//timg.gif" data-original="CNN_example13.png">
 
 <p>我们在逻辑回归中用到的损失函数是：$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$</p>
-<p>当𝑦 = 1时损失函数$𝐿 = −log(𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可能大， 因为 </p>
-<p>sigmoid 函数取值[0,1]，所以𝑦hat会无限接近于 1。 </p>
-<p>当𝑦 = 0时损失函数$𝐿 = −log(1 − 𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可 能小，因</p>
-<p>为 sigmoid 函数取值[0,1]，所以$𝑦hat$会无限接近于 0。 </p>
+<p>当目标值(正确值)𝑦 = 1时损失函数$𝐿 = −log(𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可能大， </p>
+<p>因为 sigmoid 函数取值[0,1]，所以𝑦hat会无限接近于 1。 </p>
+<p>当目标值(正确值)𝑦 = 0时损失函数$𝐿 = −log(1 − 𝑦hat)$，如果想要损失函数𝐿尽可能得小，那么𝑦hat就要尽可 能</p>
+<p>小，因为 sigmoid 函数取值[0,1]，所以$𝑦hat$会无限接近于 0。 </p>
 <p>一般我们用预 测值和实际值的平方差或者它们平方差的一半，但是通常在逻辑回归中我们不这么</p>
 <p>做，因为 当我们在学习逻辑回归参数的时候，会发现我们的优化目标不是凸优化，只能找到多个局</p>
 <p>部 最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我 们在</p>
 <p>逻辑回归模型中会定义另外一个损失函数。 </p>
+<h4 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h4><p>梯度下降法可以做什么？ </p>
+<p>在你测试集上，通过最小化代价函数（成本函数）𝐽(𝑤, 𝑏)来训练的参数𝑤和𝑏， </p>
+<p>𝐽(𝑤, 𝑏)是一对每组训练数据的损失函数<em>Loss function</em> 的均值</p>
+<p>为了适应梯度下降法所以用$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$ 来计算损失而不是方差</p>
+<p>使它成为一个有最低点的凹函数而不是有多个最低点的波浪</p>
+<img src="/.io//timg.gif" data-original="CNN_example14.png">
+
+<p>在实践中，𝑤可以是更高的维度，但是为了 更好地绘图，我们定义𝑤和𝑏，都是单一实数，代价函数（成本函数）</p>
+<p>𝐽(𝑤, 𝑏)是在水平轴𝑤和 𝑏上的曲面，因此曲面的高度就是𝐽(𝑤, 𝑏)在某一点的函数值。我们所做的就是找到使得代价 </p>
+<p>函数（成本函数）𝐽(𝑤, 𝑏)函数值是最小值，对应的参数𝑤和𝑏。 </p>
+<p>通过梯度下降逐步找到最低点对应的参数𝑤和𝑏。所以无论在哪里初始化，应该达到同一 点或大致相同的点。 </p>
+<img src="/.io//timg.gif" data-original="CNN_example15.png">
+
+<p>简化模型固定d的值讨论𝐽(𝑤) 和𝑤, 梯度下降实际上就是不断迭代𝑤使得它接近最低点</p>
+<p>其中α表示学习率 具体的体现在每次迭代更新的”步长” 之后会介绍如何给定一个合适的学习率</p>
+<p>一般习惯上在代码实现中将𝐽(𝑤, 𝑏)对𝑤的偏导(偏导将另一个无关变量视为定值参数)写作dw</p>
+<p>同理将𝐽(𝑤, 𝑏)对𝑏的偏导写作db</p>
 <h3 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h3><blockquote>
 <p>向前传播过程主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程</p>
 <p>在向前传播过程中具体包括: </p>
@@ -1341,7 +1358,8 @@
 <p>加入valine评论插件替换原来的gitalk 欢迎评论</p>
 <p>修复代码高亮</p>
 <p>#####7.22日更新</p>
-<p>可在文章内插入图片<br>修复mathjax</p>
+<p>可在文章内插入图片(无法显示尝试刷新)</p>
+<p>修复mathjax 文章内使用公式</p>
 ]]></content>
       <categories>
         <category>Notice</category>
@@ -1862,24 +1880,13 @@
   </entry>
   <entry>
     <title>codeforces-#657-D</title>
-    <url>/2020/07/21/codeforces-657-D/</url>
+    <url>/2020/07/24/codeforces-657-D/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/contest/1379/problem/D" target="_blank" rel="noopener">D. New Passenger Trams</a> </p>
 <p>题意：</p>
-<p>某个星球的一天有h小时，一小时有m分钟，现在有两种车要开，客色的每半小时开一次，每次要等待k(k&lt;=m/2)</p>
-<p>分钟再开。货车有固定的时刻表，且没有准备时间，但是它与客车的等待时间重合了就会被取消掉（端点重合不取</p>
-<p>消），问你第一辆客车车的出发时间t(t&lt;=m/2)是多少才能使最少的货车被取消。输出最少要取消几辆以及第一辆</p>
-<p>客车的出发时间和被取消的货车是那几班</p>
+<p>某个星球的一天有h小时，一小时有m分钟，现在有两种车要开，客色的每半小时开一次，每次要等待k(k&lt;=m/2)分钟再开。货车有固定的时刻表，且没有准备时间，但是它与客车的等待时间重合了就会被取消掉（端点重合不取消），问你第一辆客车车的出发时间t(t&lt;=m/2)是多少才能使最少的货车被取消。输出最少要取消几辆以及第一辆客车的出发时间和被取消的货车是那几班</p>
 <p>题解  </p>
-<p>事实上由于每个客车半小时发一趟车，客车每小时只会出发两趟 所以客车从到站到出发的时间段实际上是以半小</p>
-<p>时为周期的, 在一小时60分种的情况下若下一趟的车在20分到 后40出发 即相当于 0到30分中 [20,30]和[0,10]分中</p>
-<p>有客车在等待 货车不能发车，所以将所有的货车出发时间映射到同一个半小时时间段内 仅仅讨论这半个小时内 哪</p>
-<p>段长度为k(客车等待时间)的时间段内所覆盖到的货车发车班次最少即最优解</p>
-<p>将所有货车映射到同一个半小时内后 第l趟货车和第r趟货车若发车间隔&gt;=k那么它们就不会被同一个客车等候时间</p>
-<p>被取消，我们要通过双指针得到一个区间左右端点上货车发车间隔&lt;k且最少货车发车的时间段确定了这个时间段</p>
-<p>后，第一班客车发车的时间t=右端点r位置的货车发车时间 因为经验上,客车到站或出站与某一辆货车的发车时间重</p>
-<p>合时可以取到最优 (突变点)</p>
-<p>这里train[n+1]=train[1]+m/2 目的是为了更好的处理客车等候时长由于取模(环变链)导致的连续区间分裂</p>
-<p> 这样双指针就不会因为时长为k的区间一半在前一半在后而变得复杂</p>
+<p>事实上由于每个客车半小时发一趟车，客车每小时只会出发两趟 所以客车从到站到出发的时间段实际上是以半小时为周期的, 在一小时60分种的情况下若下一趟的车在20分到 后40出发 即相当于 0到30分中 [20,30]和[0,10]分中有客车在等待 货车不能发车，所以将所有的货车出发时间映射到同一个半小时时间段内 仅仅讨论这半个小时内 哪段长度为k(客车等待时间)的时间段内所覆盖到的货车发车班次最少即最优解将所有货车映射到同一个半小时内后 第l趟货车和第r趟货车若发车间隔&gt;=k那么它们就不会被同一个客车等候时间被取消，我们要通过双指针得到一个区间左右端点上货车发车间隔&lt;k且最少货车发车的时间段确定了这个时间段后，第一班客车发车的时间t=右端点r位置的货车发车时间 因为经验上,客车到站或出站与某一辆货车的发车时间重合时可以取到最优 (突变点)</p>
+<p>这里train[n+1]=train[1]+m/2 目的是为了更好的处理客车等候时长由于取模(环变链)导致的连续区间分裂 这样双指针就不会因为时长为k的区间一半在前一半在后而变得复杂</p>
 <img src="/.io//timg.gif" data-original="example.png">
 
 
@@ -1892,6 +1899,35 @@
       <tags>
         <tag>sort</tag>
         <tag>双指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-659-B</title>
+    <url>/2020/07/25/codeforces-659-B/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/contest/1384/problem/B2" target="_blank" rel="noopener">B2. Koa and the Beach (Hard Version)</a> </p>
+<p><a href="https://codeforc.es/contest/1384/problem/B1" target="_blank" rel="noopener">B1. Koa and the Beach (Easy Version)</a> </p>
+<p>题意</p>
+<p>一个人从岸边位置0 游到 岛上位置n+1</p>
+<p>中间n个水域的深度为d[i]</p>
+<p>同时由于潮汐海水深度一直在周期的变化d[i]+p[tmod2k]</p>
+<p>其中p=[0,1,2,…,k−2,k−1,k,k−1,k−2,…,2,1] </p>
+<p>而这个人不能通过深度为L的水域 问最后这个人能否到达对岸</p>
+<p>题解</p>
+<p>easy version</p>
+<p>可以将{位置,潮汐增加高度,是否处于涨潮期}这个状态视为一个结点</p>
+<p>而当前结点是否能转移到其他结点x的条件是d[x]+潮汐增加高度&lt;=l</p>
+<p>于是将所有状态点构成一个图 进行dfs搜素是否能够到达n+1位置 </p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">100</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> deep[Max];</span><br><span class="line"><span class="keyword">int</span> n,k,l;<span class="keyword">bool</span> ok;</span><br><span class="line"><span class="built_in">set</span>&lt;pair&lt;<span class="keyword">int</span>,pair&lt;<span class="keyword">int</span>,<span class="keyword">bool</span>&gt; &gt; &gt;vis;</span><br><span class="line"><span class="comment">///官方用tuple&lt;int,int,bool&gt;可能编译器问题一直报错</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> pos,<span class="keyword">int</span> tide,<span class="keyword">bool</span> down)</span></span>&#123;</span><br><span class="line">    <span class="comment">//vis[pos]++;</span></span><br><span class="line">    <span class="comment">//if(vis[pos]&gt;=17*k)return;</span></span><br><span class="line">    <span class="comment">///不用三元组标记每个状态是否访问</span></span><br><span class="line">    <span class="comment">///尝试用vis[pos]被访问到一定次数则表明不能通到下一个点</span></span><br><span class="line">    <span class="comment">///但是这种方式可能由于到达当前位置的状态太多</span></span><br><span class="line">    <span class="comment">///无法准确给出一个限定最多访问的次数上界</span></span><br><span class="line">    <span class="keyword">if</span>(pos&gt;n)&#123;</span><br><span class="line">        ok=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(vis.count(&#123;pos,&#123;tide,down&#125;&#125;))<span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span> vis.insert(&#123;pos,&#123;tide,down&#125;&#125;);</span><br><span class="line">    tide+=(down?<span class="number">-1</span>:<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(tide==k||tide==<span class="number">0</span>)down=!down;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;pos&lt;&lt;" "&lt;&lt;tide&lt;&lt;" "&lt;&lt;down&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">if</span>(deep[pos+<span class="number">1</span>]+tide&lt;=l)dfs(pos+<span class="number">1</span>,tide,down);</span><br><span class="line">    <span class="keyword">if</span>(deep[pos]+tide&lt;=l)dfs(pos,tide,down);</span><br><span class="line">    <span class="comment">//if(deep[pos-1]+tide&lt;=l)dfs(pos-1,tide,down);</span></span><br><span class="line">    <span class="keyword">if</span>(deep[pos]+tide&lt;l&amp;&amp;deep[pos+<span class="number">1</span>]+tide&gt;l)<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        ok=<span class="number">0</span>;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k&gt;&gt;l;</span><br><span class="line">        deep[<span class="number">0</span>]=-k,deep[n+<span class="number">1</span>]=-k;</span><br><span class="line">        vis.<span class="built_in">clear</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;deep[i];</span><br><span class="line">        dfs(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span>(!ok)<span class="built_in">cout</span>&lt;&lt;<span class="string">"No"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">"Yes"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>codeforces</category>
+      </categories>
+      <tags>
+        <tag>暴力</tag>
+        <tag>贪心</tag>
+        <tag>dfs &amp; bfs</tag>
+        <tag>构造</tag>
       </tags>
   </entry>
 </search>
