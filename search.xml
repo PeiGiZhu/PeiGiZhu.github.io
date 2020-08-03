@@ -2212,6 +2212,10 @@
 <p><img src="/.io//timg.gif" data-original="img3.png"></p>
 <p>在windows自带的画图软件上写的数字8 经过截取压缩预处理后(网上找到的专门针对生成类mnist图片的小程序) </p>
 <p>进行识别显示结果为8结果与预期吻合</p>
+<p>只要学习了具体如何搭建一个简单神经网络, 验证求导正确性, 如何探究学习率与正确率的关系</p>
+<p>算法理论内涵结合吴恩达的课程对于入门的我也能理解</p>
+<p>而整个学习过程最难的部分 “反向传播过程”的公式推倒 还得继续研究学习</p>
+<p>不过不懂原理并不妨碍使用它，如果不深究具体推导计算 其实实现它的学习成本并不高</p>
 <p>最后贴上<a href="https://gitee.com/peigizhu/NeuralNetworks" target="_blank" rel="noopener">开源代码</a></p>
 ]]></content>
       <categories>
