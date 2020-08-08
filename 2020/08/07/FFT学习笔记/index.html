@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FFT&amp;NTT学习笔记 - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,
+参考资料互动视频学习&amp;amp;实现FFT (建议配合视频阅读本章)
+通俗理解“卷积”——从傅里叶变换到滤波器
+快速傅里叶变换详解
+如何理解傅里叶变换公式
+
+概述什么是傅里叶变化？
+通俗来说傅里叶变,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">FFT&NTT学习笔记</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">FFT&NTT学习笔记</h1>
+        <div class="stuff">
+            <span>八月 07, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/FFT-NTT/" rel="tag">FFT & NTT</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.bilibili.com/video/BV1Y7411W73U" target="_blank" rel="noopener">互动视频学习&amp;实现FFT</a> (建议配合视频阅读本章)</p>
+<p><a href="https://zhuanlan.zhihu.com/p/28478034" target="_blank" rel="noopener">通俗理解“卷积”——从傅里叶变换到滤波器</a></p>
+<p><a href="https://www.cnblogs.com/zwfymqz/p/8244902.html" target="_blank" rel="noopener">快速傅里叶变换详解</a></p>
+<p><a href="https://www.zhihu.com/question/19714540" target="_blank" rel="noopener">如何理解傅里叶变换公式</a></p>
+</blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>什么是傅里叶变化？</p>
+<p>通俗来说傅里叶变换用于将时域函数变换为频域函数</p>
+<p>原来的时域函数可以用多个不同频率的sin or cos 函数叠加拟合出来</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example0.png"></p>
+<p>上图形象的描述了傅里叶变换在做什么</p>
+<p>不过此处不多深究傅里叶变换数学上的推导及其含义(<del>主要是👴忘了</del>) 详细可以看<a href="https://zhuanlan.zhihu.com/p/108598607" target="_blank" rel="noopener">这里</a></p>
+<p>这里重点讨论 :1.FFT具体实现,2.它解决什么问题 3.它与信号处理有何关系</p>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><blockquote>
+<p><em>key words : 单位根 , 多项式</em></p>
+</blockquote>
+<h4 id="单位根"><a href="#单位根" class="headerlink" title="单位根"></a>单位根</h4><p>可以理解为在复平面上的向量</p>
+<p>一个单位圆上的复数 $z=cosθ+isinθ$</p>
+<p>用欧拉定理 $e^{iθ}=cosθ+isinθ$ 其中θ为幅角 因为在单位圆上所以模长为1</p>
+<p>而单位根$w_n^d=(e^{iθ})^d$ 其中 $θ=2pi/n$ </p>
+<p>可以想象成一个单位圆被平分成n分从x轴的 $w_n^0$逆时针数第d个点为$w_n^d$ </p>
+<p>关于单位根有三个重要的引理在之后实现FFT时会用到：</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example2.png"></p>
+<p>上面是严格按照定义证明，下面按照我的理解证明</p>
+<h5 id="Lemma-1-消去引理：-w-dn-dk-w-n-k"><a href="#Lemma-1-消去引理：-w-dn-dk-w-n-k" class="headerlink" title="Lemma.1 消去引理：$w_{dn}^{dk}=w_n^k$"></a>Lemma.1 消去引理：$w_{dn}^{dk}=w_n^k$</h5><p>可以想象被分成dn分的单位圆从x轴逆时针数第dk个 和 被分成n个的单位元从x轴逆时针数第k个 是同一个点</p>
+<p>而这个引理主要用到这个公式的转换$w_n^{n/2}=w_2^1=-1$</p>
+<h5 id="Lemma-2-折半引理：-w-n-k-n-2-2-w-n-k-2"><a href="#Lemma-2-折半引理：-w-n-k-n-2-2-w-n-k-2" class="headerlink" title="Lemma.2 折半引理：$(w_n^{k+n/2})^2=(w_n^k)^2$"></a>Lemma.2 折半引理：$(w_n^{k+n/2})^2=(w_n^k)^2$</h5><p>这也显然某个点转过半圈它们的实部长度相等 即 $|cos(θ)|=|cos(θ+pi/2)|$</p>
+<h5 id="Lemma-3求和引理-∑-i-0-n-1-w-n-k-i-k-n-n"><a href="#Lemma-3求和引理-∑-i-0-n-1-w-n-k-i-k-n-n" class="headerlink" title="Lemma.3求和引理:$∑_{i=0}^{n-1}(w_n^k)^i=[k==n]*n$"></a>Lemma.3求和引理:$∑_{i=0}^{n-1}(w_n^k)^i=[k==n]*n$</h5><p>若将这个式子考虑为向量相加,单位圆上被平分成n+1个点,</p>
+<p>当k=n时 等效于单位圆上只有$w_0^0=1+0i$ 它被加了n次所以求和结果为n</p>
+<p>当k!=n时，无论分成奇数个还是偶数个点这几个向量相加还是0 如下图</p>
+<p>​                      <img src="/.io//timg.gif" data-original="FFT_example1.png"></p>
+<h3 id="多项式"><a href="#多项式" class="headerlink" title="多项式"></a>多项式</h3><p>多项式F的次数degree(F) = 最大幂次项的幂级数， 次数界&gt;degree(F)</p>
+<h5 id="多项式的系数表示法"><a href="#多项式的系数表示法" class="headerlink" title="多项式的系数表示法:"></a>多项式的系数表示法:</h5><p> $F(x)=a<em>0+a_1x+a_2x^2+….+a_nx^n=∑</em>{i=0}^n a_ix^i$ (F(x)的degree(F)=n)</p>
+<p>一般可以用一个一维矩阵[a0,a1,a2,…an]仅仅保存系数来表示一个多项式</p>
+<h5 id="多项式的点值表示法"><a href="#多项式的点值表示法" class="headerlink" title="多项式的点值表示法:"></a>多项式的点值表示法:</h5><p>顾名思义用一系列点(n+1个点)表示一个多项式函数图像</p>
+<p>{$(x_0,F(x_0)),(x_1,F(x_1)),(x_2,F(x_2)),…,(x_n,F(x_n))$}</p>
+<p>点值表示法有什么优势呢 </p>
+<p>假如求$A(x)=F(x)×G(x)$ 其中F(x)的系数以ai表示共m项 G(x)的系数以bi表示共n项</p>
+<p>A(x)的系数以ci表示 共n+m项即得到的$A(x)$中degree(A)=degree(F)+degree(G)</p>
+<p>用系数表示法$c<em>i=∑</em>{j=0}^{i} a<em>j*b</em>{i-j}$   需要$On^2$</p>
+<p>而用点值表示法我我们要求$A(x_i)$只用算$F(x_i)×G(x_i)$ 对应点相乘就好了</p>
+<p>点值表示法可以$On$求出两多项式的乘积 </p>
+<p><img src="/.io//timg.gif" data-original="FFT_example3.png"></p>
+<p>如果有什么黑科技能快速将多项式从系数表示法变为点值表示法 求得两个多项式的乘积后再变回系数表示法</p>
+<p>那么就能加速多项式乘法了,FFT算法解决了这个痛点</p>
+<h3 id="解决什么问题"><a href="#解决什么问题" class="headerlink" title="解决什么问题"></a>解决什么问题</h3><p>FFT主要用于在$Onlogn$的复杂度内快速地 将多项式从系数表示法变为点值表示法 or 逆变换操作</p>
+<p>由此来加速多项式乘法 比如<a href="https://www.luogu.com.cn/problem/P3803" target="_blank" rel="noopener">模板题</a></p>
+<p><em>给定一个 n 次多项式 F(x)，和一个 m 次多项式 G(x)。请求出 F(x) 和 G(x) 的卷积。</em> </p>
+<p>这里求两个多项式卷积实际上指的是两个多项式相乘的结果用系数表示法输出各个项的系数</p>
+<p>假如求$A(x)=F(x)×G(x)$ 其中F(x)的系数以ai表示共m项 G(x)的系数以bi表示共n项</p>
+<p>A(x)的系数以ci表示 共n+m项即得到的$A(x)$中degree(A)=degree(F)+degree(G)</p>
+<p>用系数表示法求A(x)的系数$ci$需要进行卷积运算即：$c<em>i=∑</em>{j=0}^{i} a<em>j*b</em>{i-j}$ </p>
+<p>而解决这个问题我们所需要做的就是求A(x)</p>
+<p>具体的求： $A(x)=IDFT(FFT(F)*FFT(G))$</p>
+<p>其中FFT(X)表示将某多项式X从系数表示变为点值表示 IDFT(X)表示将某多项式X从点值表示变为系数表示</p>
+<p>意思是我们需要将F(x),G(x)转化为点值式 然后$On$的对应点相乘 再转为系数表达式整体复杂度$Onlogn$</p>
+<p>/*</p>
+<p>插入语</p>
+<p>这里稍微提一下实现的细节问题，下文会具体贴出实现代码</p>
+<p>这里需要注意的是由于degree(A)=degree(F)+degree(G)最后A(x)的系数有n+m个</p>
+<p>于是我们直接读入长度为n+m系数矩阵a和b(原来没有的系数为0) 这样FFT和IDFT处理时就不会出错了</p>
+<p>另外,在实现FFT时原来的数组含义为存第i项的系数</p>
+<p>变为点值表达式后数组的含义为当多项式取$x=w_n^i$时对应的$G(w_n^i)$ 值</p>
+<p>IDFT后数组又变成了第i项的系数</p>
+<p>*/</p>
+<h2 id="FFT算法实现"><a href="#FFT算法实现" class="headerlink" title="FFT算法实现"></a>FFT算法实现</h2><blockquote>
+<p><em>key words:实现原理,优化加速</em></p>
+<p>本章主要为了了解如何实现&amp;使用FFT 因此推导过程略显潦草</p>
+</blockquote>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>最终目的：使用FFT将$A(x)=∑_{i=0}^{n-1}a_ix^i$ 用点值法表示出来</p>
+<p>而快速傅里叶变换使用单位根$w_n^i,i∈[0,n-1]$做为点代入求得点值表示法中的{$(x_0,y_0),..,(x_i,y_i)$}  集合</p>
+<p>也就是说我们要求出$yi=A(w<em>n^i)=∑</em>{j=0}^{n-1}a_jw_n^{ij}$ $i∈[0,n-1]$  </p>
+<p>对于多项式A(x) 它的系数构成的一维矩阵$a=[a<em>0,a_1,a_2….a</em>{n-1}]$</p>
+<p>将这个系数矩阵按奇偶分组 对应系数下标表示此项为${a_ix^i}$ </p>
+<p>$a^{[0]}=[a<em>0,a_2,…a</em>{n-2}]$  对应多项式为$A^{[0]}(x)$</p>
+<p>$a^{[1]}=[a<em>1,a_3,…a</em>{n-1}]$对应多项式为$A^{[1]}(x)$</p>
+<p>尝试寻找这三个矩阵(多项式)的关系</p>
+<p>得到$A(x)=A^{[0]}(x^2)+xA^{[1]}(x^2)$ (中间的详细过请看鹤翔万里的<a href="https://www.bilibili.com/video/BV1Y7411W73U" target="_blank" rel="noopener">互动视频</a>)</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example4.png"></p>
+<p>​            </p>
+<p>分别带入单位根$w_n^k$ 和$w_n^{k+n/2}$得到下图两个式子 </p>
+<p><img src="/.io//timg.gif" data-original="FFT_example5.png"></p>
+<p>​                 </p>
+<p>利用折半引理和消去引理得到</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example6.png"></p>
+<p>于是求解$A(x)$的问题被分成两个规模更小(只有A(x)一半系数)的子问题 我们只要求$A^{[0]}(x),A^{[1]}(x)$ 就能得到$A(x)$</p>
+<p>同理利用递归分治将求解$A^{[0]}(x),A^{[1]}(x)$ 于是如何将多项式从系数表达式变为点值表达式的问题解决了</p>
+<p>接下来考虑如何进行逆变换</p>
+<p>以下截取自<a href="https://www.cnblogs.com/zwfymqz/p/8244902.html" target="_blank" rel="noopener">快速傅里叶变换详解</a>(另外加了些注释讲解)</p>
+<p>$(y<em>0,y_1,y_2,\dots,y</em>{n-1})$为多项式A(x)系数矩阵 $(a<em>0,a_1,a_2,\dots,a</em>{n-1})$的傅里叶变换（即点值表示）</p>
+<p>设有另一个向量$(c<em>0,c_1,c_2,\dots,c</em>{n-1})$满足$c<em>k=∑</em>{i=0}^{n−1}y_i(ω_n^{−k})^i $</p>
+<p>即多项式$B(x)=y<em>0,y_1x,y_2x^2,\dots,y</em>{n-1}x^{n-1}$在$\omega<em>n^{0},\omega_n^{-1},\omega_n^{-2},\dots,\omega</em>{n-1}^{-(n-1)}$处的点值表示 </p>
+<p>$(c<em>0,c_1,c_2,\dots,c</em>{n-1})$满足$c<em>k=∑</em>{i=0}^{n-1}y_i(w_n^{-k})^i$ </p>
+<p>这样就将点值表示法的矩阵$y$重新视为一个系数表示法的多项式系数 </p>
+<p>将$y$做一个替换</p>
+<p>$c<em>k=∑</em>{i=0}^{n-1}(∑_{j=0}^{n-1}a_j(w_n^i)^j)(w_n^{-k})^i$</p>
+<p>因为本来$yi$就是将$w<em>n^i$带入多项式A(x)的系数表达式$∑</em>{j=0}^{n-1}a_j(w_n^i)^j$求得的值</p>
+<p>其中$aj$是我们最终要求的系数</p>
+<p>接着运算化简：</p>
+<p>$c<em>k=∑</em>{i=0}^{n−1}∑_{j=0}^{n−1}a_j(ω_n^{j−k})^i $</p>
+<p>$c<em>k=∑</em>{j=0}^{n−1}a<em>j(∑</em>{i=0}^{n−1}(ω_n^{j−k})^i) $</p>
+<p>设$S(x)=∑_{i=0}^{n-1}x^i$ 带入$w_n^k$ 通过Lemma.3求和引理可得当且仅当k=n时$S(w_n^k)$有值</p>
+<p>应此$c<em>k=∑</em>{j=0}^{n−1}a<em>j(∑</em>{i=0}^{n−1}(ω_n^{j−k})^i) $被化简为$c_k=na_k$</p>
+<p>其中$c_k$为点值表示法中矩阵中第k个元素  求得$a_k$为系数表示法中矩阵第k个元素</p>
+<p>回头看IDFT的操作实际上是将A(x)的点值表示法视为B(x)系数表示法再进行FFT变换</p>
+<p>需要修改的地方就是带入的点为{$(w_n^{-0},B(w_n^{-0})),(w_n^{-1},B(w_n^{-1})),…,(w_n^{-k},B(w_n^{-k})),…$}</p>
+<p>并且得到B(x)的点值表示法矩阵ci需要 /n才等于要求的A(x)的系数表示法矩阵ai</p>
+<p>​                    <img src="/.io//timg.gif" data-original="FFT_example7.png"></p>
+<p>至此解决了FFT和IDFT的推导&amp;实现，现在能实现递归版的FFT&amp;IDFT </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///来自洛谷的模板</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="built_in">acos</span>(<span class="number">-1.0</span>);</span><br><span class="line"><span class="comment">//定义复数的运算 </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">complex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">double</span> x,y;</span><br><span class="line">    <span class="built_in">complex</span> (<span class="keyword">double</span> xx=<span class="number">0</span>,<span class="keyword">double</span> yy=<span class="number">0</span>)&#123;x=xx,y=yy;&#125;</span><br><span class="line">&#125;a[MAXN],b[MAXN];</span><br><span class="line"><span class="built_in">complex</span> <span class="keyword">operator</span> + (<span class="built_in">complex</span> a,<span class="built_in">complex</span> b)&#123; <span class="keyword">return</span> <span class="built_in">complex</span>(a.x+b.x , a.y+b.y);&#125;</span><br><span class="line"><span class="built_in">complex</span> <span class="keyword">operator</span> - (<span class="built_in">complex</span> a,<span class="built_in">complex</span> b)&#123; <span class="keyword">return</span> <span class="built_in">complex</span>(a.x-b.x , a.y-b.y);&#125;</span><br><span class="line"><span class="built_in">complex</span> <span class="keyword">operator</span> * (<span class="built_in">complex</span> a,<span class="built_in">complex</span> b)&#123; <span class="keyword">return</span> <span class="built_in">complex</span>(a.x*b.x-a.y*b.y , a.x*b.y+a.y*b.x);&#125;</span><br><span class="line"><span class="comment">///使用FFT将系数表示法转化为点值表示法注意将系数项个数limit扩展到2的次幂</span></span><br><span class="line"><span class="comment">///type=1为系数表示转点值表示,=-1表示点值变系数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fast_fast_tle</span><span class="params">(<span class="keyword">int</span> limit,<span class="built_in">complex</span> *a,<span class="keyword">int</span> type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(limit==<span class="number">1</span>) <span class="keyword">return</span> ;<span class="comment">//只有一个常数项</span></span><br><span class="line">    <span class="built_in">complex</span> a1[limit&gt;&gt;<span class="number">1</span>],a2[limit&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=limit;i+=<span class="number">2</span>)<span class="comment">//根据下标的奇偶性分类</span></span><br><span class="line">        a1[i&gt;&gt;<span class="number">1</span>]=a[i],a2[i&gt;&gt;<span class="number">1</span>]=a[i+<span class="number">1</span>];</span><br><span class="line">    fast_fast_tle(limit&gt;&gt;<span class="number">1</span>,a1,type);</span><br><span class="line">    fast_fast_tle(limit&gt;&gt;<span class="number">1</span>,a2,type);</span><br><span class="line">    <span class="built_in">complex</span> Wn=<span class="built_in">complex</span>(<span class="built_in">cos</span>(<span class="number">2.0</span>*Pi/limit) , type*<span class="built_in">sin</span>(<span class="number">2.0</span>*Pi/limit)),w=<span class="built_in">complex</span>(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//Wn为单位根，w表示幂</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;(limit&gt;&gt;<span class="number">1</span>);i++,w=w*Wn)<span class="comment">//这里的w相当于(wn)^k </span></span><br><span class="line">        a[i]=a1[i]+w*a2[i],</span><br><span class="line">        a[i+(limit&gt;&gt;<span class="number">1</span>)]=a1[i]-w*a2[i];<span class="comment">//利用单位根的性质，O(1)得到另一部分 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而递归版的FFT仍然不够优秀</p>
+<p>接下来要讲如何将递归变为迭代 提高效率</p>
+<h3 id="优化加速"><a href="#优化加速" class="headerlink" title="优化加速"></a>优化加速</h3><blockquote>
+<p>主要有两种技巧优化加速</p>
+<p>1.逆序位置换，2.蝴蝶操作</p>
+</blockquote>
+<h4 id="1-逆序位置换"><a href="#1-逆序位置换" class="headerlink" title="1.逆序位置换"></a>1.逆序位置换</h4><p>不断递归时我们发现，最初的系数矩阵会被按照奇偶分组 </p>
+<p>递归到最后一层时当前系数下标与原数组的下标有一种规律</p>
+<p>​                 <img src="/.io//timg.gif" data-original="FFT_example8.png"></p>
+<p>上一行是变换前的系数下标，下面为递归到最后的系数对应下标</p>
+<p>​                 <img src="/.io//timg.gif" data-original="FFT_example9.png"></p>
+<p>经过观察得到规律：</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example10.png"></p>
+<p>于是我们可以舍弃递归直接使用位逆序置换操作预处理得到和递归一样的系数下标信息</p>
+<p>根据公式 </p>
+<script type="math/tex; mode=display">
+A(w_n^k)=A^{[0]}(w_{n/2}^k)+ w_n^k A^{[1]}(w_{n/2}^k)</script><script type="math/tex; mode=display">
+A(w_n^{k+n/2})=A^{[0]}(w_{n/2}^k)-w_n^kA^{[1]}(w_{n/2}^k)</script><p>得到如下迭代运算过程</p>
+<p><img src="/.io//timg.gif" data-original="FFT_example11.png"></p>
+<p>另外公式中$w<em>n^kA^{[1]}(w</em>{n/2}^k)$ 复数乘法被计算两次 可以将它计算一次后存入一个变量避免重复操作</p>
+<p>这个优化被成为<em>蝴蝶操作</em></p>
+<p>于是迭代版的FFT也就出来了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span>&#123;</span></span><br><span class="line">    <span class="keyword">double</span> r,i;</span><br><span class="line">    Complex()&#123;r=<span class="number">0</span>,i=<span class="number">0</span>;&#125;</span><br><span class="line">    Complex(<span class="keyword">double</span> real,<span class="keyword">double</span> imag):r(real),i(imag)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line">Complex <span class="keyword">operator</span> + (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r+b.r,a.i+b.i);&#125;</span><br><span class="line">Complex <span class="keyword">operator</span> - (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r-b.r,a.i-b.i);&#125;</span><br><span class="line">Complex <span class="keyword">operator</span> * (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r*b.r-a.i*b.i,a.r*b.i+a.i*b.r);&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> rev[Max],len,lim=<span class="number">1</span>;</span><br><span class="line">Complex a[Max],b[Max];<span class="comment">///原多项式系数</span></span><br><span class="line"><span class="comment">///预处理位逆变换</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">getrev</span><span class="params">(<span class="keyword">int</span> lenth,<span class="keyword">int</span> limit)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;limit;i++)rev[i]=(rev[i&gt;&gt;<span class="number">1</span>]&gt;&gt;<span class="number">1</span>)|((i&amp;<span class="number">1</span>)&lt;&lt;(len<span class="number">-1</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">FFT</span><span class="params">(Complex *A,<span class="keyword">int</span> opt)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lim;i++)<span class="keyword">if</span>(i&lt;rev[i]) swap(A[i],A[rev[i]]);<span class="comment">///求出要迭代的序列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> mid=<span class="number">1</span>;mid&lt;lim;mid&lt;&lt;=<span class="number">1</span>)&#123;<span class="comment">///待合并区间长度的一半</span></span><br><span class="line">        Complex Wn=Complex(<span class="built_in">cos</span>(Pi/mid),opt*<span class="built_in">sin</span>(Pi/mid));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> R=mid&lt;&lt;<span class="number">1</span>,i=<span class="number">0</span>;i&lt;lim;i+=R)&#123;<span class="comment">///R是区间的右端点，i表示前已经到哪个位置了</span></span><br><span class="line">            Complex W=Complex(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;mid;k++)&#123;<span class="comment">///枚举左半部分</span></span><br><span class="line">                Complex x=A[i+k],y=W*A[i+mid+k];<span class="comment">///蝴蝶操作</span></span><br><span class="line">                A[i+k]=x+y;</span><br><span class="line">                A[i+mid+k]=x-y;</span><br><span class="line">                W=W*Wn;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还是之前的模板题<a href="https://www.luogu.com.cn/problem/P3803" target="_blank" rel="noopener">模板题</a></p>
+<p>我们要添加上逆序位置换 然后实现$A(x)=IDFT(FFT(F)*FFT(G))$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">1e7</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="built_in">acos</span>(<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Complex</span>&#123;</span></span><br><span class="line">    <span class="keyword">double</span> r,i;</span><br><span class="line">    Complex()&#123;r=<span class="number">0</span>,i=<span class="number">0</span>;&#125;</span><br><span class="line">    Complex(<span class="keyword">double</span> real,<span class="keyword">double</span> imag):r(real),i(imag)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line">Complex <span class="keyword">operator</span> + (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r+b.r,a.i+b.i);&#125;</span><br><span class="line">Complex <span class="keyword">operator</span> - (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r-b.r,a.i-b.i);&#125;</span><br><span class="line">Complex <span class="keyword">operator</span> * (Complex a, Complex b)&#123;<span class="keyword">return</span> Complex(a.r*b.r-a.i*b.i,a.r*b.i+a.i*b.r);&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> rev[Max],len,lim=<span class="number">1</span>;</span><br><span class="line">Complex a[Max],b[Max];<span class="comment">///原多项式系数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FFT</span><span class="params">(Complex *A,<span class="keyword">int</span> opt)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lim;i++)<span class="keyword">if</span>(i&lt;rev[i]) swap(A[i],A[rev[i]]);<span class="comment">///求出要迭代的序列</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> mid=<span class="number">1</span>;mid&lt;lim;mid&lt;&lt;=<span class="number">1</span>)&#123;<span class="comment">///待合并区间的中点</span></span><br><span class="line">        Complex Wn=Complex(<span class="built_in">cos</span>(Pi/mid),opt*<span class="built_in">sin</span>(Pi/mid));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> R=mid&lt;&lt;<span class="number">1</span>,i=<span class="number">0</span>;i&lt;lim;i+=R)&#123;<span class="comment">///R是区间的右端点，i表示前已经到哪个位置了</span></span><br><span class="line">            Complex W=Complex(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;mid;k++)&#123;<span class="comment">///枚举左半部分</span></span><br><span class="line">                Complex x=A[i+k],y=W*A[i+mid+k];<span class="comment">///蝴蝶操作</span></span><br><span class="line">                A[i+k]=x+y;</span><br><span class="line">                A[i+mid+k]=x-y;</span><br><span class="line">                W=W*Wn;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n,m;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++) <span class="built_in">cin</span>&gt;&gt;a[i].r;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;i++) <span class="built_in">cin</span>&gt;&gt;b[i].r;</span><br><span class="line">    <span class="keyword">while</span>(lim&lt;=n+m) lim&lt;&lt;=<span class="number">1</span>,len++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;lim;i++)</span><br><span class="line">        rev[i]= ( rev[i&gt;&gt;<span class="number">1</span>]&gt;&gt;<span class="number">1</span> )| ( (i&amp;<span class="number">1</span>)&lt;&lt;(len<span class="number">-1</span>) ) ;</span><br><span class="line">    <span class="comment">// 在原序列中 i 与 i/2 的关系是 ： i可以看做是i/2的二进制上的每一位左移一位得来</span></span><br><span class="line">    <span class="comment">// 那么在反转后的数组中就需要右移一位，同时特殊处理一下复数</span></span><br><span class="line">    FFT(a,<span class="number">1</span>);FFT(b,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=lim;i++) a[i]=a[i]*b[i];</span><br><span class="line">    FFT(a,<span class="number">-1</span>);</span><br><span class="line">    <span class="comment">///根据逆变换推导，最后输出实部要记得除长度limit</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n+m;i++)<span class="built_in">cout</span>&lt;&lt;(<span class="keyword">int</span>)(a[i].r/lim+<span class="number">0.5</span>)&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    <span class="comment">///+0.5上取整调整精度,此时虚部已经全为0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里还有个小技巧三次FFT可以被优化成两次FFT同样得到结果</p>
+<p>我们可以把$G(x)$放到$F(x)$的虚部上求出$F^2(x)$ ,然后取出$F(x)$的虚部全部/2就是答案了</p>
+<p>正确性证明：$(a+bi)^2=(a^2-b^2)+(2abi)$</p>
+<p>到此为止FFT的实现优化已经结束。</p>
+<p>接下来将要讨论FFT与信号处理的关系以及NTT是什么。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/Aimer - ONE.flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var i=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){i&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,e,a=0;a<r.length;a++)t=r[a],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
