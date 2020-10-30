@@ -2435,7 +2435,11 @@
 <p>第一行，一个正整数 N<br>接下来 N 行，每行两个正整数表示 Xi 和 Yi<br>对于所有的数据，1≤N≤100,000，1≤Xi,Yi≤N，Xi 互不相等且 Yi 互不相等</p>
 <p>输出文件包含两行，第一行一个正整数，表示最少组数<br>第二行 N 个正整数，依次表示你的方案中每块木板分在了哪一组<br>组的编号必须是从 1 开始的连续整数</p>
 <blockquote>
-<p>已知<br>Dilworth 定理<br>一个序列最少可以分成n个最长上升子序列,这个序列最长不上升子序列长度为m,则n=m<br>一个序列最少可以分成n个最长下降子序列,这个序列最长不下降子序列长度为m,则n=m<br>链的最少划分数=反链的最长长度<br>举栗子就是:最大上升子序列(&gt;)的反链是最大不上升子序列(&lt;=),,,最大下降子序列(&lt;)的反链就是最大不下降子序列(&gt;=)<br>记住不要漏等号</p>
+<p>已知<br>Dilworth 定理<br>一个序列最少可以分成n个上升子序列,这个序列最长不上升子序列长度为m,则n=m<br>一个序列最少可以分成n个下降子序列,这个序列最长不下降子序列长度为m,则n=m<br>链的最少划分数=反链的最长长度 </p>
+<p>举栗子就是:</p>
+<p>上升子序列(&lt;)的反链是原序列的最大不上升子序列(=&gt;),,,</p>
+<p>下降子序列(&gt;)的反链就是原序列的最大不下降子序列(&lt;=)</p>
+<p>记住不要漏等号</p>
 </blockquote>
 <p>对于本题<br>将木板按照Xi从小到大排序，将这时的Yi数列记为Zi数列，则问题变成将Zi划分为尽可能少的若干组上升子序列。<br>根据Dilworth定理，最小组数等于Zi的最长不上升子序列长度。<br>用二分栈优化dp Onlogn 找到Zi数列的最长不上升子序列 并更新每组的最长上升子序列</p>
 <p>具体的 开一个数组lis已经记录到第i个数时能构成的最长非上升子序列<br>从前到后遍历Zi 在lis中二分寻找第一个小于等于Zi的数 用Zi替换这个数 使得最终lis是最长的非上升子序列<br>而这个 替换的数取代在lb位置上的数 实际上就是在原先的那组板子上叠最长上升子序列<br>二分细节见代码</p>
@@ -2443,11 +2447,13 @@
 <p>详见：<a href="https://www.iteye.com/blog/gaotong1991-2024588" target="_blank" rel="noopener">此处</a><br>举例用二分栈优化最长上升子序列dp</p>
 <p>开一个栈，每次取栈顶元素top和读到的元素temp做比较，如果temp &gt; top 则将temp入栈；如果temp &lt; top则二分查找栈中的比temp大的第1个数，并用temp替换它。 最长序列长度即为栈的大小top。</p>
 <p>这也是很好理解的，对于x和y，如果x &lt; y且Stack[y] &lt; Stack[x],用Stack[x]替换Stack[y]，此时的最长序列长度没有改变但序列Q的”潜力”增大了。</p>
-<p>或者说开辟了一个新分支的同时不影响原来分支和最长子序列<br>详见：<a href="https://blog.csdn.net/qq_36523667/article/details/78631696?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">此处</a></p>
+<p>或者说开辟了一个新分支的同时不影响原来分支和最长子序列<br>详见：<a href="https://blog.csdn.net/qq_36523667/article/details/78631696?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">此处</a></p>
 <p>举例：原序列为1，5，8，3，6，7</p>
 <p>栈为1，5，8，此时读到3，用3替换5，得到1，3，8； 再读6，用6替换8，得到1，3，6；再读7，得到最终栈为1，3，6，7。最长递增子序列为长度4。</p>
 </blockquote>
 <figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Data</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> x,y;</span><br><span class="line">    <span class="keyword">int</span> indx;</span><br><span class="line">&#125;data[(<span class="keyword">int</span>)<span class="number">1e5</span>+<span class="number">5</span>];</span><br><span class="line"><span class="keyword">int</span> lis[(<span class="keyword">int</span>)<span class="number">1e5</span>+<span class="number">5</span>];</span><br><span class="line"><span class="keyword">int</span> ans[(<span class="keyword">int</span>)<span class="number">1e5</span>+<span class="number">4</span>];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(Data a,Data b)</span></span>&#123;<span class="keyword">return</span> a.x&lt;b.x;&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="built_in">cin</span>&gt;&gt;data[i].x&gt;&gt;data[i].y,data[i].indx=i;</span><br><span class="line">    sort(data,data+n,cmp);</span><br><span class="line">    <span class="keyword">int</span> len=<span class="number">0</span>,lb,rb;</span><br><span class="line">    lis[len]=data[<span class="number">0</span>].y;</span><br><span class="line">    ans[data[<span class="number">0</span>].indx]=len;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        lb=<span class="number">0</span>,rb=len;</span><br><span class="line">        <span class="keyword">while</span>(lb&lt;=rb)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid=(lb+rb)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(lis[mid]&lt;data[i].y)rb=mid<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">else</span> lb=mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        len=<span class="built_in">max</span>(len,lb);</span><br><span class="line">        lis[lb]=data[i].y;</span><br><span class="line">        ans[data[i].indx]=lb;<span class="comment">///记录对应的每个木板放入哪一组 二分得到的lb实际表示分到哪一组</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;len+<span class="number">1</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)<span class="built_in">cout</span>&lt;&lt;ans[i]+<span class="number">1</span>&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 ]]></content>
       <categories>
         <category>题解</category>
@@ -4385,6 +4391,494 @@
       <tags>
         <tag>dp</tag>
         <tag>规律发现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2020北京ICPC网络选拔赛Round1-J</title>
+    <url>/2020/10/25/2020%E5%8C%97%E4%BA%ACICPC%E7%BD%91%E7%BB%9C%E9%80%89%E6%8B%94%E8%B5%9BRound1-J/</url>
+    <content><![CDATA[<p><a href="https://ac.nowcoder.com/acm/contest/7501/J" target="_blank" rel="noopener">Matrix Subtraction</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个一个n×m的矩阵</p>
+<p>是否存在一种方案</p>
+<p>使得多次从n×m矩阵中选中某个a×b的矩阵并将所有元素-1后</p>
+<p>将原矩阵变为全0矩阵</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//input</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">2</span> <span class="number">2</span> <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">2</span> <span class="number">3</span> <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">1</span></span><br><span class="line"><span class="comment">//output</span></span><br><span class="line">QAQ</span><br><span class="line">^_^</span><br><span class="line"></span><br><span class="line">For the second <span class="keyword">case</span>, one possible scheme <span class="keyword">is</span> to choose (<span class="number">1</span>, <span class="number">1</span>) - (<span class="number">1</span>, <span class="number">2</span>), (<span class="number">1</span>, <span class="number">2</span>) - (<span class="number">1</span>, <span class="number">3</span>), (<span class="number">2</span>, <span class="number">1</span>) - (<span class="number">2</span>, <span class="number">2</span>), (<span class="number">2</span>, <span class="number">2</span>) - (<span class="number">2</span>, <span class="number">3</span>) respectively.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>发现左上角的元素(M(1,1) )只能被(1,1)到(a,b)的矩阵消耗</p>
+<p>所以(1,1)到(a,b)的矩阵被选择的次数是确定的</p>
+<p>同理在经过(1,1)到(a,b)的矩阵处理后得到的新n×m矩阵</p>
+<p>可以从(M(1,2) )求出(1,2)到(a,b+1)的矩阵需要被用几次</p>
+<p>记C(i,j)表示(i,j)到(i+a-1,j+b-1)的子矩阵需要被用多少次</p>
+<p>可得 $C_{i,j}=M_{i,j}-∑<em>{u=0}^{a-1}∑</em>{v=0}^{b-1}[u!=0 || v!=0] C_{i-u,j-v}$</p>
+<p>利用二位前缀和+二维差分就可以快速求出</p>
+<p>于是只要判断是否能保证$C_{i,j}$非负且原矩阵是否恰好全变为0</p>
+<p>整体复杂度$Onm$</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">///std 二位前缀+差分</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"> </span><br><span class="line">ll mat[Max][Max];</span><br><span class="line">ll Cmat[Max][Max];</span><br><span class="line">ll C[Max][Max];</span><br><span class="line"><span class="keyword">int</span> n,m,a,b;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cin</span>&gt;&gt;mat[i][j];</span><br><span class="line">                C[i][j]=<span class="number">0</span>,Cmat[i][j]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">bool</span> flag=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                C[i][j]+=C[i<span class="number">-1</span>][j];</span><br><span class="line">                C[i][j]+=C[i][j<span class="number">-1</span>];</span><br><span class="line">                C[i][j]-=C[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                mat[i][j]-=C[i][j];</span><br><span class="line">                <span class="keyword">if</span>(mat[i][j]&lt;<span class="number">0</span>)flag=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(i+a<span class="number">-1</span>&gt;n||j+b<span class="number">-1</span>&gt;m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j])flag=<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                C[i][j]+=mat[i][j];</span><br><span class="line">                C[i][j+b]-=mat[i][j];</span><br><span class="line">                C[i+a][j]-=mat[i][j];</span><br><span class="line">                C[i+a][j+b]+=mat[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag)<span class="built_in">cout</span>&lt;&lt;<span class="string">"QAQ"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">"^_^"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是自己的代码(wa)只使用了二维前缀和</p>
+<p>暂时不知道哪里出问题了</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">1e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line">ll mat[Max][Max];</span><br><span class="line">ll Cmat[Max][Max];</span><br><span class="line">ll C[Max][Max];</span><br><span class="line"><span class="keyword">int</span> n,m,a,b;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m&gt;&gt;a&gt;&gt;b;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)<span class="built_in">cin</span>&gt;&gt;mat[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">bool</span> flag=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="keyword">int</span> X=<span class="built_in">max</span>(<span class="number">0</span>,i-a),Y=<span class="built_in">max</span>(<span class="number">0</span>,j-b);</span><br><span class="line">                ll temp=Cmat[i<span class="number">-1</span>][j]+Cmat[i][j<span class="number">-1</span>]-Cmat[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                temp-=Cmat[X][j];temp-=Cmat[i][Y];</span><br><span class="line">                temp+=Cmat[X][Y];</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span>(mat[i][j]-temp&lt;<span class="number">0</span>)flag=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span>(i+a<span class="number">-1</span>&gt;n||j+b<span class="number">-1</span>&gt;m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j]-temp)flag=<span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                C[i][j]=mat[i][j]-temp;</span><br><span class="line">                Cmat[i][j]=C[i][j]+Cmat[i<span class="number">-1</span>][j]+Cmat[i][j<span class="number">-1</span>]-Cmat[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(flag)<span class="built_in">cout</span>&lt;&lt;<span class="string">"QAQ"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">"^_^"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>二维前缀和</tag>
+        <tag>二维差分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PTA列车调度</title>
+    <url>/2020/10/27/PTA%E5%88%97%E8%BD%A6%E8%B0%83%E5%BA%A6/</url>
+    <content><![CDATA[<p><a href="https://acm.sjtu.edu.cn/OnlineJudge/problem/1049" target="_blank" rel="noopener">7-10 列车调度</a></p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<img src="/.io//timg.gif" data-original="example.png">
+
+
+
+<p>两端分别是一条入口（Entrance）轨道和一条出口（Exit）轨道，它们之间有<code>N</code>条平行的轨道。每趟列车从入口可以选择任意一条轨道进入，最后从出口离开。在图中有9趟列车，在入口处按照{8，4，2，5，3，9，1，6，7}的顺序排队等待进入。如果要求它们必须按序号递减的顺序从出口离开，则至少需要多少条平行铁轨用于调度？ </p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>要想得到最少的调度序列，</p>
+<p>那就要找出最少的下降序列的个数。拿样例来说：有如下四个下降序列</p>
+<p>8 4 2 1</p>
+<p>5 3</p>
+<p>9 6</p>
+<p>7</p>
+<p>根据Dilworth定理：某序列的最小的下降序列的个数等于它最长上升子序列的长度。</p>
+<p>于是用二分栈优化dp求最长上升子序列</p>
+<p>代码实现似乎像用栈模拟，反过来像用栈模拟可以nlogn求解最长上升子序列</p>
+<p><a href="https://blog.csdn.net/lxt_Lucia/article/details/81206439" target="_blank" rel="noopener">LIS最长上升子序列</a> </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i,a,n) for(int i=a;i&lt;n;i++)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> per(i,a,n) for(int i=n-1;i&gt;=a;i--)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">1e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> random(x) (rand()%x)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> arr[Max],st[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;arr[i];</span><br><span class="line">        st[i]=inf;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> need=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> pos=lower_bound(st,st+n,arr[i])-st;</span><br><span class="line">        st[pos]=arr[i];</span><br><span class="line">        need=<span class="built_in">max</span>(need,pos+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;need&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+        <tag>Dilworth</tag>
+        <tag>二分栈优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2019, XII Samara Regional Intercollegiate Programming Contest</title>
+    <url>/2020/10/15/2019,%20XII%20Samara%20Regional%20Intercollegiate%20Programming%20Contest/</url>
+    <content><![CDATA[<p><a href="https://codeforc.es/gym/102215/problem/D" target="_blank" rel="noopener">D. Country Division</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个n(n&lt;2e5)个点n-1条边的树</p>
+<p>q组询问</p>
+<p>每次将一些点染红,一些点染蓝</p>
+<p>问是否能删掉一条边使得红点相互联通,蓝点相互联通,但红蓝点不能相互联通</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p><a href="https://blog.csdn.net/ccsu_cat/article/details/94004728" target="_blank" rel="noopener">参考博客</a></p>
+<p>这题当作树上倍增寻找Lca算法的练习题记录</p>
+<p>我们求出所有红点LcaRed，所有蓝点LcaBlue，如果所有蓝点不在LcaRed的子树中或者</p>
+<p>所有红点不在LcaBlue的子树中，那么就是yes。</p>
+<p>这里有几个技巧：</p>
+<ul>
+<li><p>我们不选择两两点找公共祖先,而是直接找dfs序最小的点(即dfs最先遍历到的点)</p>
+<p>和dfs序最大的点(即dfs最后遍历到的点)的最近公共祖先    </p>
+<p>那两个点的公共祖先就是所有红点/蓝点的最近公共祖先 </p>
+</li>
+</ul>
+<ul>
+<li><p>如何判断一些点是否为一个点的子孙结点？</p>
+<p>记录每个点的Dfsin和Dfsout [Dfsin,Dfsout]表示该点的所有子孙节点对应的dfs序</p>
+</li>
+</ul>
+<p>​               </p>
+<ul>
+<li><p>那么由于根节点选择的不同是否对判断结果产生影响？事实是不会</p>
+<p>若红点连通块和蓝点连通块联通 那么无论以哪个点作为根节点 </p>
+<p>必然都不符合条件(如果所有蓝点不在LcaRed的子树中或者所有红点不在LcaBlue的子树中)</p>
+<p>反之若以某点为根节点时符合条件(如果所有蓝点不在LcaRed的子树中或者所有红点不在LcaBlue的子树中)</p>
+<p>那么任意其他点为根节点时也符合条件</p>
+<p><del>不会证明但是画图大概能感觉到</del> </p>
+</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"><span class="keyword">typedef</span> long long ll;</span><br><span class="line">#define endl <span class="string">'\n'</span></span><br><span class="line">#define Turnoff std::ios::sync_with_stdio(<span class="keyword">false</span>)</span><br><span class="line"><span class="keyword">const</span> <span class="built_in">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> ll Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="comment">//bool vis[(int)1e7+5];</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">vector&lt;<span class="built_in">int</span>&gt;mp[Max];</span><br><span class="line"><span class="built_in">int</span> cnt=<span class="number">0</span>;</span><br><span class="line"><span class="comment">///<span class="markdown">Dfsin/Dfsout 每个点的区间[Dfsin,Dfsout]以内的数</span></span></span><br><span class="line"><span class="comment">///<span class="markdown">表示该点的所有子节点对应的dfs序</span></span></span><br><span class="line"><span class="built_in">int</span> Dfsin[Max],Dfsout[Max];</span><br><span class="line"><span class="built_in">int</span> Fa[Max][<span class="number">20</span>],deep[Max];</span><br><span class="line"><span class="built_in">int</span> Lca(<span class="built_in">int</span> x,<span class="built_in">int</span> y)&#123;</span><br><span class="line">    <span class="keyword">if</span>(deep[x]&lt;deep[y])swap(x,y);</span><br><span class="line">    <span class="comment">///<span class="markdown">x的深度比y深</span></span></span><br><span class="line">    <span class="comment">///<span class="markdown">找到高度恰好大于等于y高度的x的祖先</span></span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">19</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(deep[Fa[x][i]]&gt;=deep[y])x=Fa[x][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(x==y)<span class="keyword">return</span> x;</span><br><span class="line">    <span class="comment">///<span class="markdown">若Fa[<span class="string">x</span>][<span class="symbol">i</span>]==Fa[<span class="string">y</span>][<span class="symbol">i</span>]则该点为它们的公共祖先</span></span></span><br><span class="line">    <span class="comment">///<span class="markdown">但是不是最近的公共祖先</span></span></span><br><span class="line">    <span class="comment">///<span class="markdown">若Fa[<span class="string">x</span>][<span class="symbol">i</span>]!=Fa[<span class="string">y</span>][<span class="symbol">i</span>]则上跳,二进制一定能表示出一个确定的公共点</span></span></span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">19</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        <span class="keyword">if</span>(Fa[x][i]!=Fa[y][i])&#123;</span><br><span class="line">            x=Fa[x][i];</span><br><span class="line">            y=Fa[y][i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">///<span class="markdown">最后更新到的点就是两者的LCA</span></span></span><br><span class="line">    <span class="keyword">return</span> Fa[x][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> dfs(<span class="built_in">int</span> now,<span class="built_in">int</span> fa)&#123;</span><br><span class="line">    Dfsin[now]=++cnt;</span><br><span class="line">    deep[now]=deep[fa]+<span class="number">1</span>;</span><br><span class="line">    Fa[now][<span class="number">0</span>]=fa;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;<span class="number">20</span>;i++)Fa[now][i]=Fa[Fa[now][i<span class="number">-1</span>]][i<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span>(auto to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa)<span class="keyword">continue</span>;</span><br><span class="line">        dfs(to,now);</span><br><span class="line">    &#125;</span><br><span class="line">    Dfsout[now]=cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">bool</span> check(<span class="built_in">int</span> u,vector&lt;<span class="built_in">int</span>&gt; node)&#123;</span><br><span class="line">    <span class="keyword">for</span>(auto i:node)&#123;</span><br><span class="line">        <span class="keyword">if</span>(Dfsin[u]&lt;=Dfsin[i]&amp;&amp;Dfsout[u]&gt;=Dfsout[i])<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">int</span> main()&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    <span class="built_in">int</span> n;cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">int</span> u,v;cin&gt;&gt;u&gt;&gt;v;</span><br><span class="line">        mp[u].push_back(v);</span><br><span class="line">        mp[v].push_back(u);</span><br><span class="line">    &#125;</span><br><span class="line">    dfs(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">int</span> q;cin&gt;&gt;q;</span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="built_in">int</span> r,b;cin&gt;&gt;r&gt;&gt;b;</span><br><span class="line">        vector&lt;<span class="built_in">int</span>&gt;Red,Blue;</span><br><span class="line">        <span class="built_in">int</span> Firstvis=<span class="number">0</span>,Lastvis=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;r;i++)&#123;</span><br><span class="line">            <span class="built_in">int</span> temp;cin&gt;&gt;temp;</span><br><span class="line">            Red.push_back(temp);</span><br><span class="line">            <span class="keyword">if</span>(!Firstvis||Dfsin[Firstvis]&gt;Dfsin[temp])Firstvis=temp;</span><br><span class="line">            <span class="keyword">if</span>(!Lastvis||Dfsin[Lastvis]&lt;Dfsin[temp])Lastvis=temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">int</span> LcaRed=Lca(Lastvis,Firstvis);</span><br><span class="line">        Lastvis=<span class="number">0</span>,Firstvis=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;b;i++)&#123;</span><br><span class="line">            <span class="built_in">int</span> temp;cin&gt;&gt;temp;</span><br><span class="line">            Blue.push_back(temp);</span><br><span class="line">            <span class="keyword">if</span>(!Firstvis||Dfsin[Firstvis]&gt;Dfsin[temp])Firstvis=temp;</span><br><span class="line">            <span class="keyword">if</span>(!Lastvis||Dfsin[Lastvis]&lt;Dfsin[temp])Lastvis=temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">int</span> LcaBlue=Lca(Lastvis,Firstvis);</span><br><span class="line">        <span class="keyword">if</span>(check(LcaBlue,Red))cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(check(LcaRed,Blue))cout&lt;&lt;<span class="string">"YES"</span>&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span> cout&lt;&lt;<span class="string">"NO"</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>最近公共祖先</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2020北京ICPC网络选拔赛Round1-A</title>
+    <url>/2020/10/25/2020%E5%8C%97%E4%BA%ACICPC%E7%BD%91%E7%BB%9C%E9%80%89%E6%8B%94%E8%B5%9BRound1-A/</url>
+    <content><![CDATA[<p><a href="https://ac.nowcoder.com/acm/contest/7501/A" target="_blank" rel="noopener">Intelligent Warehouse</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n&lt;1e5的数组a</p>
+<p>其中ai&lt;1e7</p>
+<p>求一个它的最大子集</p>
+<p>使得其中的任意两数互为倍数因子关系</p>
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//input</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">1</span> <span class="number">4</span> <span class="number">2</span> <span class="number">8</span> <span class="number">5</span> <span class="number">7</span></span><br><span class="line"><span class="comment">//output</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//hint:One possible choice is &#123;1, 4, 2, 8&#125;.</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>设dp[i]表示当前选的所有数都是i的因子的最优解(最大值)</p>
+<p>此题能开int 1e7大小的数组</p>
+<p>最直观的转移就是用dp[i]更新所有i的倍数的dp值 即</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=Max;i++)&#123;</span><br><span class="line">    dp[i]+=cnt[i];</span><br><span class="line">    <span class="keyword">if</span>(!cnt[i])<span class="keyword">continue</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>*i;j&lt;=Max;j+=i)dp[j]=<span class="built_in">max</span>(dp[j],dp[i]);</span><br><span class="line">    <span class="comment">///取max表示数j有多个因子但不能取它的所有因子</span></span><br><span class="line">    <span class="comment">///例如10有因子5和2但5和2不能放在一个集合中</span></span><br><span class="line">    ans=<span class="built_in">max</span>(ans,dp[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样极限复杂度超过1e8</p>
+<p>实际上就只用枚举i的素数倍就可以 因为合数可以倍若干个素数乘积凑出来</p>
+<p>没必要再枚举</p>
+<p>比如 i=30</p>
+<p>我只用枚举它的素数倍即更新</p>
+<p>dp[30×2]=max(dp[30×2],dp[30])…..dp[30×5]=max(dp[30×5],dp[30])</p>
+<p>那为什么不用更新dp[30×6]？</p>
+<p>因为在枚举它的素数倍时已经更新了dp[30×2]和dp[30×3]</p>
+<p>dp[30×6] 会在之后dp[60×3]和dp[90×2]被更新到</p>
+<p>复杂度和埃氏筛相同(?个人记得这个是nlogn的复杂度) 为O(XloglogX) 其中X=1e7</p>
+<p>1e7内的素数可以通过欧拉筛或埃氏筛处理</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=Max;i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(isprime[i])&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>*i;j&lt;=Max;j++)isprime[i]=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">///埃氏筛</span></span><br></pre></td></tr></table></figure>
+
+<p>不加埃氏筛直接处理它的所有倍数 可以卡进1s但是理论复杂度超过1e8</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">1e7</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> dp[Max],cnt[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp;<span class="built_in">cin</span>&gt;&gt;temp;</span><br><span class="line">        cnt[temp]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">///枚举所有倍数转移极限复杂度较高</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=Max;i++)&#123;</span><br><span class="line">        dp[i]+=cnt[i];</span><br><span class="line">        <span class="keyword">if</span>(!cnt[i])<span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">2</span>*i;j&lt;=Max;j+=i)dp[j]=<span class="built_in">max</span>(dp[j],dp[i]);</span><br><span class="line">        ans=<span class="built_in">max</span>(ans,dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>数论</tag>
+        <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#528-D</title>
+    <url>/2020/10/30/codeforces-528-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1087/D" target="_blank" rel="noopener">D. Minimum Diameter Tree</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一颗n个点n-1条边的树</p>
+<p>现在已知它的边权和=s</p>
+<p>要求重新给这些边分配边权(非负数)</p>
+<p>求分配后所能得到最小的树的直径</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>首先注意到无论怎么分配边权</p>
+<p>树的直径一定是从一个叶子结点到另一个叶子结点</p>
+<p>所以最终求得的树的直径也一定从某两个叶子结点的简单路径中产生</p>
+<p>因为树的直径是树中最长路 我们要让最长路最短 </p>
+<p>那么就需要将边权和平均分配到所有叶子结点直接连接的那条边上</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line">ll num[Max];</span><br><span class="line">ll leaves[Max],sz[Max],maxn=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> now)</span></span>&#123;</span><br><span class="line">    sz[now]=num[now];</span><br><span class="line">    <span class="keyword">if</span>(mp[now].empty())leaves[now]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        dfs(to);</span><br><span class="line">        sz[now]+=sz[to];</span><br><span class="line">        leaves[now]+=leaves[to];</span><br><span class="line">    &#125;</span><br><span class="line">    ll di=sz[now]%leaves[now]?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;sz[now]&lt;&lt;" "&lt;&lt;leaves[now]&lt;&lt;endl;</span></span><br><span class="line">    maxn=<span class="built_in">max</span>(maxn,sz[now]/leaves[now]+di);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v=i;<span class="built_in">cin</span>&gt;&gt;u;</span><br><span class="line">        mp[u].push_back(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;num[i];</span><br><span class="line">    dfs(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;maxn&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>图论</tag>
+        <tag>贪心</tag>
+        <tag>性质发现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#678-D</title>
+    <url>/2020/10/18/codeforces-678-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1436/problem/D" target="_blank" rel="noopener">D. Bandit in a City</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个n个点n-1条边的有向树(n&lt;2e5)</p>
+<p>每个点有一些居民 ,他们可以选择一条出边进行移动(或留在原地) </p>
+<p>晚上强盗从1号点出发,一直走到不能移动 </p>
+<p>强盗想抓到更多的人，而居民则不想让他抓到更多的人</p>
+<p>问最后强盗能抓到多少人</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p><a href="https://blog.csdn.net/jziwjxjd/article/details/109270991" target="_blank" rel="noopener">参考题解</a></p>
+<p>若所有居民都在1号点 那么显然最后强盗能抓到最多=round up(total/leaves)</p>
+<p>即总人数/叶子结点上取整人数</p>
+<p>但是这么做存在问题：有的居民不能从当前的点走到1号点再平均分配</p>
+<p>由于这个问题 某些点的子树中居民人数较多那么最后强盗抓到的人数会比</p>
+<p>假设所有居民都从1号点出发要多</p>
+<p>因为一旦假设的平均值需要这个子树上的居民到1号点(实际则不能到1号点)</p>
+<p>再分配给所有叶子结点</p>
+<p>说明这以这个点为根的子树人数更多 就算不给它分配一个居民,最后还是它子树内的叶</p>
+<p>子节点居民数最大,那么就把问题规模缩小成以这个点为根的子树了(其他儿子就没用了) </p>
+<p>如果不存在这种子节点,就存在一种分配方式使得两边尽量平均</p>
+<p>此时在以u为根的子树内最大的叶子节点就是$roundup(sum_u/leaves_u)$ </p>
+<p>所以最终答案是最大的$roundup(sum_u/leaves_u)$ 值</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line">ll num[Max];</span><br><span class="line">ll leaves[Max],sz[Max],maxn=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> now)</span></span>&#123;</span><br><span class="line">    sz[now]=num[now];</span><br><span class="line">    <span class="keyword">if</span>(mp[now].empty())leaves[now]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        dfs(to);</span><br><span class="line">        sz[now]+=sz[to];</span><br><span class="line">        leaves[now]+=leaves[to];</span><br><span class="line">    &#125;</span><br><span class="line">    ll di=sz[now]%leaves[now]?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;sz[now]&lt;&lt;" "&lt;&lt;leaves[now]&lt;&lt;endl;</span></span><br><span class="line">    maxn=<span class="built_in">max</span>(maxn,sz[now]/leaves[now]+di);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v=i;<span class="built_in">cin</span>&gt;&gt;u;</span><br><span class="line">        mp[u].push_back(v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;num[i];</span><br><span class="line">    dfs(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;maxn&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>图论</tag>
+        <tag>贪心</tag>
+        <tag>性质发现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#677-G</title>
+    <url>/2020/10/30/codeforces-677-G/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1433/G" target="_blank" rel="noopener">G. Reducing Delivery Cost</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出n&lt;1000个点m&lt;1000条边的无向图</p>
+<p>现在只能从m条边中删去一条边</p>
+<p>求删去某条边后使得k个点对间的最短路和最短</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>由于n和m都只有1000 首先想到的就是$Onmlogn$</p>
+<p>若考虑某对点的最短路，在删除某条边后会对它们的最短路有什么影响比较困难</p>
+<p>应该反过来考虑 先枚举删除某条边再求这对点的最短路就比较容易了</p>
+<p>于是Om枚举删除的边 然后对于每条删除边两个端点(设为(u,v) )跑Dijkstra </p>
+<p>求得它们到k个点对的最短路</p>
+<p>那么删除这条边后对于一个点对(i,j)而言</p>
+<p>它们的之间的最短路=min{dis(i,j),dis(i,u)+dis(v,j),dis(i,v)+dis(u,j) }</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">1e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">bool</span> vis[Max],visp[Max][Max];</span><br><span class="line"><span class="keyword">int</span> n,m,k;</span><br><span class="line"><span class="built_in">vector</span>&lt;P&gt;mp[Max],Pair;</span><br><span class="line">ll dis[Max][Max];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span><span class="keyword">int</span> u,v;&#125;edge[Max];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="keyword">int</span> start)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)vis[i]=<span class="number">0</span>;</span><br><span class="line">    priority_queue&lt;P,<span class="built_in">vector</span>&lt;P&gt;,greater&lt;P&gt; &gt;q;</span><br><span class="line">    dis[start][start]=<span class="number">0</span>;</span><br><span class="line">    q.push(&#123;<span class="number">0</span>,start&#125;);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        P temp=q.top();q.pop();</span><br><span class="line">        <span class="keyword">int</span> now=temp.second;</span><br><span class="line">        <span class="keyword">if</span>(vis[now])<span class="keyword">continue</span>;</span><br><span class="line">        vis[now]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> edges:mp[now])&#123;</span><br><span class="line">            <span class="keyword">int</span> cost=edges.second,to=edges.first;</span><br><span class="line">            <span class="comment">//if(vis[to])continue;</span></span><br><span class="line">            <span class="keyword">if</span>(dis[start][now]+cost&lt;dis[start][to])&#123;</span><br><span class="line">                dis[start][to]=dis[start][now]+cost;</span><br><span class="line">                q.push(&#123;dis[start][to],to&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="built_in">memset</span>(dis,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dis);</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m&gt;&gt;k;<span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v,w;<span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v&gt;&gt;w;</span><br><span class="line">        <span class="keyword">if</span>(u&gt;v)swap(u,v);</span><br><span class="line">        <span class="keyword">if</span>(visp[u][v])<span class="keyword">continue</span>;</span><br><span class="line">        visp[u][v]=<span class="number">1</span>;</span><br><span class="line">        mp[u].push_back(&#123;v,w&#125;);</span><br><span class="line">        mp[v].push_back(&#123;u,w&#125;);</span><br><span class="line">        edge[cnt++]=&#123;u,v&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=k;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v;<span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v;</span><br><span class="line">        Pair.push_back(&#123;u,v&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)Dijkstra(i);</span><br><span class="line">    ll ans=<span class="number">1e18</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;cnt;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> cutA=edge[i].u,cutB=edge[i].v;</span><br><span class="line">        ll temp=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> p:Pair)&#123;</span><br><span class="line">            <span class="keyword">int</span> a=p.first,b=p.second;</span><br><span class="line">            ll mindis=<span class="built_in">min</span>(dis[a][cutA]+dis[b][cutB],dis[b][cutA]+dis[a][cutB]);</span><br><span class="line">            mindis=<span class="built_in">min</span>(mindis,dis[a][b]);</span><br><span class="line">            temp+=mindis;</span><br><span class="line">        &#125;</span><br><span class="line">        ans=<span class="built_in">min</span>(ans,temp);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>最短路</tag>
+        <tag>图论</tag>
+        <tag>Dijsktra</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-Ed97-C</title>
+    <url>/2020/10/30/codeforces-Ed97-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1437/C" target="_blank" rel="noopener">C. Chef Monocarp</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>有n&lt;200个食物在微波炉里每个食物有个完成时刻 $t_i$</p>
+<p>每分钟只能从微波炉里拿一盘菜出来 </p>
+<p>对于这盘菜产生的不满意度=|$t_i$-T| 其中T为当前拿出它的时间</p>
+<p>问最小的不满意值 </p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>设计一个dp(T,i) 表示前t分钟取出前i盘菜 的最优解(先按照每盘菜的完成时刻排序)</p>
+<p><del>一般dp设计思路都是一维表示位置(时间)一维表示状态</del></p>
+<p>于是显然对于前T分钟取出前i盘菜的dp(T,i)</p>
+<p>有两种方式转移到它 :</p>
+<ul>
+<li>到这一分钟我不拿菜 ,即 dp(T-1,i) -&gt; dp(T,i)</li>
+<li>到这一分钟我拿出一盘菜 ,即dp(T-1,i-1) -&gt;dp(T,i)</li>
+</ul>
+<p>进一步说就是 dp(T,i)=min(dp(T-1,i),dp(T-1,i-1)+|T-$t_i$| )</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">10</span></span><br><span class="line"><span class="comment">7</span></span><br><span class="line"><span class="comment">7 7 7 7 7 7 7</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> t[<span class="number">204</span>];</span><br><span class="line"><span class="keyword">int</span> dp[<span class="number">405</span>][<span class="number">205</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> q;<span class="built_in">cin</span>&gt;&gt;q;</span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;t[i];</span><br><span class="line">        sort(t+<span class="number">1</span>,t+n+<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">        <span class="comment">//dp[0][0]=0;</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">405</span>;i++)dp[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;<span class="number">405</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                dp[i][j]=<span class="built_in">min</span>(dp[i][j],dp[i<span class="number">-1</span>][j]);</span><br><span class="line">                dp[i][j]=<span class="built_in">min</span>(dp[i][j],dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="built_in">abs</span>(i-t[j]));</span><br><span class="line">                <span class="comment">//dp[i][j]=min(dp[i-1][j],dp[i-1][j-1]+abs(i-t[j]));</span></span><br><span class="line">                <span class="comment">///两个一样</span></span><br><span class="line">                <span class="comment">//cout&lt;&lt;i&lt;&lt;" "&lt;&lt;j&lt;&lt;" "&lt;&lt;dp[i][j]&lt;&lt;endl;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;dp[<span class="number">404</span>][n]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>dp(T,i)=min(dp(T-1,i),dp(T-1,i-1)+|T-$t_i$| ) 发现dp(T-1,i)/dp(T-1,i-1) 总之dp(T-1,x)只会被使用一次</p>
+<p>即T-1 -&gt; T 时间维度的转移 完全可以从后往前遍历 来将这一维度省略掉</p>
+<!--(因为省略掉时间维后转移时会导致dp含义变化)-->
+
+<!--(dp(i)被更新后其含义就从上一刻取出前i盘的最优解变为这一刻取出前i盘的最优解)-->
+
+<!--(从前往后会拿被更新为这一刻取出前x盘的结果来更新这一刻取出前i盘的结果)-->
+
+<p>用类似背包dp的方式省略掉时间维度</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> t[<span class="number">204</span>];</span><br><span class="line"><span class="keyword">int</span> dp[<span class="number">405</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> q;<span class="built_in">cin</span>&gt;&gt;q;</span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;t[i];</span><br><span class="line">        sort(t+<span class="number">1</span>,t+n+<span class="number">1</span>);</span><br><span class="line">        <span class="built_in">memset</span>(dp,<span class="number">0x3f</span>,<span class="keyword">sizeof</span> dp);</span><br><span class="line">        dp[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//for(int i=1;i&lt;=400;i++)dp[i][0]=0;</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">405</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=n;j&gt;=<span class="number">1</span>;j--)&#123;</span><br><span class="line">                dp[j]=<span class="built_in">min</span>(dp[j],dp[j<span class="number">-1</span>]+<span class="built_in">abs</span>(i-t[j]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;dp[n]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#675-D</title>
+    <url>/2020/10/18/codeforces-675-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1422/D" target="_blank" rel="noopener">D. Returning Home</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个n×n的网格图(n&lt;1e5)</p>
+<p>要求从$(S_x,S_y)$走到$(F_x,F_y)$ </p>
+<p>只能上下左右走格子 消耗一单位体力</p>
+<p>有m&lt;1e5个特殊点</p>
+<p>若当前位置处于和m个特殊点中某一个同一行或同一列</p>
+<p>则可以从这个位置瞬移到这个特殊点 瞬移不耗费体力</p>
+<p>问最少消耗多少体力</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>特殊点的存在使得一行或者一列等效成一个点</p>
+<ul>
+<li>将特殊点所在列中的点等效成同一点时 </li>
+</ul>
+<p>从某个特殊点到达下一个相邻的特殊点所需要的体力=两个特殊点的行数差</p>
+<ul>
+<li>将特殊点所在行中的点等效成同一点时</li>
+</ul>
+<p>从某个特殊点到达下一个相邻的特殊点所需要的体力=两个特殊点的列数差</p>
+<p>注意我们只考虑相邻两个特殊点的建边</p>
+<p>假如特殊点有A-&gt;B,B-&gt;C 若从A-&gt;C不会比A-&gt;B-&gt;C更优 </p>
+<p>这步就优化了任意两点建边的冗余</p>
+<p>两个相邻特殊点的最短距离出现在上述两种情况中</p>
+<p>所以相邻特殊点需要建两条边：</p>
+<p>将一行缩成一点在列上移动/一列缩成一点在行上移动</p>
+<p>注意初始位置和终点可能不经过任意一个特殊点时存在最优解</p>
+<p>所以起始点到终点需要直接建立一条边</p>
+<p>建完图后就已经把问题转化成最短路问题 可以直接使用Dijsktra算法</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">3e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> ll Mod=<span class="number">998857459</span>;</span><br><span class="line"></span><br><span class="line">ll data[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;ll sum=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;data[i];</span><br><span class="line">    <span class="built_in">set</span>&lt;ll&gt;pre;ll Psum=<span class="number">0</span>;pre.insert(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        Psum+=data[i];</span><br><span class="line">        <span class="keyword">if</span>(pre.count(Psum))&#123;</span><br><span class="line">            ans++;</span><br><span class="line">            pre.<span class="built_in">clear</span>();</span><br><span class="line">            pre.insert(<span class="number">0</span>);</span><br><span class="line">            Psum=data[i];</span><br><span class="line">        &#125;</span><br><span class="line">        pre.insert(Psum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>最短路</tag>
+        <tag>图论</tag>
+        <tag>Dijsktra</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-RaifRound1-E</title>
+    <url>/2020/09/15/codeforces-RaifRound1-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1428/problem/E" target="_blank" rel="noopener">E. Carrots for Rabbits</a> </p>
+<ul>
+<li>##题意</li>
+</ul>
+<p>给出n&lt;1e5个萝卜每个萝卜的长度为$a_i$&lt;1e6</p>
+<p>现在要分给k个兔子(k&gt;=n&amp;&amp;k&lt;1e5) 你能将萝卜切成长度不同的小份</p>
+<p>使得每个兔子能分到一段萝卜 </p>
+<p>它们吃萝卜所消耗的时间为其分到萝卜长度的平方即$len^2$ </p>
+<p>求它们吃萝卜所消耗的时间和(注意是$∑len_i^2$)最少是多少</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>参考<a href="https://codeforces.ml/blog/entry/83771" target="_blank" rel="noopener">官方题解</a></p>
+<p>首先定义一个函数$f(len,pieces)$ </p>
+<p>表示将一根长度为len的胡萝卜分成pieces份 后给兔子吃所需的最小总时间</p>
+<ul>
+<li>对于一根萝卜如何求它的$f(len,pieces)$ ？</li>
+</ul>
+<p>当pieces=2,我们分成等长的两段(或长度尽量接近)所需的总时间最小</p>
+<p>当pieces=3,我们分成等长的三段(或长度尽量接近)所需的总时间最小</p>
+<p>因为$f(len,pieces)=∑_i^{pieces} len_i^2$ 最长的那段取平方后总会产生较大的时间消耗</p>
+<p>所以直觉上均分能获得最优解(所需总时间最小) </p>
+<ul>
+<li>这个规律即：对一个sum分成若干份每份取等次幂(推测)求和总是均分更优</li>
+</ul>
+<p>我们需要切k-n刀才够每个兔子分 每次切能减小总时长最大的那个萝卜</p>
+<p>即$f(len,pieces)-f(len,pieces+1)$  最大的那个萝卜</p>
+<p>于是用优先队列每次切一刀取出$f(len,pieces)-f(len,pieces+1)$最大的那个萝卜</p>
+<p>到这里这题就可以解决了</p>
+<p>但是题解中提到$f(l,p−1)−f(l,p)≥f(l,p)−f(l,p+1) $</p>
+<p>其含义是 对同一根萝卜多次切 所能减少的总时间是非增的 (逐渐减少)</p>
+<p>用数字表示就是8可以分成4 4和2 2 2 2</p>
+<p>8 -&gt; 4 4 减少的总时间小于 4 4 -&gt; 2 2 2 2 减少的时间</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,int&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">1e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> n,k;</span><br><span class="line">ll arr[Max],Pi[Max],NeedTime[Max];</span><br><span class="line"><span class="function">ll <span class="title">cut</span><span class="params">(<span class="keyword">int</span> len,<span class="keyword">int</span> pieces)</span></span>&#123;</span><br><span class="line">    ll Newlen=len/pieces;</span><br><span class="line">    ll Pieces_NewlenAddone=len%pieces;</span><br><span class="line">    ll Pieces_Newlen=pieces-Pieces_NewlenAddone;</span><br><span class="line">    ll tot=Newlen*Newlen*Pieces_Newlen+(Newlen+<span class="number">1</span>)*(Newlen+<span class="number">1</span>)*Pieces_NewlenAddone;</span><br><span class="line">    <span class="keyword">return</span> tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    ll sum=<span class="number">0</span>;k=k-n;</span><br><span class="line">    priority_queue&lt;P,<span class="built_in">vector</span>&lt;P&gt;,less&lt;P&gt; &gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;arr[i];Pi[i]=<span class="number">1</span>;</span><br><span class="line">        sum+=arr[i]*arr[i];</span><br><span class="line">        q.push(&#123;arr[i]*arr[i]-cut(arr[i],<span class="number">2</span>),i&#125;);</span><br><span class="line">        NeedTime[i]=cut(arr[i],<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(k--)&#123;</span><br><span class="line">        P temp=q.top();q.pop();</span><br><span class="line">        <span class="keyword">int</span> i=temp.second;ll cost=temp.first;</span><br><span class="line">        sum-=cost;Pi[i]++;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;cut(arr[i],Pi[i]+1)&lt;&lt;endl;</span></span><br><span class="line">        q.push(&#123;NeedTime[i]-cut(arr[i],Pi[i]+<span class="number">1</span>),i&#125;);</span><br><span class="line">        NeedTime[i]=cut(arr[i],Pi[i]+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;sum&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+        <tag>贪心</tag>
+        <tag>规律发现</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-Ed94-E</title>
+    <url>/2020/10/30/codeforces-Ed96-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1430/E" target="_blank" rel="noopener">E. String Reversal</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为2e5的字符串s</p>
+<p>要求只能通过交换相邻字母的操作将它变换成它的镜像字符</p>
+<p>如aaaza -&gt;azaaa</p>
+<p>问最少要几次操作</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>首先从s变换成它的镜像t</p>
+<p>例如abac -&gt;caba</p>
+<p>对于t串的第一个a 它一定从s串的第一个a移动得到</p>
+<p>对于第t串的第二个a它一定从s串的第二个a移动得到</p>
+<p>因为加入t串中第一个a用s串中第二个a ，第二个a用s串中第一个a </p>
+<p>必定会导致在交换获得第二个a时会与前一个a交换位置 但这并不改变串的形态</p>
+<p>所以这一步显然多余 为了避免这种情况发生 t串某个字母第几次出现 它就一定是</p>
+<p>s串中第几次(从左到右遍历而言)出现的相同字母移动而来</p>
+<p>实际上若不避免相同字母相邻互换操作产生的次数 </p>
+<p>任意一种s-&gt;t所需的交换次数是相同的</p>
+<p>无论是规定s中第几个a变为t中第几个a，还是先让某个位置的a先移动到达目标位置</p>
+<p>找完t中每个字母从s中哪一位字母移动得到后</p>
+<p>我们可以得到一个位置下标的映射数组</p>
+<p>如abac为[1,2,3,4] -&gt; caba为[4,1,2,3] </p>
+<p>那么这个问题就变成了将某个1到n的乱序排列 sort还原成1,2,3,4,5…n的排列</p>
+<p>而最小交换相邻元素的次数实际上就是求逆序对个数</p>
+<p>求逆序对科技很多 比如用权值线段树 并归排序 甚至字典树处理二进制位</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SegTree</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> mid ((L+R)&gt;&gt;1)</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> Leftson now&lt;&lt;1</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> Rightson now&lt;&lt;1|1</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">segtree</span>&#123;</span><span class="keyword">int</span> L,R;ll sum;&#125;;</span><br><span class="line">    segtree tree[Max&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_up</span><span class="params">(<span class="keyword">int</span> now)</span></span>&#123;</span><br><span class="line">        tree[now].sum=tree[Leftson].sum+tree[Rightson].sum;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span> L,<span class="keyword">int</span> R,<span class="keyword">int</span> now=<span class="number">1</span>)</span></span>&#123;</span><br><span class="line">        tree[now]=&#123;L,R,<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;L&lt;&lt;" "&lt;&lt;R&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(L==R)<span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">//int mid=(L+R)&gt;&gt;1;</span></span><br><span class="line">        build(L,mid,Leftson);</span><br><span class="line">        build(mid+<span class="number">1</span>,R,Rightson);</span><br><span class="line">        push_up(now);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updata</span><span class="params">(<span class="keyword">int</span> pos,ll val,<span class="keyword">int</span> now=<span class="number">1</span>)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(tree[now].L==tree[now].R)&#123;</span><br><span class="line">            tree[now].sum=tree[now].sum+val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(pos&lt;=tree[Leftson].R)updata(pos,val,Leftson);</span><br><span class="line">        <span class="keyword">if</span>(pos&gt;=tree[Rightson].L)updata(pos,val,Rightson);</span><br><span class="line">        push_up(now);<span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">ll <span class="title">query</span><span class="params">(<span class="keyword">int</span> qL,<span class="keyword">int</span> qR,<span class="keyword">int</span> now=<span class="number">1</span>)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(qL&gt;qR)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(tree[now].R&lt;=qR&amp;&amp;tree[now].L&gt;=qL)<span class="keyword">return</span> tree[now].sum;</span><br><span class="line">        ll sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(tree[Leftson].R&gt;=qL)sum+=query(qL,qR,Leftson);</span><br><span class="line">        <span class="keyword">if</span>(tree[Rightson].L&lt;=qR)sum+=query(qL,qR,Rightson);</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;GetInv;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> to[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    ll n,ans=<span class="number">0</span>;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="built_in">string</span> s,t;<span class="built_in">cin</span>&gt;&gt;s;</span><br><span class="line">    GetInv.build(<span class="number">1</span>,n);</span><br><span class="line">    t=s;reverse(t.<span class="built_in">begin</span>(),t.<span class="built_in">end</span>());</span><br><span class="line">    <span class="comment">//cout&lt;&lt;t&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">char</span> x=<span class="string">'a'</span>;x&lt;=<span class="string">'z'</span>;x++)&#123;</span><br><span class="line">        <span class="keyword">int</span> pos=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(t[i]!=x)<span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">while</span>(pos&lt;n&amp;&amp;s[pos]!=x)pos++;</span><br><span class="line">            <span class="keyword">if</span>(pos==n)<span class="keyword">continue</span>;</span><br><span class="line">            to[i]=pos+<span class="number">1</span>;pos++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    for(int i=0;i&lt;n;i++)cout&lt;&lt;to[i]&lt;&lt;" ";</span></span><br><span class="line"><span class="comment">    cout&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;GetInv.query(to[i]+1,n)&lt;&lt;" ";</span></span><br><span class="line">        ans+=GetInv.query(to[i]+<span class="number">1</span>,n);</span><br><span class="line">        GetInv.updata(to[i],<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+        <tag>数据结构</tag>
+        <tag>线段树</tag>
+        <tag>逆序对</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第k短路学习笔记</title>
+    <url>/2020/10/20/%E7%AC%ACk%E7%9F%AD%E8%B7%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<blockquote>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.cnblogs.com/AK-ls/p/10614203.html" target="_blank" rel="noopener">第k短路(Dijkstra&amp;A*)</a></p>
+<p><a href="https://blog.csdn.net/qq_40772692/article/details/82530467" target="_blank" rel="noopener">第k短路和次短路</a></p>
+<p><a href="https://blog.csdn.net/sslz_fsy/article/details/82120232" target="_blank" rel="noopener">A*(第k短路)</a></p>
+</blockquote>
+<p><strong>1.什么是第k短路？第一短路就是最短路，以此类推。求某点s到某点e的第k短路就是k短路问题</strong></p>
+<p><strong>2.思路：</strong></p>
+<p><strong>（1）我们知道在BFS中，第一次到达终点就是到终点的最短路，那么第k次到达终点，当然就是到终点的第k短路了。但是如果直接BFS搜索下去，时间复杂度会非常高，因此我们需要剪枝，怎么剪枝呢？</strong></p>
+<p><strong>（2）我们每次只需要取出每次到达终点最有希望的路径，就避开了一些没有意义的到其他点的路径。因此我们需要一个启发函数。令f = x + h（其中x为到当前点的实际距离，h为从当前点到达终点的估测最短距离），则f就估测为从起点到终点的路径长度，我们每次只要有目的有方向的前进到达终点k次即为k短路</strong></p>
+<p><strong>（3）那么怎么求这个h呢？h其实为每个点到达终点的最短路，但是我们只学过某个点到其他点的最短路怎么办？当然是把终点当作起点跑最短路啊（哇笨蛋) ， 但是这里有一个问题：我们需要在跑终点最短路时使用反向边，跑BFS时使用正向边（有向图），为什么呢：</strong></p>
+<p><strong>3.求解步骤</strong></p>
+<p><strong>（1）Dijkstra求终点到其他点的最短路</strong></p>
+<p><strong>（2）正向边跑起点的BFS（以A*启发函数：f = x + h为排序，取出点）</strong></p>
+<p>例题：<a href="http://poj.org/problem?id=2449" target="_blank" rel="noopener">POJ-2449</a></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">///poj上提交编译错误 不过板子大概没问题</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//#include &lt;bits/stdc++.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;int,int&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">1e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">vector</span>&lt;P&gt;mp[Max],invmp[Max];</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">int</span> disT[Max],vistime[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="keyword">int</span> start)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)disT[i]=inf;</span><br><span class="line">    priority_queue&lt;P,<span class="built_in">vector</span>&lt;P&gt;,less&lt;P&gt; &gt;q;</span><br><span class="line">    disT[start]=<span class="number">0</span>;</span><br><span class="line">    q.push(&#123;<span class="number">0</span>,start&#125;);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        P temp=q.top();q.pop();</span><br><span class="line">        <span class="keyword">int</span> now=temp.second;</span><br><span class="line">        <span class="keyword">if</span>(vis[now])<span class="keyword">continue</span>;</span><br><span class="line">        vis[now]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> edge:invmp[now])&#123;</span><br><span class="line">            <span class="keyword">int</span> cost=edge.second,to=edge.first;</span><br><span class="line">            <span class="keyword">if</span>(disT[now]+cost&lt;disT[to])&#123;</span><br><span class="line">                disT[to]=disT[now]+cost;</span><br><span class="line">                q.push(&#123;disT[to],to&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Astar</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> endpoint,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">    <span class="comment">//memset(vis,0,sizeof vis);</span></span><br><span class="line">    <span class="keyword">if</span>(disT[start]==inf)<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    priority_queue&lt;P,<span class="built_in">vector</span>&lt;P&gt;,greater&lt;P&gt; &gt;q;</span><br><span class="line">    q.push(&#123;disT[start],start&#125;);</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        P temp=q.top();q.pop();</span><br><span class="line">        <span class="keyword">int</span> now=temp.second,ExpectCost=temp.first;</span><br><span class="line">        vistime[now]++;</span><br><span class="line">        <span class="keyword">if</span>(vistime[now]==k&amp;&amp;now==endpoint)<span class="keyword">return</span> ExpectCost;</span><br><span class="line">        <span class="keyword">if</span>(vistime[now]&gt;k)<span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> edge:mp[now])&#123;</span><br><span class="line">            <span class="keyword">int</span> Cost=edge.second,to=edge.first;</span><br><span class="line">            q.push(&#123;ExpectCost-disT[now]+Cost+disT[to],to&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v,val;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v&gt;&gt;val;</span><br><span class="line">        mp[u].push_back(&#123;v,val&#125;);</span><br><span class="line">        invmp[v].push_back(&#123;u,val&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> S,T,K;<span class="built_in">cin</span>&gt;&gt;S&gt;&gt;T&gt;&gt;K;</span><br><span class="line">    Dijkstra(T);</span><br><span class="line">    <span class="keyword">int</span> ans=Astar(S,T,K);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>最短路</tag>
+        <tag>图论</tag>
+        <tag>A*</tag>
       </tags>
   </entry>
 </search>
