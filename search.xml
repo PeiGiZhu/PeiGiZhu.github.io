@@ -401,7 +401,7 @@
 <p>题意</p>
 <p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
 <p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
-<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6 找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </1e6></p>
+<p>给出一个长度为n n<1e5 的序列a ai<1e6 找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </1e5></p>
 <p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;</p>
 <p>∑k=∑len <em>C(x,len) ,(len=1,2,3,,,,x) = x </em> 2^ {x-1}</p>
 <p>/<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
@@ -414,7 +414,7 @@
         <tag>gcd</tag>
         <tag>容斥原理</tag>
         <tag>dp</tag>
-        <tag>组合数</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -688,7 +688,8 @@
 <p>每次击败一个敌人自身能力值x都会+1 </p>
 <p>那么下次玩家一定能从剩下的敌人中选出能力值pi&lt;=x的其中一个敌人挑战</p>
 <p>以此类推那么对于一个初始能力值为x的玩家</p>
-<p>$$<br>f(x)= (小于等于x的敌人个数)<em>(小于等于x+1的敌人个数-1) </em>(小于等于x+2的敌人个数-2) ….<br>$$<br>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
+<script type="math/tex; mode=display">
+f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于等于x+2的敌人个数-2) ....</script><p>若某时刻发现剩下的敌人中没有能力值pi&lt;=当前x的那么表示这种初始能力值不能击败所有敌人f(x)=0</p>
 <p>由于初始能力值x&gt;最大的敌人能力值pi x无论如何增大f(x)不变</p>
 <p>而题目说明m最多不会超过1e5那么只要x枚举到max(敌人能力值)</p>
 <p>每次On计算f(x) 总复杂度On^2</p>
@@ -699,7 +700,7 @@
       </categories>
       <tags>
         <tag>暴力</tag>
-        <tag>组合数</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -1499,21 +1500,27 @@
     <title>codeforces-Ed88-E</title>
     <url>/2020/07/08/codeforces-Ed88-E/</url>
     <content><![CDATA[<p><a href="https://codeforc.es/problemset/problem/1359/E" target="_blank" rel="noopener">E. Modular Stability</a></p>
-<p>题意<br>给出一个n<br>要求统计出有多少长度为k的数组 1&lt;=i&lt;=k; 1&lt;=ai&lt;=n<br>使得它的所有排列 对于任何数x都有<br>x mod a1 mod a2 mod a3 mod a4 … mod ak = x mod a[i1] mod a[i2] mod a[i3] … mod a[ik]</p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个n<br>要求统计出有多少长度为k的数组 1&lt;=i&lt;=k; 1&lt;=ai&lt;=n<br>使得它的所有排列 对于任何数x都有<br>x mod a1 mod a2 mod a3 mod a4 … mod ak = x mod a[i1] mod a[i2] mod a[i3] … mod a[ik]</p>
 <p>i1 , i2 , i3 …. ik 是 1到k的所有排列情况</p>
-<p>题解<br>首先需要发现一个事实即<br>当且仅当 所有ai mod min{ai | 1&lt;=i&lt;=k } ==0 或者说所有ai都能被其中最小的数aj整除<br>那么无论数组ai如何排列 对任意数x取模的最终结果是相同的</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>首先需要发现一个事实即<br>当且仅当 所有ai mod min{aj | 1&lt;=j&lt;=k } ==0 或者说所有ai都能被其中最小的数aj整除<br>那么无论数组ai如何排列 对任意数x取模的最终结果是相同的</p>
 <p>假设 a为数组中最小的数<br>x mod a mod ka =x mod ka mod a = x mod a</p>
 <p>假设数组中存在一个m mod a !=0<br>那么 若x=a<br>则 x mod a=0 之后无论mod何数都为0<br>而 x mod m!=0 最后不一定为0</p>
 <p>剩下的就是用逆元取组合数</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">5e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">998244353</span>;</span><br><span class="line">ll fac[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">intn</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fac[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">1</span>;i&lt;Max;i++)fac[i]=(fac[i<span class="number">-1</span>]*i)%mod;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;endl;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll x,ll y)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(y)&#123;</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>)ans=(ans*x)%mod;</span><br><span class="line">        x=(x*x)%mod;y&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">combin</span><span class="params">(ll total,ll need)</span></span>&#123;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;(fac[need]*fac[total-need])%mod&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">//cout&lt;&lt;qpow(fac[need]*fac[total-need]%mod,mod-2)&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">return</span> (fac[total]*qpow(fac[need]*fac[total-need]%mod,mod<span class="number">-2</span>))%mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    intn();ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n,k;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n/i&lt;k)<span class="keyword">continue</span>;</span><br><span class="line">        ll have=n/i<span class="number">-1</span>;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;have&lt;&lt;" "&lt;&lt;k-1&lt;&lt;endl;</span></span><br><span class="line">        <span class="comment">//cout&lt;&lt;combin(have,k-1)&lt;&lt;endl;</span></span><br><span class="line">        ans=(ans+combin(have,k<span class="number">-1</span>))%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">5e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">998244353</span>;</span><br><span class="line">ll fac[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">intn</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fac[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">1</span>;i&lt;Max;i++)fac[i]=(fac[i<span class="number">-1</span>]*i)%mod;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;endl;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll x,ll y)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(y)&#123;</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>)ans=(ans*x)%mod;</span><br><span class="line">        x=(x*x)%mod;y&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">combin</span><span class="params">(ll total,ll need)</span></span>&#123;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;(fac[need]*fac[total-need])%mod&lt;&lt;endl;</span></span><br><span class="line">    <span class="comment">//cout&lt;&lt;qpow(fac[need]*fac[total-need]%mod,mod-2)&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">return</span> (fac[total]*qpow(fac[need]*fac[total-need]%mod,mod<span class="number">-2</span>))%mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    intn();ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n,k;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n/i&lt;k)<span class="keyword">continue</span>;</span><br><span class="line">        ll have=n/i<span class="number">-1</span>;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;have&lt;&lt;" "&lt;&lt;k-1&lt;&lt;endl;</span></span><br><span class="line">        <span class="comment">//cout&lt;&lt;combin(have,k-1)&lt;&lt;endl;</span></span><br><span class="line">        ans=(ans+combin(have,k<span class="number">-1</span>))%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>题解</category>
       </categories>
       <tags>
-        <tag>组合数</tag>
         <tag>模运算</tag>
         <tag>逆元</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -2675,8 +2682,8 @@
 <p>题意</p>
 <p>给出一个排列p长度为n ,排列指n个数[1,n]每个数出现1次</p>
 <p>现在有如下情况会使两点之间存在无向边:</p>
-<p>对于一个位置i 找到最大的位置j (1&lt;=j&lt;i) 且pj&gt;pi</p>
-<p>对于一个位置i 找到最小的位置j (i&lt;j&lt;=n) 且pj&gt;pi</p>
+<p>对于一个位置i 找到最大的位置j (1&lt;=j<i) 且pj>pi</i)></p>
+<p>对于一个位置i 找到最小的位置j (i<j<=n) 且pj>pi</j<=n)></p>
 <p>翻译一下就是对于一个位置i 往两侧找最靠近i且大于pi的数的位置j建立无向边</p>
 <p>给出一个排列长度n 问其中有多少种排列情况会出现环</p>
 <p>输出mod 1e9+7</p>
@@ -2698,13 +2705,12 @@
 <p>一共有$2^{(n-1)}$中排列方式</p>
 <p>而总共有$A_n^n$ 个排列</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">2e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="built_in">acos</span>(<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll x,ll y)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(y)&#123;</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>)ans=(ans*x)%mod;</span><br><span class="line">        x=(x*x)%mod;y&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="comment">//int t;cin&gt;&gt;t;</span></span><br><span class="line">    ll n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    ll tot=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">1</span>;i&lt;=n;i++)tot=(tot*i)%mod;</span><br><span class="line">    ll temp=qpow(<span class="number">2</span>,n<span class="number">-1</span>)%mod;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;tot&lt;&lt;" "&lt;&lt;temp&lt;&lt;endl;</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;(mod+tot-temp)%mod&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>题解</category>
       </categories>
       <tags>
-        <tag>组合数</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3032,8 +3038,8 @@
       </categories>
       <tags>
         <tag>FFT &amp; NTT</tag>
-        <tag>组合数</tag>
         <tag>生成函数</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3057,7 +3063,7 @@
       </categories>
       <tags>
         <tag>暴力</tag>
-        <tag>组合数</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -3164,8 +3170,7 @@
 <p>给出n个点n条边的有向图(n&lt;1e5)</p>
 <p>求出有多少种边集 使得反转集合种边的方向后 图中无环</p>
 <p>题解</p>
-<img src="/.io//timg.gif" data-original="example.png">
-
+<p><img src="/.io//timg.gif" data-original="example.png"></p>
 <p>上图举例了一个n个点n条边的有向图</p>
 <p>容易发现要通过反转某些边获得无环图 需要从每一个环中取出至少一个边反转</p>
 <p>所以选择的边集中必须包含各个环中的至少一条边</p>
@@ -3181,24 +3186,15 @@
 <p>在这个题目中不会有环套环的情况因为n个点n条边每个点一个出边只会出现简单环</p>
 <p>所以用简单dfs统计每个环的大小即可</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="built_in">acos</span>(<span class="number">-1</span>);</span><br><span class="line"><span class="keyword">const</span> ll mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="keyword">int</span> in[Max],out[Max],sz[Max];</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Topu</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;q;</span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="keyword">if</span>(!in[i])q.push(i),cnt++,vis[i]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!q.empty())&#123;</span><br><span class="line">        <span class="keyword">int</span> pos=q.front();q.pop();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> i:mp[pos])&#123;</span><br><span class="line">            in[i]--;</span><br><span class="line">            <span class="keyword">if</span>(!in[i])&#123;</span><br><span class="line">                cnt++;vis[i]=<span class="number">1</span>;</span><br><span class="line">                q.push(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> now)</span></span>&#123;</span><br><span class="line">    sz[now]=<span class="number">1</span>;vis[now]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> i:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(vis[i])<span class="keyword">continue</span>;</span><br><span class="line">        dfs(i);</span><br><span class="line">        sz[now]+=sz[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">qpow</span><span class="params">(ll x,ll y)</span></span>&#123;</span><br><span class="line">    ll ans=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(y)&#123;</span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>)ans=(ans*x)%mod;</span><br><span class="line">        x=(x*x)%mod;y&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> v;<span class="built_in">cin</span>&gt;&gt;v;</span><br><span class="line">        mp[i].push_back(v);</span><br><span class="line">        in[v]++;</span><br><span class="line">        out[i]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> outloop=Topu(n);</span><br><span class="line">	ll ans=qpow(<span class="number">2</span>,outloop);</span><br><span class="line">	<span class="comment">//cout&lt;&lt;ans&lt;&lt;endl;</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(vis[i])<span class="keyword">continue</span>;</span><br><span class="line">        dfs(i);</span><br><span class="line">        <span class="comment">//cout&lt;&lt;i&lt;&lt;" "&lt;&lt;sz[i]&lt;&lt;endl;</span></span><br><span class="line">        ans=(ans*(qpow(<span class="number">2</span>,sz[i])<span class="number">-2</span>+mod)%mod)%mod;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
 ]]></content>
       <categories>
         <category>题解</category>
       </categories>
       <tags>
-        <tag>组合数</tag>
         <tag>图论</tag>
         <tag>dfs &amp; bfs</tag>
         <tag>拓扑排序</tag>
+        <tag>组合数学</tag>
       </tags>
   </entry>
   <entry>
@@ -5167,8 +5163,8 @@
 </ul>
 <p>给出一个n个点n-1条边的一颗树 (n&lt;=1e5)</p>
 <p>对于一个点$i$有值$a_i$ (1&lt;=ai&lt;=1e6)</p>
-<p>现在要求 $∑_{i=1}^n∑_{j=i+1}^n<a href="i⊕j">a_i⊕a_j=a_{lca(i,j)}</a>.  $</p>
-<p>即对于任何满足$[a_i⊕a_j=a_{lca(i,j)}]$ 的点对(i,j) 的下标异或值求和</p>
+<p>现在要求 $∑_{i=1}^n∑_{j=i+1}^n [a_i⊕a_j=a_{lca(i,j)}]×(i⊕j).  $</p>
+<p>即对于任何满足$[a_i⊕a_j=a_{lca(i,j)}]​$ 的点对(i,j) 的下标异或值求和</p>
 <ul>
 <li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
 </ul>
@@ -5307,6 +5303,235 @@
         <tag>最短路</tag>
         <tag>dfs &amp; bfs</tag>
         <tag>优化技巧</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#681-E</title>
+    <url>/2020/11/10/codeforces-681-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1443/problem/E" target="_blank" rel="noopener">E. Long Permutation</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n的排列 :1,2,3,4,5,6…,n (n&lt;2e5)</p>
+<p>有q次操作：(q&lt;2e5)</p>
+<p>1 l r 询问区间[L,R]内的元素和</p>
+<p>2 x 将当前排列的字典序变大 x (x&lt;1e5)</p>
+<p>例如 ：</p>
+<p>1 2 3 4 5  字典序=1</p>
+<p>1 2 3 5 4  字典序=2</p>
+<p>1 2 4 3 5  字典序=3</p>
+<p>…</p>
+<p>对于 1 2 3 4 5 的字典序变大2</p>
+<p>则新的排列为 1 2 4 3 5</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>首先需要意识到 一个长度为n的排列 共有n! 个</p>
+<p>这意味着 最差情况下 原排列的字典序会增大 xq次 也就是增大2e10</p>
+<p>而只需要15个数 就能产生大于2e10的排列个数</p>
+<p>意思是 最差情况下 增大排列的字典序只会改变最后15位的排列</p>
+<p>前面的数 仍保持1 2 3 ….. n-15 不变</p>
+<p>于是对区间和的询问可以拆分成两段处理</p>
+<p>对于[1,n-15] 前缀和处理</p>
+<p>对于[n-15,n] 需要使用到一个黑科技</p>
+<h3 id="康托展开-amp-逆康托展开"><a href="#康托展开-amp-逆康托展开" class="headerlink" title="康托展开&amp;逆康托展开"></a>康托展开&amp;逆康托展开</h3><p><a href="https://blog.csdn.net/ltrbless/article/details/87696372" target="_blank" rel="noopener">参考博客</a></p>
+<p>为了解决 排列 与其字典序的 双映射问题</p>
+<p>即 知道排列可以直接求得其 对应字典序大小 (康托展开)</p>
+<p>或已知字典序大小和排列长度n 求出对应排列的问题 (逆康托展开)</p>
+<p><img src="/.io//timg.gif" data-original="example.png"></p>
+<p>X是排列对应字典序</p>
+<p>$a_i$表示此排列从右到左第i位在当前未出现的元素(它左侧的数已经出现)中是排第几个</p>
+<p>实际可以类比进制转换</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*******打出1-n的阶乘表*******/</span></span><br><span class="line"><span class="keyword">int</span> f[<span class="number">20</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jie_cheng</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[<span class="number">0</span>] = f[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">// 0的阶乘为1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) f[i] = f[i - <span class="number">1</span>] * i;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/**************康托展开****************/</span></span><br><span class="line"><span class="built_in">string</span> str;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">kangtuo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">1</span>;  <span class="comment">//注意，因为 12345 是算作0开始计算的，最后结果要把12345看作是第一个</span></span><br><span class="line">    <span class="keyword">int</span> len = str.length();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;<span class="comment">//用来计数的</span></span><br><span class="line"> </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; len; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(str[i] &gt; str[j]) tmp++;</span><br><span class="line">            <span class="comment">//计算str[i]是第几大的数，或者说计算有几个比他小的数</span></span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        ans += tmp * f[len - i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**************康托逆展开**************/</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt; vec; <span class="comment">//存需要排列的字符</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rev_kangtuo</span><span class="params">(<span class="keyword">int</span> k)</span> <span class="comment">//输出序号为 k 的字符序列</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = vec.<span class="built_in">size</span>(), len = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">string</span> ans = <span class="string">""</span>;</span><br><span class="line">    k--; <span class="comment">// 算的时候是按 12345 是第0位</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> t = k / f[n - i]; <span class="comment">// 第 i 位需要 第 t + 1 大的数</span></span><br><span class="line">        k %= f[n - i];        <span class="comment">//剩下的几位需要提供的排列数</span></span><br><span class="line">        ans += vec[t] ; <span class="comment">//  vec[t] 就是第 t + 1 大的数</span></span><br><span class="line">        vec.erase(vec.<span class="built_in">begin</span>() + t); </span><br><span class="line"><span class="comment">//用过就删了，不用vector用暴力也可以，就是说枚举，然后一个一个的比较大小，并记录有几个没用过的字符且字典序比它小</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是康托展开的具体代码 (算法的具体原理参考链接中的博客)</p>
+<p>对于本题 需要对最后15个数进行康托展开 求得对应字典序now</p>
+<p>对于每次增加它字典序的操作则对now+=x</p>
+<p>用逆康托展开求得对应排列 </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">ll sum[Max],p[Max];</span><br><span class="line">ll F[<span class="number">20</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    F[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">15</span>;i++)F[i]=F[i<span class="number">-1</span>]*i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">ConTor</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> Mid)</span></span>&#123;</span><br><span class="line">    ll X=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        ll temp=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(p[j]&gt;p[i])<span class="keyword">continue</span>;</span><br><span class="line">            temp++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;temp&lt;&lt;" "&lt;&lt;F[n-i]&lt;&lt;endl;</span></span><br><span class="line">        X+=temp*F[n-i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> X;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invConTor</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> Mid,ll X)</span></span>&#123;</span><br><span class="line">    X--;ll rest=X;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;vec;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        vis[i]=<span class="number">0</span>;</span><br><span class="line">        vec.push_back(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> num=rest/F[n-i];</span><br><span class="line">        rest=rest%F[n-i];</span><br><span class="line">        p[i]=vec[num];</span><br><span class="line">        vec.erase(vec.<span class="built_in">begin</span>()+num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    init();</span><br><span class="line">    <span class="keyword">int</span> n,q;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)p[i]=i;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;ConTor(n,0)&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">int</span> Mid=<span class="built_in">max</span>(<span class="number">0</span>,n<span class="number">-15</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=Mid;i++)sum[i]=sum[i<span class="number">-1</span>]+p[i];</span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="keyword">int</span> op;<span class="built_in">cin</span>&gt;&gt;op;</span><br><span class="line">        <span class="keyword">if</span>(op==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> l,r;<span class="built_in">cin</span>&gt;&gt;l&gt;&gt;r;</span><br><span class="line">            <span class="keyword">if</span>(r&lt;=Mid)<span class="built_in">cout</span>&lt;&lt;sum[r]-sum[l<span class="number">-1</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(l&lt;=Mid)&#123;</span><br><span class="line">                ll temp=sum[Mid]-sum[l<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=r;i++)temp+=p[i];</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;temp&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                ll temp=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;=r;i++)temp+=p[i];</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;temp&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            ll x;<span class="built_in">cin</span>&gt;&gt;x;</span><br><span class="line">            ll now=ConTor(n,Mid);</span><br><span class="line">            <span class="comment">//cout&lt;&lt;now&lt;&lt;endl;</span></span><br><span class="line">            now+=x;</span><br><span class="line">            invConTor(n,Mid,now);</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            for(int i=1;i&lt;=n;i++)cout&lt;&lt;p[i]&lt;&lt;" ";</span></span><br><span class="line"><span class="comment">            cout&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>差分前缀</tag>
+        <tag>问题转化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#682-C</title>
+    <url>/2020/11/16/codeforces-682-C/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1438/C" target="_blank" rel="noopener">C. Engineer Artem</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个n×m(m,n&lt;100)的矩阵 其中每个位置有一个数a(i,j)</p>
+<p>现在可以选择其中任意几个位置(i,j)使得其数值变为a(i,j) +1</p>
+<p>得到一个新的矩阵b(i,j)</p>
+<p>问如何构造得到一个任意两个相邻的位置的数值都不相同的矩阵b(i,j)</p>
+<p>并输出b(i,j)  </p>
+<p>(一定存在一个b(i,j)矩阵满足条件)</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>考虑到对某些位置的数值+1</p>
+<p>实际上是改变其奇偶性</p>
+<p>那么对于矩阵a 可以将其中的元素改成奇偶交替 就能得到矩阵b了</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">100</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//#define __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)                                                                            \</span></span><br><span class="line">&#123;                                                                                                   \</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"[%s:%d]"</span> format <span class="string">""</span>,                                            \</span><br><span class="line">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);                                                        \</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format,...)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">ll mat[Max][Max];</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cin</span>&gt;&gt;mat[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>((i+j)%<span class="number">2</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j]%<span class="number">2</span>)mat[i][j]++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j]%<span class="number">2</span>==<span class="number">0</span>)mat[i][j]++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;mat[i][j]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#678-E</title>
+    <url>/2020/11/14/codeforces-678-E/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/problemset/problem/1436/E" target="_blank" rel="noopener">E. Complicated Computations</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n&lt;1e5的数组a</p>
+<p>求出它所有子串的MEX组成的新数组b的MEX</p>
+<p>对于一个给定数组 其MEX是 最小的不出现在数组中的正数</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p><a href="https://www.cnblogs.com/hznumqf/p/13879185.html" target="_blank" rel="noopener">参考博客</a></p>
+<p>如 数组a为1 3 2</p>
+<p>数组b为 2 2 4 1 1 1</p>
+<p>所以答案为3</p>
+<p>首先要求出所有子串的MEX 而n为1e5 显然 暴力求解出b数组不可取</p>
+<p>但是存在一个事实：对于一个数组 若去除其中重复的数字 剩下 的数组成的MEX</p>
+<p>仍然与原来相同</p>
+<p>那么我们不需要暴力枚举出所有a的子串求得其MEX</p>
+<p>反过来想 我们只需要判断某个数x是否会是某个a的子串的MEX</p>
+<p>于是我们枚举x (1~n+1) 每次判断是否存在一个a的子串它的MEX=x</p>
+<p>若存在 那么数组b中加入 x 最终答案则直接求b的MEX</p>
+<p>如果一个区间的MEX=x，那么容易发现只需满足如下条件 ：</p>
+<ul>
+<li>区间中没有出现x</li>
+<li><p>区间中出现了1到x−1</p>
+<p>于是 考虑枚举每个以x为端点的子段</p>
+</li>
+</ul>
+<p>比如…. x (1 4 2 4 6) x ….</p>
+<p>MEX=x的子段不会出现在一个包含x的子串中 于是满足条件一</p>
+<p>对于第二个条件 维护一个权值线段树 </p>
+<p>以权值为点 存对应数在原数组中出现的最后位置</p>
+<p>因为要确保 两个x 之间存在1到x-1所有数</p>
+<p>所以只需要确保 (1,x-1)所以有数最后一次出现的位置在 两个x之间</p>
+<p>若符合条件那么 显然 a中存在子串MEX=x 那么x被加入b数组</p>
+<p>我们枚举可能存在的MEX=x</p>
+<p>判断区间…. x (1 4 2 4 6) x …. 的MEX而不是 …. x (1 4 2) 4 6 x ….的MEX</p>
+<p>为什么后者不需要枚举？ 首先我们是在判断x是否会成为a的子串的MEX</p>
+<p>于是我们找最有可能出现MEX=x的子串 即夹在两个x之间的子段</p>
+<p>他们不包含x且元素最多最有可能包含(1,x-1)所有数</p>
+<p>从而减小了暴力枚举a的子串的复杂度</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)                                                                          \</span></span><br><span class="line">&#123;                                                                                                   \</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"\[%s:%d] \" format "</span> <span class="string">",                                                        \</span></span><br><span class="line"><span class="string">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);                                                        \</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">#else</span></span><br><span class="line"><span class="string">#define DeBug(format,...)</span></span><br><span class="line"><span class="string">#endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">*/</span></span><br><span class="line"><span class="string">class SegTree&#123;</span></span><br><span class="line"><span class="string">public:</span></span><br><span class="line"><span class="string">    #define mid ((L+R)&gt;&gt;1)</span></span><br><span class="line"><span class="string">    #define Leftson now&lt;&lt;1</span></span><br><span class="line"><span class="string">    #define Rightson now&lt;&lt;1|1</span></span><br><span class="line"><span class="string">    struct segtree&#123;int L,R,pos;&#125;;</span></span><br><span class="line"><span class="string">    segtree tree[Max&lt;&lt;2];</span></span><br><span class="line"><span class="string">    void push_up(int now)&#123;</span></span><br><span class="line"><span class="string">        tree[now].pos=min(tree[Leftson].pos,tree[Rightson].pos);</span></span><br><span class="line"><span class="string">        return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    void build(int L,int R,int now=1)&#123;</span></span><br><span class="line"><span class="string">        tree[now]=&#123;L,R,0&#125;;</span></span><br><span class="line"><span class="string">        //cout&lt;&lt;L&lt;&lt;"</span> <span class="string">"&lt;&lt;R&lt;&lt;endl;</span></span><br><span class="line"><span class="string">        if(L==R)return;</span></span><br><span class="line"><span class="string">        //int mid=(L+R)&gt;&gt;1;</span></span><br><span class="line"><span class="string">        build(L,mid,Leftson);</span></span><br><span class="line"><span class="string">        build(mid+1,R,Rightson);</span></span><br><span class="line"><span class="string">        push_up(now);</span></span><br><span class="line"><span class="string">        return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    void updata(int qL,int qR,int val,int now=1)&#123;</span></span><br><span class="line"><span class="string">        if(qL&lt;=tree[now].L&amp;&amp;qR&gt;=tree[now].R)&#123;</span></span><br><span class="line"><span class="string">            tree[now].pos=val;</span></span><br><span class="line"><span class="string">            return;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        if(qL&lt;=tree[Leftson].R)updata(qL,qR,val,Leftson);</span></span><br><span class="line"><span class="string">        if(qR&gt;=tree[Rightson].L)updata(qL,qR,val,Rightson);</span></span><br><span class="line"><span class="string">        push_up(now);return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    int query(int qL,int qR,int now=1)&#123;</span></span><br><span class="line"><span class="string">        if(qL&gt;qR)return inf;</span></span><br><span class="line"><span class="string">        if(tree[now].R&lt;=qR&amp;&amp;tree[now].L&gt;=qL)return tree[now].pos;</span></span><br><span class="line"><span class="string">        int minnpos=inf;</span></span><br><span class="line"><span class="string">        if(tree[Leftson].R&gt;=qL)minnpos=min(minnpos,query(qL,qR,Leftson));</span></span><br><span class="line"><span class="string">        if(tree[Rightson].L&lt;=qR)minnpos=min(minnpos,query(qL,qR,Rightson));</span></span><br><span class="line"><span class="string">        push_up(now);</span></span><br><span class="line"><span class="string">        return minnpos;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;Val;</span></span><br><span class="line"><span class="string">bool vis[Max];</span></span><br><span class="line"><span class="string">int arr[Max],last[Max];</span></span><br><span class="line"><span class="string">int main()&#123;</span></span><br><span class="line"><span class="string">    //Turnoff;</span></span><br><span class="line"><span class="string">    int n;cin&gt;&gt;n;</span></span><br><span class="line"><span class="string">    Val.build(1,n);</span></span><br><span class="line"><span class="string">    for(int i=1;i&lt;=n;i++)cin&gt;&gt;arr[i];</span></span><br><span class="line"><span class="string">    for(int i=1;i&lt;=n;i++)&#123;</span></span><br><span class="line"><span class="string">        if(arr[i]!=1)vis[1]=1;</span></span><br><span class="line"><span class="string">        if(arr[i]&gt;1&amp;&amp;Val.query(1,arr[i]-1)&gt;last[arr[i]])vis[arr[i]]=1;</span></span><br><span class="line"><span class="string">        last[arr[i]]=i;</span></span><br><span class="line"><span class="string">        Val.updata(arr[i],arr[i],i);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    for(int i=2;i&lt;=n+1;i++)&#123;</span></span><br><span class="line"><span class="string">        if(Val.query(1,i-1)&gt;last[i])vis[i]=1;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    int Mex=1;</span></span><br><span class="line"><span class="string">    while(vis[Mex])Mex++;</span></span><br><span class="line"><span class="string">    cout&lt;&lt;Mex&lt;&lt;endl;</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>MEX</tag>
+        <tag>权值线段树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#683-D</title>
+    <url>/2020/11/16/codeforces-683-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1447/problem/D" target="_blank" rel="noopener">D. Catching Cheaters</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n的字符串S和一个长度为m的字符串T</p>
+<p>(n,m&lt;5000)</p>
+<p>求4LCS(C,D)-|C|-|D|的最大值 (LCS为最长公共子序列)</p>
+<p>其中C为S的任意子串 D为T的任意子串 (均可以为空串)</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>考虑LCS的dp过程</p>
+<p>dp(i,j)表示S串前i位和T串前j位构成的最大公共子序列长度 (不一定包含第i位和第j位)</p>
+<p>状态转移有:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(S[i]==T[j]) dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span> dp[i][j]=<span class="built_in">max</span>(dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>]);</span><br></pre></td></tr></table></figure>
+<p>本题涉及求LCS 于是思考能否从这个角度进行类似的dp求解</p>
+<p>设计dp(i,j)表示取S串第i位字符且取T串第j位字符能构成4LCS(C,D)-|C|-|D|的最大值</p>
+<p>状态转移有:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(S[i]==T[j]) dp[i][j]=dp[i<span class="number">-1</span>][j<span class="number">-1</span>]+<span class="number">2</span>;</span><br><span class="line"><span class="keyword">else</span> dp[i][j]=<span class="built_in">max</span>(dp[i][j],<span class="built_in">max</span>(dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>])<span class="number">-1</span>);</span><br></pre></td></tr></table></figure>
+<p>对于S[i]==T[j]的情况 将这两个字符作为子串C和D的末尾</p>
+<p>则根据公式4LCS(C,D)-|C|-|D|对答案产生+2的贡献</p>
+<p>对于S[i]!=T[j]的情况 根据公式4LCS(C,D)-|C|-|D|</p>
+<p>要么给C串加入S[i]要么给D串加入T[j] 对答案的贡献-1</p>
+<p>当这两种情况导致当前的子串C和D得到的答案4LCS(C,D)-|C|-|D|&lt;0</p>
+<p>那么将这两个子串C和D舍去 保留之前更新的dp(i,j)</p>
+<h3 id="有点类似贪心求解最大子段和的过程："><a href="#有点类似贪心求解最大子段和的过程：" class="headerlink" title="有点类似贪心求解最大子段和的过程："></a>有点类似贪心求解最大子段和的过程：</h3><ul>
+<li>当某个子段和已经小于0那么没必要将这段子串和加入答案</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">5e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)                                                                            \</span></span><br><span class="line">&#123;                                                                                                   \</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"\033[33m[%s:%d] \033[0m"</span> format <span class="string">""</span>,                                            \</span><br><span class="line">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);                                                        \</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format,...)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="keyword">int</span> dp[Max][Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n,m,ans=<span class="number">0</span>;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="built_in">string</span> s,t;<span class="built_in">cin</span>&gt;&gt;s&gt;&gt;t;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==t[j])dp[i+<span class="number">1</span>][j+<span class="number">1</span>]=dp[i][j]+<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                dp[i+<span class="number">1</span>][j+<span class="number">1</span>]=<span class="built_in">max</span>(dp[i+<span class="number">1</span>][j+<span class="number">1</span>],<span class="built_in">max</span>(dp[i+<span class="number">1</span>][j],dp[i][j+<span class="number">1</span>])<span class="number">-1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            ans=<span class="built_in">max</span>(ans,dp[i+<span class="number">1</span>][j+<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>dp</tag>
+        <tag>最大子段和</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>codeforces-#682-D</title>
+    <url>/2020/11/16/codeforces-682-D/</url>
+    <content><![CDATA[<p><a href="https://codeforces.ml/contest/1438/problem/D" target="_blank" rel="noopener">D. Powerful Ksenia</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为3&lt;n&lt;1e5的数组a</p>
+<p>要求经过最多n次操作后所有元素相等</p>
+<p>每次操作为：</p>
+<p>选择(i,j,k) 将三个位置上的(ai,aj,ak)替换成 X=ai xor aj xor ak</p>
+<p>若能在n次内将所有元素相等输出YES</p>
+<p>并输出操作次数和每次操作的三个下标</p>
+<p>若不能则输出NO</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>每次操作能将三个数变成相同的数 (a,b,c)-&gt;(x,x,x)</p>
+<p>考虑到异或的性质 ：</p>
+<ul>
+<li>若存在两个数相同 则 a xor a =0</li>
+<li>且0 xor x =x 即任意数与0异或为0</li>
+</ul>
+<p>那么对于n=奇数的情况</p>
+<p>我可以将原数组 如：a b c d e f g h i</p>
+<p>经过操作变为：a a b b c c x x x</p>
+<p>除了后3位相同其余均是两两相同 </p>
+<p>那么之后可以根据异或性质操作：</p>
+<p>a a b b (c c x) x x  -&gt; a a b b x x x x x</p>
+<p>a a (b b x) x x x x -&gt; a a x x x x x x x</p>
+<p>(a a x) x x x x x x -&gt; x x x x x x x x x</p>
+<p>通过上述构造能在n-2次内将任意长度为奇数的数组a均能变为全部相同的数组</p>
+<p>而n为偶数时则需要判断是否能将所有数变为相等</p>
+<p>回忆操作过程</p>
+<p>将(a,b,c) -&gt; (x,x,x) 其中x= a xor b xor c</p>
+<p>发现 a xor b xor c = x xor x xor x = x</p>
+<p>所以 对于数组 a b c d  经过操作后 其异或和都不会发生变化</p>
+<p>那么 若最初的数组其异或和 不为0那么无论如何操作都不会将所有元素变为相同解</p>
+<p>(偶数个相同数异或为0)</p>
+<p>若异或和为0 那么随便选出一个数ax</p>
+<p>将剩余的奇数个数通过n为奇数情况的构造方式将这n-1个数变为一个相同的数Y</p>
+<p>最后Y 一定等于 ax  因为最初数组的异或和为0 </p>
+<p>即：a1 xor a2 xor a3 …. xor an =0</p>
+<p>那么把ax从左侧取出 则有 ：a1 xor a2 xor a3 …. =ax</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">100</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//#define __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)                                                                            \</span></span><br><span class="line">&#123;                                                                                                   \</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"[%s:%d]"</span> format <span class="string">""</span>,                                            \</span><br><span class="line">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);                                                        \</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format,...)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">ll mat[Max][Max];</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cin</span>&gt;&gt;mat[i][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>((i+j)%<span class="number">2</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j]%<span class="number">2</span>)mat[i][j]++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(mat[i][j]%<span class="number">2</span>==<span class="number">0</span>)mat[i][j]++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;mat[i][j]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>构造</tag>
+        <tag>位运算</tag>
       </tags>
   </entry>
 </search>

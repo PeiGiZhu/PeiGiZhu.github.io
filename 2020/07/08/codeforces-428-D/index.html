@@ -111,7 +111,7 @@ var _hmt = _hmt || [];
         <div class="stuff">
             <span>七月 08, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/gcd/" rel="tag">gcd</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">容斥原理</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0/" rel="tag">组合数</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/gcd/" rel="tag">gcd</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/" rel="tag">容斥原理</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li></ul>
 
 
         </div>
@@ -120,7 +120,7 @@ var _hmt = _hmt || [];
 <p>题意</p>
 <p>有一个序列a，对于某些k 称序列i1, i2, …, ik 是无趣的当且仅当i1 &lt; i2 &lt; i3 &lt; … &lt; ik </p>
 <p>并且 gcd(ai1, ai2, …, aik) &gt; 1 . 并且它的无趣值为k · gcd(ai1, a i2, …, aik) . 求所有存在的无趣序列的无趣值之和，对1e9+7取模</p>
-<p>给出一个长度为n n&lt;1e5 的序列a ai<1e6 找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </1e6></p>
+<p>给出一个长度为n n<1e5 的序列a ai<1e6 找出长度为k且gcd(ai1,ai2,ai3.....aik)>1 的子序列<br>求∑k*gcd </1e5></p>
 <p>题解<br>枚举gcd 那么由此gcd能构成的子序列 应该是由 gcd ，2gcd，3gcd….即gcd的倍数构成的<br>那么读入时统计各个数的个数 num[x]++<br>所以对于枚举到的某个gcd 它对应的子序列 是由a中出现的它的所有倍数选出1个，2个… x个<br>(假设最多x个)形成<br>同时以gcd为最大公约数的子序列对应的长度k可以是1,2,3,4,5…x;</p>
 <p>∑k=∑len <em>C(x,len) ,(len=1,2,3,,,,x) = x </em> 2^ {x-1}</p>
 <p>/<em> 常用组合数结论 </em>/<br>那么以gcd为最大公约数的子序列对答案产生的贡献可以直接计算得到<br>此外还要考虑gcd=4 和gcd=2 被重复计算的情况 比如{4,8,12}的gcd=4但枚举到gcd=2时也会被计入 因此考虑容斥 对于gcd=2的子序列个数要减去gcd=4,6,8,10….2x<br>所以我们选择从大到小枚举gcd 同时维护一个dp数组记录以i为gcd的子序列对应的∑k</p>
