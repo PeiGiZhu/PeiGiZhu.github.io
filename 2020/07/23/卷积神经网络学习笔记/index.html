@@ -172,8 +172,8 @@ var _hmt = _hmt || [];
 <p><em>key words: 逻辑回归, 激活函数, 损失函数, 代价函数, 梯度下降法</em></p>
 </blockquote>
 <h3 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h3><p><img src="/.io//timg.gif" data-original="CNN_example12.png"></p>
-<p>$w^T$是一个$nx$维向量（因为$w$实际上是特征权重，维度与特征向量相同）</p>
-<p>比如 上一层特征向量大小为(nx,m)那么$w$的大小(r,nx)</p>
+<p>$w$是一个$nx$维向量（因为$w$实际上是特征权重，维度与特征向量相同）</p>
+<p>比如 上一层特征向量大小为(nx,m)那么$w^T$的大小(r,nx)</p>
 <p>$b$是一个实数（表示偏差）</p>
 <p>而$x$就是输入的训练数据集/上一层特征向量 </p>
 <p>我们想让$yhat$ 通过计算得到的预测值 它表示[0,1]的概率</p>
@@ -194,7 +194,7 @@ var _hmt = _hmt || [];
 <p>部 最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我 们在</p>
 <p>逻辑回归模型中会定义另外一个损失函数。 </p>
 <h3 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h3><p>梯度下降法可以做什么？ </p>
-<p>在你测试集上，通过最小化代价函数（成本函数）𝐽(𝑤, 𝑏)来训练的参数𝑤和𝑏， </p>
+<p>在测试集上，通过最小化代价函数（成本函数）𝐽(𝑤, 𝑏)来训练的参数𝑤和𝑏， </p>
 <p>𝐽(𝑤, 𝑏)是一对每组训练数据的损失函数<em>Loss function</em> 的均值</p>
 <p>为了适应梯度下降法所以用$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$ 来计算损失而不是方差</p>
 <p>使它成为一个有最低点的凹函数而不是有多个最低点的波浪</p>
@@ -349,10 +349,8 @@ var _hmt = _hmt || [];
 <p>对于”dz[1]”(即dL/dz[1])如何得到 通过链式法则得$dz[1]=dL/dz[2]×dz[2]/da[1]×da[1]/dz[1]$</p>
 <p>其中$dL/dz[2]=a[2]-Y$ ,  $dz[2]/da[1]=W[2]$ , $da[1]/ dz[1]=g[1]’(z[1])$</p>
 <p>所以推得 $“dz[1]”=dL / dz[1]=W[2]^Tdz[2]×g[1]’(z[1])$</p>
-<p>​      </p>
-<p>/*</p>
-<p> (插入语)     </p>
-<p>这里×号表示矩阵内元素逐个相乘而不是矩阵乘法 原因如下：</p>
+<ul>
+<li><h2 id="插入语"><a href="#插入语" class="headerlink" title="插入语"></a>插入语</h2><p>这里×号表示矩阵内元素逐个相乘而不是矩阵乘法 原因如下：</p>
 <p>本来推导公式求导得到两个矩阵,按照规则点乘 没有问题</p>
 <p>但由于其中某个矩阵是求导计算中产生的对角矩阵 </p>
 <p>比如输入z为(1,nx)矩阵 g(z)=a 为(1,nx)矩阵 求da/dz时实际上是a[j]对z[i]求导</p>
@@ -364,7 +362,8 @@ var _hmt = _hmt || [];
 <p>另外在 <a href="https://www.bilibili.com/video/BV1m4411x7KU" target="_blank" rel="noopener">大野喵渣的简单神经网络实战</a>中在反向传播过程推导出现了 outer运算</p>
 <p>对于(1,n) outer (1,m) 就相当于 (1,n).T dot (1,m) = (n,1) dot (1,m)</p>
 <p>两者含义和计算结果相同 使用outer感觉徒增理解难度</p>
-<p>*/</p>
+</li>
+</ul>
 <p>​     </p>
 <p>在$“dz[1]”=dL / dz[1]=W[2]^Tdz[2]×g[1]’(z[1])$ 中，</p>
 <p>前两项相乘维度为(n[1],n[2])×(n[2],1)=(n[1],1) 后一项为(n[1],1)两者相乘要保证最后输出仍然为(n[1],1);</p>
@@ -472,7 +471,20 @@ var _hmt = _hmt || [];
 <h3 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h3><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
 <p>VGG-16模型图解 (same表示使用same pading)</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example7.png"></p>
-<h3 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h3><h3 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h3><p>持续缓慢更新ing。。。</p>
+<h3 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h3><p>论文来源:[He et al. 2015.Deep residual net works for image recognition]</p>
+<p>此处涉及到残差网络(Residual block)</p>
+<p>普通方法: </p>
+<p>$z^{[l+1]} = W^{[l+1]}a^{[l]}+b^{[l+1]}$   ,   $a^{[l+1]}=g(z^{[l+1]})$</p>
+<p>$z^{[l+2]} = W^{[l+2]}a^{[l+1]}+b^{[l+2]}$ , $a^{[l+2]}=g(z^{[l+2]})$</p>
+<p>残差网络方法:</p>
+<p>$z^{[l+1]} = W^{[l+1]}a^{[l]}+b^{[l+1]}$   ,   $a^{[l+1]}=g(z^{[l+1]})$</p>
+<p>$z^{[l+2]} = W^{[l+2]}a^{[l+1]}+b^{[l+2]}$ , $a^{[l+2]}=g(z^{[l+2]}+a^{[l]})$</p>
+<p><img src="/.io//timg.gif" data-original="CNN_ResNet.png"></p>
+<p>这种设计可以避免梯度消失 ，当模型层数上升普通方法下 模型的精度下降</p>
+<p>而采用了残差网络则可以避免这种现象发生。</p>
+<p>下图中每两层组成一个残差网络 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_ResNet1.png"></p>
+<p>持续缓慢更新ing。。。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
