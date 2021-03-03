@@ -388,12 +388,26 @@ var _hmt = _hmt || [];
 <p>缓存Z[l]是因为向前传播计算A[l]=g(Z[l])</p>
 <p>以及反向传播时计算$dZ[l]=dA[l]×g[l]’(Z[l])$ 时会用到 (此处的×表示逐个元素相乘)</p>
 <p> <img src="/.io//timg.gif" data-original="CNN_example34.png"></p>
+<ul>
+<li><h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2></li>
+</ul>
+<p>检查每一层参数维度是否正确的小技巧</p>
+<p>$w^{[l]}:(n^{[l]},n^{[l-1]})$ </p>
+<p>当训练集中只有一个样本时</p>
+<p>$z^{[l]},a^{[l]},b^{[l]}:(n^{[l]},1)$</p>
+<p><img src="/.io//timg.gif" data-original="CNN_CheckDimensionality.png"></p>
+<p>当训练集中有m个样本时</p>
+<p>$Z^{[l]},A^{[l]},b{[l]}:(n^{[l]},m)$</p>
+<p><img src="/.io//timg.gif" data-original="CNN_CheckDimensionality1.png"></p>
 <h2 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h2><blockquote>
 <p>卷积和池化主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程 (压缩图片)</p>
 <p>当取得图片的具体特征后经过全连接层×权重并求和判断结果</p>
 <p>比如识别一个汉字 取得了它有’横’ ‘竖’ ‘撇’ 等特征 </p>
 <p>每个特征对预测结果有权重即是哪个特征对最后判断影响更大某些则比较小(乘权重的含义)</p>
 <p>哪几个特征表明是某个字的可能性比较大 (求和的含义)</p>
+<ul>
+<li>以上均为个人理解</li>
+</ul>
 <p>在向前传播过程中具体包括: </p>
 <p>卷积层 → 池化层 → …(Repeat)… → 全连接层 → …(Repeat)…</p>
 <p>convolution → pooling → …(Repeat)… → full connected …</p>
@@ -483,7 +497,21 @@ var _hmt = _hmt || [];
 <p>这种设计可以避免梯度消失 ，当模型层数上升普通方法下 模型的精度下降</p>
 <p>而采用了残差网络则可以避免这种现象发生。</p>
 <p>下图中每两层组成一个残差网络 </p>
+<p>在残差网络采用了same pading</p>
+<p>L和L+2层拥有相同维度才能保证$z^{[l+2]}+a^{[l]}$能相加</p>
+<p>否则可以引入$w_s$ 通过 $w_s × a^{[l]}$ 使得两者维度一至可以相加 </p>
+<p>而$w_s$不需要初始化 它的值将会通过后天学习自动更新</p>
 <p><img src="/.io//timg.gif" data-original="CNN_ResNet1.png"></p>
+<h3 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h3><p>在这之前先介绍一下 1×1卷积 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_inception.png"></p>
+<p>当遇到需要压缩样本的信道，即不改变长度与宽度的前提下减少深度 可以采用1×1卷积</p>
+<p>如上图 将深度为192的样本变为32</p>
+<p>可以用32个1×1×192的过滤器 进行卷积 </p>
+<p>对于其中一个过滤器对应位相乘再求和 后用relu激活得到对应的值</p>
+<p>这一步能将深度为32的样本压缩成1维</p>
+<p>当存在32个过滤器时将32个1维结果叠加 则生成28×28×32的结果 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_inception1.png"></p>
+<p>这个技术在inception的实现中能大大减少卷积池化过程的计算量 但会损失一定信息</p>
 <p>持续缓慢更新ing。。。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
