@@ -2220,7 +2220,8 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>否则可以引入$w_s$ 通过 $w_s × a^{[l]}$ 使得两者维度一至可以相加 </p>
 <p>而$w_s$不需要初始化 它的值将会通过后天学习自动更新</p>
 <p><img src="/.io//timg.gif" data-original="CNN_ResNet1.png"></p>
-<h3 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h3><p>在这之前先介绍一下 1×1卷积 </p>
+<h3 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h3><p>论文来源: [Szegedy et al.,2014, Going Deeper with Convolutions]</p>
+<p>在这之前先介绍一下 1×1卷积 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_inception.png"></p>
 <p>当遇到需要压缩样本的信道，即不改变长度与宽度的前提下减少深度 可以采用1×1卷积</p>
 <p>如上图 将深度为192的样本变为32</p>
@@ -2229,7 +2230,13 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>这一步能将深度为32的样本压缩成1维</p>
 <p>当存在32个过滤器时将32个1维结果叠加 则生成28×28×32的结果 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_inception1.png"></p>
-<p>这个技术在inception的实现中能大大减少卷积池化过程的计算量 但会损失一定信息</p>
+<p>1×1卷积核在inception的实现中能大大减少卷积池化过程的计算量(通过减少信道数) 但会损失一定信息</p>
+<p>在googleNet的模型中采用以信道分组卷积再合并的方式</p>
+<p>最后将几组的信道组合成一个整体作为下一层</p>
+<p><img src="/.io//timg.gif" data-original="CNN_inception2.png"></p>
+<p>重复这样卷积处理搭建出一个googleNet的模型</p>
+<p>其中有三个分支 用softmax预测出结果 以防止过度拟合出错</p>
+<p><img src="/.io//timg.gif" data-original="CNN_googleNet.png"></p>
 <p>持续缓慢更新ing。。。</p>
 ]]></content>
       <categories>
