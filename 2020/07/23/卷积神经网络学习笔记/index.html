@@ -470,24 +470,30 @@ var _hmt = _hmt || [];
 <p>1.训练集和测试集特征分布不一致(黑白马)</p>
 <p>2.模型太复杂而样本不足</p>
 <p>为了减少过度拟合引入了正则化的概念</p>
-<p>通常正则化的方法有：L1正则化，L2正则化，Dropout正则</p>
+<p>通常正则化的方法有：L1正则化，L2正则化，Dropout正则 （此处参考<a href="https://www.jianshu.com/p/569efedf6985" target="_blank" rel="noopener">外部博客）</a></p>
 </blockquote>
-<p>对于二分分类问题 将是A与非A区分开来重要的是划分”边界”</p>
+<p>对于二分分类问题 将是A与非A区分开来重要的是划分”决策边界”</p>
 <p>简单的线性模型准确率较低，而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断</p>
 <p>原因是没有正确提取抽象特征 称之为“过拟合“。</p>
 <p><img src="/.io//timg.gif" data-original="CNN_overfitting.png"></p>
-<h3 id="L1正则化-amp-L2正则化"><a href="#L1正则化-amp-L2正则化" class="headerlink" title="L1正则化&amp;L2正则化"></a>L1正则化&amp;L2正则化</h3><p>L1/L2正则化实际上是在损失函数$J(w,b)$ 后加入一个“惩罚项” </p>
+<h3 id="L1正则化-amp-L2正则化"><a href="#L1正则化-amp-L2正则化" class="headerlink" title="L1正则化&amp;L2正则化"></a>L1正则化&amp;L2正则化</h3><ul>
+<li>如何正则化</li>
+</ul>
+<p>L1/L2正则化实际上是在损失函数$J(w,b)$ 后加入一个“惩罚项” </p>
 <p>而这个“惩罚项”实际就与Lp 范数 ($L_p norm$)有关</p>
 <p>$L_p norm$ 的定义为:$||W||_p=(∑_i|w_i|^p)^{1/p}$ </p>
 <p>L1正则化: $J_1(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_1$</p>
-<p>其中$||W||_1=∑_{i}|w_i|$<strong>即所有特征系数绝对值的和</strong> </p>
+<p>其中$||W||<em>1=∑</em>{i}|w_i|$<strong>即所有特征系数绝对值的和</strong> </p>
+<p>L1正则化能使得一部分特征向量趋于0 让特征矩阵变得稀疏，</p>
+<p>起到特征选择的作用 达到简化模型的目的</p>
 <p>L2正则化: $J_2(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_2^2$ </p>
-<p>其中$||W||_2^2=∑_{i}|w_i|^2=w^Tw$<strong>即所有特征系数的平方和</strong> </p>
-<p>系数λ/2m的λ是可调超级参数，而m是样本数量, 除2是为了消掉求导时的平方项产生的2 </p>
-<blockquote>
-<p>此处参考<a href="https://www.jianshu.com/p/569efedf6985" target="_blank" rel="noopener">外部博客</a></p>
-</blockquote>
-<p>那么如何处理正则化后的梯度下降(更新特征向量w)?</p>
+<p>其中$||W||<em>2^2=∑</em>{i}|w_i|^2=w^Tw$<strong>即所有特征系数的平方和</strong> </p>
+<p>L2正则化能使得特征向量有比例的缩放防止过拟合，而不会起到特征选择的作用 </p>
+<p>在两种正则化中都存在系数λ/2m。</p>
+<p>其中λ是可调超级参数，而m是样本数量, 除2是为了消掉求导时的平方项产生的2 。</p>
+<ul>
+<li>那么如何处理正则化后的梯度下降(更新特征向量w)?</li>
+</ul>
 <p>为了方便理解将w1作为一个数，对于L1正则化而言有:</p>
 <p><img src="/.io//timg.gif" data-original="CNN_L1norm.png"></p>
 <p>其中$dJ/dw_1=“dw_1”$是对于未加入正则项的代价函数$J(w,d)$的求导,</p>
@@ -497,6 +503,15 @@ var _hmt = _hmt || [];
 <p>在L2正则化中对于梯度下降过程中的特征参数更新应该替换为$w:=w-αdw’$</p>
 <p>其中$dw’$为加入正则项后的$dJ_2/dw$  即:  $dw’=dw+λ/m×w$</p>
 <p>而$dw$是不包含正则项时$dJ/dw$ </p>
+<ul>
+<li>正则化问什么能防止过拟合</li>
+</ul>
+<p>调整正则项系数λ可以使得特征向量w趋于0 </p>
+<p>而逻辑回归函数$z_{[l]}=w_{[l]}a_{[l-1]}+b_{[l]}$ 的结果$z$  也会相应减小  </p>
+<p>那么激活函数$g(z)$ 就会接近线性 </p>
+<p>这样就会避免“决策边界”成为一个过于复杂的高阶多元曲线函数 </p>
+<p>(虽然不太明白什么原理但是感觉很有道理)</p>
+<p><img src="/.io//timg.gif" data-original="CNN_regularization.png"></p>
 <h3 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h3><h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
 <p>介绍几类经典神经网络模型</p>
 <p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
