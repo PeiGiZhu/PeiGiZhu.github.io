@@ -1841,10 +1841,9 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
     <url>/2020/07/23/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络入门教程</a></p>
-<p><a href="https://www.bilibili.com/video/BV1F4411y7o7?p=2" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络基本概念</a></p>
+<p><a href="https://www.bilibili.com/video/BV1FT4y1E74V?from=search&amp;seid=12963457179286848962" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
-<p><a href="https://www.cnblogs.com/hesi/p/9013328.html" target="_blank" rel="noopener">卷积神经网络的训练过程</a></p>
 </blockquote>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
@@ -1883,7 +1882,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><img src="/.io//timg.gif" data-original="Random_initial.png"></p>
 <h2 id="反向传播过程"><a href="#反向传播过程" class="headerlink" title="反向传播过程"></a>反向传播过程</h2><blockquote>
 <p>反向传播实际上就是通过逻辑回归来反馈调节向前传播的参数达到学习目的</p>
-<p>逻辑回归:输入的特征向量通过激活函数求得预测值$yhat$ 映射到[0,1]内表示概率</p>
+<p>逻辑回归:输入的特征向量通过激活函数求得预测值$yhat$ 映射到[0,1]内表示概率 </p>
 <p>梯度下降:通过对代价函数的分析运算寻找到更合适的$w,d$ 的反馈学习过程</p>
 <p>向前传播是不断迭代逻辑回归的过程，而梯度下降是属于反向传播的更新参数$w,b$的过程 </p>
 <p>由于梯度下降与逻辑回归相互关联放在一块讲</p>
@@ -1951,7 +1950,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>3.求$d𝐿(𝑎, 𝑦)/dw1$(写作dw1),$d𝐿(𝑎, 𝑦)/dw2$(写作dw2),$d𝐿(𝑎, 𝑦)/db$(写作db)</p>
 <p>注意w1,w2是矩阵$w$中的两个元素</p>
 <p>根据链式法则$dL(a,y)/dw1=dz/dw1× dL(a,y)/dz$</p>
-<p> $dz/dw1=x1$ 且通过第2步已经求得$d𝐿(𝑎, 𝑦)/dz$（写作”$dz$”）</p>
+<p> $dz/dw1=x1$ 且通过第2步已经求得$d𝐿(𝑎, 𝑦)/dz$（写作”$dz$”）为$(a-y)$ </p>
 <p>那么”$dw1$”=$x1×dL(a,y)/dz$ 同理可求得”$dw2$”,”$db$”</p>
 <p>$dwi=xi×(a-y)$ ,$db=(a-y)$  </p>
 <p>​    </p>
@@ -2184,10 +2183,44 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>当水平扫描，将从第一个训练示例中从第一个 隐藏的单元到第二个训练样本，第三个训练样本……直到节点对应于</p>
 <p>第一个隐藏单元的激活 值，且这个隐藏单元是位于这𝑚个训练样本中的最终训练样本。 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_example28.png"></p>
-<h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
+<h2 id="过拟合-amp-正则化"><a href="#过拟合-amp-正则化" class="headerlink" title="过拟合&amp;正则化"></a>过拟合&amp;正则化</h2><blockquote>
+<p>所谓过拟合 通俗来讲 就是缺乏普遍性只能处理特殊值</p>
+<p>过拟合有两种原因：</p>
+<p>1.训练集和测试集特征分布不一致(黑白马)</p>
+<p>2.模型太复杂而样本不足</p>
+<p>为了减少过度拟合引入了正则化的概念</p>
+<p>通常正则化的方法有：L1正则化，L2正则化，Dropout正则</p>
+</blockquote>
+<p>对于二分分类问题 将是A与非A区分开来重要的是划分”边界”</p>
+<p>简单的线性模型准确率较低，而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断</p>
+<p>原因是没有正确提取抽象特征 称之为“过拟合“。</p>
+<p><img src="/.io//timg.gif" data-original="CNN_overfitting.png"></p>
+<h3 id="L1正则化-amp-L2正则化"><a href="#L1正则化-amp-L2正则化" class="headerlink" title="L1正则化&amp;L2正则化"></a>L1正则化&amp;L2正则化</h3><p>L1/L2正则化实际上是在损失函数$J(w,b)$ 后加入一个“惩罚项” </p>
+<p>而这个“惩罚项”实际就与Lp 范数 ($L_p norm$)有关</p>
+<p>$L_p norm$ 的定义为:$||W||_p=(∑_i|w_i|^p)^{1/p}$ </p>
+<p>L1正则化: $J_1(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_1$</p>
+<p>其中$||W||_1=∑_{i}|w_i|$<strong>即所有特征系数绝对值的和</strong> </p>
+<p>L2正则化: $J_2(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_2^2$ </p>
+<p>其中$||W||_2^2=∑_{i}|w_i|^2=w^Tw$<strong>即所有特征系数的平方和</strong> </p>
+<p>系数λ/2m的λ是可调超级参数，而m是样本数量, 除2是为了消掉求导时的平方项产生的2 </p>
+<blockquote>
+<p>此处参考<a href="https://www.jianshu.com/p/569efedf6985" target="_blank" rel="noopener">外部博客</a></p>
+</blockquote>
+<p>那么如何处理正则化后的梯度下降(更新特征向量w)?</p>
+<p>为了方便理解将w1作为一个数，对于L1正则化而言有:</p>
+<p><img src="/.io//timg.gif" data-original="CNN_L1norm.png"></p>
+<p>其中$dJ/dw_1=“dw_1”$是对于未加入正则项的代价函数$J(w,d)$的求导,</p>
+<p>另外$sign(x)=|x|/dx = -1_{x&lt;=0} or 1_{x&gt;0}$</p>
+<p>对于L2正则化而言有:</p>
+<p><img src="/.io//timg.gif" data-original="CNN_L2norm.png"></p>
+<p>在L2正则化中对于梯度下降过程中的特征参数更新应该替换为$w:=w-αdw’$</p>
+<p>其中$dw’$为加入正则项后的$dJ_2/dw$  即:  $dw’=dw+λ/m×w$</p>
+<p>而$dw$是不包含正则项时$dJ/dw$ </p>
+<h3 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h3><h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
 <p>介绍几类经典神经网络模型</p>
 <p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
-<p>残差网络: <em>ResNet</em>，<em>Inception</em> </p>
+<p>残差网络: <em>ResNet</em></p>
+<p><em>Inception</em> </p>
 </blockquote>
 <h3 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h3><p>针对灰度图像训练</p>
 <p>使用simgiod函数以及逻辑回归</p>
@@ -2237,6 +2270,30 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>重复这样卷积处理搭建出一个googleNet的模型</p>
 <p>其中有三个分支 用softmax预测出结果 以防止过度拟合出错</p>
 <p><img src="/.io//timg.gif" data-original="CNN_googleNet.png"></p>
+<h2 id="迁移学习-amp-数据增强"><a href="#迁移学习-amp-数据增强" class="headerlink" title="迁移学习&amp;数据增强"></a>迁移学习&amp;数据增强</h2><blockquote>
+<p>为了提高模型训练效率 可以采用迁移学习的方法</p>
+<p>将开源的CNN模型移植到自己的模型中</p>
+<p>为了在有限的训练集中 增加训练集样本提高模型准确率</p>
+<p>可以采用一些手段增强数据</p>
+</blockquote>
+<h3 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h3><p>可以从开源网站中获得搭建好的网络模型 以及训练好的参数 作为初始化值</p>
+<p>(不知道原先的分类对象与想要的分类对象不一致是否影响)</p>
+<p>仅仅修改softmax部分(或后半部分网络) 以达到较少量的训练集就能达到较高的正确率</p>
+<p>一般开源模型中会有一个开关”freeze” 将前几层网络中的参数冻结,</p>
+<p>这样在训练过程中就只会修改自己搭建的几层网络中的参数</p>
+<p><img src="/.io//timg.gif" data-original="CNN_TransferLearning.png"></p>
+<h3 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h3><p>主要有3种方式</p>
+<ul>
+<li>镜像对称: 即将原有的样本图片镜像对称得到新的样本</li>
+<li>随机截取: 即随机截取原有样本图片的某个部分获得新的样本</li>
+<li>色域调整: 即随机调整原有样本图片的RGB值生成新的图片</li>
+</ul>
+<h2 id="计算机视觉中的三类问题"><a href="#计算机视觉中的三类问题" class="headerlink" title="计算机视觉中的三类问题"></a>计算机视觉中的三类问题</h2><blockquote>
+<p>计算及视觉主要有两类问题</p>
+<p>分类问题(classification):判断给出图片中的对象是A还是B</p>
+<p>定位问题(localization):找出给出图片中所需要检索物体的位置</p>
+<p>而Detection是针对多种不同物体的定位与判断</p>
+</blockquote>
 <p>持续缓慢更新ing。。。</p>
 ]]></content>
       <categories>
