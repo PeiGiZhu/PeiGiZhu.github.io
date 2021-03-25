@@ -142,6 +142,7 @@ var _hmt = _hmt || [];
 <p>输入中也包括一些参数和超参数</p>
 <p>参数是要在不断学习中逐渐被修正趋于最优 比如逻辑回归中的$w,b$</p>
 <p>超参数则是最初给定不会改变的量比如在逻辑回归中选择的激活函数,梯度下降中的学习率α</p>
+<p>为了更快的进行梯度下降找到代价函数的最优解 通常对输入数据采取归一化处理</p>
 </blockquote>
 <p><img src="/.io//timg.gif" data-original="CNN_example8.png"></p>
 <p>对于一个二分类问题 比如判断图片中是否存在猫</p>
@@ -161,6 +162,32 @@ var _hmt = _hmt || [];
 <p>这里乘上0.01让$z=w^Tx+b$中w尽量小而不为0 所得到的z处于激活函数导数最大处</p>
 <p>能让梯度下降更快提高学习效率</p>
 <p><img src="/.io//timg.gif" data-original="Random_initial.png"></p>
+<h3 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h3><p>对于训练集中的样本值分布范围比较大的情况，</p>
+<p>训练一个网络模型得到代价函数$J$的最优解需要耗费更多的算力</p>
+<p>一般会对样本输入值进行归一化处理。 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_normalize.png"></p>
+<p>如上图，左侧是没有进行归一化输入的情况,</p>
+<p>代价函数$J(w,b)$ 呈现出一个狭长的值域,</p>
+<p>而获得最优解的过程将会像图中的蓝线那样寻找梯度下降最快的方向移动也就是垂直于这个椭圆的切线方向,</p>
+<p>同时由于这个狭长的值域我们需要设置一个较小的学习率$α$</p>
+<p>以便它有效下降到最优解,但这样会导致训练效率低下</p>
+<p>若将样本输入值进行归一化处理 得到的代价函数则如右图所示</p>
+<p>它将更趋向于一个圆状,这样就有利于更快的找到相对最优解</p>
+<p>归一化对于输入样本值的调整可以视为两步：</p>
+<p>设数据集$X$中一个样本为$X_{(i)}=(x_1,x_2)$  </p>
+<p><img src="/.io//timg.gif" data-original="CNN_normalizing.png"></p>
+<p>第一步零均值化：</p>
+<p>$u=1/m∑<em>i^mX</em>{(i)}^2$</p>
+<p>$X:=X-u$</p>
+<p>第二步归一化方差：</p>
+<p>$σ^2=1/m∑<em>i^mX</em>{(i)}^2$</p>
+<p>$X:=X/σ^2$</p>
+<p>最后样本的输入值将会贴近原点且处在一个较小的区间内</p>
+<ul>
+<li><h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>作为中间值的$u​$ 和$σ^2​$ 无论在输入训练集还是测试集都要一致 </p>
+<p>实际使用时统一用训练集中获得的$u$和 $σ^2$ 对$X$进行调整</p>
+</li>
+</ul>
 <h2 id="反向传播过程"><a href="#反向传播过程" class="headerlink" title="反向传播过程"></a>反向传播过程</h2><blockquote>
 <p>反向传播实际上就是通过逻辑回归来反馈调节向前传播的参数达到学习目的</p>
 <p>逻辑回归:输入的特征向量通过激活函数求得预测值$yhat$ 映射到[0,1]内表示概率 </p>
@@ -512,7 +539,27 @@ var _hmt = _hmt || [];
 <p>这样就会避免“决策边界”成为一个过于复杂的高阶多元曲线函数 </p>
 <p>(虽然不太明白什么原理但是感觉很有道理)</p>
 <p><img src="/.io//timg.gif" data-original="CNN_regularization.png"></p>
-<h3 id="Dropout正则化"><a href="#Dropout正则化" class="headerlink" title="Dropout正则化"></a>Dropout正则化</h3><h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
+<h3 id="Inverted-Dropout正则化"><a href="#Inverted-Dropout正则化" class="headerlink" title="Inverted Dropout正则化"></a>Inverted Dropout正则化</h3><p>Inverted Dropout 也成为随机失活 一般运用在训练网络模型 而不再测试模型时使用</p>
+<p><img src="/.io//timg.gif" data-original="CNN_dropout.png"></p>
+<p>原理就是将网络中某些点(特征)省略 从而简化网络模型</p>
+<ul>
+<li>向前传播过程中如何加入inverted dropout 正则化</li>
+</ul>
+<p>对于每个点 它是否失活(省略)的概率 被设置为 keep-prob</p>
+<p>假设某一层经过激活函数输出后得到 $a_{[l]}=g(z_{[l]})$</p>
+<p>在$a_{[l]}$传递到下一层网络成为$x_{[l+1]}$前</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">keep_prob=<span class="number">0.8</span></span><br><span class="line">dl=np.random.rand(al.shape[<span class="number">0</span>],al.shape[<span class="number">1</span>])&lt;keep_prob</span><br><span class="line">al=np.multiply(al,bl)  <span class="comment">#al=al*dl  逐个相乘</span></span><br><span class="line">al/=keep_prob</span><br></pre></td></tr></table></figure>
+<p>对所有特征量 进行随机失活 有0.8的概率保留原值 否则置为0</p>
+<p>但这样操作会导致特征值中20%的值失效 为了不影响$z_{[l+1]}=w_{[l+1]}x_{[l+1]}+b_{[l+1]}$ 的期望值</p>
+<p>应此最后需要将al/=keep_prob</p>
+<ul>
+<li>为什么dropout正则化可以避免过拟合</li>
+</ul>
+<p><img src="/.io//timg.gif" data-original="CNN_dropoutExplain.png"></p>
+<blockquote>
+<h3 id="“"><a href="#“" class="headerlink" title="“"></a>“</h3><p>第二个直观认识是，我们从单个神经元入手，如图，这个单元的工作就是输入并生成一些有意义的输出。通过dropout，该单元的输入几乎被消除，有时这两个单元会被删除，有时会删除其它单元，就是说，紫色圈起来的这个单元，它不能依靠任何特征，因为特征都有可能被随机清除，或者说该单元的输入也都可能被随机清除。我不愿意把所有赌注都放在一个节点上，不愿意给任何一个输入加上太多权重，因为它可能会被删除，因此该单元将通过这种方式积极地传播开，并为单元的四个输入增加一点权重，通过传播所有权重，dropout将产生收缩权重的平方范数的效果，和L 2 L2L2正则化类似，实施dropout的结果是它会压缩权重，并完成一些预防过拟合的外层正则化。</p>
+<h3 id="”-引用自Ng-Andrew-字幕"><a href="#”-引用自Ng-Andrew-字幕" class="headerlink" title="”(引用自Ng Andrew 字幕)"></a>”(引用自Ng Andrew 字幕)</h3></blockquote>
+<h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
 <p>介绍几类经典神经网络模型</p>
 <p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
 <p>残差网络: <em>ResNet</em></p>
