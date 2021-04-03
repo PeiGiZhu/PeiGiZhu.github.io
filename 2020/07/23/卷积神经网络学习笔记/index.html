@@ -16,8 +16,9 @@
 吴恩达深度学习课程
 吴恩达深度学习相关资料
 
+目录[TOC]
 概述首先 ，卷积神经网络CNN能做什么呢？
-一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or,"> 
+一个简单的例子 它能将一个二维像素点组成的图形进行识别 判,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -126,6 +127,7 @@ var _hmt = _hmt || [];
 <p><a href="https://www.bilibili.com/video/BV1FT4y1E74V?from=search&amp;seid=12963457179286848962" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
 </blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
@@ -233,6 +235,9 @@ var _hmt = _hmt || [];
 <p>一般习惯上在代码实现中将𝐽(𝑤, 𝑏)对𝑤的偏导(偏导将另一个无关变量视为定值参数)写作dw</p>
 <p>同理将𝐽(𝑤, 𝑏)对𝑏的偏导写作db</p>
 <h3 id="在逻辑回归中与梯度下降"><a href="#在逻辑回归中与梯度下降" class="headerlink" title="在逻辑回归中与梯度下降"></a>在逻辑回归中与梯度下降</h3><p>回想一下逻辑回归的公式定义如下： $𝑦hat = 𝑎 = 𝜎(𝑧) $其中$𝑧 = 𝑤^𝑇𝑥 + 𝑏$ ， $𝜎(𝑧) = 1/(1+𝑒^{−𝑧})$ </p>
+<ul>
+<li>损失函数有许多种可以参考<a href="https://zhuanlan.zhihu.com/p/58883095" target="_blank" rel="noopener">此处</a></li>
+</ul>
 <p>损失函数： $𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$</p>
 <p>代价函数：$ 𝐽(𝑤, 𝑏) = 1/𝑚 ∑ 𝐿(𝑦hat^𝑖 , 𝑦 ^i )  $</p>
 <p>梯度下降法中𝑤和𝑏的修正量可以表达如下 :</p>
@@ -386,7 +391,9 @@ var _hmt = _hmt || [];
 <p>而对于softmax函数求导就比较特殊由于da[j]/dz[i]中i !=j 也有值</p>
 <p>所以不能优化为逐个相乘，老老实实遵守规则点乘</p>
 <p>另外在 <a href="https://www.bilibili.com/video/BV1m4411x7KU" target="_blank" rel="noopener">大野喵渣的简单神经网络实战</a>中在反向传播过程推导出现了 outer运算</p>
-<p>对于(1,n) outer (1,m) 就相当于 (1,n).T dot (1,m) = (n,1) dot (1,m)</p>
+<p>对于(1,n) outer (1,m) 就相当于  (n,1) dot (1,m)  </p>
+<p>outer对于高维矩阵(n,m) 会flatten至(1,n*m)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a=array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">6</span>]])  <span class="comment">###此时a是一个array对象</span></span><br><span class="line">print(a)</span><br><span class="line"><span class="comment">#array([[1,2],[3,4],[5,6]])</span></span><br><span class="line">print((a.flatten())</span><br><span class="line"><span class="comment">#array([1,2,3,4,5,6])</span></span><br></pre></td></tr></table></figure>
 <p>两者含义和计算结果相同 使用outer感觉徒增理解难度</p>
 </li>
 </ul>
@@ -560,6 +567,17 @@ var _hmt = _hmt || [];
 <blockquote>
 <h3 id="“"><a href="#“" class="headerlink" title="“"></a>“</h3><p>第二个直观认识是，我们从单个神经元入手，如图，这个单元的工作就是输入并生成一些有意义的输出。通过dropout，该单元的输入几乎被消除，有时这两个单元会被删除，有时会删除其它单元，就是说，紫色圈起来的这个单元，它不能依靠任何特征，因为特征都有可能被随机清除，或者说该单元的输入也都可能被随机清除。我不愿意把所有赌注都放在一个节点上，不愿意给任何一个输入加上太多权重，因为它可能会被删除，因此该单元将通过这种方式积极地传播开，并为单元的四个输入增加一点权重，通过传播所有权重，dropout将产生收缩权重的平方范数的效果，和L 2 L2L2正则化类似，实施dropout的结果是它会压缩权重，并完成一些预防过拟合的外层正则化。</p>
 <h3 id="”-引用自Ng-Andrew-字幕"><a href="#”-引用自Ng-Andrew-字幕" class="headerlink" title="”(引用自Ng Andrew 字幕)"></a>”(引用自Ng Andrew 字幕)</h3></blockquote>
+<h2 id="梯度消失和梯度爆炸"><a href="#梯度消失和梯度爆炸" class="headerlink" title="梯度消失和梯度爆炸"></a>梯度消失和梯度爆炸</h2><ul>
+<li>梯度消失：指梯度下降过程中出现导数呈指数级减小趋于0 </li>
+<li>梯度爆炸：指梯度下降过程中出现导数呈指数级增大趋于∞</li>
+</ul>
+<p>以一个简单模型为例子:</p>
+<p><img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png"></p>
+<p>假设这个神经网络模型中激活函数$g(z)=z$且$b[l]=0$ </p>
+<p>那么预测值$yhat=w^{[l]}×w^{[l-1]}×…w^{[2]}×w^{[1]}×x$</p>
+<p>假设特征向量中的元素值&lt;1那么在经过L层网络后w将趋近于0</p>
+<p>假设特红向量中的元素值&gt;1那么在经过L层网络后w将变得很大</p>
+<p>$w:=w-α×dJ/dw$</p>
 <h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
 <p>介绍几类经典神经网络模型</p>
 <p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
