@@ -1845,7 +1845,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><a href="https://www.bilibili.com/video/BV1FT4y1E74V?from=search&amp;seid=12963457179286848962" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
 </blockquote>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
+<p>[TOC]</p>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
