@@ -5875,4 +5875,104 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
         <tag>位运算</tag>
       </tags>
   </entry>
+  <entry>
+    <title>NWU集训队信息管理系统开发日志</title>
+    <url>/2021/04/09/NWU%E9%9B%86%E8%AE%AD%E9%98%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><blockquote>
+<p>后端项目: <a href="https://github.com/MIXISAMA/NWU_ACM_MIS.git" target="_blank" rel="noopener">https://github.com/MIXISAMA/NWU_ACM_MIS.git</a></p>
+<p>主要任务:</p>
+<ol>
+<li>安装开发工具</li>
+<li>配置开发环境</li>
+<li>构建ORM框架</li>
+<li>初步搭建后台管理界面</li>
+</ol>
+</blockquote>
+<h3 id="安装开发工具"><a href="#安装开发工具" class="headerlink" title="安装开发工具"></a>安装开发工具</h3><p>(以vscode为编译环境)</p>
+<ul>
+<li><p>安装<a href="https://www.anaconda.com/" target="_blank" rel="noopener">anconda</a>  (<a href="https://www.jianshu.com/p/d3a5ec1d9a08" target="_blank" rel="noopener">安装教程</a> 记得将anconda加入环境变量) </p>
+</li>
+<li><p>安装<a href="https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git" target="_blank" rel="noopener">Git</a></p>
+</li>
+<li><p>安装<a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a></p>
+</li>
+<li><p>安装Django库(vscode中记得安装插件方便函数调用联想以及查阅底层代码)</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install django</span><br><span class="line"><span class="comment">#若已经安装conda</span></span><br><span class="line">conda install django</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="配置开发环境"><a href="#配置开发环境" class="headerlink" title="配置开发环境"></a>配置开发环境</h3><ul>
+<li>使用anconda 生成虚拟编译环境</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">conda 命令</span></span><br><span class="line"><span class="string">创建虚拟编译环境为了多人开发时保持版本统一</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#首次创建虚拟编译环境</span></span><br><span class="line">conda create --name your_env_name python=<span class="number">3.9</span></span><br><span class="line"><span class="comment">#创建虚拟编译环境后再次开启</span></span><br><span class="line">conda activate your_env_name</span><br><span class="line"><span class="comment">#由于是多人开发同一个项目需要其中一人生成requirement 依赖包其余人安装依赖包/库</span></span><br><span class="line">conda list -e &gt; requirement</span><br><span class="line"><span class="comment">#其他人将requirement.txt放入工程目录下执行</span></span><br><span class="line">conda install --yes --file requirement.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建GitHub仓库</li>
+<li>使用GitHubDesktop更新项目</li>
+</ul>
+<p>在上传本地更新后的文件前先在工程目录下设置.gitignore</p>
+<p>在这个文件中写上要忽略的文件避免一同将不必要的文件一起上传</p>
+<p>在使用git命令合并分支前先fork团队仓库</p>
+<p><img src="/.io//timg.gif" data-original="fork.png"></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#多人项目工作流</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">git命令</span></span><br><span class="line"><span class="string">一般上传修改后的文件用GitDesktop可视化工具操作</span></span><br><span class="line"><span class="string">此代码主要用将最新版本的团队仓库下拉到本地</span></span><br><span class="line"><span class="string">upstrem有个默认main分支 我需要通过main分支来获取团队仓库到本地</span></span><br><span class="line"><span class="string">在vscode的终端输入(windows先输入cmd再输入以下命令)</span></span><br><span class="line"><span class="string">windows系统使用main 而mac系统使用master</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#fetch xx就是把xx拉取到本地</span></span><br><span class="line">git fetch upstream</span><br><span class="line"><span class="comment">#checkout xx就是切换到xx分支</span></span><br><span class="line">git checkout main</span><br><span class="line"><span class="comment">#merge xx/yy 就是xx的yy分支合并到刚切换的分支</span></span><br><span class="line">git merge upstream/main</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改完成后在Desktop中新建Branch </li>
+</ul>
+<p>选择Branch菜单栏中 的new branch选项</p>
+<p>为新分支取名。此处已经有feat/change-team-models 一般不直接使用main分支</p>
+<p><img src="/.io//timg.gif" data-original="newbranch.png"></p>
+<ul>
+<li>将要提交的文件commite to new Branch</li>
+</ul>
+<p><img src="/.io//timg.gif" data-original="Commit.png"></p>
+<ul>
+<li>然后发出 Pull Request 请求 等待管理员合并分支</li>
+</ul>
+<p><img src="/.io//timg.gif" data-original="pullrequest.png"></p>
+<p>第一次PR在Branch中最后一项pull request</p>
+<p>之后直接点击Fetch origin</p>
+<ul>
+<li>当Pull Request通过,右键选中并Delet新建的Branch </li>
+</ul>
+<p><img src="/.io//timg.gif" data-original="deletbranch.png"></p>
+<h3 id="构建ORM框架"><a href="#构建ORM框架" class="headerlink" title="构建ORM框架"></a>构建ORM框架</h3><ul>
+<li>使用<a href="https://editor.ponyorm.com/" target="_blank" rel="noopener">ponyorm</a>创建Object Relational Mapping </li>
+</ul>
+<p><img src="/.io//timg.gif" data-original="ORM.png"></p>
+<p>一个框表示一个对象 </p>
+<p>对象可以有许多可编辑属性(字段)</p>
+<p>两个对象间的线表示关系</p>
+<p>比如User与Team(Group)的关系是 多个用户对应多个team(Group)</p>
+<p>User和Contribution的关系是 一个用户多个贡献</p>
+<p>而GroupContest与Reward的关系是 一个GroupContest可能有0/1个奖项</p>
+<ul>
+<li>关于为什么在team和contest之间设置中间属性</li>
+</ul>
+<p>事实上只要是多对多关系，数据库实现上必须要开第三个表来连接 </p>
+<p>在orm里如果这个关系没有其他字段(属性)可以隐藏 </p>
+<p>但是我们的需求里需要在这个关系里加入证书之类的 </p>
+<p>数据库实现上必须要开第三个表来连接 </p>
+<ul>
+<li>user App包含:Training(训练记录), Region(擅长领域), User(注册用户), Contribution(贡献)</li>
+<li>team App包含: Group(队伍名), GroupContest(过渡对象), Contest(比赛), Reward(获奖)</li>
+</ul>
+<h3 id="初步搭建后台管理界面"><a href="#初步搭建后台管理界面" class="headerlink" title="初步搭建后台管理界面"></a>初步搭建后台管理界面</h3><p>阅读官方文档获取详细信息(Django3.2 <a href="https://docs.djangoproject.com/zh-hans/3.2/" target="_blank" rel="noopener">官方文档</a>)</p>
+<ul>
+<li>常用命令行</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">django命令</span></span><br><span class="line"><span class="string">创建网页后端框架</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#Django生成名为mysite框架</span></span><br><span class="line">django-admin startproject mysite</span><br><span class="line"><span class="comment">#生成完毕之后记得将setting.py中的SecretKey保存到自建的config.py中并加入gitignore</span></span><br><span class="line"><span class="comment"># SECURITY WARNING: keep the secret key used in production secret!</span></span><br><span class="line"><span class="comment"># SECRET_KEY = config.SECRET_KEY</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">python命令</span></span><br><span class="line"><span class="string">生成migration脚本 用于后端与数据库的连接</span></span><br><span class="line"><span class="string">运行脚本并生成本地server</span></span><br><span class="line"><span class="string">manage.py是Django框架自带的</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#生成一个名为polls的app</span></span><br><span class="line">python manage.py startapp polls</span><br><span class="line"><span class="comment">#生成migrations</span></span><br><span class="line">python manage.py makemigrations</span><br><span class="line"><span class="comment">#运行migrations</span></span><br><span class="line">python manage.py migrate</span><br><span class="line"><span class="comment">#生成一个管理用户</span></span><br><span class="line">python manage.py createsuperuser</span><br><span class="line"><span class="comment">#生成本地管理界面</span></span><br><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+<ul>
+<li>常用函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#CharField可以为对象中需要添加的字段属性</span></span><br><span class="line"><span class="comment">#参数的max_length表示最长输入字段长度</span></span><br><span class="line"><span class="comment">#chices参数表示可选项用法如下演示</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RewardRanting</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line">        AU = <span class="string">'G'</span>, <span class="string">'金奖'</span></span><br><span class="line">        AG = <span class="string">'S'</span>, <span class="string">'银奖'</span></span><br><span class="line">        CU = <span class="string">'B'</span>, <span class="string">'铜奖'</span></span><br><span class="line">record = models.CharField(<span class="string">'奖牌类型'</span>, max_length=<span class="number">2</span>, choices=RewardRanting.choices)</span><br><span class="line"></span><br><span class="line"><span class="comment">#外键 用于某两个对象object是多对一的关系</span></span><br><span class="line"><span class="comment">#比如当前处于对象TeamContest中,它与对象Contest的关系是多个TeamContest有一个Contest</span></span><br><span class="line"><span class="comment">#on_delet参数表示当某个TeamContest对象被删除和他关联的信息保留/删除(models.PROTECT/models.CASCADE)</span></span><br><span class="line">contest=models.ForeignKey(to=Contest, on_delete=models.PROTECT, verbose_name=<span class="string">'比赛'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#ManyToManyField用于多对多的关系,比如Team和Contest是多对多关系</span></span><br><span class="line"><span class="comment">#但是两个对象中间存在TeamContest对象</span></span><br><span class="line"><span class="comment">#因此添加through参数表示中间表/过度对象</span></span><br><span class="line"><span class="comment">#through_field参数表示需要以中间表(TeamContest)对象中contest和team属性作为接口</span></span><br><span class="line">team_contests = models.ManyToManyField(</span><br><span class="line">    to=Team, </span><br><span class="line">    through=<span class="string">'TeamContest'</span>, </span><br><span class="line">    through_fields=(<span class="string">'contest'</span>, <span class="string">'team'</span>), </span><br><span class="line">    verbose_name=<span class="string">'队伍-比赛'</span> </span><br><span class="line">)</span><br><span class="line"><span class="comment">#一对一关系要么存在要么不存在参数类似ForeginKey</span></span><br><span class="line">team_contest = models.OneToOneField(</span><br><span class="line">        to=TeamContest, </span><br><span class="line">        on_delete=models.PROTECT, </span><br><span class="line">        verbose_name=<span class="string">'队伍-比赛'</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">#为对象设置bool值属性 defualt是默认值</span></span><br><span class="line">disable = models.BooleanField(<span class="string">'是否存在'</span>, default=<span class="literal">False</span>)</span><br><span class="line"><span class="comment">#为对象设置时间相关属性</span></span><br><span class="line">start_time = models.DateTimeField(<span class="string">'时间'</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置app模块与object</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#以team app为例</span></span><br><span class="line"><span class="comment">#python manage.py startapp team</span></span><br><span class="line"><span class="comment">#添加新的app需要在主目录下的setting.py中INSTALLED_APPS里添加'team'</span></span><br><span class="line"><span class="comment">#以下代码在team文件夹下的models中编写,添加这部分app所需要的对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> user.models <span class="keyword">import</span> User</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Team</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(<span class="string">'队伍名'</span>, max_length=<span class="number">30</span> )</span><br><span class="line">    disable = models.BooleanField(<span class="string">'是否存在'</span>, default=<span class="literal">False</span>)</span><br><span class="line">    users = models.ManyToManyField(to=User, related_name=<span class="string">'teams'</span>, verbose_name=<span class="string">'队员'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = verbose_name_plural = <span class="string">'队伍'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Contest</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ContestLevel</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line">        STATE = <span class="string">'ST'</span>, <span class="string">'国级'</span></span><br><span class="line">        PROVINCE = <span class="string">'PR'</span>, <span class="string">'省级'</span></span><br><span class="line">        CAMPUS = <span class="string">'CP'</span>, <span class="string">'校级'</span></span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ContestType</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line">        ICPC = <span class="string">'IC'</span>, <span class="string">'ICPC'</span></span><br><span class="line">        CCPC = <span class="string">'CC'</span>, <span class="string">'CCPC'</span></span><br><span class="line">        OTHERS = <span class="string">'OT'</span>, <span class="string">'Other'</span></span><br><span class="line">    </span><br><span class="line">    team_contests = models.ManyToManyField(</span><br><span class="line">        to=Team, </span><br><span class="line">        through=<span class="string">'TeamContest'</span>, </span><br><span class="line">        through_fields=(<span class="string">'contest'</span>, <span class="string">'team'</span>), </span><br><span class="line">        verbose_name=<span class="string">'队伍-比赛'</span> </span><br><span class="line">    )</span><br><span class="line">    name = models.CharField(<span class="string">'名称'</span>, max_length=<span class="number">30</span>)</span><br><span class="line">    start_time = models.DateTimeField(<span class="string">'时间'</span>)</span><br><span class="line">    record_type = models.CharField(<span class="string">'竞赛类型'</span>, max_length=<span class="number">2</span>, choices=ContestType.choices)</span><br><span class="line">    record_level = models.CharField(<span class="string">'比赛分级'</span>, max_length=<span class="number">2</span>, choices=ContestLevel.choices)</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = verbose_name_plural = <span class="string">'比赛'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TeamContest</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    have_reward = models.BooleanField(<span class="string">'是否获奖'</span>, default=<span class="literal">False</span> )</span><br><span class="line">    team = models.ForeignKey(to=Team, on_delete=models.PROTECT, verbose_name=<span class="string">'队伍'</span>)</span><br><span class="line">    contest = models.ForeignKey(to=Contest, on_delete=models.PROTECT, verbose_name=<span class="string">'比赛'</span>)</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = verbose_name_plural = <span class="string">'队伍-比赛'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Reward</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">RewardRanting</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line">        AU = <span class="string">'G'</span>, <span class="string">'金奖'</span></span><br><span class="line">        AG = <span class="string">'S'</span>, <span class="string">'银奖'</span></span><br><span class="line">        CU = <span class="string">'B'</span>, <span class="string">'铜奖'</span></span><br><span class="line"></span><br><span class="line">    team_contest = models.OneToOneField(</span><br><span class="line">        to=TeamContest, </span><br><span class="line">        on_delete=models.PROTECT, </span><br><span class="line">        verbose_name=<span class="string">'队伍-比赛'</span></span><br><span class="line">    )</span><br><span class="line">    record = models.CharField(<span class="string">'奖牌类型'</span>, max_length=<span class="number">2</span>, choices=RewardRanting.choices)</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = verbose_name_plural = <span class="string">'奖项'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"><span class="comment"># models.py文件的修改至此结束</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以下代码添加至team中的admin.py</span></span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> team.models <span class="keyword">import</span> Team, Contest, TeamContest, Reward</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Register your models here.</span><br><span class="line"><span class="meta">@admin.register(Team)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TeamAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(Contest)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContestAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(TeamContest)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TeamContestAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(Reward)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RewardAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以下代码添加至team文件夹的apps.py</span></span><br><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> AppConfig</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TeamConfig</span><span class="params">(AppConfig)</span>:</span></span><br><span class="line">    default_auto_field = <span class="string">'django.db.models.BigAutoField'</span></span><br><span class="line">    name = <span class="string">'team'</span></span><br><span class="line">    verbose_name = <span class="string">'队伍'</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Django</tag>
+      </tags>
+  </entry>
 </search>
