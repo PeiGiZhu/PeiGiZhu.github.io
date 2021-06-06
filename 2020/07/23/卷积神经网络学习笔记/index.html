@@ -356,6 +356,7 @@ var _hmt = _hmt || [];
 <p>它的label=[0,0,0,0,1] 而softmax所得到的预测label=[0.01,0.01,0.01,0.01,0.95] </p>
 <p>是所有概率中取得最大的值作为判断结果</p>
 <p>对于softmax输出矩阵(1,n)中第i个元素对输入矩阵中第j个元素的求导 (<a href="https://blog.csdn.net/weixin_44538273/article/details/86671655" target="_blank" rel="noopener">推导过程</a>)</p>
+<p>$D_jS_i=∂ softmax(a_i)/∂ a_j$</p>
 <p> <img src="/.io//timg.gif" data-original="CNN_softmax1.png"></p>
 <p>设输入矩阵z ,$softmax(z)=yhat$, $Loss(yhat,y)=-ylogyhat$</p>
 <p>(连接博客中的Loss函数求和表示单个样本向量中所有元素求值相加此处直接表示对矩阵每个元素运算)</p>
@@ -640,7 +641,7 @@ var _hmt = _hmt || [];
 <p>如上图 将深度为192的样本变为32</p>
 <p>可以用32个1×1×192的过滤器 进行卷积 </p>
 <p>对于其中一个过滤器对应位相乘再求和 后用relu激活得到对应的值</p>
-<p>这一步能将深度为32的样本压缩成1维</p>
+<p>这一步能将深度为192的样本压缩成1维</p>
 <p>当存在32个过滤器时将32个1维结果叠加 则生成28×28×32的结果 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_inception1.png"></p>
 <p>1×1卷积核在inception的实现中能大大减少卷积池化过程的计算量(通过减少信道数) 但会损失一定信息</p>
