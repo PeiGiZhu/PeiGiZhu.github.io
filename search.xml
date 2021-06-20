@@ -2201,7 +2201,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 </ul>
 </blockquote>
 <h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>以一个简单模型为例子:</p>
-<p><img src="/.io//timg.gif" data-original="/CNN_VanishingExploding.png"></p>
+<p><img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png"></p>
 <p>假设这个神经网络模型中激活函数$g(z)=z$且$b[l]=0$ </p>
 <p>那么预测值$yhat=w^{[l]}×w^{[l-1]}×…w^{[2]}×w^{[1]}×x$</p>
 <p>假设特征向量中的元素值&lt;1那么在经过L层网络后w将趋近于0</p>
@@ -2214,13 +2214,13 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <h3 id="权重初始化"><a href="#权重初始化" class="headerlink" title="权重初始化"></a>权重初始化</h3><p>以单个神经元为例:</p>
 <p>我们不希望这一层的$z$过大或过小 而是接近1 </p>
 <p>这样即使加大深度也能尽量避免梯度消失或爆炸</p>
-<p><img src="/.io//timg.gif" data-original="/CNN_InitWeight.png"></p>
+<p><img src="/.io//timg.gif" data-original="CNN_InitWeight.png"></p>
 <p>设前一层有$n^{[l-1]}$ 层神经元 那么每个特征向量的值初始化为$sqrt(1/n^{[l-1]})*w$</p>
 <p>相当于给原来的特征向量×权重</p>
 <p>实际上是对于所有的特征向量$w_i$ 保证他们的方差为$1/n$</p>
 <p>假如使用的是ReLu激活函数那么设置$w_i$方差为2/n 更合理, 则$w_i=w_i×sqrt(2/n^{[l-1]})$</p>
 <p>对于tanh激活函数则使用:</p>
-<p><img src="/.io//timg.gif" data-original="/CNN_TanhInitWeight.png"></p>
+<p><img src="/.io//timg.gif" data-original="CNN_TanhInitWeight.png"></p>
 <h2 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h2><blockquote>
 <p>卷积和池化主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程 (压缩图片)</p>
 <p>当取得图片的具体特征后经过全连接层×权重并求和判断结果</p>
