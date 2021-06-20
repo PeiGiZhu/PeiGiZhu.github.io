@@ -509,7 +509,11 @@ var _hmt = _hmt || [];
 <p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
 <p>对于多通道的池化操作 每层对应的区域取Max value 池化后输出的通道数Nc与原特征图相同</p>
-<h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p>这是一个神经元 从上一层神经元输入了三个量x1,x2,x3 通过一个线性函数+激活函数函数$𝜎(w^Tx+b)$</p>
+<h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><blockquote>
+<p>全连接层有什么用?</p>
+<p>参考博客<a href="https://blog.csdn.net/qq_40957196/article/details/86039082" target="_blank" rel="noopener">深入理解CNN卷积层、池化层、全连接层</a></p>
+</blockquote>
+<p>这是一个神经元 从上一层神经元输入了三个量x1,x2,x3 通过一个线性函数+激活函数函数$𝜎(w^Tx+b)$</p>
 <p>(此处激活函数为sigmoid函数)</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example26.png"></p>
 <p>由多个神经元组成多层神经网络</p>
@@ -529,6 +533,27 @@ var _hmt = _hmt || [];
 <p>当水平扫描，将从第一个训练示例中从第一个 隐藏的单元到第二个训练样本，第三个训练样本……直到节点对应于</p>
 <p>第一个隐藏单元的激活 值，且这个隐藏单元是位于这𝑚个训练样本中的最终训练样本。 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_example28.png"></p>
+<h3 id="全连接层与卷积层的关系"><a href="#全连接层与卷积层的关系" class="headerlink" title="全连接层与卷积层的关系"></a>全连接层与卷积层的关系</h3><p>全连接层可以是做一种特殊的卷积，</p>
+<p>回忆全连接层间的传递：</p>
+<p><img src="/.io//timg.gif" data-original="FullConnect.png"></p>
+<p>前一层所有神经元组成的矩阵$x$通过 $a=g(w^Tx+b)$ 运算变成下一层网络中的一个神经元。</p>
+<p>这类似于使用卷积操作转化到下一层。</p>
+<p><img src="/.io//timg.gif" data-original="ConvAndMat.png"></p>
+<p>如上图所示, 之前的全连接层使用$a=g(w^Tx+b)$ 可以看作 </p>
+<p>对1×1×4 的矩阵分别用m个等维度的矩阵(过滤器)进行对应值相乘再求和的卷积操作，</p>
+<p>最终得到一个1×1×m 的全新矩阵。</p>
+<p>但实际上卷积和全连接的传递过程还是存在差别，</p>
+<blockquote>
+<p>考虑下面两种情况：</p>
+<ol>
+<li>特征图和全连接层相连，AlexNet经过五次池化后得到7×7×512的特征图，下一层全连接连向4096个神经元，这个过程可以看做有4096个7×7×512的卷积核和7×7×512的特征图进行卷积操作，最终得到1×1×4096的特征图，等价与全连接得到4096个神经元。</li>
+<li>全连接层和全连接层相连，AlexNet的再下一层依然是4096个神经元，即4096个神经元和4096个神经元全连接，由(1)我们得到了1×1×4096的特征图，本次全连接过程可以看做存在4096个1×1×4096个卷积核，依次和1×1×4096的特征图进行卷积操作，等价与全连接操作。</li>
+</ol>
+<p>引用自<a href="https://www.cnblogs.com/liuzhan709/p/9356960.html" target="_blank" rel="noopener">理解为什么要将全连接层转化为卷积层</a></p>
+</blockquote>
+<p>这里涉及到一种利用Conv卷积替代FC全连接层的技巧</p>
+<p>这个技巧将被用于Detection中的滑动窗口卷积操作</p>
+<p><img src="/.io//timg.gif" data-original="FCAndConv.png"></p>
 <h2 id="过拟合-amp-正则化"><a href="#过拟合-amp-正则化" class="headerlink" title="过拟合&amp;正则化"></a>过拟合&amp;正则化</h2><blockquote>
 <p>所谓过拟合 通俗来讲 就是缺乏普遍性只能处理特殊值</p>
 <p>过拟合有两种原因：</p>
@@ -675,6 +700,56 @@ var _hmt = _hmt || [];
 <p>定位问题(localization):找出给出图片中所需要检索物体的位置</p>
 <p>而Detection是针对多种不同物体的定位与判断</p>
 </blockquote>
+<h3 id="特征点提取"><a href="#特征点提取" class="headerlink" title="特征点提取"></a>特征点提取</h3><p>Detection的定位与判断需要依赖被识别物体的特征点坐标集合作为神经网络的输出单元</p>
+<p>以人体姿态识别为例 Detection神经网络会输出 {是否存在人体躯干0/1,特征点坐标1(x,y), … , 特征点坐标n(x,y)}</p>
+<p><img src="/.io//timg.gif" data-original="LandMark.png"></p>
+<h3 id="目标检测"><a href="#目标检测" class="headerlink" title="目标检测"></a>目标检测</h3><ul>
+<li>滑动窗口检测</li>
+</ul>
+<p>滑动窗口检测的实现方法很简单，就是以固定的窗口大小与滑动步长,对图片中的区域逐个进行识别。</p>
+<p>若当前窗口存在则这个区域的输出结果为1，否则为0。然后逐渐增大窗口再次遍历图片中的所有位置。</p>
+<p>这个做法十分朴素，但是显然的缺点是计算量非常大。</p>
+<p>若为了减少计算量采用较大的窗口与较大的步长则会导致目标定位不准确</p>
+<p><img src="/.io//timg.gif" data-original="SlideWindow.png"></p>
+<ul>
+<li>FCN(全卷积神经网络)实现滑动窗口</li>
+</ul>
+<p>实际操作时我们并不会对所有区域单独进行卷积-池化-全连接的神经网络估计</p>
+<p>而是将整个图片作为一个整体输入。这里利用了卷积操作替代全连接操作的技巧</p>
+<p>假设存在一个16×16的图片 用一个大小为14×14的窗口滑动，则存在4个区域需要进行单独识别。</p>
+<p>利用卷积操作替代全连接操作则简化了这个步骤。</p>
+<blockquote>
+<p>论文参考:[Sermanet et al.,2014,OverFeat: Intergrated recongnition, localization and detection using convolutional network.]</p>
+</blockquote>
+<p><img src="/.io//timg.gif" data-original="SlideWindowImplementation.png"></p>
+<p>可以看到利用卷积代替全连接操作后图片信息压缩后各个区域的相对位置不变。</p>
+<p>这个性质避免了滑动窗口重复计算的劣势。</p>
+<p>此处Ng Andrew 没有详细描述最初的滑动窗口和最终”压缩”处理后得到的输出之间的关系。</p>
+<p>28×28的原图经过 5×5卷积(步长1) —— 2×2池化(步长2) —— 5×5卷积(步长1)，</p>
+<p>得到一个8×8的矩阵 那么每一个矩阵元素对应原来14×14窗口在原图上每间隔2个像素的一次采样。</p>
+<p>这里有两个问题：</p>
+<p>1.为了得到14×14窗口每间隔2个像素的一次采样最终结果必须经过 固定size的卷积池化操作吗？</p>
+<p>2.最终得到的8×8的矩阵是否可以解释为其他大小的滑动窗口采样得到的结果？</p>
+<p>如果利用卷积压缩公式:$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
+<p>发现原图经过5×5卷积(步长1) —— 2×2池化(步长2) —— 5×5卷积(步长1)，得到的矩阵大小$x$</p>
+<p>与原图像大小28×28，滑动窗口大小14×14以2为步长直接卷积得到的最终矩阵大小$y$ 相同。</p>
+<p>即$x=y=8$ 。</p>
+<p>个人想法: 卷积和池化代替全连接操作图片信息压缩后各个区域的相对位置不变。</p>
+<p>先确定好最终要将图片分成多少份区域进行识别,</p>
+<p>只要调整卷积和池化的窗口大小和步长就能得到预想的最终矩阵。</p>
+<p>比如100×100的原图变为3×3矩阵：</p>
+<p>30×30卷积(步长2) 得到36×36矩阵 —— 3×3池化(步长3)得到12×12矩阵</p>
+<p> —— 4×4 卷积(步长2) 得到3×3矩阵。</p>
+<ul>
+<li>Bounding Box预测</li>
+</ul>
+<p>滑动窗口卷积存在一个明显的问题,由于规定的检测区域是离散的分布在原图中的几个固定位置。</p>
+<p>若被检测物体不能独立的存在于任何一个区域中内时，被检测物体的边界就不能被准确定位。</p>
+<p>Bounding Box预测则是规定了几个参数来辅助确定被检测物体边界Bounding。</p>
+<p>以YOLO算法为例。</p>
+<p><img src="/.io//timg.gif" data-original="BoundingBox.png"></p>
+<p>对输出值标签增加$b_x b_y b_h b_w$ 分别表示物体中心坐标(x,y)以及物体的高度宽度。</p>
+<p>这样预先将图片分割成3×3的区域然后利用FCN网络得到各个区域的Label输出值。</p>
 <p>持续缓慢更新ing。。。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
