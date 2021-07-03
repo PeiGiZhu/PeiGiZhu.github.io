@@ -2040,7 +2040,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><img src="/.io//timg.gif" data-original="CNN_example17.png"></p>
 <p>伪代码实现</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example18.png"></p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">J=0;dw1=0;dw2=0;db=0;</span><br><span class="line">for i = 1 to m #枚举样本</span><br><span class="line"> 	z[i] = wx[i]+b;</span><br><span class="line"> 	a[i] = sigmoid(z[i]);</span><br><span class="line"><span class="code">	J += -(y[i]log(a[i])+(1-y[i]*log(1-a[i]));</span></span><br><span class="line"><span class="code">	dz[i] = a[i]-y[i];</span></span><br><span class="line"> 	for indx = 1 to nx #枚举这个样本中每个特征值</span><br><span class="line"> 		dw[<span class="string">indx</span>] += x[<span class="string">indx</span>][<span class="symbol">i</span>]*dz[<span class="string">i</span>]; #x[<span class="string">indx</span>][<span class="symbol">i</span>]表示第i个样本的第indx元素或特征值</span><br><span class="line"><span class="code">	db += dz(i);</span></span><br><span class="line">J/= m;db/= m;</span><br><span class="line">for indx = 1 to nx</span><br><span class="line"><span class="code">    dw[indx]/= m;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">J=<span class="number">0</span>;dw1=<span class="number">0</span>;dw2=<span class="number">0</span>;db=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span> to m <span class="comment">#枚举样本</span></span><br><span class="line"> 	z[i] = wx[i]+b;</span><br><span class="line"> 	a[i] = sigmoid(z[i]);</span><br><span class="line">	J += -(y[i]log(a[i])+(<span class="number">1</span>-y[i]*log(<span class="number">1</span>-a[i]));</span><br><span class="line">	dz[i] = a[i]-y[i];</span><br><span class="line"> 	<span class="keyword">for</span> indx = <span class="number">1</span> to nx <span class="comment">#枚举这个样本中每个特征值</span></span><br><span class="line"> 		dw[indx] += x[indx][i]*dz[i]; <span class="comment">#x[indx][i]表示第i个样本的第indx元素或特征值</span></span><br><span class="line">	db += dz(i);</span><br><span class="line">J/= m;db/= m;</span><br><span class="line"><span class="keyword">for</span> indx = <span class="number">1</span> to nx</span><br><span class="line">    dw[indx]/= m;</span><br></pre></td></tr></table></figure>
 <p>然后更新$w1$,$w2$,….$wn$ (矩阵w) 和$b$ </p>
 <p>$wi=wi-a×dwi$</p>
 <p>$b=b-a×db$ </p>
@@ -2050,7 +2050,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><img src="/.io//timg.gif" data-original="vectorized_eaxmple.png"></p>
 <p>如何优化for循环使得逻辑回归中的矩阵运算加速</p>
 <p>在python的numpy库 可以直接进行向量运算</p>
-<figure class="highlight gml"><table><tr><td class="code"><pre><span class="line">z=<span class="number">0</span></span><br><span class="line"><span class="comment">///for循环模拟矩阵运算</span></span><br><span class="line"><span class="keyword">for</span> i in range(n_x)</span><br><span class="line">   z+=w[i]*<span class="symbol">x</span>[i] <span class="comment">///假设为(1,nx)的w矩阵和(nx,1)的x矩阵相乘</span></span><br><span class="line">z+=b</span><br><span class="line"></span><br><span class="line"><span class="comment">///多线程并行模拟矩阵运算</span></span><br><span class="line">z=np.dot(w,<span class="symbol">x</span>)+b</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">z=<span class="number">0</span></span><br><span class="line">///<span class="keyword">for</span>循环模拟矩阵运算</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n_x)</span><br><span class="line">   z+=w[i]*x[i] ///假设为(<span class="number">1</span>,nx)的w矩阵和(nx,<span class="number">1</span>)的x矩阵相乘</span><br><span class="line">z+=b</span><br><span class="line"></span><br><span class="line">///多线程并行模拟矩阵运算</span><br><span class="line">z=np.dot(w,x)+b</span><br></pre></td></tr></table></figure>
 <p>这个方法加速矩阵运算的原理是让CPU/GPU运行SIMD指令 让它们能够并行运算</p>
 <p>或者说同时计算矩阵中对应元素相乘 并得到结果，而非逐个遍历相乘再相加</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example19.png"></p>
@@ -2099,10 +2099,15 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>但从实际上来说，当使用𝑧的导数时，𝑧=0 的导数是没有定义的 </p>
 <p>因此引入了Leaky Relu 函数(它整体不是线性的，因为不是一条直线 )</p>
 <p><img src="/.io//timg.gif" data-original="LeakyRelu.png"></p>
-<p>为什么要引入非线性激活函数sigmoid tanh</p>
-<p>因为非线性激活函数实际上是在模仿人的神经元 只有刺激到达一定的剧烈程度才会产生电信号</p>
-<p>而剧烈程度反映在激活函数中就是其导数 而线性函数的导数是定值所以没有意义</p>
+<p>为什么要引入非线性激活函数 (如sigmoid tanh)</p>
+<blockquote>
+<p>因为非线性激活函数实际上是在模仿人的神经元 只有刺激到达一定的剧烈程度才会产生电信号,</p>
+<p>而剧烈程度反映在激活函数中就是其导数 而线性函数的导数是定值所以没有意义。</p>
 <p>(摘自弹幕)</p>
+</blockquote>
+<p>假设激活函数为$g(z)=z$  ,那么会导致无论网络有多深，</p>
+<p>最终输入与输出值之间的映射相当于一个单纯的线性映射。</p>
+<p><img src="/.io//timg.gif" data-original="UseLinearActiveFunction.png"></p>
 <h3 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h3><p>softmax回归对应logistic 回归 用于分类问题 而不仅限于二分分类 成为C类问题</p>
 <p><img src="/.io//timg.gif" data-original="CNN_softmax.png"></p>
 <p>比如从多个事物中辨别指定事物就需要用到softmax回归</p>
@@ -2115,7 +2120,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>它的label=[0,0,0,0,1] 而softmax所得到的预测label=[0.01,0.01,0.01,0.01,0.95] </p>
 <p>是所有概率中取得最大的值作为判断结果</p>
 <p>对于softmax输出矩阵(1,n)中第i个元素对输入矩阵中第j个元素的求导 (<a href="https://blog.csdn.net/weixin_44538273/article/details/86671655" target="_blank" rel="noopener">推导过程</a>)</p>
-<p>$D_jS_i=∂ softmax(a_i)/∂ a_j$</p>
+<p>设输入矩阵为$z$,那么有$D_jS_i=∂ softmax(z_i)/∂ z_j$其中 $S_i=softmax(z_i)$</p>
 <p> <img src="/.io//timg.gif" data-original="CNN_softmax1.png"></p>
 <p>设输入矩阵z ,$softmax(z)=yhat$, $Loss(yhat,y)=-ylogyhat$</p>
 <p>(连接博客中的Loss函数求和表示单个样本向量中所有元素求值相加此处直接表示对矩阵每个元素运算)</p>
@@ -2140,7 +2145,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>注释：以下$g[layer]’(x)$表示第layer层的激活函数对x求导 </p>
 <p>对于”dz[1]”(即dL/dz[1])如何得到 通过链式法则得$dz[1]=dL/dz[2]×dz[2]/da[1]×da[1]/dz[1]$</p>
 <p>其中$dL/dz[2]=a[2]-Y$ ,  $dz[2]/da[1]=W[2]$ , $da[1]/ dz[1]=g[1]’(z[1])$</p>
-<p>所以推得 $“dz[1]”=dL / dz[1]=W[2]^Tdz[2]×g[1]’(z[1])$</p>
+<p>所以推得 $“dz[1]”=dL / dz[1]=W[2]^T(a[2]-Y)×g[1]’(z[1])$</p>
 <ul>
 <li><h2 id="插入语"><a href="#插入语" class="headerlink" title="插入语"></a>插入语</h2><p>这里×号表示矩阵内元素逐个相乘而不是矩阵乘法 原因如下：</p>
 <p>本来推导公式求导得到两个矩阵,按照规则点乘 没有问题</p>
@@ -2148,7 +2153,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>比如输入z为(1,nx)矩阵 g(z)=a 为(1,nx)矩阵 求da/dz时实际上是a[j]对z[i]求导</p>
 <p>当i ! = j 时da[j]/dz[i]=0 否则存在值 因此da/dz实际上是一个对角矩阵</p>
 <p>所以干脆把对角矩阵压成(1,nx)大小的矩阵 逐个乘(1,nx)的矩阵</p>
-<p> 就相当于(nx,nx)的对角矩阵点乘(1,nx)的矩阵</p>
+<p>就相当于(nx,nx)的对角矩阵点乘(1,nx)的矩阵</p>
 <p>而对于softmax函数求导就比较特殊由于da[j]/dz[i]中i !=j 也有值</p>
 <p>所以不能优化为逐个相乘，老老实实遵守规则点乘</p>
 <p>另外在 <a href="https://www.bilibili.com/video/BV1m4411x7KU" target="_blank" rel="noopener">大野喵渣的简单神经网络实战</a>中在反向传播过程推导出现了 outer运算</p>
@@ -6105,6 +6110,18 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
       </categories>
       <tags>
         <tag>Django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>图床测试</title>
+    <url>/2021/07/03/%E5%9B%BE%E5%BA%8A%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<p><img src="/.io//timg.gif" data-original="https://i.loli.net/2021/07/03/wEH8tuvi9QIa4FM.png" alt="Figure_1.png"></p>
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
