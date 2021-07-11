@@ -1834,11 +1834,6 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><strong>Table of Contents</strong>  <em>generated with <a href="https://github.com/thlorenz/doctoc" target="_blank" rel="noopener">DocToc</a></em></p>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA">输入输出</a><ul>
-<li><a href="#%E5%AF%B9%E5%8F%82%E6%95%B0%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96">对参数的随机初始化</a></li>
-<li><a href="#%E5%BD%92%E4%B8%80%E5%8C%96">归一化</a></li>
-</ul>
-</li>
 <li><a href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E8%BF%87%E7%A8%8B">反向传播过程</a><ul>
 <li><a href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92logistic-regression">逻辑回归(Logistic Regression)</a></li>
 <li><a href="#%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0">逻辑回归的代价函数</a></li>
@@ -1851,11 +1846,6 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <li><a href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%9A%84%E7%90%86%E8%A7%A3">反向传播的理解</a></li>
 </ul>
 </li>
-<li><a href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8">梯度消失和梯度爆炸</a><ul>
-<li><a href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0">产生原因</a></li>
-<li><a href="#%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96">权重初始化</a></li>
-</ul>
-</li>
 <li><a href="#%E5%90%91%E5%89%8D%E4%BC%A0%E6%92%AD%E8%BF%87%E7%A8%8B">向前传播过程</a><ul>
 <li><a href="#%E5%8D%B7%E7%A7%AF%E5%B1%82">卷积层</a></li>
 <li><a href="#%E6%B1%A0%E5%8C%96%E5%B1%82">池化层</a></li>
@@ -1863,9 +1853,24 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <li><a href="#%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82%E4%B8%8E%E5%8D%B7%E7%A7%AF%E5%B1%82%E7%9A%84%E5%85%B3%E7%B3%BB">全连接层与卷积层的关系</a></li>
 </ul>
 </li>
-<li><a href="#%E8%BF%87%E6%8B%9F%E5%90%88%E6%AD%A3%E5%88%99%E5%8C%96">过拟合&amp;正则化</a><ul>
-<li><a href="#l1%E6%AD%A3%E5%88%99%E5%8C%96l2%E6%AD%A3%E5%88%99%E5%8C%96">L1正则化&amp;L2正则化</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF">优化技术</a><ul>
+<li><a href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA">输入输出</a><ul>
+<li><a href="#%E5%AF%B9%E5%8F%82%E6%95%B0%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96">对参数的随机初始化</a></li>
+</ul>
+</li>
+<li><a href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8">梯度消失和梯度爆炸</a><ul>
+<li><a href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0">产生原因</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96">过拟合与正则化</a><ul>
 <li><a href="#inverted-dropout%E6%AD%A3%E5%88%99%E5%8C%96">Inverted Dropout正则化</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA">迁移学习与数据增强</a><ul>
+<li><a href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0">迁移学习</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA">数据增强</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#%E7%BB%8F%E5%85%B8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">经典神经网络模型</a><ul>
@@ -1876,19 +1881,15 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <li><a href="#inception">Inception</a></li>
 </ul>
 </li>
-<li><a href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA">迁移学习&amp;数据增强</a><ul>
-<li><a href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0">迁移学习</a></li>
-<li><a href="#%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA">数据增强</a></li>
-</ul>
-</li>
 <li><a href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E4%B8%AD%E7%9A%84%E4%B8%89%E7%B1%BB%E9%97%AE%E9%A2%98">计算机视觉中的三类问题</a><ul>
 <li><a href="#%E7%89%B9%E5%BE%81%E7%82%B9%E6%8F%90%E5%8F%96">特征点提取</a></li>
 <li><a href="#%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B">目标检测</a></li>
+<li><a href="#%E9%A2%84%E6%B5%8B%E6%A1%86%E7%9A%84%E9%80%89%E6%8B%A9">预测框的选择</a></li>
 </ul>
 </li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>首先 ，卷积神经网络CNN能做什么呢？</p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
@@ -1898,60 +1899,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>下面的流程图展示了CNN大致的训练流程</p>
 <p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
-<h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><blockquote>
-<p>此处以二分分类问题为例子</p>
-<p>讨论输入(训练数据集)输出(预测值yhat)</p>
-<p>输入中也包括一些参数和超参数</p>
-<p>参数是要在不断学习中逐渐被修正趋于最优 比如逻辑回归中的$w,b$</p>
-<p>超参数则是最初给定不会改变的量比如在逻辑回归中选择的激活函数,梯度下降中的学习率α</p>
-<p>为了更快的进行梯度下降找到代价函数的最优解 通常对输入数据采取归一化处理</p>
-</blockquote>
-<p><img src="/.io//timg.gif" data-original="CNN_example8.png"></p>
-<p>对于一个二分类问题 比如判断图片中是否存在猫</p>
-<p>输入一个特征向量$x$ 由训练集经过卷积和池化后获得的特征图得到</p>
-<p>对于上面这个例子来说 $x$ 是一个 $nx × 1$ 的向量(矩阵) 其中$nx=n×n×nc$ ，而 $y=0,1$  </p>
-<p>对于m个图形成的训练集 Mtest ={$(x^1, y^1), (x^2, y^2), (x^3, y^3) … (x^m, y^m)$}</p>
-<p>(此处参考资料整理作者 黄海广 在参考栏第三个链接)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example9.png"></p>
-<p><img src="/.io//timg.gif" data-original="CNN_example10.png"></p>
-<p>所有训练数据集的输入值和输出集合以如下方式组成矩阵$X$,$Y$ 一般$X$的每一列是$x^i$ </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example11.png"></p>
-<h3 id="对参数的随机初始化"><a href="#对参数的随机初始化" class="headerlink" title="对参数的随机初始化"></a>对参数的随机初始化</h3><p>在输入训练集的之前要给$w,b$预设初始值 让他们能在之后的学习中有效的达到最优解</p>
-<p>虽然初始化为0可行但是所有的w赋值为0会使梯度下降法失效 </p>
-<p>因为每个神经元上计算得到的结果将会完全一样 之后无论如何梯度下降所有神经元的函数任然相同</p>
-<p>通常会随机生成一个矩阵 </p>
-<p>w=np.random.randn((r,c))*0.01 </p>
-<p>这里乘上0.01让$z=w^Tx+b$中w尽量小而不为0 所得到的z处于激活函数导数最大处</p>
-<p>能让梯度下降更快提高学习效率</p>
-<p><img src="/.io//timg.gif" data-original="Random_initial.png"></p>
-<h3 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h3><p>对于训练集中的样本值分布范围比较大的情况，</p>
-<p>训练一个网络模型得到代价函数$J$的最优解需要耗费更多的算力</p>
-<p>一般会对样本输入值进行归一化处理。 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_normalize.png"></p>
-<p>如上图，左侧是没有进行归一化输入的情况,</p>
-<p>代价函数$J(w,b)$ 呈现出一个狭长的值域,</p>
-<p>而获得最优解的过程将会像图中的蓝线那样寻找梯度下降</p>
-<p>最快的方向移动也就是垂直于这个椭圆的切线方向,</p>
-<p>同时由于这个狭长的值域我们需要设置一个较小的学习率$α$</p>
-<p>以便它有效下降到最优解,但这样会导致训练效率低下</p>
-<p>若将样本输入值进行归一化处理 得到的代价函数则如右图所示</p>
-<p>它将更趋向于一个圆状,这样就有利于更快的找到相对最优解</p>
-<p>归一化对于输入样本值的调整可以视为两步：</p>
-<p>设数据集$X$包含m个样本记为$X_{(i)}=(x_1,x_2)$  </p>
-<p><img src="/.io//timg.gif" data-original="CNN_normalizing.png"></p>
-<p>第一步零均值化：</p>
-<p>$u=1/m∑_iX_{(i)}^2$</p>
-<p>$X:=X-u$</p>
-<p>第二步归一化方差：</p>
-<p>$σ^2=1/m∑_iX_{(i)}^2$</p>
-<p>$X:=X/σ^2$</p>
-<p>最后样本的输入值将会贴近原点且处在一个较小的区间内</p>
-<ul>
-<li><h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>作为中间值的$u​$ 和$σ^2​$ 无论在输入训练集还是测试集都要一致 </p>
-<p>实际使用时统一用训练集中获得的$u$和 $σ^2$ 对$X$进行调整</p>
-</li>
-</ul>
-<h2 id="反向传播过程"><a href="#反向传播过程" class="headerlink" title="反向传播过程"></a>反向传播过程</h2><blockquote>
+<h1 id="反向传播过程"><a href="#反向传播过程" class="headerlink" title="反向传播过程"></a>反向传播过程</h1><blockquote>
 <p>反向传播实际上就是通过逻辑回归来反馈调节向前传播的参数达到学习目的</p>
 <p>逻辑回归:输入的特征向量通过激活函数求得预测值$yhat$ 映射到[0,1]内表示概率 </p>
 <p>梯度下降:通过对代价函数的分析运算寻找到更合适的$w,d$ 的反馈学习过程</p>
@@ -1959,7 +1907,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>由于梯度下降与逻辑回归相互关联放在一块讲</p>
 <p><em>key words: 逻辑回归, 激活函数, 损失函数, 代价函数, 梯度下降法</em></p>
 </blockquote>
-<h3 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h3><p><img src="/.io//timg.gif" data-original="CNN_example12.png"></p>
+<h2 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h2><p><img src="/.io//timg.gif" data-original="CNN_example12.png"></p>
 <p>$w$是一个$nx$维向量（因为$w$实际上是特征权重，维度与特征向量相同）</p>
 <p>比如 上一层特征向量大小为(nx,m)那么$w^T$的大小(r,nx)</p>
 <p>$b$是一个实数（表示偏差）</p>
@@ -1969,7 +1917,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>比如对于正确值(lable)$y=1$的样本$P(y=1|x)$应该取向于1</p>
 <p>而对于(lable)$y=0$的样本$P(y=1|x)$应该取向于0</p>
 <p>所以需要一个sigmoid函数做映射转换</p>
-<h3 id="逻辑回归的代价函数"><a href="#逻辑回归的代价函数" class="headerlink" title="逻辑回归的代价函数"></a>逻辑回归的代价函数</h3><p>为了训练逻辑回归模型的参数参数$w$和参数$b$我们，需要一个代价函数，通过训练代价 函数来得到参数$w$和参数。$b$为了让模型通过学习调整参数，你需要给予一个$m$样本的训练集，这会让你在训练集上 找到参数$w$和参数$b$，来得到你的输出 。</p>
+<h2 id="逻辑回归的代价函数"><a href="#逻辑回归的代价函数" class="headerlink" title="逻辑回归的代价函数"></a>逻辑回归的代价函数</h2><p>为了训练逻辑回归模型的参数参数$w$和参数$b$我们，需要一个代价函数，通过训练代价 函数来得到参数$w$和参数。$b$为了让模型通过学习调整参数，你需要给予一个$m$样本的训练集，这会让你在训练集上 找到参数$w$和参数$b$，来得到你的输出 。</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example13.png"></p>
 <p>我们在逻辑回归中用到的损失函数是：$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$</p>
 <p>(没注明log的底数默认为以e为底)</p>
@@ -1981,7 +1929,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>做，因为 当我们在学习逻辑回归参数的时候，会发现我们的优化目标不是凸优化，只能找到多个局</p>
 <p>部 最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我 们在</p>
 <p>逻辑回归模型中会定义另外一个损失函数。 </p>
-<h3 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h3><p>梯度下降法可以做什么？ </p>
+<h2 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h2><p>梯度下降法可以做什么？ </p>
 <p>在测试集上，通过最小化代价函数（成本函数）𝐽(𝑤, 𝑏)来训练的参数𝑤和𝑏， </p>
 <p>𝐽(𝑤, 𝑏)是一对每组训练数据的损失函数<em>Loss function</em> 的均值</p>
 <p>为了适应梯度下降法所以用$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$ 来计算损失而不是方差</p>
@@ -1994,7 +1942,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>其中α表示学习率 具体的体现在每次迭代更新的”步长” 之后会介绍如何给定一个合适的学习率</p>
 <p>一般习惯上在代码实现中将𝐽(𝑤, 𝑏)对𝑤的偏导(偏导将另一个无关变量视为定值参数)写作dw</p>
 <p>同理将𝐽(𝑤, 𝑏)对𝑏的偏导写作db</p>
-<h3 id="逻辑回归与梯度下降"><a href="#逻辑回归与梯度下降" class="headerlink" title="逻辑回归与梯度下降"></a>逻辑回归与梯度下降</h3><p>回想一下逻辑回归的公式定义如下： $𝑦hat = 𝑎 = 𝜎(𝑧) $其中$𝑧 = 𝑤^𝑇𝑥 + 𝑏$ ， $𝜎(𝑧) = 1/(1+𝑒^{−𝑧})$ </p>
+<h2 id="逻辑回归与梯度下降"><a href="#逻辑回归与梯度下降" class="headerlink" title="逻辑回归与梯度下降"></a>逻辑回归与梯度下降</h2><p>回想一下逻辑回归的公式定义如下： $𝑦hat = 𝑎 = 𝜎(𝑧) $其中$𝑧 = 𝑤^𝑇𝑥 + 𝑏$ ， $𝜎(𝑧) = 1/(1+𝑒^{−𝑧})$ </p>
 <ul>
 <li>损失函数有许多种可以参考<a href="https://zhuanlan.zhihu.com/p/58883095" target="_blank" rel="noopener">此处</a></li>
 </ul>
@@ -2044,7 +1992,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>然后更新$w1$,$w2$,….$wn$ (矩阵w) 和$b$ </p>
 <p>$wi=wi-a×dwi$</p>
 <p>$b=b-a×db$ </p>
-<h3 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h3><p>在向前传播过程中计算$Z[layer]=W[layer]^TX[layer]+b[layer]$</p>
+<h2 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h2><p>在向前传播过程中计算$Z[layer]=W[layer]^TX[layer]+b[layer]$</p>
 <p>$X$是由多个大小为(1,nx)的单样本$x$ 组成 下图直观的表示了向量化(矩阵计算)</p>
 <p>$W$的维度(r,nx) r可以变化在输出层中r=1(二分类问题)那么$W[layer]^TX[Layer]+b[layer]$ 就等于一个实数</p>
 <p><img src="/.io//timg.gif" data-original="vectorized_eaxmple.png"></p>
@@ -2066,7 +2014,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>for循环实现和.dot函数实现对比 </p>
 <p>省略掉代价函数$J$的计算 因为原来计算代价函数是为了求导$dw$等其他需要的参数,</p>
 <p>后来通过求导化简发现可以忽略掉代价函数(与它无关)的计算直接求得$dw$ 等其他需要的参数所以就省略了</p>
-<h3 id="损失函数的解释"><a href="#损失函数的解释" class="headerlink" title="损失函数的解释"></a>损失函数的解释</h3><p><img src="/.io//timg.gif" data-original="CNN_example22.png"></p>
+<h2 id="损失函数的解释"><a href="#损失函数的解释" class="headerlink" title="损失函数的解释"></a>损失函数的解释</h2><p><img src="/.io//timg.gif" data-original="CNN_example22.png"></p>
 <p>回顾$yhat=P(y=1|x)$ 所以$P(y|x)$ (这个概率表示给定样本x时正确预测出为y的概率)可以如上表示</p>
 <p>如果要省去if表达式则可以用指数函数表示 $P(𝑦|𝑥) = 𝑦hat^𝑦 × (1 − 𝑦hat)^{(1−𝑦)} $</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example23.png"></p>
@@ -2081,7 +2029,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>同样的取log后变为</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example25.png"></p>
 <p>对这个求和取平均得到的就是代价函数$J$ </p>
-<h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><p><em>在下文中对未确定激活函数的神经元使用$g()$ 代替表示</em></p>
+<h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><p><em>在下文中对未确定激活函数的神经元使用$g()$ 代替表示</em></p>
 <p>sigmoid函数   $𝜎(z)= 1/(1+𝑒^{-z}) $</p>
 <p>它的导数 $𝜎‘(z)=𝜎×(1-𝜎) $</p>
 <p><img src="/.io//timg.gif" data-original="sigmoid.png"></p>
@@ -2105,10 +2053,10 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>而剧烈程度反映在激活函数中就是其导数 而线性函数的导数是定值所以没有意义。</p>
 <p>(摘自弹幕)</p>
 </blockquote>
-<p>假设激活函数为$g(z)=z$  ,那么会导致无论网络有多深，</p>
+<p>假设激活函数为$g(z)=z​$  ,那么会导致无论网络有多深，</p>
 <p>最终输入与输出值之间的映射相当于一个单纯的线性映射。</p>
 <p><img src="/.io//timg.gif" data-original="UseLinearActiveFunction.png"></p>
-<h3 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h3><p>softmax回归对应logistic 回归 用于分类问题 而不仅限于二分分类 成为C类问题</p>
+<h2 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h2><p>softmax回归对应logistic 回归 用于分类问题 而不仅限于二分分类 成为C类问题</p>
 <p><img src="/.io//timg.gif" data-original="CNN_softmax.png"></p>
 <p>比如从多个事物中辨别指定事物就需要用到softmax回归</p>
 <p>而softmax回归具体实现就是运用激活函数</p>
@@ -2135,7 +2083,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>与sigmoid函数求导相同</p>
 <p><img src="/.io//timg.gif" data-original="CNN_softmax3.png"></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">这里总结一下上面提及的激活函数及其导数</span></span><br><span class="line"><span class="string">的python代码实现</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Relu</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.where(x&gt;<span class="number">0</span>,x,<span class="number">0.0001</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tanh</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.tanh(x)</span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">softmax</span><span class="params">(x)</span>:</span></span><br><span class="line">    exp=np.exp(x-x.max())</span><br><span class="line">    <span class="keyword">return</span> exp/exp.sum()</span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数的导数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_Relu</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.where(x&gt;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.0001</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_softmax</span><span class="params">(data)</span>:</span></span><br><span class="line">    temp=softmax(data)</span><br><span class="line">    <span class="keyword">return</span> np.diag(temp)-np.outer(temp,temp)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_tanh</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="comment">#return np.diag(1/(np.cosh(data))**2)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/(np.cosh(data)**<span class="number">2</span>)</span><br><span class="line">    <span class="comment">#加速运算优化不用对角矩阵</span></span><br><span class="line">    <span class="comment">#对应的若不用对角矩阵反向传播过程中的内积改为矩阵内元素逐个相乘</span></span><br></pre></td></tr></table></figure>
-<h3 id="反向传播的理解"><a href="#反向传播的理解" class="headerlink" title="反向传播的理解"></a>反向传播的理解</h3><p><img src="/.io//timg.gif" data-original="CNN_example30.png"></p>
+<h2 id="反向传播的理解"><a href="#反向传播的理解" class="headerlink" title="反向传播的理解"></a>反向传播的理解</h2><p><img src="/.io//timg.gif" data-original="CNN_example30.png"></p>
 <p>反向传播实际上是不断按照链式法则求导的过程</p>
 <p>下图中某些×1/m是在m个样例的情况下取平均</p>
 <p>np.sum()函数中的axis=1表示水平求和 keepdims=true保证输出的矩阵仍然是(n[2],1)的矩阵</p>
@@ -2198,35 +2146,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>当训练集中有m个样本时</p>
 <p>$Z^{[l]},A^{[l]},b{[l]}:(n^{[l]},m)$</p>
 <p><img src="/.io//timg.gif" data-original="CNN_CheckDimensionality1.png"></p>
-<h2 id="梯度消失和梯度爆炸"><a href="#梯度消失和梯度爆炸" class="headerlink" title="梯度消失和梯度爆炸"></a>梯度消失和梯度爆炸</h2><blockquote>
-<ul>
-<li>梯度消失：指梯度下降过程中出现梯数呈指数级减小趋于0 </li>
-<li>梯度爆炸：指梯度下降过程中出现梯数呈指数级增大趋于∞</li>
-<li>解决方案：使用ReLu激活函数或使用残差网络(下文提及)以及权重初始化方法</li>
-</ul>
-</blockquote>
-<h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>以一个简单模型为例子:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png"></p>
-<p>假设这个神经网络模型中激活函数$g(z)=z$且$b[l]=0$ </p>
-<p>那么预测值$yhat=w^{[l]}×w^{[l-1]}×…w^{[2]}×w^{[1]}×x$</p>
-<p>假设特征向量中的元素值&lt;1那么在经过L层网络后w将趋近于0</p>
-<p>假设特红向量中的元素值&gt;1那么在经过L层网络后w将变得很大</p>
-<p>以前文sigmoid函数作为激活函数时的反向传播为例:</p>
-<p>$dJ/dw^{[i]}=x^{[i]}×(a^{[i]}-y)$    (x是上一层的输出这一层的输入,a是这一层经过激活函数后的输出,y是正确值)</p>
-<p>由于神经网络隐藏层的深度不断加深 $w$的累乘效果越加明显</p>
-<p>导致 $x^{[i]}→∞/0$  导致梯度爆炸/消失</p>
-<p>对于特征向量的更新$w:=w-α×dJ/dw$ 也会失去控制/基本不变</p>
-<h3 id="权重初始化"><a href="#权重初始化" class="headerlink" title="权重初始化"></a>权重初始化</h3><p>以单个神经元为例:</p>
-<p>我们不希望这一层的$z$过大或过小 而是接近1 </p>
-<p>这样即使加大深度也能尽量避免梯度消失或爆炸</p>
-<p><img src="/.io//timg.gif" data-original="CNN_InitWeight.png"></p>
-<p>设前一层有$n^{[l-1]}$ 层神经元 那么每个特征向量的值初始化为$sqrt(1/n^{[l-1]})*w$</p>
-<p>相当于给原来的特征向量×权重</p>
-<p>实际上是对于所有的特征向量$w_i$ 保证他们的方差为$1/n$</p>
-<p>假如使用的是ReLu激活函数那么设置$w_i$方差为2/n 更合理, 则$w_i=w_i×sqrt(2/n^{[l-1]})$</p>
-<p>对于tanh激活函数则使用:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_TanhInitWeight.png"></p>
-<h2 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h2><blockquote>
+<h1 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h1><blockquote>
 <p>卷积和池化主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程 (压缩图片)</p>
 <p>当取得图片的具体特征后经过全连接层×权重并求和判断结果</p>
 <p>比如识别一个汉字 取得了它有’横’ ‘竖’ ‘撇’ 等特征 </p>
@@ -2241,7 +2161,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>全连接层中逻辑回归和激活函数的内容在上文中已经学习了</p>
 <p><em>key words: 卷积, 池化, 全连接</em></p>
 </blockquote>
-<h3 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h3><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate) 来决定如何计算。 </p>
+<h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate) 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
@@ -2265,7 +2185,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>也就是 水平特征 卷积核越多 代表所提取的特征因素越多</p>
 <p>而经过卷积的图片被逐渐降维则代表抽象化程度更高, 即从具体到抽象的特征提取 </p>
 <p>具体表现在卷积后Fi一个数值来表示上一层某块区域的值</p>
-<h3 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h3><p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
+<h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
 <p>避免过度拟合的意思是 比如说训练一个识别面部的神经网络</p>
 <p>你希望能辨别出所有人的脸 而不仅仅是你的脸</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example4.png"></p>
@@ -2273,7 +2193,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
 <p>对于多通道的池化操作 每层对应的区域取Max value 池化后输出的通道数Nc与原特征图相同</p>
-<h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><blockquote>
+<h2 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h2><blockquote>
 <p>全连接层有什么用?</p>
 <p>参考博客<a href="https://blog.csdn.net/qq_40957196/article/details/86039082" target="_blank" rel="noopener">深入理解CNN卷积层、池化层、全连接层</a></p>
 </blockquote>
@@ -2297,7 +2217,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>当水平扫描，将从第一个训练示例中从第一个 隐藏的单元到第二个训练样本，第三个训练样本……直到节点对应于</p>
 <p>第一个隐藏单元的激活 值，且这个隐藏单元是位于这𝑚个训练样本中的最终训练样本。 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_example28.png"></p>
-<h3 id="全连接层与卷积层的关系"><a href="#全连接层与卷积层的关系" class="headerlink" title="全连接层与卷积层的关系"></a>全连接层与卷积层的关系</h3><p>全连接层可以是做一种特殊的卷积，</p>
+<h2 id="全连接层与卷积层的关系"><a href="#全连接层与卷积层的关系" class="headerlink" title="全连接层与卷积层的关系"></a>全连接层与卷积层的关系</h2><p>全连接层可以是做一种特殊的卷积，</p>
 <p>回忆全连接层间的传递：</p>
 <p><img src="/.io//timg.gif" data-original="FullConnect.png"></p>
 <p>前一层所有神经元组成的矩阵$x$通过 $a=g(w^Tx+b)$ 运算变成下一层网络中的一个神经元。</p>
@@ -2318,7 +2238,93 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>这里涉及到一种利用Conv卷积替代FC全连接层的技巧</p>
 <p>这个技巧将被用于Detection中的滑动窗口卷积操作</p>
 <p><img src="/.io//timg.gif" data-original="FCAndConv.png"></p>
-<h2 id="过拟合-amp-正则化"><a href="#过拟合-amp-正则化" class="headerlink" title="过拟合&amp;正则化"></a>过拟合&amp;正则化</h2><blockquote>
+<h1 id="优化技术"><a href="#优化技术" class="headerlink" title="优化技术"></a>优化技术</h1><blockquote>
+<p>主要涉及如何解决模型的欠拟合/过拟合问题。</p>
+<p>以及如何更高效的训练模型。</p>
+</blockquote>
+<h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><blockquote>
+<p>此处以二分分类问题为例子</p>
+<p>讨论输入(训练数据集)输出(预测值yhat)</p>
+<p>输入中也包括一些参数和超参数</p>
+<p>参数是要在不断学习中逐渐被修正趋于最优 比如逻辑回归中的$w,b$</p>
+<p>超参数则是最初给定不会改变的量比如在逻辑回归中选择的激活函数,梯度下降中的学习率α</p>
+<p>为了更快的进行梯度下降找到代价函数的最优解 通常对输入数据采取归一化处理</p>
+</blockquote>
+<p><img src="/.io//timg.gif" data-original="CNN_example8.png"></p>
+<p>对于一个二分类问题 比如判断图片中是否存在猫</p>
+<p>输入一个特征向量$x$ 由训练集经过卷积和池化后获得的特征图得到</p>
+<p>对于上面这个例子来说 $x$ 是一个 $nx × 1$ 的向量(矩阵) 其中$nx=n×n×nc$ ，而 $y=0,1$  </p>
+<p>对于m个图形成的训练集 Mtest ={$(x^1, y^1), (x^2, y^2), (x^3, y^3) … (x^m, y^m)$}</p>
+<p>(此处参考资料整理作者 黄海广 在参考栏第三个链接)</p>
+<p><img src="/.io//timg.gif" data-original="/../%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/CNN_example9.png"></p>
+<p><img src="/.io//timg.gif" data-original="CNN_example10.png"></p>
+<p>所有训练数据集的输入值和输出集合以如下方式组成矩阵$X$,$Y$ 一般$X$的每一列是$x^i$ </p>
+<p><img src="/.io//timg.gif" data-original="CNN_example11.png"></p>
+<h3 id="对参数的随机初始化"><a href="#对参数的随机初始化" class="headerlink" title="对参数的随机初始化"></a>对参数的随机初始化</h3><p>在输入训练集的之前要给$w,b$预设初始值 让他们能在之后的学习中有效的达到最优解</p>
+<p>虽然初始化为0可行但是所有的w赋值为0会使梯度下降法失效 </p>
+<p>因为每个神经元上计算得到的结果将会完全一样 之后无论如何梯度下降所有神经元的函数任然相同</p>
+<p>通常会随机生成一个矩阵 </p>
+<p>w=np.random.randn((r,c))*0.01 </p>
+<p>这里乘上0.01让$z=w^Tx+b$中w尽量小而不为0 所得到的z处于激活函数导数最大处</p>
+<p>能让梯度下降更快提高学习效率</p>
+<p><img src="/.io//timg.gif" data-original="Random_initial.png">归一化</p>
+<p>对于训练集中的样本值分布范围比较大的情况，</p>
+<p>训练一个网络模型得到代价函数$J$的最优解需要耗费更多的算力</p>
+<p>一般会对样本输入值进行归一化处理。 </p>
+<p><img src="/.io//timg.gif" data-original="CNN_normalize.png"></p>
+<p>如上图，左侧是没有进行归一化输入的情况,</p>
+<p>代价函数$J(w,b)$ 呈现出一个狭长的值域,</p>
+<p>而获得最优解的过程将会像图中的蓝线那样寻找梯度下降</p>
+<p>最快的方向移动也就是垂直于这个椭圆的切线方向,</p>
+<p>同时由于这个狭长的值域我们需要设置一个较小的学习率$α$</p>
+<p>以便它有效下降到最优解,但这样会导致训练效率低下</p>
+<p>若将样本输入值进行归一化处理 得到的代价函数则如右图所示</p>
+<p>它将更趋向于一个圆状,这样就有利于更快的找到相对最优解</p>
+<p>归一化对于输入样本值的调整可以视为两步：</p>
+<p>设数据集$X$包含m个样本记为$X_{(i)}=(x_1,x_2)$  </p>
+<p><img src="/.io//timg.gif" data-original="CNN_normalizing.png"></p>
+<p>第一步零均值化：</p>
+<p>$u=1/m∑_iX_{(i)}^2$</p>
+<p>$X:=X-u$</p>
+<p>第二步归一化方差：</p>
+<p>$σ^2=1/m∑_iX_{(i)}^2$</p>
+<p>$X:=X/σ^2$</p>
+<p>最后样本的输入值将会贴近原点且处在一个较小的区间内</p>
+<ul>
+<li><h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>作为中间值的$u$ 和$σ^2$ 无论在输入训练集还是测试集都要一致 </p>
+<p>实际使用时统一用训练集中获得的$u$和 $σ^2$ 对$X$进行调整</p>
+</li>
+</ul>
+<h2 id="梯度消失和梯度爆炸"><a href="#梯度消失和梯度爆炸" class="headerlink" title="梯度消失和梯度爆炸"></a>梯度消失和梯度爆炸</h2><blockquote>
+<ul>
+<li>梯度消失：指梯度下降过程中出现梯数呈指数级减小趋于0 </li>
+<li>梯度爆炸：指梯度下降过程中出现梯数呈指数级增大趋于∞</li>
+<li>解决方案：使用ReLu激活函数或使用残差网络(下文提及)以及权重初始化方法</li>
+</ul>
+</blockquote>
+<h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>以一个简单模型为例子:</p>
+<p><img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png"></p>
+<p>假设这个神经网络模型中激活函数$g(z)=z$且$b[l]=0$ </p>
+<p>那么预测值$yhat=w^{[l]}×w^{[l-1]}×…w^{[2]}×w^{[1]}×x$</p>
+<p>假设特征向量中的元素值&lt;1那么在经过L层网络后w将趋近于0</p>
+<p>假设特红向量中的元素值&gt;1那么在经过L层网络后w将变得很大</p>
+<p>以前文sigmoid函数作为激活函数时的反向传播为例:</p>
+<p>$dJ/dw^{[i]}=x^{[i]}×(a^{[i]}-y)$    </p>
+<p>(x是上一层的输出这一层的输入,a是这一层经过激活函数后的输出,y是正确值)</p>
+<p>由于神经网络隐藏层的深度不断加深 $w$的累乘效果越加明显</p>
+<p>导致 $x^{[i]}→∞/0$  导致梯度爆炸/消失</p>
+<p>对于特征向量的更新$w:=w-α×dJ/dw$ 也会失去控制/基本不变</p>
+<h3 id="权重初始化"><a href="#权重初始化" class="headerlink" title="权重初始化"></a>权重初始化</h3><p>以单个神经元为例:</p>
+<p>我们不希望这一层的$z$过大或过小 而是接近1 </p>
+<p>这样即使加大深度也能尽量避免梯度消失或爆炸</p>
+<p><img src="/.io//timg.gif" data-original="CNN_InitWeight.png"></p>
+<p>设前一层有$n^{[l-1]}$ 层神经元 那么每个特征向量的值初始化为$sqrt(1/n^{[l-1]})*w$</p>
+<p>相当于给原来的特征向量×权重</p>
+<p>实际上是对于所有的特征向量$w_i$ 保证他们的方差为$1/n$</p>
+<p>假如使用的是ReLu激活函数那么设置$w_i$方差为2/n 更合理, 则$w_i=w_i×sqrt(2/n^{[l-1]})$</p>
+<p>对于tanh激活函数则使用:</p>
+<p><img src="/.io//timg.gif" data-original="CNN_TanhInitWeight.png"></p>
+<h2 id="过拟合与正则化"><a href="#过拟合与正则化" class="headerlink" title="过拟合与正则化"></a>过拟合与正则化</h2><blockquote>
 <p>所谓过拟合 通俗来讲 就是缺乏普遍性只能处理特殊值</p>
 <p>过拟合有两种原因：</p>
 <p>1.训练集和测试集特征分布不一致(黑白马)</p>
@@ -2327,10 +2333,11 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>通常正则化的方法有：L1正则化，L2正则化，Dropout正则 （此处参考<a href="https://www.jianshu.com/p/569efedf6985" target="_blank" rel="noopener">外部博客）</a></p>
 </blockquote>
 <p>对于二分分类问题 将是A与非A区分开来重要的是划分”决策边界”</p>
-<p>简单的线性模型准确率较低，而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断</p>
+<p>简单的线性模型准确率较低，</p>
+<p>而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断。</p>
 <p>原因是没有正确提取抽象特征 称之为“过拟合“。</p>
 <p><img src="/.io//timg.gif" data-original="CNN_overfitting.png"></p>
-<h3 id="L1正则化-amp-L2正则化"><a href="#L1正则化-amp-L2正则化" class="headerlink" title="L1正则化&amp;L2正则化"></a>L1正则化&amp;L2正则化</h3><ul>
+<h3 id="L1正则化与L2正则化"><a href="#L1正则化与L2正则化" class="headerlink" title="L1正则化与L2正则化"></a>L1正则化与L2正则化</h3><ul>
 <li>如何正则化</li>
 </ul>
 <p>L1/L2正则化实际上是在损失函数$J(w,b)$ 后加入一个“惩罚项” </p>
@@ -2339,7 +2346,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>L1正则化: $J_1(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_1$</p>
 <p>其中$||W||_1=∑_i|w_i|$<strong>即所有特征系数绝对值的和</strong> </p>
 <p>L1正则化能使得一部分特征向量趋于0 让特征矩阵变得稀疏，</p>
-<p>起到特征选择的作用 达到简化模型的目的</p>
+<p>起到特征选择的作用 达到简化模型的目的。</p>
 <p>L2正则化: $J_2(w,d)=1/m × ∑L(yhat,y) + λ/2m × ||W||_2^2$ </p>
 <p>其中$||W||_2^2=∑_i|w_i|^2=w^Tw$<strong>即所有特征系数的平方和</strong> </p>
 <p>L2正则化能使得特征向量有比例的缩放防止过拟合，而不会起到特征选择的作用 </p>
@@ -2384,29 +2391,46 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 </ul>
 <p><img src="/.io//timg.gif" data-original="CNN_dropoutExplain.png"></p>
 <blockquote>
-<h3 id="“"><a href="#“" class="headerlink" title="“"></a>“</h3><p>第二个直观认识是，我们从单个神经元入手，如图，这个单元的工作就是输入并生成一些有意义的输出。通过dropout，该单元的输入几乎被消除，有时这两个单元会被删除，有时会删除其它单元，就是说，紫色圈起来的这个单元，它不能依靠任何特征，因为特征都有可能被随机清除，或者说该单元的输入也都可能被随机清除。我不愿意把所有赌注都放在一个节点上，不愿意给任何一个输入加上太多权重，因为它可能会被删除，因此该单元将通过这种方式积极地传播开，并为单元的四个输入增加一点权重，通过传播所有权重，dropout将产生收缩权重的平方范数的效果，和L 2 L2L2正则化类似，实施dropout的结果是它会压缩权重，并完成一些预防过拟合的外层正则化。</p>
+<h3 id="“"><a href="#“" class="headerlink" title="“"></a>“</h3><p>第二个直观认识是，我们从单个神经元入手，如图，这个单元的工作就是输入并生成一些有意义的输出。通过dropout，该单元的输入几乎被消除，有时这两个单元会被删除，有时会删除其它单元，就是说，紫色圈起来的这个单元，它不能依靠任何特征，因为特征都有可能被随机清除，或者说该单元的输入也都可能被随机清除。我不愿意把所有赌注都放在一个节点上，不愿意给任何一个输入加上太多权重，因为它可能会被删除，因此该单元将通过这种方式积极地传播开，并为单元的四个输入增加一点权重，通过传播所有权重，dropout将产生收缩权重的平方范数的效果，和L2正则化类似，实施dropout的结果是它会压缩权重，并完成一些预防过拟合的外层正则化。</p>
 <h3 id="”-引用自Ng-Andrew-字幕"><a href="#”-引用自Ng-Andrew-字幕" class="headerlink" title="”(引用自Ng Andrew 字幕)"></a>”(引用自Ng Andrew 字幕)</h3></blockquote>
-<h2 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h2><blockquote>
+<h2 id="迁移学习与数据增强"><a href="#迁移学习与数据增强" class="headerlink" title="迁移学习与数据增强"></a>迁移学习与数据增强</h2><blockquote>
+<p>为了提高模型训练效率 可以采用迁移学习的方法</p>
+<p>将开源的CNN模型移植到自己的模型中</p>
+<p>为了在有限的训练集中 增加训练集样本提高模型准确率</p>
+<p>可以采用一些手段增强数据</p>
+</blockquote>
+<h3 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h3><p>可以从开源网站中获得搭建好的网络模型 以及训练好的参数 作为初始化值</p>
+<p>(不知道原先的分类对象与想要的分类对象不一致是否影响)</p>
+<p>仅仅修改softmax部分(或后半部分网络) 以达到较少量的训练集就能达到较高的正确率</p>
+<p>一般开源模型中会有一个开关”freeze” 将前几层网络中的参数冻结,</p>
+<p>这样在训练过程中就只会修改自己搭建的几层网络中的参数</p>
+<p><img src="/.io//timg.gif" data-original="/../%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/CNN_TransferLearning.png"></p>
+<h3 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h3><p>主要有3种方式</p>
+<ul>
+<li>镜像对称: 即将原有的样本图片镜像对称得到新的样本</li>
+<li>随机截取: 即随机截取原有样本图片的某个部分获得新的样本</li>
+<li>色域调整: 即随机调整原有样本图片的RGB值生成新的图片</li>
+</ul>
+<h1 id="经典神经网络模型"><a href="#经典神经网络模型" class="headerlink" title="经典神经网络模型"></a>经典神经网络模型</h1><blockquote>
 <p>介绍几类经典神经网络模型</p>
 <p><em>LeNet-5</em> ，<em>AlexNet</em>，<em>VGG</em></p>
 <p>残差网络: <em>ResNet</em></p>
-<p><em>Inception</em> </p>
+<p><em>Inception</em></p>
 </blockquote>
-<h3 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h3><p>针对灰度图像训练</p>
+<h2 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h2><p>针对灰度图像训练</p>
 <p>使用simgiod函数以及逻辑回归</p>
 <p>论文来源:[LeCun et al., 1998. Gradient-based learning applied to document recongintion]</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
-<p>​    </p>
-<h3 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h3><p>论文来源:[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]</p>
+<h2 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h2><p>论文来源:[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]</p>
 <p>使用了Relu激活函数 涉及到将图分组放入两个互相关联的gpu进行训练</p>
 <p>有一种独有的类型层 “局部响应归一化层” 对局部神经元的活动创建竞争机制，使得其中响应比较大的值变得相对更大，并抑制其他反馈较小的神经元，<strong>增强了模型的泛化能力</strong> (吴恩达老师说 后来被发现用处不大。。)</p>
 <p>一般的“归一化” 是指将一个[L,R]区间内浮动的变量集 映射到[l,r]一个更小的区间变量集</p>
 <p>具体的归一化有具体的转换公式 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_example6.png"></p>
-<h3 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h3><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
+<h2 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h2><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
 <p>VGG-16模型图解 (same表示使用same pading)</p>
 <p><img src="/.io//timg.gif" data-original="CNN_example7.png"></p>
-<h3 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h3><p>论文来源:[He et al. 2015.Deep residual net works for image recognition]</p>
+<h2 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h2><p>论文来源:[He et al. 2015.Deep residual net works for image recognition]</p>
 <p>此处涉及到残差网络(Residual block)</p>
 <p>普通方法: </p>
 <p>$z^{[l+1]} = W^{[l+1]}a^{[l]}+b^{[l+1]}$   ,   $a^{[l+1]}=g(z^{[l+1]})$</p>
@@ -2423,7 +2447,7 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>否则可以引入$w_s$ 通过 $w_s × a^{[l]}$ 使得两者维度一至可以相加 </p>
 <p>而$w_s$不需要初始化 它的值将会通过后天学习自动更新</p>
 <p><img src="/.io//timg.gif" data-original="CNN_ResNet1.png"></p>
-<h3 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h3><p>论文来源: [Szegedy et al.,2014, Going Deeper with Convolutions]</p>
+<h2 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h2><p>论文来源: [Szegedy et al.,2014, Going Deeper with Convolutions]</p>
 <p>在这之前先介绍一下 1×1卷积 </p>
 <p><img src="/.io//timg.gif" data-original="CNN_inception.png"></p>
 <p>当遇到需要压缩样本的信道，即不改变长度与宽度的前提下减少深度 可以采用1×1卷积</p>
@@ -2440,34 +2464,16 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p>重复这样卷积处理搭建出一个googleNet的模型</p>
 <p>其中有三个分支 用softmax预测出结果 以防止过度拟合出错</p>
 <p><img src="/.io//timg.gif" data-original="CNN_googleNet.png"></p>
-<h2 id="迁移学习-amp-数据增强"><a href="#迁移学习-amp-数据增强" class="headerlink" title="迁移学习&amp;数据增强"></a>迁移学习&amp;数据增强</h2><blockquote>
-<p>为了提高模型训练效率 可以采用迁移学习的方法</p>
-<p>将开源的CNN模型移植到自己的模型中</p>
-<p>为了在有限的训练集中 增加训练集样本提高模型准确率</p>
-<p>可以采用一些手段增强数据</p>
-</blockquote>
-<h3 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h3><p>可以从开源网站中获得搭建好的网络模型 以及训练好的参数 作为初始化值</p>
-<p>(不知道原先的分类对象与想要的分类对象不一致是否影响)</p>
-<p>仅仅修改softmax部分(或后半部分网络) 以达到较少量的训练集就能达到较高的正确率</p>
-<p>一般开源模型中会有一个开关”freeze” 将前几层网络中的参数冻结,</p>
-<p>这样在训练过程中就只会修改自己搭建的几层网络中的参数</p>
-<p><img src="/.io//timg.gif" data-original="CNN_TransferLearning.png"></p>
-<h3 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h3><p>主要有3种方式</p>
-<ul>
-<li>镜像对称: 即将原有的样本图片镜像对称得到新的样本</li>
-<li>随机截取: 即随机截取原有样本图片的某个部分获得新的样本</li>
-<li>色域调整: 即随机调整原有样本图片的RGB值生成新的图片</li>
-</ul>
-<h2 id="计算机视觉中的三类问题"><a href="#计算机视觉中的三类问题" class="headerlink" title="计算机视觉中的三类问题"></a>计算机视觉中的三类问题</h2><blockquote>
+<h1 id="计算机视觉中的三类问题"><a href="#计算机视觉中的三类问题" class="headerlink" title="计算机视觉中的三类问题"></a>计算机视觉中的三类问题</h1><blockquote>
 <p>计算及视觉主要有两类问题</p>
 <p>分类问题(classification):判断给出图片中的对象是A还是B</p>
 <p>定位问题(localization):找出给出图片中所需要检索物体的位置</p>
 <p>而Detection是针对多种不同物体的定位与判断</p>
 </blockquote>
-<h3 id="特征点提取"><a href="#特征点提取" class="headerlink" title="特征点提取"></a>特征点提取</h3><p>Detection的定位与判断需要依赖被识别物体的特征点坐标集合作为神经网络的输出单元</p>
+<h2 id="特征点提取"><a href="#特征点提取" class="headerlink" title="特征点提取"></a>特征点提取</h2><p>Detection的定位与判断需要依赖被识别物体的特征点坐标集合作为神经网络的输出单元</p>
 <p>以人体姿态识别为例 Detection神经网络会输出 {是否存在人体躯干0/1,特征点坐标1(x,y), … , 特征点坐标n(x,y)}</p>
 <p><img src="/.io//timg.gif" data-original="LandMark.png"></p>
-<h3 id="目标检测"><a href="#目标检测" class="headerlink" title="目标检测"></a>目标检测</h3><ul>
+<h2 id="目标检测"><a href="#目标检测" class="headerlink" title="目标检测"></a>目标检测</h2><ul>
 <li>滑动窗口检测</li>
 </ul>
 <p>滑动窗口检测的实现方法很简单，就是以固定的窗口大小与滑动步长,对图片中的区域逐个进行识别。</p>
@@ -2514,6 +2520,31 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
 <p><img src="/.io//timg.gif" data-original="BoundingBox.png"></p>
 <p>对输出值标签增加$b_x b_y b_h b_w$ 分别表示物体中心坐标(x,y)以及物体的高度宽度。</p>
 <p>这样预先将图片分割成3×3的区域然后利用FCN网络得到各个区域的Label输出值。</p>
+<h2 id="预测框的选择"><a href="#预测框的选择" class="headerlink" title="预测框的选择"></a>预测框的选择</h2><p>当运行算法时,同一个目标可能被检测多次而产生多个预测框,</p>
+<p>这时候就需要从预测狂中选择一个最优的预测框作为最终结果。</p>
+<p><img src="/.io//timg.gif" data-original="NonMaxSuppression.png"></p>
+<ul>
+<li><p>非极大值抑制 (Non-Max Suppression)</p>
+<p>非极大值抑制就是只保留检测到同一个目标物体的概率最大的预测框。</p>
+<p>具体的实现过程如下：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Discard all Boxes <span class="keyword">with</span> p_c &lt;= threshold value.</span><br><span class="line"><span class="keyword">While</span> there <span class="keyword">are</span> <span class="keyword">any</span> remaining boxes unmarked:</span><br><span class="line">	Pick the Box <span class="keyword">with</span> the largest p_c <span class="keyword">as</span> a <span class="keyword">prediction</span> Box_A</span><br><span class="line">	<span class="keyword">If</span> there <span class="keyword">is</span> <span class="keyword">any</span> remaining box <span class="keyword">with</span> IoU &gt;= threshold <span class="keyword">value</span> <span class="keyword">with</span> Box_A</span><br><span class="line">		Discard those box.</span><br><span class="line">	<span class="keyword">Else</span> Box_A <span class="keyword">is</span> the <span class="keyword">only</span> one remaining box <span class="keyword">of</span> this target.</span><br><span class="line">		Mark the Box_A <span class="keyword">to</span> avoid picked <span class="keyword">at</span> <span class="keyword">next</span> loop.</span><br></pre></td></tr></table></figure>
+<p>如果存在多个不同分类(Class)的目标需要被检测,则需要对每种分类分别运行非极大值抑制操作。</p>
+<p>上述伪代码中出现了参数IoU即交并比(Intersection over union)。</p>
+<p>这是评估两个框的重叠程度的指标。</p>
+</li>
+<li><p>交并比(Intersection over union)</p>
+<p>交并比对于两个预测框A与B而言 就是相交面积/合并面积。$IoU=A∩B/A∪B$    </p>
+<p><img src="/.io//timg.gif" data-original="IoU.png"></p>
+<p>通过人为设定阈值,判断检测框之间的关系。</p>
+<p>IoU &gt;= Threshold 则认为两个检测框捕获了同一个物体。需要根据极大值抑制保留概率大的Box</p>
+<p>IoU &lt; Threshold 则认为两个检测框捕获了不同的物体。</p>
+<p>实际运用中交并比也可以作为目标跟踪的依据。</p>
+<p>通过计算相邻两帧图片中Box的IoU。</p>
+<p>若大于某一阈值 则判定为同一个物体移动导致的位移, </p>
+<p>则它们的ID或者识别码保持不变。</p>
+<p>  ​    </p>
+</li>
+</ul>
 <p>持续缓慢更新ing。。。</p>
 ]]></content>
       <categories>
@@ -2831,42 +2862,6 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
       <tags>
         <tag>数论</tag>
         <tag>优化技巧</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>神经网络实战</title>
-    <url>/2020/08/03/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98/</url>
-    <content><![CDATA[<blockquote>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.bilibili.com/video/BV1m4411x7KU" target="_blank" rel="noopener">从零开始神经网络</a></p>
-<p><a href="https://peigizhu.gitee.io/2020/07/23/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">卷积神经网络学习笔记</a>(本博客站内搜索)</p>
-</blockquote>
-<p>再整理了部分吴恩达机器学习课程后 觉得有必要结合实践操作学习</p>
-<p>在搜索了一些学习资料后找到了一个相当不错的实操教程</p>
-<p>这里展示&amp;分享一下最终的实践成果</p>
-<p><img src="/.io//timg.gif" data-original="img1.png"></p>
-<p>经过一轮训练后正确率从7.9%变成了93.5%</p>
-<p>用mnist数据集中的图片进行识别测试</p>
-<p><img src="/.io//timg.gif" data-original="img2.png"></p>
-<p>输出结果与图片吻合</p>
-<p>在尝试自己的手写体</p>
-<p><img src="/.io//timg.gif" data-original="img3.png"></p>
-<p>在windows自带的画图软件上写的数字8 经过截取压缩预处理后(网上找到的专门针对生成类mnist图片的小程序) </p>
-<p>进行识别显示结果为8结果与预期吻合</p>
-<p>调整学习率LearnRate</p>
-<p><img src="/.io//timg.gif" data-original="Figure_1.png"></p>
-<p>上图是学习率learn rate = 10^x(横坐标) 与 训练集的误差平方和 (纵坐标)</p>
-<p>表明学习率Learn_rate&gt;10^0.5时误差显著增大 设置学习率=1比较合适</p>
-<p>主要从这个实践教程中学习了具体如何搭建一个简单神经网络, 验证求导正确性, 如何探究学习率与正确率的关系</p>
-<p>算法理论内涵结合吴恩达的课程对于入门的我也能理解</p>
-<p>而整个学习过程最难的部分 “反向传播过程”的公式推倒 还得继续研究学习</p>
-<p>不过不懂原理并不妨碍使用它，如果不深究具体推导计算 其实实现它的学习成本并不高</p>
-<p>最后贴上<a href="https://gitee.com/peigizhu/NeuralNetworks" target="_blank" rel="noopener">开源代码</a></p>
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-      <tags>
-        <tag>Convolutional Neural Networks</tag>
       </tags>
   </entry>
   <entry>
@@ -6113,15 +6108,39 @@ f(x)= (小于等于x的敌人个数)*(小于等于x+1的敌人个数-1) *(小于
       </tags>
   </entry>
   <entry>
-    <title>图床测试</title>
-    <url>/2021/07/03/%E5%9B%BE%E5%BA%8A%E6%B5%8B%E8%AF%95/</url>
-    <content><![CDATA[<p><img src="/.io//timg.gif" data-original="https://i.loli.net/2021/07/03/wEH8tuvi9QIa4FM.png" alt="Figure_1.png"></p>
+    <title>神经网络实战之MNIST手写体识别</title>
+    <url>/2020/08/03/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AE%9E%E6%88%98%E4%B9%8BMINST%E6%89%8B%E5%86%99%E4%BD%93%E8%AF%86%E5%88%AB/</url>
+    <content><![CDATA[<blockquote>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.bilibili.com/video/BV1m4411x7KU" target="_blank" rel="noopener">从零开始神经网络</a></p>
+<p><a href="https://peigizhu.gitee.io/2020/07/23/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">卷积神经网络学习笔记</a>(本博客站内搜索)</p>
+</blockquote>
+<p>再整理了部分吴恩达机器学习课程后 觉得有必要结合实践操作学习</p>
+<p>在搜索了一些学习资料后找到了一个相当不错的实操教程</p>
+<p>这里展示&amp;分享一下最终的实践成果</p>
+<p><img src="/.io//timg.gif" data-original="img1.png"></p>
+<p>经过一轮训练后正确率从7.9%变成了93.5%</p>
+<p>用mnist数据集中的图片进行识别测试</p>
+<p><img src="/.io//timg.gif" data-original="img2.png"></p>
+<p>输出结果与图片吻合</p>
+<p>在尝试自己的手写体</p>
+<p><img src="/.io//timg.gif" data-original="img3.png"></p>
+<p>在windows自带的画图软件上写的数字8 经过截取压缩预处理后(网上找到的专门针对生成类mnist图片的小程序) </p>
+<p>进行识别显示结果为8结果与预期吻合</p>
+<p>调整学习率LearnRate</p>
+<p><img src="/.io//timg.gif" data-original="Figure_1.png"></p>
+<p>上图是学习率learn rate = 10^x(横坐标) 与 训练集的误差平方和 (纵坐标)</p>
+<p>表明学习率Learn_rate&gt;10^0.5时误差显著增大 设置学习率=1比较合适</p>
+<p>主要从这个实践教程中学习了具体如何搭建一个简单神经网络, 验证求导正确性, 如何探究学习率与正确率的关系</p>
+<p>算法理论内涵结合吴恩达的课程对于入门的我也能理解</p>
+<p>而整个学习过程最难的部分 “反向传播过程”的公式推倒 还得继续研究学习</p>
+<p>不过不懂原理并不妨碍使用它，如果不深究具体推导计算 其实实现它的学习成本并不高</p>
+<p>最后贴上<a href="https://gitee.com/peigizhu/NeuralNetworks" target="_blank" rel="noopener">开源代码</a></p>
 ]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
+        <tag>Convolutional Neural Networks</tag>
       </tags>
   </entry>
 </search>
