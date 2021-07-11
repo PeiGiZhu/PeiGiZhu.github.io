@@ -159,13 +159,17 @@ var _hmt = _hmt || [];
 <li><a href="#%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF">优化技术</a><ul>
 <li><a href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA">输入输出</a><ul>
 <li><a href="#%E5%AF%B9%E5%8F%82%E6%95%B0%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96">对参数的随机初始化</a></li>
+<li><a href="#%E5%BD%92%E4%B8%80%E5%8C%96">归一化</a></li>
+<li><a href="#mini-batch%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95">Mini-Batch梯度下降法</a></li>
 </ul>
 </li>
 <li><a href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8">梯度消失和梯度爆炸</a><ul>
 <li><a href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0">产生原因</a></li>
+<li><a href="#%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96">权重初始化</a></li>
 </ul>
 </li>
 <li><a href="#%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96">过拟合与正则化</a><ul>
+<li><a href="#l1%E6%AD%A3%E5%88%99%E5%8C%96%E4%B8%8El2%E6%AD%A3%E5%88%99%E5%8C%96">L1正则化与L2正则化</a></li>
 <li><a href="#inverted-dropout%E6%AD%A3%E5%88%99%E5%8C%96">Inverted Dropout正则化</a></li>
 </ul>
 </li>
@@ -569,7 +573,8 @@ var _hmt = _hmt || [];
 <p>w=np.random.randn((r,c))*0.01 </p>
 <p>这里乘上0.01让$z=w^Tx+b$中w尽量小而不为0 所得到的z处于激活函数导数最大处</p>
 <p>能让梯度下降更快提高学习效率</p>
-<h3 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a><img src="/.io//timg.gif" data-original="Random_initial.png">归一化</h3><blockquote>
+<p><img src="/.io//timg.gif" data-original="Random_initial.png"></p>
+<h3 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h3><blockquote>
 <p>为了更快的进行梯度下降找到代价函数的最优解 </p>
 <p>通常对输入数据采取归一化处理</p>
 <p>归一化或者说标准化实际就是将原来的数据集通过映射</p>
@@ -640,8 +645,7 @@ var _hmt = _hmt || [];
 <p>由于神经网络隐藏层的深度不断加深 $w$的累乘效果越加明显</p>
 <p>导致 $x^{[i]}→∞/0$  导致梯度爆炸/消失</p>
 <p>对于特征向量的更新$w:=w-α×dJ/dw$ 也会失去控制/基本不变</p>
-<p>###权重初始化</p>
-<p>以单个神经元为例:</p>
+<h3 id="权重初始化"><a href="#权重初始化" class="headerlink" title="权重初始化"></a>权重初始化</h3><p>以单个神经元为例:</p>
 <p>我们不希望这一层的$z$过大或过小 而是接近1 </p>
 <p>这样即使加大深度也能尽量避免梯度消失或爆炸</p>
 <p><img src="/.io//timg.gif" data-original="CNN_InitWeight.png"></p>
@@ -664,8 +668,7 @@ var _hmt = _hmt || [];
 <p>而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断。</p>
 <p>原因是没有正确提取抽象特征 称之为“过拟合“。</p>
 <p><img src="/.io//timg.gif" data-original="CNN_overfitting.png"></p>
-<p>###L1正则化与L2正则化</p>
-<ul>
+<h3 id="L1正则化与L2正则化"><a href="#L1正则化与L2正则化" class="headerlink" title="L1正则化与L2正则化"></a>L1正则化与L2正则化</h3><ul>
 <li>如何正则化</li>
 </ul>
 <p>L1/L2正则化实际上是在损失函数$J(w,b)$ 后加入一个“惩罚项” </p>
@@ -723,7 +726,7 @@ var _hmt = _hmt || [];
 <p><img src="/.io//timg.gif" data-original="CNN_dropoutExplain.png"></p>
 <h2 id="迁移学习与数据增强"><a href="#迁移学习与数据增强" class="headerlink" title="迁移学习与数据增强"></a>迁移学习与数据增强</h2><blockquote>
 <p>为了提高模型训练效率 可以采用迁移学习的方法</p>
-<p>将开源的CNN模型移植到自己的模型中</p>
+<p>将开源的深度学习模型移植到自己的模型中</p>
 <p>为了在有限的训练集中 增加训练集样本提高模型准确率</p>
 <p>可以采用一些手段增强数据</p>
 </blockquote>
