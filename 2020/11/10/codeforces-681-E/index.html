@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>codeforces-#681-E - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,E. Long Permutation 
+
+题意
+
+给出一个长度为n的排列 :1,2,3,4,5,6…,n (n&amp;lt;2e5)
+有q次操作：(q&amp;lt;2e5)
+1 l r 询问区间[L,R]内的,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">codeforces-#681-E</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">codeforces-#681-E</h1>
+        <div class="stuff">
+            <span>十一月 10, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%B7%AE%E5%88%86%E5%89%8D%E7%BC%80/" rel="tag">差分前缀</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E9%97%AE%E9%A2%98%E8%BD%AC%E5%8C%96/" rel="tag">问题转化</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p><a href="https://codeforces.ml/contest/1443/problem/E" target="_blank" rel="noopener">E. Long Permutation</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n的排列 :1,2,3,4,5,6…,n (n&lt;2e5)</p>
+<p>有q次操作：(q&lt;2e5)</p>
+<p>1 l r 询问区间[L,R]内的元素和</p>
+<p>2 x 将当前排列的字典序变大 x (x&lt;1e5)</p>
+<p>例如 ：</p>
+<p>1 2 3 4 5  字典序=1</p>
+<p>1 2 3 5 4  字典序=2</p>
+<p>1 2 4 3 5  字典序=3</p>
+<p>…</p>
+<p>对于 1 2 3 4 5 的字典序变大2</p>
+<p>则新的排列为 1 2 4 3 5</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p>首先需要意识到 一个长度为n的排列 共有n! 个</p>
+<p>这意味着 最差情况下 原排列的字典序会增大 xq次 也就是增大2e10</p>
+<p>而只需要15个数 就能产生大于2e10的排列个数</p>
+<p>意思是 最差情况下 增大排列的字典序只会改变最后15位的排列</p>
+<p>前面的数 仍保持1 2 3 ….. n-15 不变</p>
+<p>于是对区间和的询问可以拆分成两段处理</p>
+<p>对于[1,n-15] 前缀和处理</p>
+<p>对于[n-15,n] 需要使用到一个黑科技</p>
+<h3 id="康托展开-amp-逆康托展开"><a href="#康托展开-amp-逆康托展开" class="headerlink" title="康托展开&amp;逆康托展开"></a>康托展开&amp;逆康托展开</h3><p><a href="https://blog.csdn.net/ltrbless/article/details/87696372" target="_blank" rel="noopener">参考博客</a></p>
+<p>为了解决 排列 与其字典序的 双映射问题</p>
+<p>即 知道排列可以直接求得其 对应字典序大小 (康托展开)</p>
+<p>或已知字典序大小和排列长度n 求出对应排列的问题 (逆康托展开)</p>
+<img src="/.io//timg.gif" data-original="example.png">
+
+<p>X是排列对应字典序</p>
+<p>$a_i$表示此排列从右到左第i位在当前未出现的元素(它左侧的数已经出现)中是排第几个</p>
+<p>实际可以类比进制转换</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******打出1-n的阶乘表*******/</span></span><br><span class="line"><span class="keyword">int</span> f[<span class="number">20</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jie_cheng</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    f[<span class="number">0</span>] = f[<span class="number">1</span>] = <span class="number">1</span>; <span class="comment">// 0的阶乘为1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) f[i] = f[i - <span class="number">1</span>] * i;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/**************康托展开****************/</span></span><br><span class="line"><span class="built_in">string</span> str;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">kangtuo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">1</span>;  <span class="comment">//注意，因为 12345 是算作0开始计算的，最后结果要把12345看作是第一个</span></span><br><span class="line">    <span class="keyword">int</span> len = str.length();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> tmp = <span class="number">0</span>;<span class="comment">//用来计数的</span></span><br><span class="line"> </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; len; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(str[i] &gt; str[j]) tmp++;</span><br><span class="line">            <span class="comment">//计算str[i]是第几大的数，或者说计算有几个比他小的数</span></span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        ans += tmp * f[len - i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**************康托逆展开**************/</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">char</span>&gt; vec; <span class="comment">//存需要排列的字符</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rev_kangtuo</span><span class="params">(<span class="keyword">int</span> k)</span> <span class="comment">//输出序号为 k 的字符序列</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = vec.<span class="built_in">size</span>(), len = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">string</span> ans = <span class="string">""</span>;</span><br><span class="line">    k--; <span class="comment">// 算的时候是按 12345 是第0位</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> t = k / f[n - i]; <span class="comment">// 第 i 位需要 第 t + 1 大的数</span></span><br><span class="line">        k %= f[n - i];        <span class="comment">//剩下的几位需要提供的排列数</span></span><br><span class="line">        ans += vec[t] ; <span class="comment">//  vec[t] 就是第 t + 1 大的数</span></span><br><span class="line">        vec.erase(vec.<span class="built_in">begin</span>() + t); </span><br><span class="line"><span class="comment">//用过就删了，不用vector用暴力也可以，就是说枚举，然后一个一个的比较大小，并记录有几个没用过的字符且字典序比它小</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上是康托展开的具体代码 (算法的具体原理参考链接中的博客)</p>
+<p>对于本题 需要对最后15个数进行康托展开 求得对应字典序now</p>
+<p>对于每次增加它字典序的操作则对now+=x</p>
+<p>用逆康托展开求得对应排列 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">ll sum[Max],p[Max];</span><br><span class="line">ll F[<span class="number">20</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    F[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">15</span>;i++)F[i]=F[i<span class="number">-1</span>]*i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">ConTor</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> Mid)</span></span>&#123;</span><br><span class="line">    ll X=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        ll temp=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(p[j]&gt;p[i])<span class="keyword">continue</span>;</span><br><span class="line">            temp++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;temp&lt;&lt;" "&lt;&lt;F[n-i]&lt;&lt;endl;</span></span><br><span class="line">        X+=temp*F[n-i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> X;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invConTor</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> Mid,ll X)</span></span>&#123;</span><br><span class="line">    X--;ll rest=X;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;vec;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        vis[i]=<span class="number">0</span>;</span><br><span class="line">        vec.push_back(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> num=rest/F[n-i];</span><br><span class="line">        rest=rest%F[n-i];</span><br><span class="line">        p[i]=vec[num];</span><br><span class="line">        vec.erase(vec.<span class="built_in">begin</span>()+num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    init();</span><br><span class="line">    <span class="keyword">int</span> n,q;<span class="built_in">cin</span>&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)p[i]=i;</span><br><span class="line">    <span class="comment">//cout&lt;&lt;ConTor(n,0)&lt;&lt;endl;</span></span><br><span class="line">    <span class="keyword">int</span> Mid=<span class="built_in">max</span>(<span class="number">0</span>,n<span class="number">-15</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=Mid;i++)sum[i]=sum[i<span class="number">-1</span>]+p[i];</span><br><span class="line">    <span class="keyword">while</span>(q--)&#123;</span><br><span class="line">        <span class="keyword">int</span> op;<span class="built_in">cin</span>&gt;&gt;op;</span><br><span class="line">        <span class="keyword">if</span>(op==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> l,r;<span class="built_in">cin</span>&gt;&gt;l&gt;&gt;r;</span><br><span class="line">            <span class="keyword">if</span>(r&lt;=Mid)<span class="built_in">cout</span>&lt;&lt;sum[r]-sum[l<span class="number">-1</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(l&lt;=Mid)&#123;</span><br><span class="line">                ll temp=sum[Mid]-sum[l<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=Mid+<span class="number">1</span>;i&lt;=r;i++)temp+=p[i];</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;temp&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                ll temp=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;=r;i++)temp+=p[i];</span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;temp&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            ll x;<span class="built_in">cin</span>&gt;&gt;x;</span><br><span class="line">            ll now=ConTor(n,Mid);</span><br><span class="line">            <span class="comment">//cout&lt;&lt;now&lt;&lt;endl;</span></span><br><span class="line">            now+=x;</span><br><span class="line">            invConTor(n,Mid,now);</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            for(int i=1;i&lt;=n;i++)cout&lt;&lt;p[i]&lt;&lt;" ";</span></span><br><span class="line"><span class="comment">            cout&lt;&lt;endl;</span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

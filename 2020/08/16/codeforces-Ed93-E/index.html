@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>codeforces-Ed93-E - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,E. Two Types of Spells 
+题意
+n个法术槽 n&amp;lt;2e5
+第i次会向法术槽种添加或删除一个法术(所有法术伤害不同)
+tp=1是lighting 使出造成di点伤害并会使下一,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">codeforces-Ed93-E</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">codeforces-Ed93-E</h1>
+        <div class="stuff">
+            <span>八月 16, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/" rel="tag">权值线段树</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p><a href="https://codeforces.ml/problemset/problem/1398/E" target="_blank" rel="noopener">E. Two Types of Spells</a> </p>
+<p>题意</p>
+<p>n个法术槽 n&lt;2e5</p>
+<p>第i次会向法术槽种添加或删除一个法术(所有法术伤害不同)</p>
+<p>tp=1是lighting 使出造成di点伤害并会使下一个法术伤害翻倍</p>
+<p>tp=0是fire 使出造成di点伤害</p>
+<p>每次 添加或删除一个法术后</p>
+<p>求出某种出招顺序使得用当前存在的法术打出最大伤害</p>
+<p>题解</p>
+<p>首先考虑在某时刻 法术槽有k个lighting 和m个fire</p>
+<p>最大伤害= 所有法术的伤害+ 其中最大的k个法术的伤害</p>
+<p>因为lighting法术的buff 相当于能在使用k个法术造成伤害</p>
+<p>于是从(k+m)个法术中选取k个伤害最大的最优</p>
+<p>但是有个细节若k个伤害最大的法术全为lighting </p>
+<p>那么其中伤害最小的lighting将无法被二次释放 </p>
+<p>具体的以A为ligthing B为fire</p>
+<p>若k个最大的全为lighting：</p>
+<p>AA….AABBBB 那么最开始的A不能被释放两次</p>
+<p>所以A(A…AB)B…BB 括号里的法术被释放两次</p>
+<p>若k个最大的有至少一个为fire(B)</p>
+<p>那么总有多余的A(不在前k大的法术中)可以使B释放两次 其余的A可以连续释放添加buff</p>
+<p>所以无论如何最小的A放在最开始 两种情况都能构造出最大解</p>
+<p>于是问题变成了：</p>
+<p>1.向集合(Allspell和Light)中添加或删除法术</p>
+<p>2.查询集合(Light)中最小伤害的法术</p>
+<p>3.查询集合(Allspell)中k个伤害最大的法术</p>
+<p>上述要求可以用权值线段树实现</p>
+<p>/————————————-/</p>
+<p>我们首先将n次向集合中添加或删除法术 离散化 作为建立权值线段树的预处理</p>
+<p>然后第i次我们会向权值线段树(Allspell)中插入/删除一个所有操作中伤害第di大的法术</p>
+<p>完成插入删除操作后求出最大伤害</p>
+<p>对于之前讨论如何使用法术最优</p>
+<p>可以先求出Light集合中的最小值minLight,将它从Allspell中删去</p>
+<p>再求Allspell中求出k个伤害最大的法术</p>
+<p>最后将minLight放回Light</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> PI=<span class="built_in">acos</span>(<span class="number">-1</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="built_in">vector</span>&lt;ll&gt;arr;</span><br><span class="line"><span class="keyword">int</span> tp[Max],op[Max];</span><br><span class="line">ll d[Max];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span>ll sum,cnt;&#125;;</span><br><span class="line"><span class="comment">///cnt记录该结点下有几数</span></span><br><span class="line"><span class="comment">///sum记录该结点中所有数的和</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Tree</span>&#123;</span></span><br><span class="line">    Node tree[Max&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_up</span><span class="params">(<span class="keyword">int</span> now)</span></span>&#123;</span><br><span class="line">        tree[now].sum=tree[now&lt;&lt;<span class="number">1</span>].sum+tree[now&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].sum;</span><br><span class="line">        tree[now].cnt=tree[now&lt;&lt;<span class="number">1</span>].cnt+tree[now&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].cnt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updata</span><span class="params">(<span class="keyword">int</span> pos,<span class="keyword">int</span> val,<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> node)</span></span>&#123;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;l&lt;&lt;" "&lt;&lt;r&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">            tree[node].cnt+=val;</span><br><span class="line">            tree[node].sum+=val*arr[l];</span><br><span class="line">            <span class="comment">///由于所有法术伤害不同其实这里不用×val</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(pos&lt;=mid)updata(pos,val,l,mid,node&lt;&lt;<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">else</span> updata(pos,val,mid+<span class="number">1</span>,r,node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">        push_up(node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">ll <span class="title">querySum</span><span class="params">(<span class="keyword">int</span> k,<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> node)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(k&lt;=<span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(tree[node].cnt&lt;=k)<span class="keyword">return</span> tree[node].sum;</span><br><span class="line">        <span class="keyword">if</span>(l==r)<span class="keyword">return</span> arr[l];</span><br><span class="line">        <span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        ll ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(tree[node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].cnt&gt;=k)ans=querySum(k,mid+<span class="number">1</span>,r,node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            k-=tree[node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].cnt;</span><br><span class="line">            <span class="comment">///这里相当于右结点有m个那从左右结点中取第k大就是在左结点找第k-m大的数</span></span><br><span class="line">            ans=tree[node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].sum+querySum(k,l,mid,node&lt;&lt;<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">///由于我们不知道每次添加/删除后权值线段树的最小值所以每次必须询问最小值</span></span><br><span class="line">    <span class="comment">///此函数返回最小值在离散化数组中的下标</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">queryMin</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> node)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(l==r)<span class="keyword">return</span> l;</span><br><span class="line">        <span class="keyword">int</span> mid=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(tree[node&lt;&lt;<span class="number">1</span>].cnt)<span class="keyword">return</span> queryMin(l,mid,node&lt;&lt;<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> queryMin(mid+<span class="number">1</span>,r,node&lt;&lt;<span class="number">1</span>|<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;Allspell,Light;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;tp[i]&gt;&gt;d[i];</span><br><span class="line">        arr.push_back(<span class="built_in">abs</span>(d[i]));</span><br><span class="line">        op[i]=(d[i]&gt;<span class="number">0</span>);<span class="comment">//第i次操作是删除还是添加</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">///离散化</span></span><br><span class="line">    sort(arr.<span class="built_in">begin</span>(),arr.<span class="built_in">end</span>());</span><br><span class="line">    arr.erase(unique(arr.<span class="built_in">begin</span>(),arr.<span class="built_in">end</span>()),arr.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">int</span> len=arr.<span class="built_in">size</span>(),num=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)d[i]=lower_bound(arr.<span class="built_in">begin</span>(),arr.<span class="built_in">end</span>(),<span class="built_in">abs</span>(d[i]))-arr.<span class="built_in">begin</span>();</span><br><span class="line">    <span class="comment">//将d[i]从原来的伤害重定义为所有伤害中第几大</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;"ok"&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">if</span>(op[i])&#123;</span><br><span class="line">            <span class="keyword">if</span>(tp[i]==<span class="number">0</span>)Allspell.updata(d[i],<span class="number">1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num++;<span class="comment">//记录有多少个Light法术</span></span><br><span class="line">                Allspell.updata(d[i],<span class="number">1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">                Light.updata(d[i],<span class="number">1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(tp[i]==<span class="number">0</span>)Allspell.updata(d[i],<span class="number">-1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                num--;</span><br><span class="line">                Allspell.updata(d[i],<span class="number">-1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">                Light.updata(d[i],<span class="number">-1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;"ok"&lt;&lt;endl;</span></span><br><span class="line">        ll ans=Allspell.tree[<span class="number">1</span>].sum;</span><br><span class="line">        <span class="keyword">if</span>(num)&#123;</span><br><span class="line">            <span class="keyword">int</span> minLight=Light.queryMin(<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            Allspell.updata(minLight,<span class="number">-1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            <span class="comment">//cout&lt;&lt;ans&lt;&lt;" "&lt;&lt; Allspell.querySum(num,0,len-1,1)&lt;&lt;endl;</span></span><br><span class="line">            ans+=Allspell.querySum(num,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">            Allspell.updata(minLight,<span class="number">1</span>,<span class="number">0</span>,len<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

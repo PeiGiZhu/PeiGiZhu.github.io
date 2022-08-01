@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hexo踩坑指南 - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症
+不会js css也能也能用hexo搭建博客 网上已经有各种比较成熟的资源和解决方案
+当然会更好可以有更高自由度的体验
+hexo提供了框架  剩下,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Hexo踩坑指南</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Hexo踩坑指南</h1>
+        <div class="stuff">
+            <span>七月 08, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p>此文主要整合了用Hexo搭建博客时遇到的一些疑难杂症</p>
+<p>不会js css也能也能用hexo搭建博客 网上已经有各种比较成熟的资源和解决方案</p>
+<p>当然会更好可以有更高自由度的体验</p>
+<p>hexo提供了框架  剩下的只要跟着搭积木(插件)就行了 </p>
+<p>hexo搭建的主要流程网上已经有许多<a href="https://www.bilibili.com/video/BV1Yb411a7ty?from=search&seid=17266873825643509764" target="_blank" rel="noopener">详细教程</a> 此处不再赘述</p>
+<p>在搭建之前请先下载安装 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a>  <a href="https://npm.taobao.org/mirrors/git-for-windows/" target="_blank" rel="noopener">git</a>  <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo</a>  </p>
+<p>npm（Node Package Manager，节点包管理器）是NodeJS的包管理器，用于节点插件的管理（包括安装，卸载和管理依赖等）。npm是随同新版的NodeJS一起安装的包管理工具，所以我们需要安装NodeJS。</p>
+<p>安装完node.js后在控制台输入</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">npm</span> install cnpm -g --registry=https://registry.<span class="built_in">npm</span>.taobao.org</span><br></pre></td></tr></table></figure>
+
+<p>用cnpm 从淘宝源中下载所需插件</p>
+<p>git 主要是用于clone github中的主题和其他插件</p>
+<p>在部署仓库上有三种选择 github / gitee / coding 仓库</p>
+<p>github 国外网站加载缓慢 但可以自动部署 支持Gittalk</p>
+<p>gitee 码云仓库加载快但是需要付费才能自动部署每次hexo d 都得到仓库里手动更新</p>
+<p>coding 相较之下加载快而且支持自动部署 但是地址难记</p>
+<p>关于主题 <a href="https://blog.csdn.net/zgd826237710/article/details/99671027" target="_blank" rel="noopener">这篇</a> 博客中罗列了一些 hexo官网也有展示但是不知道怎么下载</p>
+<p>还得在github渠道git clone</p>
+<p>win10环境下 本地部署到github时 经常会出现</p>
+<p>HttpRequestException encountered报错</p>
+<p><a href="https://blog.csdn.net/feitianlongfei/article/details/80904347" target="_blank" rel="noopener">解决方法一</a></p>
+<p>尝试后仍不能解决</p>
+<p>之后将网站根目录的配置文件 _config.yml 中的</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repo</span>: </span><br><span class="line">    <span class="attribute">github</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:PeiGiZhu/PeiGiZhu.github.io.git</span><br><span class="line">    <span class="attribute">gitee</span>: <span class="attribute">https</span>:<span class="comment">//gitee.com/peigizhu/PeiGiZhu.git</span></span><br><span class="line">    <span class="attribute">coding</span>: <span class="attribute">https</span>:<span class="comment">//e.coding.net/peigizhu/peigizhu/peigizhu.git</span></span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+
+<p>github: 后面的仓库地址 从 http:// 改为 git@ 后就不再出现</p>
+<p>更改为git@ 需要本地和仓库间需要ssh公钥验证 才能从本地直接将代码部署到仓库</p>
+<p><a href="http://www.bubuko.com/infodetail-3334479.html" target="_blank" rel="noopener">如何生成ssh key</a> </p>
+<p><a href="https://www.jianshu.com/p/7d686d8b7857" target="_blank" rel="noopener">如何用ssh key部署</a></p>
+<p>本地生成的ssh key(public key)可以反复使用 </p>
+<p>此处以gitee和coding部署流程为例 github仓库操作类似</p>
+<p><a href="https://www.jianshu.com/p/79bd6fb15790" target="_blank" rel="noopener">这篇博客</a>里有图文流程可以参考</p>
+<p><a href="https://www.jianshu.com/p/a2d298e26dcd" target="_blank" rel="noopener">hexo常用指令</a></p>
+<p>部署时记得先清理缓存</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean <span class="meta">&amp; hexo g -d <span class="comment">///一次性清理&amp;生成&amp;部署</span></span></span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/qitong111/article/details/80217281" target="_blank" rel="noopener">可视化编辑工具-Typora</a>下载</p>
+<p><a href="https://www.cnblogs.com/yyhh/p/11058985.html" target="_blank" rel="noopener">大佬自建博客详细指导</a></p>
+<p><a href="https://blog.csdn.net/qq_36759224/article/details/85010191?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.nonecase" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1381382" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><a href="https://blog.csdn.net/l_201607/article/details/81097278" target="_blank" rel="noopener">Hexo功能&amp;插件优化</a></p>
+<p><strong>在更新文章时发现的问题</strong></p>
+<p>文章出现乱码 ： 尝试将文章.md 文件用笔记本打开另存为时设置编码为 UTF-8</p>
+<p>博客中进入某个标签再点菜单中的首页 加载十分缓慢 </p>
+<p>多数情况是由于引用了google源字体 导致加载缓慢 <a href="https://blog.csdn.net/MSDN_tang/article/details/106610897" target="_blank" rel="noopener">解决方案</a></p>
+<p>但是由于使用主题不同 本人没有贸然修改(主要不懂这方面)</p>
+<p>如何在百度上搜素到自己的博客而不是以链接的形式 <a href="https://www.jianshu.com/p/f37452d4978e" target="_blank" rel="noopener">参考此处</a></p>
+<p>注意！私有仓库的前提下再使用第二种主动推送 </p>
+<p>部署到仓库后网页没有更新 如果是gitee仓库请到gitee page 手动更新 </p>
+<p>若不同浏览器打开博客后内容不同 尝试清理浏览器缓存后重新加载</p>
+<p>typora插入图片 网页中不显示？<a href="https://blog.csdn.net/xh13096/article/details/103510129" target="_blank" rel="noopener">原因</a></p>
+<p>可以在要编辑的md同目录下新建一个img文件夹 </p>
+<p>然后在要插入的地方写入以下html语句</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img <span class="attribute">src</span>=<span class="string">"img/xxx.jpg"</span> <span class="attribute">width</span>=<span class="string">"100px"</span> <span class="attribute">height</span>=<span class="string">"100px"</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>有些主题没有自带百度统计功能 需要手动写入</p>
+<p>具体方法参考<a href="https://www.cnblogs.com/fazero/p/7976651.html" target="_blank" rel="noopener">此处</a></p>
+<p>置顶功能没有达到理想效果 <a href="https://www.cnblogs.com/lqerio/p/11117467.html" target="_blank" rel="noopener">参考</a></p>
+<p>Note：主题(themes)不同, 实现/解决方案不同 ,不同themes间并不能完全移植</p>
+<p>更多资源/问题在优化本站时会再更新整合</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>codeforces-#678-E - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,E. Complicated Computations 
+
+题意
+
+给出一个长度为n&amp;lt;1e5的数组a
+求出它所有子串的MEX组成的新数组b的MEX
+对于一个给定数组 其MEX是 最小的不出现在,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">codeforces-#678-E</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">codeforces-#678-E</h1>
+        <div class="stuff">
+            <span>十一月 14, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/MEX/" rel="tag">MEX</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/" rel="tag">权值线段树</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p><a href="https://codeforces.ml/problemset/problem/1436/E" target="_blank" rel="noopener">E. Complicated Computations</a> </p>
+<ul>
+<li><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2></li>
+</ul>
+<p>给出一个长度为n&lt;1e5的数组a</p>
+<p>求出它所有子串的MEX组成的新数组b的MEX</p>
+<p>对于一个给定数组 其MEX是 最小的不出现在数组中的正数</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<p><a href="https://www.cnblogs.com/hznumqf/p/13879185.html" target="_blank" rel="noopener">参考博客</a></p>
+<p>如 数组a为1 3 2</p>
+<p>数组b为 2 2 4 1 1 1</p>
+<p>所以答案为3</p>
+<p>首先要求出所有子串的MEX 而n为1e5 显然 暴力求解出b数组不可取</p>
+<p>但是存在一个事实：对于一个数组 若去除其中重复的数字 剩下 的数组成的MEX</p>
+<p>仍然与原来相同</p>
+<p>那么我们不需要暴力枚举出所有a的子串求得其MEX</p>
+<p>反过来想 我们只需要判断某个数x是否会是某个a的子串的MEX</p>
+<p>于是我们枚举x (1~n+1) 每次判断是否存在一个a的子串它的MEX=x</p>
+<p>若存在 那么数组b中加入 x 最终答案则直接求b的MEX</p>
+<p>如果一个区间的MEX=x，那么容易发现只需满足如下条件 ：</p>
+<ul>
+<li><p>区间中没有出现x</p>
+</li>
+<li><p>区间中出现了1到x−1</p>
+<p>于是 考虑枚举每个以x为端点的子段</p>
+</li>
+</ul>
+<p>比如…. x (1 4 2 4 6) x ….</p>
+<p>MEX=x的子段不会出现在一个包含x的子串中 于是满足条件一</p>
+<p>对于第二个条件 维护一个权值线段树 </p>
+<p>以权值为点 存对应数在原数组中出现的最后位置</p>
+<p>因为要确保 两个x 之间存在1到x-1所有数</p>
+<p>所以只需要确保 (1,x-1)所以有数最后一次出现的位置在 两个x之间</p>
+<p>若符合条件那么 显然 a中存在子串MEX=x 那么x被加入b数组</p>
+<p>我们枚举可能存在的MEX=x</p>
+<p>判断区间…. x (1 4 2 4 6) x …. 的MEX而不是 …. x (1 4 2) 4 6 x ….的MEX</p>
+<p>为什么后者不需要枚举？ 首先我们是在判断x是否会成为a的子串的MEX</p>
+<p>于是我们找最有可能出现MEX=x的子串 即夹在两个x之间的子段</p>
+<p>他们不包含x且元素最多最有可能包含(1,x-1)所有数</p>
+<p>从而减小了暴力枚举a的子串的复杂度</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">2e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)                                                                          \</span></span><br><span class="line">&#123;                                                                                                   \</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"\[%s:%d] \" format "</span> <span class="string">",                                                        \</span></span><br><span class="line"><span class="string">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);                                                        \</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">#else</span></span><br><span class="line"><span class="string">#define DeBug(format,...)</span></span><br><span class="line"><span class="string">#endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">*/</span></span><br><span class="line"><span class="string">class SegTree&#123;</span></span><br><span class="line"><span class="string">public:</span></span><br><span class="line"><span class="string">    #define mid ((L+R)&gt;&gt;1)</span></span><br><span class="line"><span class="string">    #define Leftson now&lt;&lt;1</span></span><br><span class="line"><span class="string">    #define Rightson now&lt;&lt;1|1</span></span><br><span class="line"><span class="string">    struct segtree&#123;int L,R,pos;&#125;;</span></span><br><span class="line"><span class="string">    segtree tree[Max&lt;&lt;2];</span></span><br><span class="line"><span class="string">    void push_up(int now)&#123;</span></span><br><span class="line"><span class="string">        tree[now].pos=min(tree[Leftson].pos,tree[Rightson].pos);</span></span><br><span class="line"><span class="string">        return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    void build(int L,int R,int now=1)&#123;</span></span><br><span class="line"><span class="string">        tree[now]=&#123;L,R,0&#125;;</span></span><br><span class="line"><span class="string">        //cout&lt;&lt;L&lt;&lt;"</span> <span class="string">"&lt;&lt;R&lt;&lt;endl;</span></span><br><span class="line"><span class="string">        if(L==R)return;</span></span><br><span class="line"><span class="string">        //int mid=(L+R)&gt;&gt;1;</span></span><br><span class="line"><span class="string">        build(L,mid,Leftson);</span></span><br><span class="line"><span class="string">        build(mid+1,R,Rightson);</span></span><br><span class="line"><span class="string">        push_up(now);</span></span><br><span class="line"><span class="string">        return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    void updata(int qL,int qR,int val,int now=1)&#123;</span></span><br><span class="line"><span class="string">        if(qL&lt;=tree[now].L&amp;&amp;qR&gt;=tree[now].R)&#123;</span></span><br><span class="line"><span class="string">            tree[now].pos=val;</span></span><br><span class="line"><span class="string">            return;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        if(qL&lt;=tree[Leftson].R)updata(qL,qR,val,Leftson);</span></span><br><span class="line"><span class="string">        if(qR&gt;=tree[Rightson].L)updata(qL,qR,val,Rightson);</span></span><br><span class="line"><span class="string">        push_up(now);return;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    int query(int qL,int qR,int now=1)&#123;</span></span><br><span class="line"><span class="string">        if(qL&gt;qR)return inf;</span></span><br><span class="line"><span class="string">        if(tree[now].R&lt;=qR&amp;&amp;tree[now].L&gt;=qL)return tree[now].pos;</span></span><br><span class="line"><span class="string">        int minnpos=inf;</span></span><br><span class="line"><span class="string">        if(tree[Leftson].R&gt;=qL)minnpos=min(minnpos,query(qL,qR,Leftson));</span></span><br><span class="line"><span class="string">        if(tree[Rightson].L&lt;=qR)minnpos=min(minnpos,query(qL,qR,Rightson));</span></span><br><span class="line"><span class="string">        push_up(now);</span></span><br><span class="line"><span class="string">        return minnpos;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;Val;</span></span><br><span class="line"><span class="string">bool vis[Max];</span></span><br><span class="line"><span class="string">int arr[Max],last[Max];</span></span><br><span class="line"><span class="string">int main()&#123;</span></span><br><span class="line"><span class="string">    //Turnoff;</span></span><br><span class="line"><span class="string">    int n;cin&gt;&gt;n;</span></span><br><span class="line"><span class="string">    Val.build(1,n);</span></span><br><span class="line"><span class="string">    for(int i=1;i&lt;=n;i++)cin&gt;&gt;arr[i];</span></span><br><span class="line"><span class="string">    for(int i=1;i&lt;=n;i++)&#123;</span></span><br><span class="line"><span class="string">        if(arr[i]!=1)vis[1]=1;</span></span><br><span class="line"><span class="string">        if(arr[i]&gt;1&amp;&amp;Val.query(1,arr[i]-1)&gt;last[arr[i]])vis[arr[i]]=1;</span></span><br><span class="line"><span class="string">        last[arr[i]]=i;</span></span><br><span class="line"><span class="string">        Val.updata(arr[i],arr[i],i);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    for(int i=2;i&lt;=n+1;i++)&#123;</span></span><br><span class="line"><span class="string">        if(Val.query(1,i-1)&gt;last[i])vis[i]=1;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    int Mex=1;</span></span><br><span class="line"><span class="string">    while(vis[Mex])Mex++;</span></span><br><span class="line"><span class="string">    cout&lt;&lt;Mex&lt;&lt;endl;</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

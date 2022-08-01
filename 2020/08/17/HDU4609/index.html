@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HDU-4609 - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,3-idiots
+题意
+t组测试，每组测试给出n条木棒 n&amp;lt;1e5
+然后输入n条木棒的长度ai,问等概率取出三条木棒能构成三角形的概率
+题解
+参考题解A      参考题解B
+首先将读入信息从,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">HDU-4609</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">HDU-4609</h1>
+        <div class="stuff">
+            <span>八月 17, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/FFT-NTT/" rel="tag">FFT & NTT</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/" rel="tag">生成函数</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" rel="tag">组合数学</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p><a href="http://acm.hdu.edu.cn/showproblem.php?pid=4609" target="_blank" rel="noopener">3-idiots</a></p>
+<p>题意</p>
+<p>t组测试，每组测试给出n条木棒 n&lt;1e5</p>
+<p>然后输入n条木棒的长度ai,问等概率取出三条木棒能构成三角形的概率</p>
+<p>题解</p>
+<p><a href="https://blog.csdn.net/m0_38013346/article/details/81736390" target="_blank" rel="noopener">参考题解A</a>      <a href="https://www.cnblogs.com/tempestT/p/7672496.html" target="_blank" rel="noopener">参考题解B</a></p>
+<p>首先将读入信息从每个木棒长度 变为 每种长度几根木棒</p>
+<p>例如lenth={1,3,3,4} 变为 num={0,1,0,2,1} </p>
+<p>即长度为0的有0根,1的有1根,…..</p>
+<p>那么如果从它们中任选两根组成三角形的两边和 那么可以得到</p>
+<p>num={0, 0, 1, 0, 4, 2,  4,  4,  1} </p>
+<p>(其中有AB互换得到的和以及同一根木棍自己和自己相加得到的和,之后会减去) </p>
+<p>假如用生成函数来描述 那么 {0,1,0,2,1} 记为$f(x)=0x^0+1x^1+0x^2+2x^3+1x^4$</p>
+<p>而两两匹配得到的{0, 0, 1, 0, 4, 2,  4,  4,  1} </p>
+<p>实际上就是$f(x)×f(x)=0x^0+0x^1+1x^2+0x^3+4x^4+2x^5+4x^6+4x^7+1x^8$</p>
+<p>其中次幂i表示长度,系数ai表示有多少根木棍=该长度i</p>
+<p>于是我们可以利用FFT求出木棍两两组合得到新的长度各有多少种</p>
+<p>另外需要容斥排除掉一些情况，在代码的注释中会有解释</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef long long ll;</span><br><span class="line">#define endl '\n'</span><br><span class="line">#define Turnoff s<span class="symbol">td:</span><span class="symbol">:io</span><span class="symbol">s:</span><span class="symbol">:sy</span>nc_with_stdio(<span class="built_in">false</span>)</span><br><span class="line">const ll <span class="built_in">Max</span>=<span class="number">3</span>e5+<span class="number">5</span>;</span><br><span class="line">const double <span class="built_in">Pi</span>=<span class="built_in">acos</span>(-<span class="number">1</span>);</span><br><span class="line">/*</span><br><span class="line">*/</span><br><span class="line">struct <span class="built_in">Complex</span>&#123;</span><br><span class="line">    double r,i;</span><br><span class="line">    <span class="built_in">Complex</span>()&#123;r=<span class="number">0</span>,i=<span class="number">0</span>;&#125;</span><br><span class="line">    <span class="built_in">Complex</span>(double real,double imag)<span class="symbol">:r</span>(real),i(imag)&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Complex</span> operator + (<span class="built_in">Complex</span> a, <span class="built_in">Complex</span> b)&#123;return <span class="built_in">Complex</span>(a.r+b.r,a.i+b.i);&#125;</span><br><span class="line"><span class="built_in">Complex</span> operator - (<span class="built_in">Complex</span> a, <span class="built_in">Complex</span> b)&#123;return <span class="built_in">Complex</span>(a.r-b.r,a.i-b.i);&#125;</span><br><span class="line"><span class="built_in">Complex</span> operator * (<span class="built_in">Complex</span> a, <span class="built_in">Complex</span> b)&#123;return <span class="built_in">Complex</span>(a.r*b.r-a.i*b.i,a.r*b.i+a.i*b.r);&#125;</span><br><span class="line"></span><br><span class="line">ll rev[<span class="built_in">Max</span>],<span class="built_in">len</span>=<span class="number">0</span>,lim=<span class="number">1</span>,ans[<span class="built_in">Max</span>];</span><br><span class="line"><span class="built_in">Complex</span> a[<span class="built_in">Max</span>],b[<span class="built_in">Max</span>];///原多项式系数</span><br><span class="line">ll <span class="built_in">sum</span>[<span class="built_in">Max</span>],lenth[<span class="built_in">Max</span>],num[<span class="built_in">Max</span>];</span><br><span class="line">///预处理位逆变换</span><br><span class="line">inline void getrev(<span class="built_in">int</span> lena,<span class="built_in">int</span> <span class="built_in">lenb</span>)&#123;</span><br><span class="line">    <span class="built_in">int</span> limit=<span class="number">1</span>,lenth=<span class="number">0</span>;</span><br><span class="line">    while(limit&lt;=lena+<span class="built_in">lenb</span>)limit&lt;&lt;=<span class="number">1</span>,lenth++;</span><br><span class="line">    for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;limit;i++)rev[i]=(rev[i&gt;&gt;<span class="number">1</span>]&gt;&gt;<span class="number">1</span>)|((i&amp;<span class="number">1</span>)&lt;&lt;(lenth-<span class="number">1</span>));</span><br><span class="line">    lim=limit,<span class="built_in">len</span>=lenth;</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line">inline void FFT(<span class="built_in">Complex</span> *A,<span class="built_in">int</span> opt)&#123;</span><br><span class="line">    for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;lim;i++)<span class="built_in">if</span>(i&lt;rev[i]) swap(A[i],A[rev[i]]);///求出要迭代的序列</span><br><span class="line">    for(<span class="built_in">int</span> <span class="built_in">mid</span>=<span class="number">1</span>;<span class="built_in">mid</span>&lt;lim;<span class="built_in">mid</span>&lt;&lt;=<span class="number">1</span>)&#123;///待合并区间长度的一半</span><br><span class="line">        <span class="built_in">Complex</span> Wn=<span class="built_in">Complex</span>(<span class="built_in">cos</span>(<span class="built_in">Pi</span>/<span class="built_in">mid</span>),opt*<span class="built_in">sin</span>(<span class="built_in">Pi</span>/<span class="built_in">mid</span>));</span><br><span class="line">        for(<span class="built_in">int</span> R=<span class="built_in">mid</span>&lt;&lt;<span class="number">1</span>,i=<span class="number">0</span>;i&lt;lim;i+=R)&#123;///R是区间的右端点，i表示前已经到哪个位置了</span><br><span class="line">            <span class="built_in">Complex</span> W=<span class="built_in">Complex</span>(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">            for(<span class="built_in">int</span> k=<span class="number">0</span>;k&lt;<span class="built_in">mid</span>;k++)&#123;///枚举左半部分</span><br><span class="line">                <span class="built_in">Complex</span> x=A[i+k],y=W*A[i+<span class="built_in">mid</span>+k];///蝴蝶操作</span><br><span class="line">                A[i+k]=x+y;</span><br><span class="line">                A[i+<span class="built_in">mid</span>+k]=x-y;</span><br><span class="line">                W=W*Wn;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">if</span>(opt==-<span class="number">1</span>)for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;lim;i++)A[i].r=(A[i].r/lim+<span class="number">0.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">int</span> main() &#123;</span><br><span class="line">    //Turnoff;</span><br><span class="line">    <span class="built_in">int</span> <span class="built_in">t</span>;</span><br><span class="line">    scanf(<span class="string">"%d"</span>,&amp;<span class="built_in">t</span>);</span><br><span class="line">    while(<span class="built_in">t</span>--)&#123;</span><br><span class="line">        <span class="built_in">int</span> <span class="built_in">n</span>;scanf(<span class="string">"%d"</span>,&amp;<span class="built_in">n</span>);</span><br><span class="line">        ll maxlen=<span class="number">0</span>,tot=<span class="number">1</span>ll*<span class="built_in">n</span>*(<span class="built_in">n</span>-<span class="number">1</span>)*(<span class="built_in">n</span>-<span class="number">2</span>)/<span class="number">6</span>;</span><br><span class="line">        memset(a,<span class="number">0</span>,sizeof a);</span><br><span class="line">        memset(<span class="built_in">sum</span>,<span class="number">0</span>,sizeof <span class="built_in">sum</span>);</span><br><span class="line">        //memset(num,<span class="number">0</span>,sizeof num);</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">n</span>;i++)&#123;</span><br><span class="line">            scanf(<span class="string">"%lld"</span>,lenth+i);</span><br><span class="line">            a[lenth[i]].r++;</span><br><span class="line">            //num[lenth[i]]++;</span><br><span class="line">            maxlen=<span class="built_in">max</span>(maxlen,lenth[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        getrev(maxlen,maxlen);FFT(a,<span class="number">1</span>);</span><br><span class="line">        maxlen*=<span class="number">2</span>;</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;lim;i++)a[i]=a[i]*a[i];</span><br><span class="line">        FFT(a,-<span class="number">1</span>);</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;lim;i++)<span class="built_in">sum</span>[i]=a[i].r;</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">n</span>;i++)<span class="built_in">sum</span>[lenth[i]*<span class="number">2</span>]--;</span><br><span class="line">        ///同一根木棒自己加自己 不合法减去</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;=maxlen;i++)<span class="built_in">sum</span>[i]/=<span class="number">2</span>;</span><br><span class="line">        /// 两根木棒AB互换后BA重复统计 不合法/<span class="number">2</span></span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">1</span>;i&lt;=maxlen;i++)<span class="built_in">sum</span>[i]+=<span class="built_in">sum</span>[i-<span class="number">1</span>];</span><br><span class="line">        /// 做前缀和处理</span><br><span class="line">        ll ans=<span class="number">0</span>;</span><br><span class="line">        sort(lenth,lenth+<span class="built_in">n</span>);</span><br><span class="line">        ///排序构成三角形的第三边(最长边)长度</span><br><span class="line">        ///枚举最长边</span><br><span class="line">        for(<span class="built_in">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">n</span>;i++)&#123;</span><br><span class="line">            ans+=<span class="built_in">sum</span>[maxlen]-<span class="built_in">sum</span>[lenth[i]];</span><br><span class="line">            ///根据定理两边之和大于第三边得到两边和大于枚举边长度lenth[i]的总数</span><br><span class="line">            ///我们假定lenth[i]最长</span><br><span class="line">            ans-=<span class="number">1</span>ll*i*(<span class="built_in">n</span>-i-<span class="number">1</span>);</span><br><span class="line">            ///两边中有一个大于lenth[i]一个小于lenth[i]</span><br><span class="line">            ans-=<span class="number">1</span>ll*(<span class="built_in">n</span>-i-<span class="number">1</span>)*(<span class="built_in">n</span>-i-<span class="number">2</span>)/<span class="number">2</span>;</span><br><span class="line">            ///两边都大于lenth[i]</span><br><span class="line">            ans-=<span class="number">1</span>ll*(<span class="built_in">n</span>-<span class="number">1</span>);</span><br><span class="line">            ///另外两边中有一个就是lenth[i]本身</span><br><span class="line">        &#125;</span><br><span class="line">        //cout&lt;&lt;ans&lt;&lt;<span class="string">" "</span>&lt;&lt;tot&lt;&lt;endl;</span><br><span class="line">        printf(<span class="string">"%.7f\n"</span>,<span class="number">1.0</span>*ans/tot);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

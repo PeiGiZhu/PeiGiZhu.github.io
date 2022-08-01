@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>第六届CCPC长春站正式赛-F - Welcome</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="PeiGiZhu&#39;s Blog,F. Strange Memory 
+
+##题意
+
+给出一个n个点n-1条边的一颗树 (n&amp;lt;=1e5)
+对于一个点$i$有值$a_i$ (1&amp;lt;=ai&amp;lt;=1e6)
+现在要求 $∑{i,"> 
+    <meta name="author" content="PeiGiZhu"> 
+    <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    
+<script type="text/javascript">
+
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?1d0c9785f225d93a308476f4d526c441";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body class="loading">
+    <span id="config-title" style="display:none">Welcome</span>
+    <div id="loader"></div>
+    <div id="single">
+    
+<div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://peigizhu.gitee.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">第六届CCPC长春站正式赛-F</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">第六届CCPC长春站正式赛-F</h1>
+        <div class="stuff">
+            <span>十一月 10, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag">位运算</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/" rel="tag">启发式合并</a></li></ul>
+
+
+        </div>
+
+        <div class="content markdown">
+            <p><a href="https://codeforces.com/gym/102832/problem/F" target="_blank" rel="noopener">F. Strange Memory</a> </p>
+<ul>
+<li>##题意</li>
+</ul>
+<p>给出一个n个点n-1条边的一颗树 (n&lt;=1e5)</p>
+<p>对于一个点$i$有值$a_i$ (1&lt;=ai&lt;=1e6)</p>
+<p>现在要求 $∑<em>{i=1}^n∑</em>{j=i+1}^n [a_i⊕a_j=a_{lca(i,j)}]×(i⊕j).  $</p>
+<p>即对于任何满足$[a_i⊕a_j=a_{lca(i,j)}]​$ 的点对(i,j) 的下标异或值求和</p>
+<ul>
+<li><h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2></li>
+</ul>
+<blockquote>
+<p><a href="https://frozenguardian.blog.csdn.net/article/details/109583484" target="_blank" rel="noopener">参考题解</a></p>
+<p><a href="https://www.cnblogs.com/zwfymqz/p/9683124.html" target="_blank" rel="noopener">dsu on tree</a></p>
+</blockquote>
+<p>解决这个问题需要解决以下几个问题：</p>
+<ul>
+<li>如何找到符合$[a_i⊕a_j=a_{lca(i,j)}]$ 的点对</li>
+<li>如何统计答案</li>
+</ul>
+<p>对于第一个问题 我们可以枚举一个点作为Lca 同时枚举一个它(Lca)的子节点作为$i$ </p>
+<p>那么只需要寻找以它(Lca)为根的子节点中是否存在一个$a_j=a_{Lca} ⊕ a_{i}$ </p>
+<p>对于第二个问题</p>
+<p>朴素的想法是 我们用一个容器(比如map&lt;int,vector &gt;,关键字是点值,映射值是该点值的所有点下标值) </p>
+<p>存某个点作为Lca的一支子树中 值为$a_j$的点的下标</p>
+<p>于是对于这个Lca需要枚举另一支子树中的 $a_i$ </p>
+<p>再枚举遍历容器中值为($a_{Lca} ⊕ a_{i}$) 的所有下标值 ans+=i⊕j</p>
+<p>然后将$a_i$所在子树插入到容器中传递到上一层</p>
+<p>这么做导致 我们不得不遍历子树中的$a_i$ 和$a_j$  来获取下标的异或值</p>
+<p>实际上就是在暴力枚举点对(i,j)没有任何优化</p>
+<p>###于是要着手如何更快速地统计答案；</p>
+<p>首先意识到i⊕j 可以拆分成按位异或</p>
+<p>那么当且仅当 符合$[a_i⊕a_j=a_{lca(i,j)}]$ 的点对(i,j) 在同一位二进制下相异 </p>
+<p>最终答案才会有这一位二进制的贡献</p>
+<p>比如点对(3,6) 二进制下(011,110)  3^6=5 即第0位和第2位相异的二进制位会对最终答案产生贡献</p>
+<p>如果我们知道Lca下某个子树集合内 $a_j$的所有下标每位二进制为0/1的个数有几个</p>
+<p>那么我们枚举$a_i$ 时可以直接算 对于需要的$a_j=a_i ⊕a_{Lca}$  中所有二进制位 为0/1的下标有多少个</p>
+<p>就可以直接求得某位二进制下 i⊕j对答案产生的贡献</p>
+<p>于是设计一个三维数组：$BitCnt(val,bit,0/1)$ </p>
+<p>表示在某Lca的子树下点值为val的 <em>下标</em>  符合第bit位 为0/1 共有多少个</p>
+<p>子树中$a_j$被作为一个集合统计在$BitCnt$中 就不需要逐个枚举$a_j$ 而改为枚举二进制位了</p>
+<p>这么做的目的也是为了方便使用树上启发式合并</p>
+<ul>
+<li><p>什么是dsu on tree？</p>
+<p>它是用来解决一类树上询问问题，一般这种问题有两个特征</p>
+<p>1、只有对子树的询问</p>
+<p>2、没有修改</p>
+</li>
+</ul>
+<p>这个问题中需要更新维护每个点作为Lca时的BitCnt 也就是对子树集合信息的询问</p>
+<p>对于dsu on tree的算法流程大概是：</p>
+<p>首先需要预处理重链剖分(FInd_BigSon) 得到对于每个父节点 它子节点相对而言的重子树</p>
+<img src="/.io//timg.gif" data-original="example.png">
+
+<img src="/.io//timg.gif" data-original="example2.png">
+
+<p>什么叫消除轻儿子产生的影响而保留重儿子？</p>
+<p>以本题为例 我们需要维护$BitCnt$  是以某个点作为Lca的子树集合信息</p>
+<p>而他作为全局变量 它在递归中被以不同点作为root的子树集合信息更新</p>
+<p>而我们在求点对(i,j)时 是同一个点Lca 下的子树集合中 的信息 </p>
+<img src="/.io//timg.gif" data-original="example3.png">
+
+<p>如图 (红圈表示以其父节点下所有子节点相较而言的重子树)</p>
+<p>对于Lca=5的子树集合 i=6 我只需要从5的其他支子树的BitCnt集合中得到</p>
+<p>而递归过程会将所有其他子树集合信息一并更新到BitCnt这个全局变量中 导致对于i=6 </p>
+<p>我所找到对应的j 就不仅限于Lca=5的子树中的信息了</p>
+<p>对于启发式合并 每次将轻子树集合的信息并入到重子树中 </p>
+<p>抹除轻子树的信息 然后将重子树传递到上一层递归 (返回到父节点)</p>
+<p>若上一层的父节点不再是重子树 那么抹除它们的信息 将他们视为轻子树集合 </p>
+<p>重新并入到同一层中的重子树中</p>
+<p>这也体现了启发式合并的核心思想：</p>
+<h3 id="将小集合信息并入到大集合信息使得整体复杂度下降到nlogn"><a href="#将小集合信息并入到大集合信息使得整体复杂度下降到nlogn" class="headerlink" title="将小集合信息并入到大集合信息使得整体复杂度下降到nlogn"></a>将小集合信息并入到大集合信息使得整体复杂度下降到nlogn</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="comment">//#define P pair&lt;ll,ll&gt;</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">1e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x3f3f3f3f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//#define __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __DEBUG__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format, ...)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"[%s:%d] "</span> format <span class="string">""</span>,</span><br><span class="line">    __FUNCTION__ , __LINE__, ##__VA_ARGS__);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DeBug(format,...)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">6</span></span><br><span class="line"><span class="comment">4 2 1 6 6 5</span></span><br><span class="line"><span class="comment">1 2</span></span><br><span class="line"><span class="comment">2 3</span></span><br><span class="line"><span class="comment">1 4</span></span><br><span class="line"><span class="comment">4 5</span></span><br><span class="line"><span class="comment">4 6</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> BitCnt[(<span class="number">1</span>&lt;&lt;<span class="number">20</span>)+<span class="number">100</span>][<span class="number">30</span>][<span class="number">2</span>];</span><br><span class="line"><span class="comment">/// val,bit,1/0</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;mp[Max];</span><br><span class="line"><span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;SmallSon;</span><br><span class="line"><span class="keyword">int</span> val[Max];</span><br><span class="line">ll ans=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> sz[Max],BigSon[Max];</span><br><span class="line"><span class="keyword">bool</span> vis[Max];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Find_BigSon</span><span class="params">(<span class="keyword">int</span> now,<span class="keyword">int</span> fa)</span></span>&#123;</span><br><span class="line">    sz[now]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa)<span class="keyword">continue</span>;</span><br><span class="line">        Find_BigSon(to,now);</span><br><span class="line">        sz[now]+=sz[to];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(sz[now]&gt;sz[BigSon[fa]])BigSon[fa]=now;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">Updata</span><span class="params">(<span class="keyword">int</span> id,<span class="keyword">int</span> add)</span></span>&#123;</span><br><span class="line">    DeBug(<span class="string">"id:%d add:%d\n"</span>,id,add);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">20</span>;i++)BitCnt[val[id]][i][!((id&gt;&gt;i)&amp;<span class="number">1</span>)]+=add;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Delete</span><span class="params">(<span class="keyword">int</span> now,<span class="keyword">int</span> fa)</span></span>&#123;</span><br><span class="line">    Updata(now,<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa)<span class="keyword">continue</span>;</span><br><span class="line">        Delete(to,now);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Deal</span><span class="params">(<span class="keyword">int</span> now,<span class="keyword">int</span> fa,<span class="keyword">int</span> lca)</span></span>&#123;</span><br><span class="line">    <span class="comment">//DeBug("now:%d\n",now);</span></span><br><span class="line">    SmallSon.push(now);</span><br><span class="line">    <span class="keyword">int</span> need=val[now]^val[lca];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">20</span>;i++)&#123;</span><br><span class="line">        <span class="comment">//DeBug("need:%d now:%d add:%d\n",need,now,BitCnt[need][i][(now&gt;&gt;i)&amp;1])</span></span><br><span class="line">        ans+=BitCnt[need][i][(now&gt;&gt;i)&amp;<span class="number">1</span>]*(<span class="number">1</span>&lt;&lt;i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa)<span class="keyword">continue</span>;</span><br><span class="line">        Deal(to,now,lca);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> now,<span class="keyword">int</span> fa,<span class="keyword">bool</span> keep)</span></span>&#123;</span><br><span class="line">    <span class="comment">///递归处理轻子树</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa||to==BigSon[now])<span class="keyword">continue</span>;</span><br><span class="line">        dfs(to,now,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">///递归处理重子树</span></span><br><span class="line">    <span class="keyword">if</span>(BigSon[now])dfs(BigSon[now],now,<span class="number">1</span>);</span><br><span class="line">    <span class="comment">///将轻子树并入到重子树中并更新答案</span></span><br><span class="line">    vis[BigSon[now]]=<span class="number">1</span>;</span><br><span class="line">    Updata(now,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> to:mp[now])&#123;</span><br><span class="line">        <span class="keyword">if</span>(to==fa||vis[to])<span class="keyword">continue</span>;</span><br><span class="line">        <span class="comment">//DeBug("in\n");</span></span><br><span class="line">        Deal(to,now,now);</span><br><span class="line">        <span class="comment">///暴力枚举轻子树的点i</span></span><br><span class="line">        <span class="comment">///此时BitCnt中存的是重子树中所需的j的信息</span></span><br><span class="line">        <span class="keyword">while</span>(!SmallSon.empty())&#123;</span><br><span class="line">            <span class="keyword">int</span> temp=SmallSon.front();</span><br><span class="line">            SmallSon.pop();</span><br><span class="line">            Updata(temp,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vis[BigSon[now]]=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">///删除轻子数对全局BitCnt的影响</span></span><br><span class="line">    <span class="keyword">if</span>(!keep)Delete(now,fa);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="comment">//Turnoff;</span></span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;val[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> u,v;<span class="built_in">cin</span>&gt;&gt;u&gt;&gt;v;</span><br><span class="line">        mp[u].push_back(v);</span><br><span class="line">        mp[v].push_back(u);</span><br><span class="line">    &#125;</span><br><span class="line">    Find_BigSon(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    dfs(<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//for(int i=1;i&lt;=n;i++)DeBug("%d %d\n",i,BigSon[i]);</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="/mp3/RADWIMPS、三浦透子 - グランドエスケープ (Movie edit).flac">
+            </audio>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci='fb4e1a3e8686e267e168'
+        data-cs='c6362b99dcd8b1231e724f71ad638bd6faf8f581'
+        data-r='PeiGiZhu.github.io'
+        data-o='PeiGiZhu'
+        data-a='PeiGiZhu'
+        data-d='true'
+    >查看评论</div>
+
+
+
+        
+   
+        
+          <section id="valine-container" style="margin:10px;padding:10px;background:#fff;">
+            <!--载入js，在<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<!-- <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+<!--Valine 的核心代码库-->
+<!-- <script src="//unpkg.com/browse/valine/dist/Valine.min.js"></script> -->
+
+
+
+
+  <div class="valine_comment v link" 
+    data-enable='true'
+    data-ae='true'
+    data-notify='true'
+    data-verify='false'
+    data-visitor='true'
+    data-avatar='wavatar'
+    data-av=AV
+    data-el='.valine_comment'
+    data-emurl='https://cloud.panjunwen.com/alu'
+    data-emlist='狂汗.png,不说话.png,汗.png,坐等.png,献花.png,不高兴.png,中刀.png,害羞.png,皱眉.png,小眼睛.png,暗地观察.png'
+    data-appid='f0K5v7NsgEDxY2GRAFmmKBuW-gzGzoHsz'
+    data-appkey='aKzBnQS2KG8El1SXhdrxLoPP'
+    data-pagesize='10'
+    data-placeholder='有话要说？'
+    >
+  </div>
+
+
+
+
+          </section>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+
+
+
+
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+
+
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
