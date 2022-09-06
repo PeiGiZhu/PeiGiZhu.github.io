@@ -251,21 +251,21 @@ var _hmt = _hmt || [];
 <p>拉格朗日函数能够将约束最优化问题变为无约束优化问题并进行求解。</p>
 <p><strong>拉格朗日函数如何求解约束最优化问题?</strong></p>
 <p>假设$f(x),c_i(x),h_j(x)$ 是定义在$R^n$ 上的连续可微函数，考虑约束最优化问题:<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l<br>\end{aligned}<br>$$<br>存在 $k$ 个不等式约束条件 $c_i(x)$ ，以及 $l$ 个约束条件$h_j(x)$。</p>
-<p>引入拉格朗日函数将上述问题等价表述为:<br>$$<br>L(x,\alpha,\beta) = f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x), \quad \alpha_i\geq 0 \<br>set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta)\<br>p^{<em>} = \underset{x}{min} A(x)<br>$$<br>其中的乘子 $a$ 与 $\beta$ 是未定参数向量需要被求解。我们将上述两种表示称为原始问题的最优解 $p^{</em>}$。</p>
+<p>引入拉格朗日函数将上述问题等价表述为:<br>$$<br>L(x,\alpha,\beta) = f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x), \quad \alpha_i\geq 0 \<br>set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta)\<br>p^{*} = \underset{x}{min} A(x)<br>$$<br>其中的乘子 $a$ 与 $\beta$ 是未定参数向量需要被求解。我们将上述两种表示称为原始问题的最优解 $p^{*}$。</p>
 <p>通常我们会将原始问题转化为对偶问题求解，对偶问题就是<strong>实质相同但从不同角度观察的一对问题</strong>。</p>
-<p>设对偶问题为$d^{<em>}$，对偶函数为 $I(\alpha,\beta)$ 那么有:<br>$$<br>set\quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta) \quad x\in R^n \<br>d^{</em>} = \underset{\alpha,\beta}{max} I(\alpha,\beta),\ s.t. \ \alpha_i\geq 0<br>$$<br>其中$a_i\geq 0$ 是对偶问题的约束条件，对于对偶问题中在求 $\underset{x}{min} L(x,\alpha,\beta)$ 时，</p>
+<p>设对偶问题为$d^{*}$，对偶函数为 $I(\alpha,\beta)$ 那么有:<br>$$<br>set\quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta) \quad x\in R^n \<br>d^{*} = \underset{\alpha,\beta}{max} I(\alpha,\beta),\ s.t. \ \alpha_i\geq 0<br>$$<br>其中$a_i\geq 0$ 是对偶问题的约束条件，对于对偶问题中在求 $\underset{x}{min} L(x,\alpha,\beta)$ 时，</p>
 <p>$x$ 不受约束条件$c_i(x)$ 与 $h_j(x)$ 影响，因此$x \in R^n$。</p>
-<p>我们可以证明 $d^{<em>} \leq p^{</em>}$ ，证明如下:<br>$$<br>\begin{aligned}<br>&amp;\underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta) \geq L(x,\alpha,\beta) \geq \underset{x}{min} L(x,\alpha,\beta)\<br>&amp;set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta), \quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta)\<br>&amp;\because \quad A(x) \geq I(\alpha,\beta)\<br>&amp;\therefore \quad  \underset{x}{min} A(x) \geq \underset{\alpha,\beta;\alpha_i\geq 0}{max}I(\alpha,\beta)\<br>&amp;\therefore \quad p^{<em>} \geq d^{</em>}<br>\end{aligned}<br>$$<br>更形象的图解证明可以参考<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右。</p>
-<p>满足 $d^{<em>} \leq p^{</em>}$ 关系的对偶性称为弱对偶性，通过弱对偶性，我们可以给出原始问题 $p^{*}$ 的范围。</p>
-<p>当原始问题 $p^{<em>}$ 是<strong>凸优化问题且满足Slater条件</strong>时，有 $d^{</em>} = p^{*}$ ，即原始问题的最优解。 </p>
-<p>(但是一般情况是凸优化问题就有$d^{<em>}=p^{</em>}$，上述凸优化问题且满足Slater条件是充分条件)</p>
+<p>我们可以证明 $d^{*} \leq p^{*}$ ，证明如下:<br>$$<br>\begin{aligned}<br>&amp;\underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta) \geq L(x,\alpha,\beta) \geq \underset{x}{min} L(x,\alpha,\beta)\<br>&amp;set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta), \quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta)\<br>&amp;\because \quad A(x) \geq I(\alpha,\beta)\<br>&amp;\therefore \quad  \underset{x}{min} A(x) \geq \underset{\alpha,\beta;\alpha_i\geq 0}{max}I(\alpha,\beta)\<br>&amp;\therefore \quad p^{*} \geq d^{*}<br>\end{aligned}<br>$$<br>更形象的图解证明可以参考<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右。</p>
+<p>满足 $d^{*} \leq p^{*}$ 关系的对偶性称为弱对偶性，通过弱对偶性，我们可以给出原始问题 $p^{*}$ 的范围。</p>
+<p>当原始问题 $p^{*}$ 是<strong>凸优化问题且满足Slater条件</strong>时，有 $d^{*} = p^{*}$ ，即原始问题的最优解。 </p>
+<p>(但是一般情况是凸优化问题就有$d^{*}=p^{*}$，上述凸优化问题且满足Slater条件是充分条件)</p>
 <p><strong>什么是凸优化问题?</strong></p>
 <p>当 $f(x),c_i(x)$ 是凸函数，$h_j(x)$ 是仿射函数时，原问题 $p^{*}$ 是一个凸优化问题。</p>
 <p><strong>凸函数定义:</strong> ${f(x_1)+f(x_2) \over2} \geq f({x_1+x_2 \over 2})$ 且 定义域为凸集。$f(x)=x^2$ 就是一个典型的凸函数。</p>
 <p>凸集的定义如下，假设集合 $C$ 是一个定义在 $n$ 维的定义域。</p>
 <p><img src="/.io//timg.gif" data-original="ConvexSet.png"></p>
 <p>那么右侧橙色所表示的集合 $C$ 是凸集，而左侧蓝色所表示的集合不是凸集。</p>
-<p>关于求最大熵问题一般都是凸优化问题，下面给出一个简单的例子感受一下。<br>$$<br>p^{<em>}=\underset{P}{max} \ H(P) = -\sum_x P(x)logP(x)\<br>p^{</em>}=\underset{P}{min} \ -H(P) = \sum_x P(x)logP(x)\<br>s.t. \ E_p(f_i) = E_{\tilde{P} }(f_i), \ i=1,\cdots,n\<br>\sum_{x}P(x)=\sum_{x}\tilde{P}(x)=1<br>$$<br>假设随机变量$X={x_1,x_2}$  那么有 $- H(P) = P(x_1)logP(x_1) + (1-P(x_1))log(1-P(x_1))$ 函数图像:</p>
+<p>关于求最大熵问题一般都是凸优化问题，下面给出一个简单的例子感受一下。<br>$$<br>p^{*}=\underset{P}{max} \ H(P) = -\sum_x P(x)logP(x)\<br>p^{*}=\underset{P}{min} \ -H(P) = \sum_x P(x)logP(x)\<br>s.t. \ E_p(f_i) = E_{\tilde{P} }(f_i), \ i=1,\cdots,n\<br>\sum_{x}P(x)=\sum_{x}\tilde{P}(x)=1<br>$$<br>假设随机变量$X={x_1,x_2}$  那么有 $- H(P) = P(x_1)logP(x_1) + (1-P(x_1))log(1-P(x_1))$ 函数图像:</p>
 <p><img src="/.io//timg.gif" data-original="HP.png"></p>
 <p>从函数图像可以看出关于熵的函数$-H(P)$ 是一个凸函数。</p>
 <p>同时关于最大熵模型的约束条件(仅有等式约束)，符合仿射函数条件。</p>
@@ -277,19 +277,19 @@ var _hmt = _hmt || [];
 <p>Slater条件定义如下:</p>
 <p>存在一个点$x \in relint \ D$ ($relint \ D$ 表示非边界定义域)，</p>
 <p>使得 $c_i(x) &lt; 0, \ i=1,2,\cdots,k$ 且 $Wx = b $ ，即 $x$ 属于$h_j(x)$的解集。</p>
-<p><strong>为何选择求解对偶问题 $b^{<em>}$ 而不是直接求解 $p^{</em>}$ ?</strong></p>
+<p><strong>为何选择求解对偶问题 $b^{*}$ 而不是直接求解 $p^{*}$ ?</strong></p>
 <p>原始问题求解比较困难，主要是因为原始问题中 $f(x)$ 或 $A(x)$ 凹凸性不明确。</p>
 <p>而对偶问题中 $I(\alpha,\beta)$ ，一定是一个凹函数 (与凸函数相反)，即一定存在最大值。</p>
 <p>关于$I(\alpha,\beta)$ 是凹函数的证明可以看<a href="https://blog.csdn.net/frostime/article/details/90291392" target="_blank" rel="noopener">此博客</a></p>
 <h3 id="原始问题与对偶问题的求解"><a href="#原始问题与对偶问题的求解" class="headerlink" title="原始问题与对偶问题的求解"></a>原始问题与对偶问题的求解</h3><p>前文简单介绍了使用对偶问题求解拉格朗日函数表示的约束最优化问题。</p>
-<p>但是无论是原始问题 $p^{<em>}$ 还是对偶问题 $d^{</em>}$ 它们要求极小极大值或极大极小值，这在理解时非常抽象。</p>
-<p><a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右，证明了$p^{<em>}\geq d^{</em>}$ 的同时也展示了如何直接求解原始问题和对偶问题:</p>
-<p>设有原始问题$p^{<em>}$:<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l\\<br>L(x,\alpha,\beta) &amp;= f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)<br>\end{aligned}<br>$$<br>其对偶问题$d^{</em>}$为:<br>$$<br>d^{*} = \underset{\alpha,\beta}{max} \ \underset{x}{min} L(x,\alpha,\beta)\<br>s.t. \alpha_i \geq 0<br>$$<br>由于$h_j(x)=0$ 它对$L(x,\alpha,\beta)$的大小没有贡献，在讨论拉格朗日函数 $L$ 的具体值时可以省略。</p>
+<p>但是无论是原始问题 $p^{*}$ 还是对偶问题 $d^{*}$ 它们要求极小极大值或极大极小值，这在理解时非常抽象。</p>
+<p><a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右，证明了$p^{*}\geq d^{*}$ 的同时也展示了如何直接求解原始问题和对偶问题:</p>
+<p>设有原始问题$p^{*}$:<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l\\<br>L(x,\alpha,\beta) &amp;= f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)<br>\end{aligned}<br>$$<br>其对偶问题$d^{*}$为:<br>$$<br>d^{*} = \underset{\alpha,\beta}{max} \ \underset{x}{min} L(x,\alpha,\beta)\<br>s.t. \alpha_i \geq 0<br>$$<br>由于$h_j(x)=0$ 它对$L(x,\alpha,\beta)$的大小没有贡献，在讨论拉格朗日函数 $L$ 的具体值时可以省略。</p>
 <p>但是我们仍然需要在拉格朗日函数中加入 $h_j(x)$ 因为它的导数对求解问题有意义。</p>
 <p>同时我们可以令$f(x) = t$，$\sum_{i=1}^k\alpha_ic_i(x) = \lambda^T u$ 。</p>
 <p>那么拉格朗日函数的形式被简化成:<br>$$<br>L(x,\alpha,\beta) = L(t,u)= t + \lambda^T u<br>$$<br>其中 $t$ 是标量，$u$是一个向量，其维度大小等于约束条件 $c_i(x)$ 的个数$i$。</p>
 <p>为了简化问题我们可以将拉格朗日函数看成关于变量 $t$ 和 $u$ 的函数 $L$ 。</p>
-<p>同时简化后的原始问题和对偶问题为:<br>$$<br>p^{<em>} = \underset{x}{min}{t|(t,u)\in G_1, u\leq0 }\<br>d^{</em>} = \underset{\lambda}{max} \ \underset{x}{min} {t + \lambda^T u|(t,u)\in G_2,\lambda \geq 0}\<br>$$<br>其中 $G_1$ 表示原始问题的可行域，$G_2$ 表示对偶问题的可行域，且 $G_1 \in G_2$，</p>
+<p>同时简化后的原始问题和对偶问题为:<br>$$<br>p^{*} = \underset{x}{min}{t|(t,u)\in G_1, u\leq0 }\<br>d^{*} = \underset{\lambda}{max} \ \underset{x}{min} {t + \lambda^T u|(t,u)\in G_2,\lambda \geq 0}\<br>$$<br>其中 $G_1$ 表示原始问题的可行域，$G_2$ 表示对偶问题的可行域，且 $G_1 \in G_2$，</p>
 <p>因为对偶问题中 $x$ 不受约束条件影响因此 $G_1$ 是 $G_2$ 的子集。</p>
 <p><img src="/.io//timg.gif" data-original="p_d_problem.png"></p>
 <p>那么对于原始问题就是在可行域 $G_1$ 处找到一个点$(t,u)$ 使得 $t$ 最小。</p>
@@ -297,8 +297,8 @@ var _hmt = _hmt || [];
 <p>第一步</p>
 <p>假定斜率 $\lambda$ 已知，在$G_2$ 内找到一个点 $(t,u)$ ，即调整 $x$ 使得函数 $L(t,u)$  过该点，且它的截距最小。</p>
 <p>这里可能不太好理解为什么找截距$c$ ，即 $c = \underset{x}{min} L(t,u)$ 。</p>
-<p>假设找到的函数$L(t,u)$ 过点 $(t^{<em>}, u^{</em>})\in G_2$ 且斜率 $\lambda$ 已知，那么截距 $c = t^{<em>}+\lambda^Tu^{</em>}$ 。</p>
-<p>因为一旦确定了 $(t^{<em>}, u^{</em>})$ ，那么二元函数$L(t,u)$ 就退化成了一元函数 $c -\lambda^Tu= t$。</p>
+<p>假设找到的函数$L(t,u)$ 过点 $(t^{*}, u^{*})\in G_2$ 且斜率 $\lambda$ 已知，那么截距 $c = t^{*}+\lambda^Tu^{*}$ 。</p>
+<p>因为一旦确定了 $(t^{*}, u^{*})$ ，那么二元函数$L(t,u)$ 就退化成了一元函数 $c -\lambda^Tu= t$。</p>
 <p>而对于一元函数带入直线上任意一点都等于同一个值 $c$ 。</p>
 <p>第二步</p>
 <p>调整 $\lambda$ ，重复第一步，每个斜率各自对应一条直线，找出这些直线中截距最大的那一条。</p>
@@ -320,7 +320,7 @@ var _hmt = _hmt || [];
 <p>要求解随机事件$X$ 的最大熵模型$P(y_i),\ i=1,\cdots, 5$</p>
 <p>对于随机事件$X$ 有约束条件: </p>
 <p>$P(y_1) + P(y_2) = \tilde{P}(y_1) + \tilde{P}(y_2)= 3/10$，且 $\sum_i P(y_i) = \sum_i \tilde{P}(y_i) = 1$。</p>
-<p>则原始问题 $p^{<em>}$ 表示为:<br>$$<br>\begin{aligned}<br>&amp;min \ -H(P)=\sum_{i=1}^5P(y_i)logP(y_i)\<br>&amp;s.t \  P(y_1) + P(y_2) = \tilde{P}(y_1) + \tilde{P}(y_2)= 3/10\<br>&amp;\quad \quad \sum_i P(y_i) = \sum_i \tilde{P}(y_i) = 1<br>\end{aligned}<br>$$<br>设拉格朗日函数 $L(P,w)$ , 其中 $w$ 是前面介绍拉格朗日函数里等式约束中的参数向量 $\alpha$。<br>$$<br>L(P,w) = -H(P) + w_1(P_(y_1)+P(y_2)-3/10) + w_0(\sum_{i=1}^5P(y_i)-1)\<br>p^{</em>} = \underset{x}{min} \ \underset{w}{max} L(x,w)\<br>d^{*} = \underset{w}{max} \ \underset{x}{min} L(x,w)<br>$$<br>$P$ 则指代最大熵模型中的$P(y_i)$，</p>
+<p>则原始问题 $p^{*}$ 表示为:<br>$$<br>\begin{aligned}<br>&amp;min \ -H(P)=\sum_{i=1}^5P(y_i)logP(y_i)\<br>&amp;s.t \  P(y_1) + P(y_2) = \tilde{P}(y_1) + \tilde{P}(y_2)= 3/10\<br>&amp;\quad \quad \sum_i P(y_i) = \sum_i \tilde{P}(y_i) = 1<br>\end{aligned}<br>$$<br>设拉格朗日函数 $L(P,w)$ , 其中 $w$ 是前面介绍拉格朗日函数里等式约束中的参数向量 $\alpha$。<br>$$<br>L(P,w) = -H(P) + w_1(P_(y_1)+P(y_2)-3/10) + w_0(\sum_{i=1}^5P(y_i)-1)\<br>p^{*} = \underset{x}{min} \ \underset{w}{max} L(x,w)\<br>d^{*} = \underset{w}{max} \ \underset{x}{min} L(x,w)<br>$$<br>$P$ 则指代最大熵模型中的$P(y_i)$，</p>
 <p>将 $w$ 作为参数求解 ${\partial L \over \partial P(y_i)} = 0$， 此时偏导的零点为原函数的最小值点，</p>
 <p>得到用参数$w = {w_0,w_1}$ 表示的 $P_w(y_i)$。</p>
 <p>再使用 $P_w(y_i)$ 表示 $L(P_w,w)$ 。</p>
@@ -330,7 +330,7 @@ var _hmt = _hmt || [];
 <p>由于原问题$min \ -H(P)$ 是一个凸优化问题，</p>
 <p>先将 $w$ 作为参数 $P(y_i)$ 作为变量求解问题($d^{*}$)，</p>
 <p>和先将 $P(y_i)$ 作为参数 $w$ 作为变量求解问题( $p^{*}$)。</p>
-<p>最终的解是一样的($d^{<em>} = p^{</em>}$)。</p>
+<p>最终的解是一样的($d^{*} = p^{*}$)。</p>
 <p>上述例题在求解对偶问题时可以看到使用了求偏导找零点求最值的过程，</p>
 <p>这其实就是在使用 $KKT$ 条件求解强对偶关系问题中最优值的方法。</p>
 <p><strong>KKT条件为什么能求出对偶问题最优解?</strong></p>
@@ -339,11 +339,11 @@ var _hmt = _hmt || [];
 <p>设有原始问题如下，其中$x=(x_1,x_2)$ 是一个二维向量，讨论仅含有一个等式约束 $h(x)$ 的情况。<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x) = x_1^2+x_2^2\<br>s.t \quad &amp; h(x) = 0\<br>\end{aligned}<br>$$<br>下图中蓝色同心圆为 $f(x)$ 的等高线，其梯度$\nabla_x f(x)$为圆上向外的法线，即蓝色箭头。</p>
 <p>黄色曲线为等式约束 $h(x)$，其梯度 $\nabla_x h(x)$  为黄色曲线上的法线，即黄色箭头。</p>
 <p><img src="/.io//timg.gif" data-original="explain_kkt.png" height="500" width="600/"></p>
-<p>假设已有点$x=(x_1,x_2)$ ，我们想找到符合约束条件 $h(x)$ 的点$x^<em>=(x_1^</em>,x_2^*)$ 使得 $f(x)$ 最小。</p>
-<p>设 $x^*-x = \delta x$ 那么 $\delta x$ 要满足: $f(x+\delta x) &lt; f(x)$ 且 $h(x+\delta x) = 0$ 。</p>
-<p>我们知道从 $x$ 到 $x^*$ ， $\delta x$ 必须在约束条件 $h(x)$ 上移动，即只能沿着与 $\nabla_x h(x)$ 垂直的方向移动，</p>
+<p>假设已有点$x=(x_1,x_2)$ ，我们想找到符合约束条件 $h(x)$ 的点$x{*}=(x_1{*},x_2{*})$ 使得 $f(x)$ 最小。</p>
+<p>设 $x{*}-x = \delta x$ 那么 $\delta x$ 要满足: $f(x+\delta x) &lt; f(x)$ 且 $h(x+\delta x) = 0$ 。</p>
+<p>我们知道从 $x$ 到 $x{*}$ ， $\delta x$ 必须在约束条件 $h(x)$ 上移动，即只能沿着与 $\nabla_x h(x)$ 垂直的方向移动，</p>
 <p>所以有等式 $\delta x\nabla_x h(x) = 0$ 。</p>
-<p>同时从上图中可以看到在 $\nabla f(x) = \beta \nabla h(x)$ 时能取到符合约束条件的极值点$x^*$。<br>$$<br>\because \nabla_x f(x) = \beta \nabla_x h(x),\ \delta x\nabla_x h(x) = 0\<br>\therefore \delta x \nabla_x f(x) = \delta x \beta \nabla_x h(x) = 0\<br>\therefore \nabla_x L(x,\beta) = \nabla_x f(x) + \beta \nabla_x h(x) = 0\<br>\therefore L(x,\beta) = f(x) + \beta h(x)<br>$$<br>由于在求解最大熵模型中没有涉及到不等式约束，</p>
+<p>同时从上图中可以看到在 $\nabla f(x) = \beta \nabla h(x)$ 时能取到符合约束条件的极值点$x{*}$。<br>$$<br>\because \nabla_x f(x) = \beta \nabla_x h(x),\ \delta x\nabla_x h(x) = 0\<br>\therefore \delta x \nabla_x f(x) = \delta x \beta \nabla_x h(x) = 0\<br>\therefore \nabla_x L(x,\beta) = \nabla_x f(x) + \beta \nabla_x h(x) = 0\<br>\therefore L(x,\beta) = f(x) + \beta h(x)<br>$$<br>由于在求解最大熵模型中没有涉及到不等式约束，</p>
 <p>这里不再展示不等式约束情况下推导拉格朗日函数的具体细节。可以查看<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 6min30s 左右的讲解。</p>
 <h3 id="推导最大熵模型的学习过程"><a href="#推导最大熵模型的学习过程" class="headerlink" title="推导最大熵模型的学习过程"></a>推导最大熵模型的学习过程</h3><blockquote>
 <p>相关参考:</p>
@@ -356,14 +356,14 @@ var _hmt = _hmt || [];
 <p>将$P(X=x_i, Y=y_j)$ 简写为 $P(x,y)$。</p>
 <p>最大熵模型中共有n个特征函数$f_i(x,y)$ ，其中变量$P$ 指代最大熵模型$P(y|x)$。</p>
 <p>将上述原始问题用拉格朗日函数改写为等价问题。<br>$$<br>\begin{aligned}<br>L(P,w) =&amp; -H(P) + w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]+\sum_{i=1}^nw_i(E_p(f_i) - E_{\tilde{P} }(f_i))\</p>
-<p>L(P,w) =&amp; \sum_{x\in X,y \in Y}\tilde{P}(x)P(y|x)logP(y|x) + w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]\<br>&amp; +\sum_{i=1}^nw_i[\sum_{x\in X,y\in Y}\tilde{P}(x,y)f(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P(x|y)f(x,y)]\\<br>p^<em> =&amp; \underset{P\in C}{min} \ \underset{w}{max} L(P,w)\<br>d^</em> =&amp; \underset{w}{max}\ \underset{P\in C}{min} L(P,w)\<br>\end{aligned}<br>$$<br>最大熵模型的学习最终就是要求出给定训练集$T$ 对应的$P(Y=y_i|X=x_i)$ ，即 $L(P,w)$ 中的 $P$。</p>
+<p>L(P,w) =&amp; \sum_{x\in X,y \in Y}\tilde{P}(x)P(y|x)logP(y|x) + w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]\<br>&amp; +\sum_{i=1}^nw_i[\sum_{x\in X,y\in Y}\tilde{P}(x,y)f(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P(x|y)f(x,y)]\\<br>p{*} =&amp; \underset{P\in C}{min} \ \underset{w}{max} L(P,w)\<br>d{*} =&amp; \underset{w}{max}\ \underset{P\in C}{min} L(P,w)\<br>\end{aligned}<br>$$<br>最大熵模型的学习最终就是要求出给定训练集$T$ 对应的$P(Y=y_i|X=x_i)$ ，即 $L(P,w)$ 中的 $P$。</p>
 <p>根据 $KKT$ 条件，我们需要先求出$\nabla_P L(P,w) = 0$ 时 $P$ 关于参数 $w$ 的表达式。</p>
 <p>对每个 $x_i$ 和 $y_j$ 的条件概率 $P(Y=y_i|X=x_i)$ 求 $L(P,w)$ 的偏导，(下文为了简洁用$P(y|x)$表示)。<br>$$<br>\begin{aligned}<br>{\partial L(P,w) \over \partial P(y|x)} =&amp; \tilde{P}(x)[logP(y|x)+1] - \tilde{P}(x)w_0 + \tilde{P}(x)\sum_{i=1}^n w_i f_i(x,y)\<br>=&amp;\tilde{P}(x)[logP(y|x) + 1 - w_0 - \sum_{i=1}^n w_i f_i(x,y) ]\<br>\because &amp;\quad \tilde{P}(x) \not= 0 \quad and \quad  {\partial L(P,w) \over \partial P(y|x)}=0\<br>\therefore &amp;\quad logP(y|x) + 1 - w_0 - \sum_{i=1}^n w_i f_i(x,y) = 0\<br>\therefore &amp;\quad P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over exp(1-w_0)}\<br>\because &amp;\quad \sum_{y\in Y}P(y|x) = 1\<br>\therefore &amp;\quad \sum_{y\in Y}P(y|x) = {\sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))\over exp(1-w_0) } = 1\<br>\therefore &amp;\quad Z_w(x) = exp(1-w_0) = \sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))\<br>\therefore &amp;\quad P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over Z_w(x)} = {exp(\sum_{i=1}^nw_if_i(x,y))\over \sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))}<br>\end{aligned}<br>$$<br>其中 $Z_w(x)$ 表示最优化参数 $w$ 下的规范化因子，$P_w(y|x)$ 表示最优化参数 $w$ 下的最大熵模型。</p>
 <p>注意到我们使用$Z_w(x)$ 去替换分母$exp(1-w_0)$ 有一个好处就是能说明 $P_w(y|x)$ 的值与 $w_0$ 无关，</p>
 <p>或者说$w_0$ 的值是由$w_i,\ i=1,\cdots,n$ 共同决定的。</p>
 <p>目前我们只求出了 $P(y|x)$ 关于 $w$ 的表达式 $P_w(y|x)$，我们需要求解出 $w$ 才能真正求出 $P_w$。</p>
-<p>或者说我们只求出了对偶问题中的 $I(w)=\underset{P}{min} \ L(P,w) = L(P_w,w)$ ，还需要求解 $w^*=\underset{w}{argmax}\ I(w)$。</p>
-<p>那么最大熵模型的学习归结为对偶函数 $I(w)$ 的极大化，最终最大熵模型为 $P_{w^*}(y|x)$。</p>
+<p>或者说我们只求出了对偶问题中的 $I(w)=\underset{P}{min} \ L(P,w) = L(P_w,w)$ ，还需要求解 $w{*}=\underset{w}{argmax}\ I(w)$。</p>
+<p>那么最大熵模型的学习归结为对偶函数 $I(w)$ 的极大化，最终最大熵模型为 $P_{w{*}}(y|x)$。</p>
 <p>由于$P_w(y|x)$ 的值与 $w_0$ 无关，且 $w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]=0$ 对$L(P_w,w)$ 的值没有贡献，</p>
 <p>因此此项在化简中可行省略。现在将 $P_w$ 带入$L(P_w,w)$ 并化简:<br>$$<br>\begin{aligned}<br>L(P_w,w) =&amp; \sum_{x\in X,y \in Y}\tilde{P}(x)P_w(y|x)logP_w(y|x) \<br>&amp; +\sum_{i=1}^nw_i[\sum_{x\in X,y\in Y}\tilde{P}(x,y)f_i(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(x|y)f_i(x,y)]\<br>=&amp; \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) + \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(y|x)[logP_w(y|x)-\sum_{i=1}^nw_if_i(x,y)]\<br>=&amp; \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(y|x)logZ_w(x)\\<br>\because &amp;\quad \sum_yP(y|x) = 1\<br>\therefore &amp;\quad I(w) = L(P_w,w)= \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) - \sum_{x\in X}\tilde{P}(x)logZ_w(x)<br>\end{aligned}<br>$$</p>
 <p>统计学习方法在 <strong>6.2.4 极大似然估计</strong>中证明了对偶函数 $I(w)$ 的极大化等价于最大熵模型的极大似然估计。</p>
@@ -432,7 +432,7 @@ var _hmt = _hmt || [];
 <p>回到最大熵模型的学习问题上。</p>
 <p>我们已经求出了最大熵模型 $P(y|x)$ 关于参数 $w$ 的表达式:<br>$$<br>P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over \sum_{y\in Y} exp(\sum_{i=1}^nw_if_i(x,y))}\<br>$$<br>我们希望通过极大化对偶函数$I(w)$ 或似然函数$L(P_w)$ 找到对应的参数 $w$ 。</p>
 <p>于是在 改进的迭代尺度法 中我们通过放缩找到了$I(w+\delta) - I(w)$ 的下界函数 $B(\delta|w)$ :<br>$$<br> B(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x)\sum_{y\in Y}P_w(y|x)\sum_i^n {f_i(x,y)\over f^{ # }(x,y)} exp(\delta_if^{ # }(x,y))\<br>$$<br>我们要做的就是求解$B(\delta|w)$ 的最大值。使用拟牛顿法进行迭代求解,</p>
-<p>其中$\delta_i^k=w_i^{k+1}-w_i^{k}$ 表示第k次迭代参数$w_i$ 的增量, $\delta^<em>_i$ 为最终解则有:<br>$$<br>g(\delta_i) = {\part B(\delta|w)\over \part \delta_i} \<br>g(\delta_i^</em>) = {\part B(\delta^<em>|w)\over \part \delta_i^</em>}=0\<br>\delta_i^{k+1} = \delta_i^{k} - {g(\delta_i^k) \over g’(\delta_i^k)}<br>$$<br>我们也可以不使用改进的迭代尺度算法(IIS) 而是直接针对对偶函数$I(w)$ 使用拟牛顿法求解参数 $w$。</p>
+<p>其中$\delta_i^k=w_i^{k+1}-w_i^{k}$ 表示第k次迭代参数$w_i$ 的增量, $\delta{*}_i$ 为最终解则有:<br>$$<br>g(\delta_i) = {\part B(\delta|w)\over \part \delta_i} \<br>g(\delta_i{*}) = {\part B(\delta{*}|w)\over \part \delta_i{*}}=0\<br>\delta_i^{k+1} = \delta_i^{k} - {g(\delta_i^k) \over g’(\delta_i^k)}<br>$$<br>我们也可以不使用改进的迭代尺度算法(IIS) 而是直接针对对偶函数$I(w)$ 使用拟牛顿法求解参数 $w$。</p>
 <p>求解最大熵模型$P_w(y|x)$ 要求我们最大化对偶函数 $I(w)$ , 书中设$f(w) = - I(w)$ 有最小值, </p>
 <p>则目标函数为 $\underset{w}{min} \ f(w)$, 对$f(w)$ 的一阶导数向量 $g(w)$, 其中$w$  为n维的向量, $w_i$ 表示第i个分量:<br>$$<br>\underset{w}{min} \ f(w) =  \sum_{x\in X}\tilde{P}(x)logZ_w(x) - \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y)\<br>g(w) = { {\part f(w)\over w_1}, \cdots,{\part f(w)\over w_n} }\<br>{\part f(w)\over w_i} = \sum_{x\in X y\in Y} \tilde{P}(x)P_w(y|x)f_i(x,y)-\sum_{x\in X y\in Y} \tilde{P}(x,y)f_i(x,y)\<br>$$<br>使用BFGS算法求解目标函数最优解过程如下:</p>
 <p><img src="/.io//timg.gif" data-original="BFGS_for_ME.png"></p>
