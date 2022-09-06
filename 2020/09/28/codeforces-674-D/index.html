@@ -133,12 +133,7 @@ var _hmt = _hmt || [];
 <p>那么如何插入能符合上述贪心过程能减少最多和为0的区间</p>
 <p>当遇到一个前缀和在容器中已经出现 则向当前位置插入一个非常大的数</p>
 <p>并清空容器 并将前缀置为当前数的值</p>
-<img src="/.io//timg.gif" data-original="example.png">
-
-
-
-
-
+<p><img src="/.io//timg.gif" data-original="example.png"></p>
 <p>为什么这样插入符合要求，观察上图 </p>
 <p>一种颜色表示一个和为0的区间的左右端点</p>
 <p>我们最先遇到红色区间的右端点处要插入大数，插入后整个数组被这个数隔开</p>
@@ -148,7 +143,6 @@ var _hmt = _hmt || [];
 <p>所以无论是否存在和为0的区间与当前区间有交集 </p>
 <p>它都能一次操作后减少最多个和为0的区间</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">3e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> ll Mod=<span class="number">998857459</span>;</span><br><span class="line"></span><br><span class="line">ll data[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;ll sum=<span class="number">0</span>,ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">cin</span>&gt;&gt;data[i];</span><br><span class="line">    <span class="built_in">set</span>&lt;ll&gt;pre;ll Psum=<span class="number">0</span>;pre.insert(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        Psum+=data[i];</span><br><span class="line">        <span class="keyword">if</span>(pre.count(Psum))&#123;</span><br><span class="line">            ans++;</span><br><span class="line">            pre.<span class="built_in">clear</span>();</span><br><span class="line">            pre.insert(<span class="number">0</span>);</span><br><span class="line">            Psum=data[i];</span><br><span class="line">        &#125;</span><br><span class="line">        pre.insert(Psum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">

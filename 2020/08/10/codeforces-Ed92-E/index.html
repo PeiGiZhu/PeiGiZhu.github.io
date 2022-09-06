@@ -15,8 +15,7 @@
 给出一种日历进制 一年有m个月 每个月有d天 一个星期有w天
 问该日历进制下有多少数对(x,y) x月y日和y月x日在一个星期的同一天
  
-
-如上,"> 
+如上图,"> 
     <meta name="author" content="PeiGiZhu"> 
     <link rel="alternative" href="atom.xml" title="Welcome" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -124,8 +123,7 @@ var _hmt = _hmt || [];
 <p>题意</p>
 <p>给出一种日历进制 一年有m个月 每个月有d天 一个星期有w天</p>
 <p>问该日历进制下有多少数对(x,y) x月y日和y月x日在一个星期的同一天</p>
- <img src="/.io//timg.gif" data-original="example.png">
-
+<p> <img src="/.io//timg.gif" data-original="example.png"></p>
 <p>如上图同一列的红圈表示数对(x,y) 符合题意描述</p>
 <p>题解:</p>
 <p>这个问题用数学语言描述则为</p>
@@ -145,8 +143,6 @@ var _hmt = _hmt || [];
 <p>令$up=min(d,m)$,$num=up/w’$,那么用等差数列求和得到答案为</p>
 <p>$ans=num ×up-num×(1+num)×w’/2$</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="keyword">const</span> ll Max=<span class="number">2e3</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="built_in">acos</span>(<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> t;<span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">while</span>(t--)&#123;</span><br><span class="line">        ll m,d,w;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;m&gt;&gt;d&gt;&gt;w;</span><br><span class="line">        <span class="comment">///(x-y)(d-1)mod w=0</span></span><br><span class="line">        w/=__gcd(d<span class="number">-1</span>,w);</span><br><span class="line">        ll up=<span class="built_in">min</span>(d,m);</span><br><span class="line">        ll num=up/w;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;(num*up-num*(<span class="number">1</span>+num)/<span class="number">2</span>*w)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">

@@ -146,8 +146,8 @@ var _hmt = _hmt || [];
 <li>x不是y的前缀 且存在某个位置i 使得x和y的前i-1个字符相同 $x_i$&lt;$y_i$ </li>
 </ul>
 <p>从s和t串中得到的x和y必须符合上述条件</p>
-<p>发现无论哪种情况 都需要求出LongestCommonSequence($s_1$<del>$s_i$, $t_1$</del> $t_j$) </p>
-<p>对于第一种情况|x|+|y|的最大值=max{LCS($s_1$<del>$s_i$, $t_1$</del> $t_j$)+$len_t-j$} </p>
+<p>发现无论哪种情况 都需要求出LongestCommonSequence($s_1$~$s_i$, $t_1$~ $t_j$) </p>
+<p>对于第一种情况|x|+|y|的最大值=max{LCS($s_1$~$s_i$, $t_1$~ $t_j$)+$len_t-j$} </p>
 <p>即x是y的前缀同时将$t_{j+1}$之后的字符全给归s</p>
 <p>对于第二种情况当$s_i&lt;t_j$时以这一位字符作为 x和y的位置 i (上文提到的位置 i )</p>
 <p>|x|+|y|的最大值=max{LCS($s_1​$~ $s_{i-1}​$,$t_1​$~$t_{j-1}​$)+$len_t-j+1​$+$len_s-i+1​$}</p>

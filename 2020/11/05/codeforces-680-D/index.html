@@ -135,10 +135,7 @@ var _hmt = _hmt || [];
 </ul>
 <p>首先题目要求从2n个数中找出n个数重新排序得到一个非降序的数组p和一个非升序的数组q</p>
 <p>于是干脆给原数组A排序再讨论</p>
-<img src="/.io//timg.gif" data-original="example.png">
-
-
-
+<p><img src="/.io//timg.gif" data-original="example.png"></p>
 <p>现在假定A数组已经升序排列</p>
 <p>现在从A数组中取出一个数作为$p_i$ </p>
 <p>那么由于p是非递减数列那么$p_{i+1}$~ $p_n$ 一定在$p_i$的右侧</p>
@@ -146,12 +143,10 @@ var _hmt = _hmt || [];
 <p>那么由于q是非递增数列那么$q_{i+1}$~ $p_n$ 一定在$p_i$的左侧</p>
 <p>有一种比较直观的感受是若$p_i$在A数组中的左侧那么$q_i$就在A数组的右测</p>
 <p>反之若$p_i$在A数组的右测那么$q_i$就在A数组的左侧</p>
-<img src="/.io//timg.gif" data-original="example2.png">
-
+<p><img src="/.io//timg.gif" data-original="example2.png"></p>
 <p>由于q是非严格递减 p是非严格递增 </p>
 <p>所以在A数组中pi的取值往右侧移动时 qi的取值则在往左侧移动</p>
-<img src="/.io//timg.gif" data-original="example3.png">
-
+<p><img src="/.io//timg.gif" data-original="example3.png"></p>
 <p>现在假如一个中间点mid=n 它左侧为L区域右侧为R区域,根据这种模糊的感觉</p>
 <p>得到假设pi和qi一定会在中点mid的两侧 </p>
 <p>若这个假设成立那么无论如何选择n个数组成$q$和$p$ </p>
@@ -165,6 +160,8 @@ var _hmt = _hmt || [];
 <p>取绝对值后得到 $|p_i-q_i|=R_x-L_y$ </p>
 <p>所以对于任意一对(p,q)总有 $f(p,q)=∑_{i=1}^n|p_i-q_i|= SumR-SumL$ 成立</p>
 </li>
+</ul>
+<ul>
 <li><p>为什么$p_i$和$q_i$ 一定在mid两侧</p>
 <p>假若$p_i$和$q_i$ 都在R区域 那么$p_{i+1}$~$p_n$ 都在R区域</p>
 <p>同时$q_1$~$q_i$ 都在R区域 那么R区域共有n+1个数 。这与事实不符</p>
@@ -175,10 +172,8 @@ var _hmt = _hmt || [];
 <p>于是只要求出可以选出多少对(p,q) 就能直接得到答案</p>
 <p>设T为共有多少对(p,q)则 T=C(2n,n) 即从2n个数中选出n个数放入p剩下的自然分组到q</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inv[<span class="number">1</span>]=<span class="number">1</span>; inv[<span class="number">0</span>]=<span class="number">0</span>; ///将<span class="number">0</span>的逆元定为<span class="number">1</span>是因为 求组合数时C(<span class="built_in">n</span>,<span class="number">0</span>)=C(<span class="built_in">n</span>,<span class="built_in">n</span>)=<span class="number">1</span></span><br><span class="line">inv[i]=(<span class="built_in">Mod</span>-<span class="built_in">Mod</span>/i)*inv[<span class="built_in">Mod</span>%i]%<span class="built_in">Mod</span>;</span><br></pre></td></tr></table></figure>
-
 <p>对于组合数求逆元可以先$On$ 递推预处理得到 。顺便提一下组合数公式</p>
 <h3 id="C-n-a-n-a-×-n-a"><a href="#C-n-a-n-a-×-n-a" class="headerlink" title="C(n,a)=n!/a!×(n-a)!"></a>C(n,a)=n!/a!×(n-a)!</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ull;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> endl <span class="meta-string">'\n'</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Turnoff std::ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P pair<span class="meta-string">&lt;ll,ll&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Max=<span class="number">3e5</span>+<span class="number">5</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> Mod=<span class="number">998244353</span>;</span><br><span class="line"><span class="keyword">const</span> ll inf=<span class="number">1e18</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">ll F[Max];</span><br><span class="line">ll arr[Max];</span><br><span class="line">ll inv[Max];</span><br><span class="line">ll C[Max];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Turnoff;</span><br><span class="line">    <span class="keyword">int</span> n;<span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    inv[<span class="number">1</span>]=<span class="number">1</span>;F[<span class="number">1</span>]=<span class="number">1</span>;inv[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(ll i=<span class="number">2</span>;i&lt;=<span class="number">2</span>*n;i++)&#123;</span><br><span class="line">        inv[i]=(Mod-Mod/i)*inv[Mod%i]%Mod;</span><br><span class="line">        F[i]=F[i<span class="number">-1</span>]*i%Mod;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)inv[i]=inv[i]*inv[i<span class="number">-1</span>]%Mod;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>*n;i++)<span class="built_in">cin</span>&gt;&gt;arr[i];</span><br><span class="line">    sort(arr,arr+<span class="number">2</span>*n);ll L=<span class="number">0</span>,R=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)L=(L+arr[i])%Mod;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=n;i&lt;<span class="number">2</span>*n;i++)R=(R+arr[i])%Mod;</span><br><span class="line">    ll T=F[<span class="number">2</span>*n]*inv[n]%Mod*inv[n]%Mod;<span class="comment">///C(2n,n)</span></span><br><span class="line">    ll ans=(Mod+R-L)%Mod*T%Mod;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">

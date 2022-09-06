@@ -125,11 +125,11 @@ var _hmt = _hmt || [];
 <p>使得merge(a,b)=p</p>
 <p>定义merge运算：</p>
 <p>merge(空集,a)=a</p>
-<p>merge(a[1<del>n] , b[1</del>n])= a[1]&lt;b[1]?a[1]+merge(a[2<del>n], b[1</del>n]) : b[1]+ merge(a[1<del>n], b[2</del>n]);</p>
+<p>merge(a[1~n] , b[1~n])= a[1]&lt;b[1]?a[1]+merge(a[2~n], b[1~n]) : b[1]+ merge(a[1~n], b[2~n]);</p>
 <p>就是比较a和b数组第一个数谁大 就把谁放到新数组(最初为空)的下一个位置</p>
 <p>题解</p>
-<p>观察样例发现merge运算实际上是当 max(a[l<del>r]) &lt;b[i] or max(b[l</del>r]) &lt; a[i]时，</p>
-<p>将a[l<del>r]/ b[l</del>r] 放在一个b[i]/a[i]前</p>
+<p>观察样例发现merge运算实际上是当 max(a[l~r]) &lt;b[i] or max(b[l~r]) &lt; a[i]时，</p>
+<p>将a[l~r]/ b[l~r] 放在一个b[i]/a[i]前</p>
 <p>根据这个性质将2n的排列p打碎成尽量多的子串 假设最后子串有m个 </p>
 <p><strong>例如3 , 1 , 4 ,5 , 2 , 63. 这个例子被分为(3 , 1) , (4) , (5 , 2) ,(6)</strong></p>
 <p>每一个子串属于a/b中的1个 现在可以将问题转化成01背包模型</p>
