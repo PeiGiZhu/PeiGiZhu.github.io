@@ -5513,8 +5513,8 @@
     <url>/2020/07/23/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<blockquote>
 <p>参考资料</p>
-<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&amp;seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络基本概念</a></p>
-<p><a href="https://www.bilibili.com/video/BV1FT4y1E74V?from=search&amp;seid=12963457179286848962" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Fx41177ws?from=search&seid=12098496866036507280" target="_blank" rel="noopener">卷积神经网络基本概念</a></p>
+<p><a href="https://www.bilibili.com/video/BV1FT4y1E74V?from=search&seid=12963457179286848962" target="_blank" rel="noopener">吴恩达深度学习课程</a></p>
 <p><a href="https://blog.csdn.net/dadapongi6/article/details/105668394" target="_blank" rel="noopener">吴恩达深度学习相关资料</a></p>
 </blockquote>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -5593,15 +5593,23 @@
 </li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>首先 ，卷积神经网络CNN能做什么呢？</p>
 <p>一个简单的例子 它能将一个二维像素点组成的图形进行识别 判断是”x” or “ o”</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example1.png">
+
+
+
 <p>当然被判断的二维像素点图像不是非常规整的 可能是经过旋转，平移，或需要从更复杂的情况下辨别出 到底是 “x” 还是 “o”。</p>
 <p>除了CNN卷积神经网络还有其他的深度学习神经网络</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example0.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example0.png">
+
+
+
 <p>那么CNN是如何将一副原始像素点图转化成可处理对象 并判断它的？</p>
 <p>下面的流程图展示了CNN大致的训练流程</p>
-<p><img src="/.io//timg.gif" data-original="CNN_flowchart.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_flowchart.png">
+
 <p>根据这张流程图 下面将详细展开每一块的具体操作</p>
 <h1 id="反向传播过程"><a href="#反向传播过程" class="headerlink" title="反向传播过程"></a>反向传播过程</h1><blockquote>
 <p>反向传播实际上就是通过梯度下降来反馈调节向前传播的参数达到学习目的</p>
@@ -5612,7 +5620,8 @@
 </blockquote>
 <h2 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h2><p>线性回归是根据给定关系推测出一个连续函数,如给出一组房价-面积关系推测出一个连续函数拟合数据,</p>
 <p>而逻辑回归通常用于拟合离散函数并根据输入预测相应的离散函数值或者说分类问题, 例如判断邮件是否为垃圾邮件。</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example12.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example12.png">
+
 <p>$w$是一个$nx$维向量（因为$w$实际上是特征权重，维度与特征向量相同）</p>
 <p>比如 上一层特征向量大小为(nx,m)那么$w^T$的大小(r,nx)</p>
 <p>$b$是一个实数（表示偏差）</p>
@@ -5623,28 +5632,31 @@
 <p>而对于(lable)$y=0$的样本$P(y=1|x)$应该取向于0</p>
 <p>所以需要一个sigmoid函数做映射转换</p>
 <h2 id="逻辑回归的代价函数"><a href="#逻辑回归的代价函数" class="headerlink" title="逻辑回归的代价函数"></a>逻辑回归的代价函数</h2><p>为了训练逻辑回归模型的参数参数$w$和参数$b$我们，需要一个代价函数，通过训练代价 函数来得到参数$w$和参数。$b$为了让模型通过学习调整参数，你需要给予一个$m$样本的训练集，这会让你在训练集上 找到参数$w$和参数$b$，来得到你的输出 。</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example13.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example13.png">
+
 <p>我们在二分类中用到的损失函数是：$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$</p>
 <p>(没注明log的底数默认为以e为底) 这个公式实际上叫做交叉熵函数。</p>
 <p>当目标值(正确值)𝑦 = 1时损失函数$𝐿 = −log(𝑦hat)$，如果想要损失函数𝐿尽可能得小，</p>
 <p>那么𝑦hat就要尽可能大,因为 sigmoid 函数取值[0,1]，所以𝑦hat会无限接近于 1。 </p>
 <p>当目标值(正确值)𝑦 = 0时损失函数$𝐿 = −log(1 − 𝑦hat)$，如果想要损失函数𝐿尽可能得小，</p>
 <p>那么𝑦hat就要尽可能小，因为 sigmoid 函数取值[0,1]，所以$𝑦hat$会无限接近于 0。 </p>
-<p>一般我们用预 测值和实际值的平方差或者它们平方差的一半，但是通常在逻辑回归中我们不这么</p>
-<p>做，因为 当我们在学习逻辑回归参数的时候，会发现我们的优化目标不是凸优化，只能找到多个局</p>
+<p>一般我们用预测值和实际值的平方差或者它们平方差的一半，但是通常在逻辑回归中我们不这么</p>
+<p>做，因为当我们在学习逻辑回归参数的时候，会发现我们的优化目标不是凸优化，只能找到多个局</p>
 <p>部 最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我 们在</p>
 <p>逻辑回归模型中会定义另外一个损失函数。 </p>
 <h2 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h2><p>梯度下降法可以做什么？ </p>
 <p>在测试集上，通过最小化代价函数（成本函数）𝐽(𝑤, 𝑏)来更新参数𝑤和𝑏， </p>
 <p>𝐽(𝑤, 𝑏)是一对每组训练数据的损失函数<em>Loss function</em> 的均值</p>
 <p>在逻辑回归问题中<em>Loss function使</em>用$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat)$ </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example14.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example14.png">
+
 <p>在实践中，𝑤可以是更高的维度，但是为了更好地绘图，我们定义𝑤和𝑏，都是单一实数。</p>
 <p>代价函数（成本函数）𝐽(𝑤, 𝑏)是在水平轴𝑤和 𝑏上的曲面，因此曲面的高度就是𝐽(𝑤, 𝑏)在某一点的函数值。</p>
 <p>我们所做的就是找到使得代价函数（成本函数）𝐽(𝑤, 𝑏)函数值最小值的参数𝑤和𝑏。 </p>
 <p>通过梯度下降逐步找到最低点对应的参数𝑤和𝑏。理想情况下, 无论在哪里初始化, 成本函数将收敛至同一个最低点。</p>
 <p>但通常𝐽(𝑤, 𝑏)函数构成的梯度图像存在多个局部最低点，这导致不同的初始化参数设置会使参数𝑤和𝑏最终收敛的位置存在差异。</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example15.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example15.png">
+
 <p>简化模型固定d的值讨论𝐽(𝑤) 和𝑤, 梯度下降实际上就是不断迭代𝑤使得它接近最低点。</p>
 <p>其中α表示学习率 具体的体现在每次迭代更新的”步长” 之后会介绍如何给定一个合适的学习率。</p>
 <p>虽然学习率α通常固定, 但是由于𝐽(𝑤)逐渐靠近最低点, 其偏导数(斜率)也逐渐趋近于0, 使得代价函数逐渐收敛至最低点。</p>
@@ -5661,7 +5673,8 @@
 <p>假设现在只考虑单个样本的情况，单个样本的代价函数定义如下：</p>
 <p>$𝐿(𝑦hat, 𝑦) = −𝑦log(𝑦hat) − (1 − 𝑦)log(1 − 𝑦hat) $ </p>
 <p>$yhat=a$ 是逻辑回归的输出(预测值)$y$ 是标签值(正确值)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example16.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example16.png">
+
 <p>这个计算图中假设一组训练数据$x$中是有两个值{x1,x2}的矩阵 同时$w$也是一个有两个元素{w1,w2}的矩阵</p>
 <p>现在模拟求解一组样本的梯度下降如何计算 ，已知输入(或初始化)x1,w1,x2,w2,b </p>
 <p>目标是求$w1,w2,b$的梯度下降, 即更新$w1=w1-a×dL/dw1$,$w2=w2-a×dL/dw2$,$b=b-a×dL/db$</p>
@@ -5693,39 +5706,53 @@
 <p>那么一个样本时求$dL(a,y)/dw1$ 在m个样本时就相当于求$dJ(w,b)/dw1$ </p>
 <p>对于$w$中的一个元素$w1$ ,全局代价函数对$𝑤1$的微分,也同样是各项损失对$𝑤1$微分的平均。</p>
 <p>所以在m个样本中求$dwi$ 以及$db$ 就是求各项样本中的损失对它们微分的平均</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example17.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example17.png">
+
 <p>伪代码实现</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example18.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example18.png">
+
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">J=<span class="number">0</span>;dw1=<span class="number">0</span>;dw2=<span class="number">0</span>;db=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span> to m <span class="comment">#枚举样本</span></span><br><span class="line"> 	z[i] = wx[i]+b;</span><br><span class="line"> 	a[i] = sigmoid(z[i]);</span><br><span class="line">	J += -(y[i]log(a[i])+(<span class="number">1</span>-y[i]*log(<span class="number">1</span>-a[i]));</span><br><span class="line">	dz[i] = a[i]-y[i];</span><br><span class="line"> 	<span class="keyword">for</span> indx = <span class="number">1</span> to nx <span class="comment">#枚举这个样本中每个特征值</span></span><br><span class="line"> 		dw[indx] += x[indx][i]*dz[i]; <span class="comment">#x[indx][i]表示第i个样本的第indx元素或特征值</span></span><br><span class="line">	db += dz(i);</span><br><span class="line">J/= m;db/= m;</span><br><span class="line"><span class="keyword">for</span> indx = <span class="number">1</span> to nx</span><br><span class="line">    dw[indx]/= m;</span><br></pre></td></tr></table></figure>
+
 <p>然后更新$w1$,$w2$,….$wn$ (矩阵w) 和$b$ </p>
 <p>$wi=wi-a×dwi$</p>
 <p>$b=b-a×db$ </p>
 <h2 id="向量化"><a href="#向量化" class="headerlink" title="向量化"></a>向量化</h2><p>在向前传播过程中计算$Z[layer]=W[layer]^TX[layer]+b[layer]$</p>
 <p>$X$是由多个大小为(1,nx)的单样本$x$ 组成 下图直观的表示了向量化(矩阵计算)</p>
 <p>$W$的维度(r,nx) r可以变化在输出层中r=1(二分类问题)那么$W[layer]^TX[Layer]+b[layer]$ 就等于一个实数</p>
-<p><img src="/.io//timg.gif" data-original="vectorized_eaxmple.png"></p>
+<img src="/.io//timg.gif" data-original="vectorized_eaxmple.png">
+
+
+
+
+
 <p>如何优化for循环使得逻辑回归中的矩阵运算加速</p>
 <p>在python的numpy库 可以直接进行向量运算</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">z=<span class="number">0</span></span><br><span class="line">///<span class="keyword">for</span>循环模拟矩阵运算</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n_x)</span><br><span class="line">   z+=w[i]*x[i] ///假设为(<span class="number">1</span>,nx)的w矩阵和(nx,<span class="number">1</span>)的x矩阵相乘</span><br><span class="line">z+=b</span><br><span class="line"></span><br><span class="line">///多线程并行模拟矩阵运算</span><br><span class="line">z=np.dot(w,x)+b</span><br></pre></td></tr></table></figure>
+
 <p>这个方法加速矩阵运算的原理是让CPU/GPU运行SIMD指令 让它们能够并行运算</p>
 <p>或者说同时计算矩阵中对应元素相乘 并得到结果，而非逐个遍历相乘再相加</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example19.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example19.png">
+
 <p>上面展示了用numpy.dot()计算逻辑回归</p>
 <p>$w$是一个(r,nx),(这里假设r=1)的列向量 $X$是由多个$x^i$ 组成的训练集大小为 (nx,m) </p>
 <p>在使用numpy库中的函数Z=numpy.dot(w.T,X) + b , $Z$也是一个(1,m)大小的矩阵</p>
 <p>原本b是一个实数当他与向量相加时它被自动转化成对应大小的矩阵</p>
 <p>使用向量化计算逻辑回归&amp;梯度下降</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example20.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example20.png">
+
 <p>已知矩阵$𝑎 = 𝜎(𝑧)$和真实值构成的矩阵$y$ ,通过求导化简得到的公式$dz=a-y$ 求得(1,m)大小的$dz$矩阵</p>
 <p>而之前用for循环累加模拟矩阵运算$dw$ 实际上是 (nx,m)的矩阵$X$ 乘 (m,1) 的矩阵$dz^T$ (T表示转置)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example21.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example21.png">
+
 <p>for循环实现和.dot函数实现对比 </p>
 <p>省略掉代价函数$J$的计算 因为原来计算代价函数是为了求导$dw$等其他需要的参数,</p>
 <p>后来通过求导化简发现可以忽略掉代价函数(与它无关)的计算直接求得$dw$ 等其他需要的参数所以就省略了</p>
-<h2 id="损失函数的解释"><a href="#损失函数的解释" class="headerlink" title="损失函数的解释"></a>损失函数的解释</h2><p><img src="/.io//timg.gif" data-original="CNN_example22.png"></p>
+<h2 id="损失函数的解释"><a href="#损失函数的解释" class="headerlink" title="损失函数的解释"></a>损失函数的解释</h2><img src="/.io//timg.gif" data-original="CNN_example22.png">
+
 <p>回顾$yhat=P(y=1|x)$ 所以$P(y|x)$ (这个概率表示给定样本x时正确预测出为y的概率)可以如上表示</p>
 <p>如果要省去if表达式则可以用指数函数表示 $P(𝑦|𝑥) = 𝑦hat^𝑦 × (1 − 𝑦hat)^{(1−𝑦)} $</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example23.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example23.png">
+
 <p>我们想衡量这个$P(𝑦|𝑥)$ 概率的大小 对它取log</p>
 <p>则有$logP(𝑦|𝑥)=ylog(yhat)+(1-y)log(1-yhat)$  </p>
 <p>发现这就是损失函数$Loss function$ 取负数</p>
@@ -5733,14 +5760,18 @@
 <p>需要修正的量越大，对$w,b$的调整越大相差越小 需要调整的越小 对$w,b$的调整越小 ，</p>
 <p>所以$-logP(y|x)$来表示损失函数 。</p>
 <p>对于m个样本的情况时，所有样本预测值都与正确值相同的概率是</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example24.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example24.png">
+
 <p>同样的取log后变为</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example25.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example25.png">
+
 <p>对这个求和取平均得到的就是代价函数$J$ 。</p>
-<p>在pytorch中的交叉熵损失函数nn.CrossEntropyLoss(类) 或 F.cross_entropy(函数) </p>
+<p>在pytorch中的交叉熵损失函数nn.CrossEntropyLoss(类) 或 F.cross_entropy(函数) </p>
 <p>实际上是log_softmax + nll_loss(negtive log likelihood)</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#理解多分类中的nll.loss函数 (nll = negative log likelihood)</span></span><br><span class="line"><span class="comment">#nll_loss实际没有求log，它默认输入已经使用过log_softmax</span></span><br><span class="line">predic = torch.randn(<span class="number">6</span>,<span class="number">3</span>) <span class="comment">#假设最后输出6个样本，每个样本对应三种分类的概率</span></span><br><span class="line">label = tensor([<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]) <span class="comment">#假设这6个样本对应的正确的标签为label</span></span><br><span class="line">nll_loss = F.nll_loss(predic,label,reduction=<span class="string">'none'</span>) <span class="comment">#reduction = mean 求平均，sum 求和</span></span><br><span class="line">same_as_nll_loss = -predic[range(<span class="number">6</span>),label]<span class="comment">#注意取负数</span></span><br><span class="line">print(nll_loss)</span><br><span class="line">print(same_as_nll_loss)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># F.log_softmax?</span></span><br><span class="line"><span class="comment">#dim=1对每一行进行softmax，一行表示一个样本对应三个分类的可能性</span></span><br><span class="line">predic_after_log_softmax = F.log_softmax(predic,dim=<span class="number">1</span>) </span><br><span class="line">nll_loss2 = F.nll_loss(predic_after_log_softmax,label,reduction=<span class="string">'none'</span>)</span><br><span class="line">predic_after_log_softmax2 = torch.log(torch.softmax(predic,<span class="number">1</span>))</span><br><span class="line">nll_loss3 = F.nll_loss(predic_after_log_softmax2,label,reduction=<span class="string">'none'</span>)</span><br><span class="line"><span class="comment"># print(predic)</span></span><br><span class="line"><span class="comment"># print(torch.softmax(predic,1))</span></span><br><span class="line">print(nll_loss2)</span><br><span class="line">print(nll_loss3) <span class="comment">#F.log_softmax = torch.log(torch.softmax)</span></span><br><span class="line"><span class="comment"># log_softmax + nll_loss = nn.CrossEntropyLoss(类) = F.cross_entropy(函数)</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">import torch.nn as nn</span></span><br><span class="line"><span class="string">import torch.nn.functional as F</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">loss_func = nn.CrossEntropyLoss(reduction=<span class="string">'none'</span>)</span><br><span class="line">print(loss_func(predic, label))</span><br><span class="line">print(F.cross_entropy(predic, label, reduction=<span class="string">'none'</span>))</span><br><span class="line"></span><br><span class="line"><span class="string">''' #输出</span></span><br><span class="line"><span class="string">tensor([-0.5667, -0.8479, -0.4085,  0.3947, -0.1787,  1.1803])</span></span><br><span class="line"><span class="string">tensor([-0.5667, -0.8479, -0.4085,  0.3947, -0.1787,  1.1803])</span></span><br><span class="line"><span class="string">tensor([0.4737, 1.4688, 1.0265, 2.4169, 0.9445, 3.0860])</span></span><br><span class="line"><span class="string">tensor([0.4737, 1.4688, 1.0265, 2.4169, 0.9445, 3.0860])</span></span><br><span class="line"><span class="string">tensor([0.4737, 1.4688, 1.0265, 2.4169, 0.9445, 3.0860])</span></span><br><span class="line"><span class="string">tensor([0.4737, 1.4688, 1.0265, 2.4169, 0.9445, 3.0860])</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
-<p><img src="/.io//timg.gif" data-original="CrossEntropyLoss.png"></p>
+
+<img src="/.io//timg.gif" data-original="CrossEntropyLoss.png">
+
 <p>多分类中使用softmax激活函数作为最后的输出值(之后会详细介绍):</p>
 <p>具体的如$softmax(a)=e^a/(e^a+e^b+e^c)$</p>
 <p>pytorch中的nll_loss(负对数似然值)并没有取对数的操作,设计者默认已经使用了log_softmax。</p>
@@ -5752,21 +5783,27 @@
 <h2 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h2><p><em>在下文中对未确定激活函数的神经元使用$g()$ 代替表示</em></p>
 <p>sigmoid函数   $𝜎(z)= 1/(1+𝑒^{-z}) $</p>
 <p>它的导数 $𝜎‘(z)=𝜎×(1-𝜎) $</p>
-<p><img src="/.io//timg.gif" data-original="sigmoid.png"></p>
+<img src="/.io//timg.gif" data-original="sigmoid.png">
+
 <p>tanh函数 $tanh(z)=(𝑒^𝑧 − 𝑒^{−𝑧})/ (𝑒^𝑧+ 𝑒^{-z})$</p>
 <p>它的导数 $tanh‘(z)=1-tanh^2(z) $</p>
-<p><img src="/.io//timg.gif" data-original="tanh.png"></p>
+<img src="/.io//timg.gif" data-original="tanh.png">
+
 <p>实验表明多数情况下果在隐藏层上使用tanh激活函数  效果总是优于 sigmoid 函数 其均值是更接近0的 </p>
 <p>但有一个例外：在二分类的问题中，对于输出层，因为𝑦的值是 0 或 1，所以想让𝑦hat的数 值介于 0 和 1 之间，</p>
 <p>而不是在-1 和+1 之间。所以需要在输出层使用 sigmoid 激活函数，然后其它的所有单 元都选择 Relu 函数。</p>
 <p>Relu函数 $Relu(z)=max(0,z)$</p>
 <p>它的导数在z&lt;=0是接近0,大于0时为1</p>
-<p><img src="/.io//timg.gif" data-original="Relu.png"></p>
+<img src="/.io//timg.gif" data-original="Relu.png">
+
 <p>如果在隐藏层上不确定使用哪个激活函数，那么通常会 使用 Relu 激活函数。</p>
 <p>有时，也会使用 tanh 激活函数，但 Relu 的一个优点是：当𝑧是负值的 时候，导数等于 0。  </p>
 <p>但从实际上来说，当使用𝑧的导数时，𝑧=0 的导数是没有定义的 </p>
 <p>因此引入了Leaky Relu 函数(它整体不是线性的，因为不是一条直线 )</p>
-<p><img src="/.io//timg.gif" data-original="LeakyRelu.png"></p>
+<img src="/.io//timg.gif" data-original="LeakyRelu.png">
+
+
+
 <p>为什么要引入非线性激活函数 (如sigmoid tanh)</p>
 <blockquote>
 <p>因为非线性激活函数实际上是在模仿人的神经元 只有刺激到达一定的剧烈程度才会产生电信号,</p>
@@ -5775,25 +5812,30 @@
 </blockquote>
 <p>假设激活函数为$g(z)=z$  ,那么会导致无论网络有多深，</p>
 <p>最终输入与输出值之间的映射相当于一个单纯的线性映射。</p>
-<p><img src="/.io//timg.gif" data-original="UseLinearActiveFunction.png"></p>
+<img src="/.io//timg.gif" data-original="UseLinearActiveFunction.png">
+
 <h2 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a>Softmax回归</h2><p>softmax回归对应logistic 回归 用于分类问题 而不仅限于二分分类 成为C类问题</p>
-<p><img src="/.io//timg.gif" data-original="CNN_softmax.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_softmax.png">
+
 <p>比如从多个事物中辨别指定事物就需要用到softmax回归</p>
 <p>而softmax回归具体实现就是运用激活函数</p>
 <p>$softmax(x)=e^x/ ∑e^x$ 其中x是一个向量(1,nx) 这也是它与其他激活函数不同的地方</p>
 <p>对于这个公式的理解就是对向量中所有元素进行归一化变为一个和=1的概率值</p>
 <p>其中向量中每个元素代表判断为某具体事物的概率P(cat|x) 等等</p>
-<p><img src="/.io//timg.gif" data-original="CNN_softmax2.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_softmax2.png">
+
 <p>softmax和hardmax对应，hardmax就是实际值对于一个确定答案的分类问题</p>
 <p>它的label=[0,0,0,0,1] 而softmax所得到的预测label=[0.01,0.01,0.01,0.01,0.95] </p>
 <p>是所有概率中取得最大的值作为判断结果</p>
 <p>对于softmax输出矩阵(1,n)中第i个元素对输入矩阵中第j个元素的求导 (<a href="https://blog.csdn.net/weixin_44538273/article/details/86671655" target="_blank" rel="noopener">推导过程</a>)</p>
 <p>设输入矩阵为$z$,那么有$D_jS_i=∂ softmax(z_i)/∂ z_j$其中 $S_i=softmax(z_i)$</p>
-<p> <img src="/.io//timg.gif" data-original="CNN_softmax1.png"></p>
+ <img src="/.io//timg.gif" data-original="CNN_softmax1.png">
+
 <p>设输入矩阵z ,$softmax(z)=yhat$, $Loss(yhat,y)=-ylogyhat$</p>
 <p>(连接博客中的Loss函数求和表示单个样本向量中所有元素求值相加此处直接表示对矩阵每个元素运算)</p>
 <p>现在要求$dL/dz=dL/dyhat × dyhat/dz$ </p>
-<p><img src="/.io//timg.gif" data-original="CNN_softmax4.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_softmax4.png">
+
 <p>其中$pi=yhati$ ,$xi=z[i]$</p>
 <p>在代码中变量命名为”dz”=$dL/dz=yhat-y$</p>
 <p>注意此处得到这样的dz ,前提是使用,$softmax(z)$, $Loss(yhat,y)=-ylogyhat$</p>
@@ -5801,13 +5843,17 @@
 <p>因为当C类问题所要判断的对象只有一个那么它就退化成二分分类问题</p>
 <p>对于softmax输出矩阵(1,n)中第i个元素对输入矩阵中第j个元素的求导 就只有i=j的情况了 </p>
 <p>与sigmoid函数求导相同</p>
-<p><img src="/.io//timg.gif" data-original="CNN_softmax3.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_softmax3.png">
+
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">这里总结一下上面提及的激活函数及其导数</span></span><br><span class="line"><span class="string">的python代码实现</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Relu</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.where(x&gt;<span class="number">0</span>,x,<span class="number">0.0001</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tanh</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.tanh(x)</span><br><span class="line"><span class="comment">#激活函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">softmax</span><span class="params">(x)</span>:</span></span><br><span class="line">    exp=np.exp(x-x.max())</span><br><span class="line">    <span class="keyword">return</span> exp/exp.sum()</span><br><span class="line"></span><br><span class="line"><span class="comment">#激活函数的导数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_Relu</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.where(x&gt;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0.0001</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_softmax</span><span class="params">(data)</span>:</span></span><br><span class="line">    temp=softmax(data)</span><br><span class="line">    <span class="keyword">return</span> np.diag(temp)-np.outer(temp,temp)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">d_tanh</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="comment">#return np.diag(1/(np.cosh(data))**2)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/(np.cosh(data)**<span class="number">2</span>)</span><br><span class="line">    <span class="comment">#加速运算优化不用对角矩阵</span></span><br><span class="line">    <span class="comment">#对应的若不用对角矩阵反向传播过程中的内积改为矩阵内元素逐个相乘</span></span><br></pre></td></tr></table></figure>
-<h2 id="反向传播的理解"><a href="#反向传播的理解" class="headerlink" title="反向传播的理解"></a>反向传播的理解</h2><p><img src="/.io//timg.gif" data-original="CNN_example30.png"></p>
+
+<h2 id="反向传播的理解"><a href="#反向传播的理解" class="headerlink" title="反向传播的理解"></a>反向传播的理解</h2><img src="/.io//timg.gif" data-original="CNN_example30.png">
+
 <p>反向传播实际上是不断按照链式法则求导的过程</p>
 <p>下图中某些×1/m是在m个样例的情况下取平均</p>
 <p>np.sum()函数中的axis=1表示水平求和 keepdims=true保证输出的矩阵仍然是(n[2],1)的矩阵</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example29.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example29.png">
+
 <p>这里只讨论一个样本的情况所以用小写z,a表示一个样本得到的值括号中表示层级[layer]</p>
 <p>一个样本的代价函数$J$就是损失函数$L$ </p>
 <p>注释：以下$g[layer]’(x)$表示第layer层的激活函数对x求导 </p>
@@ -5828,6 +5874,7 @@
 <p>对于(1,n) outer (1,m) 就相当于  (n,1) dot (1,m)  </p>
 <p>outer对于高维矩阵(n,m) 会flatten至(1,n*m)</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a=array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">6</span>]])  <span class="comment">###此时a是一个array对象</span></span><br><span class="line">print(a)</span><br><span class="line"><span class="comment">#array([[1,2],[3,4],[5,6]])</span></span><br><span class="line">print((a.flatten())</span><br><span class="line"><span class="comment">#array([1,2,3,4,5,6])</span></span><br></pre></td></tr></table></figure>
+
 <p>两者含义和计算结果相同 使用outer感觉徒增理解难度</p>
 </li>
 </ul>
@@ -5837,24 +5884,30 @@
 <p>注意：这里的矩阵：𝑊[2]的维度是：(𝑛[2], 𝑛[1])。𝑧[2] ， 𝑑𝑧[2]的维度都是：(𝑛[2], 1)，</p>
 <p>若从上一层输入m个样本时dZ[2]则为(n[2],m)如果是二分类，那维度就是(1,1)。对于任何变量dz和z的维度一样</p>
 <p>总结一下 左边是逐个样本计算右边是将m个样本向量化</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example31.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example31.png">
+
 <p>反向传播需要计算</p>
 <p>$dZ[l]=dA[l]×g[l]’(Z[l])$ 此处×号表示矩阵逐个元素相乘</p>
 <p>$dW[l]=1/m× dZ[l]A[l-1]^T$  </p>
 <p>$db[l]=1/m × np.sum(dZ[l],axis=1,keepdims=True)$ </p>
 <p>$dA[l-1]=W[l]^TdZ[l]$ </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example32.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example32.png">
+
 <p>对于向前传播时需要对x初始化，同样反向传播需要对$da[l]$初始化 $da[l]=-y/a+(1-y)/(1-a)$</p>
 <p>在二分分类传播中最后a[l]为一个实数A[l]的大小为(1,m)</p>
 <p>扩展到更深层的神经网络</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example33.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example33.png">
+
 <p>对于向前传播</p>
 <p>输入 A[l-1] 计算Z[l], A[l] 输出A[l] 缓存Z[l];</p>
 <p>对于反向传播</p>
 <p>输入dA[l],Z[l] 计算 dW[l],db[l],dA[l-1] 输出dA[l-1]</p>
 <p>缓存Z[l]是因为向前传播计算A[l]=g(Z[l])</p>
 <p>以及反向传播时计算$dZ[l]=dA[l]×g[l]’(Z[l])$ 时会用到 (此处的×表示逐个元素相乘)</p>
-<p> <img src="/.io//timg.gif" data-original="CNN_example34.png"></p>
+ <img src="/.io//timg.gif" data-original="CNN_example34.png">
+
+
+
 <ul>
 <li><h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2></li>
 </ul>
@@ -5862,10 +5915,12 @@
 <p>$w^{[l]}:(n^{[l]},n^{[l-1]})$ </p>
 <p>当训练集中只有一个样本时</p>
 <p>$z^{[l]},a^{[l]},b^{[l]}:(n^{[l]},1)$</p>
-<p><img src="/.io//timg.gif" data-original="CNN_CheckDimensionality.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_CheckDimensionality.png">
+
 <p>当训练集中有m个样本时</p>
 <p>$Z^{[l]},A^{[l]},b{[l]}:(n^{[l]},m)$</p>
-<p><img src="/.io//timg.gif" data-original="CNN_CheckDimensionality1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_CheckDimensionality1.png">
+
 <h1 id="向前传播过程"><a href="#向前传播过程" class="headerlink" title="向前传播过程"></a>向前传播过程</h1><blockquote>
 <p>卷积和池化主要是在模拟生物脑 提取事物特征 抽象化具体特征的过程 (压缩图片)</p>
 <p>当取得图片的具体特征后经过全连接层×权重并求和判断结果</p>
@@ -5883,7 +5938,8 @@
 </blockquote>
 <h2 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h2><p>卷积有两组输入：特征图和卷积核，卷积需要依据滑动 步长(stride)、填充长度(padding)、卷积核窗口大(filtersize)、分组数(groups)、扩张系数(dilation rate) 来决定如何计算。 </p>
 <p>卷积核(filter) 也叫过滤器  一般的选择的卷积核的大小为n×n 且n为奇数</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example3.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example3.png">
+
 <p>每次卷积和都会和特征图中的一块与他大小相同的区域进行<strong>运算：</strong></p>
 <p>比如特征图 为RGB三通道 6×6的 三维矩阵</p>
 <p>每层对应的Xi×Yi 最后求和(三层中所有点求和) 得到Fi</p>
@@ -5894,7 +5950,8 @@
 <p><strong>Same pading</strong>  输出结果的大小与处理前一致 </p>
 <p><strong>valid pading</strong>  输出的结果的大小比处理前小</p>
 <p>所以整个卷积过程可以表示为</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example2.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example2.png">
+
 <p>最后得到一次卷积后的结果为 </p>
 <p>Nc(卷积核的个数而非特征图或卷积核的通道数) ×n[i]×n[i] 的矩阵 </p>
 <p>其中$n[i]= floor( (n[i-1]+2×padding - filtersize)/stride+1) $</p>
@@ -5908,7 +5965,8 @@
 <h2 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h2><p>降低数据的维度,缩减模型大小,可以避免过拟合,提高所提取特征的健壮性</p>
 <p>避免过度拟合的意思是 比如说训练一个识别面部的神经网络</p>
 <p>你希望能辨别出所有人的脸 而不仅仅是你的脸</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example4.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example4.png">
+
 <p>池化操作也有对应的超级参数(固定值不受反馈学习影响) 大小(size)以及步长(stride),通常没有pading</p>
 <p>具体的以上图为例 pooling 就是提取对应色块的Max value (还有一种取平均值的池化操作)</p>
 <p>池化操作后新的特征图size：$n[i]= floor( (n[i-1] - filtersize)/stride+1)$ </p>
@@ -5919,7 +5977,8 @@
 </blockquote>
 <p>这是一个神经元 从上一层神经元输入了三个量x1,x2,x3 通过一个线性函数+激活函数函数$𝜎(w^Tx+b)$</p>
 <p>(此处激活函数为sigmoid函数)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example26.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example26.png">
+
 <p>由多个神经元组成多层神经网络</p>
 <p>上一层输入特征矩阵$A[0]=X=[x1,x2,x3]$ 进入到下一层的四个神经元中通过上图的线性函数+激活函数</p>
 <p>每个神经元计算得到$a$组成矩阵$A[1]$输入到下一层</p>
@@ -5928,7 +5987,8 @@
 <p>特别的需要注意矩阵的维度是否正确 (4个神经元输出的a矩阵组成一个A矩阵大小为(4,4)的矩阵)</p>
 <p>$W[layer]$大小为(r,nx) 它的r直接决定了下一层矩阵A的行数(神经元个数) 而nx表示这一层的A行数(样本数量)</p>
 <p>下图中$x$为一个样本其中包含{x1,x2,x3}三个值的列向量</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example27.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example27.png">
+
 <p>下图展示了每个神经元输出的矩阵a如何整合成A 以及向前传播的伪代码</p>
 <p>从水平上看，矩阵𝐴代表了各个训练样本。从竖直上看，矩阵𝐴的不同的索引对应于不 同的隐藏单元(神经元)。</p>
 <p>在垂直方向，这个垂直索引对应于神经网络中的不同节点。例如，这个节点，该值位于 矩阵的最左上角对应于激</p>
@@ -5936,13 +5996,16 @@
 <p>元的激活值。以及第一个训练示例 中第三个隐藏单元，等等。  </p>
 <p>当水平扫描，将从第一个训练示例中从第一个 隐藏的单元到第二个训练样本，第三个训练样本……直到节点对应于</p>
 <p>第一个隐藏单元的激活 值，且这个隐藏单元是位于这𝑚个训练样本中的最终训练样本。 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example28.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example28.png">
+
 <h2 id="全连接层与卷积层的关系"><a href="#全连接层与卷积层的关系" class="headerlink" title="全连接层与卷积层的关系"></a>全连接层与卷积层的关系</h2><p>全连接层可以是做一种特殊的卷积，</p>
 <p>回忆全连接层间的传递：</p>
-<p><img src="/.io//timg.gif" data-original="FullConnect.png"></p>
+<img src="/.io//timg.gif" data-original="FullConnect.png">
+
 <p>前一层所有神经元组成的矩阵$x$通过 $a=g(w^Tx+b)$ 运算变成下一层网络中的一个神经元。</p>
 <p>这类似于使用卷积操作转化到下一层。</p>
-<p><img src="/.io//timg.gif" data-original="ConvAndMat.png"></p>
+<img src="/.io//timg.gif" data-original="ConvAndMat.png">
+
 <p>如上图所示, 之前的全连接层使用$a=g(w^Tx+b)$ 可以看作 </p>
 <p>对1×1×4 的矩阵分别用m个等维度的矩阵(过滤器)进行对应值相乘再求和的卷积操作，</p>
 <p>最终得到一个1×1×m 的全新矩阵。</p>
@@ -5957,7 +6020,8 @@
 </blockquote>
 <p>这里涉及到一种利用Conv卷积替代FC全连接层的技巧</p>
 <p>这个技巧将被用于Detection中的滑动窗口卷积操作</p>
-<p><img src="/.io//timg.gif" data-original="FCAndConv.png"></p>
+<img src="/.io//timg.gif" data-original="FCAndConv.png">
+
 <h1 id="优化技术"><a href="#优化技术" class="headerlink" title="优化技术"></a>优化技术</h1><blockquote>
 <p>主要涉及如何解决模型的欠拟合/过拟合问题。</p>
 <p>以及如何更高效的训练模型。</p>
@@ -5969,31 +6033,40 @@
 <p>参数是要在不断学习中逐渐被修正趋于最优 比如逻辑回归中的$w,b$</p>
 <p>超参数则是最初给定不会改变的量比如在逻辑回归中选择的激活函数,梯度下降中的学习率α</p>
 </blockquote>
-<p><img src="/.io//timg.gif" data-original="CNN_example8.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example8.png">
+
 <p>对于一个二分类问题 比如判断图片中是否存在猫</p>
 <p>输入一个特征向量$x$ 由训练集经过卷积和池化后获得的特征图得到</p>
 <p>对于上面这个例子来说 $x$ 是一个 $nx × 1$ 的向量(矩阵) 其中$nx=n×n×nc$ ，而 $y=0,1$  </p>
 <p>对于m个图形成的训练集 Mtest ={$(x^1, y^1), (x^2, y^2), (x^3, y^3) … (x^m, y^m)$}</p>
 <p>(此处参考资料整理作者 黄海广 在参考栏第三个链接)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example9.png"></p>
-<p><img src="/.io//timg.gif" data-original="CNN_example10.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example9.png">
+
+<img src="/.io//timg.gif" data-original="CNN_example10.png">
+
 <p>所有训练数据集的输入值和输出集合以如下方式组成矩阵$X$,$Y$ 一般$X$的每一列是$x^i$ </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example11.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example11.png">
+
 <h3 id="对参数的随机初始化"><a href="#对参数的随机初始化" class="headerlink" title="对参数的随机初始化"></a>对参数的随机初始化</h3><p>在输入训练集的之前要给$w,b$预设初始值 让他们能在之后的学习中有效的达到最优解</p>
 <p>虽然初始化为0可行但是所有的w赋值为0会使梯度下降法失效 </p>
 <p>因为每个神经元上计算得到的结果将会完全一样 之后无论如何梯度下降所有神经元的函数任然相同</p>
 <p>通常会随机生成一个矩阵  w=np.random.randn((r,c))*0.01 </p>
 <p>这里乘上0.01让$z=w^Tx+b$中w尽量小而不为0 所得到的z处于激活函数导数最大处</p>
 <p>能让梯度下降更快提高学习效率</p>
-<p><img src="/.io//timg.gif" data-original="Random_initial.png"></p>
+<img src="/.io//timg.gif" data-original="Random_initial.png">
+
 <p>另外对于初始化超参数如学习率$α$，以及后面提到的梯度下降优化算法中的$β$ </p>
 <p>它们的变化对神经网络的性能影响往往需要达到数量级的变化才能有效体现。</p>
 <p>所以我们通常在指数尺度上对它们进行随机初始化。</p>
-<p><img src="/.io//timg.gif" data-original="RandomInit.png"></p>
+<img src="/.io//timg.gif" data-original="RandomInit.png">
+
 <p>假如使用0.0001~0.1的均匀随机分别采样 那么90%的$α$会大于0.1只有10%在0.0001到0.1之间。</p>
 <p>而在对数尺度上采样 不同数量级的$α$就能被均匀的采样到了，</p>
 <p>这样就能在较大尺度上选取合适的区间中筛选合适的超参数。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">r = np.random.rand()*<span class="number">4</span></span><br><span class="line">a = <span class="number">1</span>**r</span><br><span class="line"><span class="comment">#对于beta一般取0.9~0.9999</span></span><br><span class="line">beta = <span class="number">1</span> - <span class="number">1</span>**r</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="归一化"><a href="#归一化" class="headerlink" title="归一化"></a>归一化</h3><blockquote>
 <p>为了更快的进行梯度下降找到代价函数的最优解 </p>
 <p>通常对输入数据采取归一化处理</p>
@@ -6003,7 +6076,8 @@
 <p>对于训练集中的样本值分布范围比较大的情况，</p>
 <p>训练一个网络模型得到代价函数$J$的最优解需要耗费更多的算力</p>
 <p>一般会对样本输入值进行归一化处理。 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_normalize.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_normalize.png">
+
 <p>如上图，左侧是没有进行归一化输入的情况,</p>
 <p>代价函数$J(w,b)$ 呈现出一个狭长的值域,</p>
 <p>而获得最优解的过程将会像图中的蓝线那样寻找梯度下降</p>
@@ -6014,9 +6088,10 @@
 <p>它将更趋向于一个圆状,这样就有利于更快的找到相对最优解</p>
 <p>归一化对于输入样本值的调整可以视为两步：</p>
 <p>设数据集$X$包含m个样本记为$X_{(i)}=(x_1,x_2)$  </p>
-<p><img src="/.io//timg.gif" data-original="CNN_normalizing.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_normalizing.png">
+
 <p>第一步零均值化：                            第二步归一化方差：</p>
-<p>$u=1/m∑_iX_{(i)}^2$                            $σ^2=1/m∑_iX_{(i)}^2$</p>
+<p>$u=1/m∑<em>iX</em>{(i)}^2$                            $σ^2=1/m∑<em>iX</em>{(i)}^2$</p>
 <p>$X:=X-u$                                $X:=X/σ$</p>
 <p>最后样本的输入值将会贴近原点且处在一个较小的区间内</p>
 <ul>
@@ -6040,13 +6115,14 @@
 <p>因为无论是否加入偏移量最后经过BatchNorm的$z^{norm}$ 最终都是$μ=0$ </p>
 <p>所以索性就在使用BatchNorm时将$Z_{[layer]}=w·a_{[layer-1]}+b$中的$b$省略</p>
 <p>假设线性处理后的输出矩阵为$Z=[z_{(1)},z_{(2)},…,z_{(i)} ]$</p>
-<p>$μ=1/m∑_iz_{(i)}$            $σ^2=1/m∑<em>i(z</em>{(i)}-μ)^2$</p>
+<p>$μ=1/m∑<em>iz</em>{(i)}$            $σ^2=1/m∑<em>i(z</em>{(i)}-μ)^2$</p>
 <p>$z_{(i)}^{norm} =(z_{(i)}-μ)/sqrt(σ^2+ε)$其中$ε$是一个趋近于0的数为了避免产生除0错误</p>
 <p>在获得归一化矩阵$Z^{norm}$之后我们还需要再进行一次类似线性处理的操作。</p>
 <p>$Z^{hat} = γ·Z^{norm}+β$  。$Z^{hat}$将替代原来的$Z$作为激活函数的真正输入值，</p>
 <p>这里的参数$γ,β$ 是为了调整$Z$的均值以及方差而设计的。</p>
 <p>同样的它们也会通过后来的梯度下降方法进行更新。</p>
-<p><img src="/.io//timg.gif" data-original="BatchNorm.png"></p>
+<img src="/.io//timg.gif" data-original="BatchNorm.png">
+
 <p>这幅图直观的说明我们调整$γ,β$能调整$z_{(i)}$的整体分布。</p>
 <p>从而能够更好的利用非线性激活函数再神经元中起到的作用。</p>
 <p>最后梳理一下如何将BatchNormilzing拟合进神经网络:<br>$$<br>a_{[l-1]}→^{w,b}→Z_{[l]} → ^{μ,σ^2}→Z_{[l]}^{norm}→^{γ,β}→Z{[l]}^{hat}→^{g()}→a_{[l]}<br>$$<br>BatchNorm通常与Mini-Batch一起应用到网络学习中,以达到更好的优化网络的学习能力</p>
@@ -6055,7 +6131,8 @@
 <p>此时对于网络它的输入数据的特征分布矩阵就发生较大的便宜,成为covariate shift。</p>
 <p>直观的理解是因为网络已经对原来的数据集 (黑猫)拟合了二分类的函数,</p>
 <p>对于新的数据集由于与原来的数据集有较大偏差,网络相当于重新学习一个新任务。</p>
-<p><img src="/.io//timg.gif" data-original="BatchNormExplain.png"></p>
+<img src="/.io//timg.gif" data-original="BatchNormExplain.png">
+
 <p>同样的对于隐藏层而言前一层传来的输入值就如同模型的输入层读取的生数据。</p>
 <p>对于某一层而言前方发生了什么它一概不知，只看得到前一层的输出。</p>
 <p>由于在学习过程中权值和偏移量的微小改变经过深度网络的放大，</p>
@@ -6076,7 +6153,8 @@
 <p>Mini-Batch或者平时说的Batch(批)实际就是一次”投喂”给系统的样本量。</p>
 <p>假设原来拥有m个样本将他分成5000份Mini-Batch。</p>
 <p>然后将这5000份样本依次输入。所有样本被迭代一次成为1个epoch。</p>
-<p><img src="/.io//timg.gif" data-original="MiniBatch.png"></p>
+<img src="/.io//timg.gif" data-original="MiniBatch.png">
+
 <p>这么做似乎和原来一个矩阵所有样本一次性输入似乎对于每个独立样本而言没有什么差别，</p>
 <p>它们都只被使用一次。但是对于网络而言一次性读入所有样本只能进行一次梯度下降。</p>
 <p>而Mini-Batch分批投喂却能使用等量的样本进行多次梯度下降。</p>
@@ -6085,7 +6163,8 @@
 <p>那么如何选择合适的Mini-Batch呢？</p>
 <p>可以将所有样本视为一整个Batch，也可以将每个独立的样本分别当作一个Batch。</p>
 <p>而恰当的Batch大小需要取两者之间。</p>
-<p><img src="/.io//timg.gif" data-original="Choose_MiniBatch.png"></p>
+<img src="/.io//timg.gif" data-original="Choose_MiniBatch.png">
+
 <p>如图所示，假设要通过多次梯度下降达到最优解(中心)。</p>
 <p>Batch size = 1的情况下网络很难找到正确下降的方向，(这种情况下的梯度下降称为SGD)</p>
 <p>因为一次投喂的样本量太少，特殊性太强而普遍性太弱，网络会提取出只符合这个样本的特征。</p>
@@ -6100,7 +6179,8 @@
 <p>这显然降低了梯度下降的效率, 传统的若想让梯度下降更快,可以使用更大的学习率, </p>
 <p>而更大的学习率带来的问题是会导致想错误的方向移动更远，</p>
 <p>甚至偏离出可以正确下降到最优解的椭圆形区域(如紫色折线)</p>
-<p><img src="/.io//timg.gif" data-original="Momentum_img.png"></p>
+<img src="/.io//timg.gif" data-original="Momentum_img.png">
+
 <p>这时候动量梯度下降法可以有效的减少错误方向上的”运动”分量。</p>
 <p>在实际操作时就是将原来的w以及b的更新稍作修改。</p>
 <p>$V_{dw} = βV_{dw} + (1-β)dw$ </p>
@@ -6110,7 +6190,8 @@
 <ul>
 <li><p>指数加权平均数</p>
 <p>假设要绘制日期与气温的关系图，得到了一系列蓝色的离散坐标点。</p>
-<p><img src="/.io//timg.gif" data-original="ExponentiallyWeighted.png"></p>
+<img src="/.io//timg.gif" data-original="ExponentiallyWeighted.png">
+
 <p>当$β=0.9$时，以$V_t = βV_{t-1} + (1-β)T_t$替代原来的温度$T_t$可以得到红色折线。</p>
 <p>当$β=0.98$时，以$V_t = βV_{t-1} + (1-β)T_t$替代原来的温度$T_t$可以得到绿色折线。</p>
 <p>其中$V_t$就相当于前$1/(1-β)$ 的指数加权平均温度,</p>
@@ -6135,16 +6216,18 @@
 <p>其中$ε$ 是个趋近于0的极小值为了避免产生除0的情况。</p>
 <p>对于动量梯度下降法取的是前几次下降的梯度(向量)的指数加权平均$V$ 作为替代。</p>
 <p>而对于均方根传递取的是前几次下降的梯度模值(标量)的指数加权平均$S$作为替代。</p>
-<p><img src="/.io//timg.gif" data-original="RMSprop.png"></p>
+<img src="/.io//timg.gif" data-original="RMSprop.png">
+
 <p>Ng Andrew举了个例子, 为了简化问题假设$J(w,b)$ 是如下图的凸函数:</p>
 <p>(将向量w,b都当作一维，实际上$b$和$w$ 都是多维向量)</p>
-<p><img src="/.io//timg.gif" data-original="RMSprop_example.png"></p>
+<img src="/.io//timg.gif" data-original="RMSprop_example.png">
+
 <p>当梯度下降时$J(w,b)$往b轴正方向移动更多时(即$dJ/db$ 比 $dJ/dw$更大时),</p>
 <p>$S_{db}$ 也会比$S_{dw}$更大(实际它们是包含前几次梯度下降影响的积累值) </p>
 <p>因此这时$b$的变化将会比$w$的变化更小,体现在上图就是$J(w,b)$下次将向$w$移动更多(绿色折线)</p>
 <h3 id="Adam梯度下降"><a href="#Adam梯度下降" class="headerlink" title="Adam梯度下降"></a>Adam梯度下降</h3><p>Adam梯度下降汲取了前两者的特点,在实际应用中获得了较好的效果。</p>
-<p>$V_{dw} = β_1V_{dw} + (1-β<em>1)dw$        $S</em>{dw} = β_2S_{dw} + (1-β_2)|dw|^2$</p>
-<p>$V_{db} = β_1V_{db} + (1-β<em>1)db$        $S</em>{db} = β_2S_{db} + (1-β_2)|db|^2$</p>
+<p>$V_{dw} = β<em>1V</em>{dw} + (1-β<em>1)dw$        $S</em>{dw} = β<em>2S</em>{dw} + (1-β_2)|dw|^2$</p>
+<p>$V_{db} = β<em>1V</em>{db} + (1-β<em>1)db$        $S</em>{db} = β<em>2S</em>{db} + (1-β_2)|db|^2$</p>
 <p>对$V_{dw},V_{db}$进行修正: $V^{correct} = V/(1-β_1^t)$其中t指第t项</p>
 <p>对$S_{dw},S_{db}$进行修正: $S^{correct} = S/(1-β_2^t)$其中t指第t项</p>
 <p>最后更新参数</p>
@@ -6167,7 +6250,8 @@
 </ul>
 </blockquote>
 <h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>以一个简单模型为例子:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_VanishingExploding.png">
+
 <p>假设这个神经网络模型中激活函数$g(z)=z$且$b[l]=0$ </p>
 <p>那么预测值$yhat=w^{[l]}×w^{[l-1]}×…w^{[2]}×w^{[1]}×x$</p>
 <p>假设特征向量中的元素值&lt;1那么在经过L层网络后w将趋近于0</p>
@@ -6181,13 +6265,15 @@
 <h3 id="权重初始化"><a href="#权重初始化" class="headerlink" title="权重初始化"></a>权重初始化</h3><p>以单个神经元为例:</p>
 <p>我们不希望这一层的$z$过大或过小 而是接近1 </p>
 <p>这样即使加大深度也能尽量避免梯度消失或爆炸</p>
-<p><img src="/.io//timg.gif" data-original="CNN_InitWeight.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_InitWeight.png">
+
 <p>设前一层有$n^{[l-1]}$ 层神经元 那么每个特征向量的值初始化为$sqrt(1/n^{[l-1]})*w$</p>
 <p>相当于给原来的特征向量×权重</p>
 <p>实际上是对于所有的特征向量$w_i$ 保证他们的方差为$1/n$</p>
 <p>假如使用的是ReLu激活函数那么设置$w_i$方差为2/n 更合理, 则$w_i=w_i×sqrt(2/n^{[l-1]})$</p>
 <p>对于tanh激活函数则使用:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_TanhInitWeight.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_TanhInitWeight.png">
+
 <h2 id="过拟合与正则化"><a href="#过拟合与正则化" class="headerlink" title="过拟合与正则化"></a>过拟合与正则化</h2><blockquote>
 <p>所谓过拟合 通俗来讲 就是缺乏普遍性只能处理特殊值</p>
 <p>过拟合有两种原因：</p>
@@ -6201,7 +6287,8 @@
 <p>简单的线性模型准确率较低，</p>
 <p>而将所有的样本A从当前的数据集划分出来会导致新加入的样本不能正确判断。</p>
 <p>原因是没有正确提取抽象特征 称之为“过拟合“。</p>
-<p><img src="/.io//timg.gif" data-original="CNN_overfitting.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_overfitting.png">
+
 <h3 id="L1正则化与L2正则化"><a href="#L1正则化与L2正则化" class="headerlink" title="L1正则化与L2正则化"></a>L1正则化与L2正则化</h3><ul>
 <li>如何正则化</li>
 </ul>
@@ -6221,11 +6308,15 @@
 <li>那么如何处理正则化后的梯度下降(更新特征向量w)?</li>
 </ul>
 <p>为了方便理解将w1作为一个数，对于L1正则化而言有:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_L1norm.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_L1norm.png">
+
 <p>其中$dJ/dw_1=“dw_1”$是对于未加入正则项的代价函数$J(w,d)$的求导,</p>
 <p>另外$sign(x)=|x|/dx = -1_{x&lt;=0} or 1_{x&gt;0}$</p>
 <p>对于L2正则化而言有:</p>
-<p><img src="/.io//timg.gif" data-original="CNN_L2norm.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_L2norm.png">
+
+
+
 <p>在L2正则化中对于梯度下降过程中的特征参数更新应该替换为$w:=w-αdw’$</p>
 <p>其中$dw’$为加入正则项后的$dJ_2/dw$  即:  $dw’=dw+λ/m×w$</p>
 <p>而$dw$是不包含正则项时$dJ/dw$ </p>
@@ -6237,9 +6328,11 @@
 <p>那么激活函数$g(z)$ 就会接近线性 </p>
 <p>这样就会避免“决策边界”成为一个过于复杂的高阶多元曲线函数 </p>
 <p>(虽然不太明白什么原理但是感觉很有道理)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_regularization.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_regularization.png">
+
 <h3 id="Inverted-Dropout正则化"><a href="#Inverted-Dropout正则化" class="headerlink" title="Inverted Dropout正则化"></a>Inverted Dropout正则化</h3><p>Inverted Dropout 也成为随机失活 一般运用在训练网络模型 而不再测试模型时使用</p>
-<p><img src="/.io//timg.gif" data-original="CNN_dropout.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_dropout.png">
+
 <p>原理就是将网络中某些点(特征)省略 从而简化网络模型</p>
 <ul>
 <li>向前传播过程中如何加入inverted dropout 正则化</li>
@@ -6248,6 +6341,7 @@
 <p>假设某一层经过激活函数输出后得到 $a_{[l]}=g(z_{[l]})$</p>
 <p>在$a_{[l]}$传递到下一层网络成为$x_{[l+1]}$前</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">keep_prob=<span class="number">0.8</span></span><br><span class="line">dl=np.random.rand(al.shape[<span class="number">0</span>],al.shape[<span class="number">1</span>])&lt;keep_prob</span><br><span class="line">al=np.multiply(al,bl)  <span class="comment">#al=al*dl  逐个相乘</span></span><br><span class="line">al/=keep_prob</span><br></pre></td></tr></table></figure>
+
 <p>对所有特征量 进行随机失活 有0.8的概率保留原值 否则置为0</p>
 <p>但这样操作会导致特征值中20%的值失效 为了不影响$z_{[l+1]}=w_{[l+1]}x_{[l+1]}+b_{[l+1]}$ 的期望值</p>
 <p>应此最后需要将al/=keep_prob</p>
@@ -6257,7 +6351,10 @@
 <blockquote>
 <h3 id="“"><a href="#“" class="headerlink" title="“"></a>“</h3><p>第二个直观认识是，我们从单个神经元入手，如图，这个单元的工作就是输入并生成一些有意义的输出。通过dropout，该单元的输入几乎被消除，有时这两个单元会被删除，有时会删除其它单元，就是说，紫色圈起来的这个单元，它不能依靠任何特征，因为特征都有可能被随机清除，或者说该单元的输入也都可能被随机清除。我不愿意把所有赌注都放在一个节点上，不愿意给任何一个输入加上太多权重，因为它可能会被删除，因此该单元将通过这种方式积极地传播开，并为单元的四个输入增加一点权重，通过传播所有权重，dropout将产生收缩权重的平方范数的效果，和L2正则化类似，实施dropout的结果是它会压缩权重，并完成一些预防过拟合的外层正则化。</p>
 <h3 id="”-引用自Ng-Andrew-字幕"><a href="#”-引用自Ng-Andrew-字幕" class="headerlink" title="”(引用自Ng Andrew 字幕)"></a>”(引用自Ng Andrew 字幕)</h3></blockquote>
-<p><img src="/.io//timg.gif" data-original="CNN_dropoutExplain.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_dropoutExplain.png">
+
+
+
 <h2 id="迁移学习与数据增强"><a href="#迁移学习与数据增强" class="headerlink" title="迁移学习与数据增强"></a>迁移学习与数据增强</h2><blockquote>
 <p>为了提高模型训练效率 可以采用迁移学习的方法</p>
 <p>将开源的深度学习模型移植到自己的模型中</p>
@@ -6269,7 +6366,8 @@
 <p>仅仅修改softmax部分(或后半部分网络) 以达到较少量的训练集就能达到较高的正确率</p>
 <p>一般开源模型中会有一个开关”freeze” 将前几层网络中的参数冻结,</p>
 <p>这样在训练过程中就只会修改自己搭建的几层网络中的参数</p>
-<p><img src="/.io//timg.gif" data-original="CNN_TransferLearning.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_TransferLearning.png">
+
 <h3 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h3><p>主要有3种方式</p>
 <ul>
 <li>镜像对称: 即将原有的样本图片镜像对称得到新的样本</li>
@@ -6285,16 +6383,19 @@
 <h2 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h2><p>针对灰度图像训练</p>
 <p>使用simgiod函数以及逻辑回归</p>
 <p>论文来源:[LeCun et al., 1998. Gradient-based learning applied to document recongintion]</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example5.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example5.png">
+
 <h2 id="AlexNet"><a href="#AlexNet" class="headerlink" title="AlexNet"></a>AlexNet</h2><p>论文来源:[Krizhevsky et al., 2012. ImageNet classification with deep convolutional neural networks]</p>
 <p>使用了Relu激活函数 涉及到将图分组放入两个互相关联的gpu进行训练</p>
 <p>有一种独有的类型层 “局部响应归一化层” 对局部神经元的活动创建竞争机制，使得其中响应比较大的值变得相对更大，并抑制其他反馈较小的神经元，<strong>增强了模型的泛化能力</strong> (吴恩达老师说 后来被发现用处不大。。)</p>
 <p>一般的“归一化” 是指将一个[L,R]区间内浮动的变量集 映射到[l,r]一个更小的区间变量集</p>
 <p>具体的归一化有具体的转换公式 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_example6.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example6.png">
+
 <h2 id="VGG"><a href="#VGG" class="headerlink" title="VGG"></a>VGG</h2><p>论文来源:[Simonyan &amp; Zisserman 2015. Very deep convolutional network for large-scale image recognition]</p>
 <p>VGG-16模型图解 (same表示使用same pading)</p>
-<p><img src="/.io//timg.gif" data-original="CNN_example7.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_example7.png">
+
 <h2 id="ResNet"><a href="#ResNet" class="headerlink" title="ResNet"></a>ResNet</h2><p>论文来源:[He et al. 2015.Deep residual net works for image recognition]</p>
 <p>此处涉及到残差网络(Residual block)</p>
 <p>普通方法: </p>
@@ -6303,7 +6404,8 @@
 <p>残差网络方法:</p>
 <p>$z^{[l+1]} = W^{[l+1]}a^{[l]}+b^{[l+1]}$   ,   $a^{[l+1]}=g(z^{[l+1]})$</p>
 <p>$z^{[l+2]} = W^{[l+2]}a^{[l+1]}+b^{[l+2]}$ , $a^{[l+2]}=g(z^{[l+2]}+a^{[l]})$</p>
-<p><img src="/.io//timg.gif" data-original="CNN_ResNet.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_ResNet.png">
+
 <p>这种设计可以避免梯度消失 ，当模型层数上升普通方法下 模型的精度下降</p>
 <p>而采用了残差网络则可以避免这种现象发生。</p>
 <p>下图中每两层组成一个残差网络 </p>
@@ -6311,24 +6413,31 @@
 <p>L和L+2层拥有相同维度才能保证$z^{[l+2]}+a^{[l]}$能相加</p>
 <p>否则可以引入$w_s$ 通过 $w_s × a^{[l]}$ 使得两者维度一至可以相加 </p>
 <p>而$w_s$不需要初始化 它的值将会通过后天学习自动更新</p>
-<p><img src="/.io//timg.gif" data-original="CNN_ResNet1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_ResNet1.png">
+
+
+
 <h2 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h2><p>论文来源: [Szegedy et al.,2014, Going Deeper with Convolutions]</p>
 <p>在这之前先介绍一下 1×1卷积 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_inception.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_inception.png">
+
 <p>当遇到需要压缩样本的信道，即不改变长度与宽度的前提下减少深度 可以采用1×1卷积</p>
 <p>如上图 将深度为192的样本变为32</p>
 <p>可以用32个1×1×192的过滤器 进行卷积 </p>
 <p>对于其中一个过滤器对应位相乘再求和 后用relu激活得到对应的值</p>
 <p>这一步能将深度为192的样本压缩成1维</p>
 <p>当存在32个过滤器时将32个1维结果叠加 则生成28×28×32的结果 </p>
-<p><img src="/.io//timg.gif" data-original="CNN_inception1.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_inception1.png">
+
 <p>1×1卷积核在inception的实现中能大大减少卷积池化过程的计算量(通过减少信道数) 但会损失一定信息</p>
 <p>在googleNet的模型中采用以信道分组卷积再合并的方式</p>
 <p>最后将几组的信道组合成一个整体作为下一层</p>
-<p><img src="/.io//timg.gif" data-original="CNN_inception2.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_inception2.png">
+
 <p>重复这样卷积处理搭建出一个googleNet的模型</p>
 <p>其中有三个分支 用softmax预测出结果 以防止过度拟合出错</p>
-<p><img src="/.io//timg.gif" data-original="CNN_googleNet.png"></p>
+<img src="/.io//timg.gif" data-original="CNN_googleNet.png">
+
 <h1 id="计算机视觉中的三类问题"><a href="#计算机视觉中的三类问题" class="headerlink" title="计算机视觉中的三类问题"></a>计算机视觉中的三类问题</h1><blockquote>
 <p>计算及视觉主要有两类问题</p>
 <p>分类问题(classification):判断给出图片中的对象是A还是B</p>
@@ -6337,7 +6446,8 @@
 </blockquote>
 <h2 id="特征点提取"><a href="#特征点提取" class="headerlink" title="特征点提取"></a>特征点提取</h2><p>Detection的定位与判断需要依赖被识别物体的特征点坐标集合作为神经网络的输出单元</p>
 <p>以人体姿态识别为例 Detection神经网络会输出 {是否存在人体躯干0/1,特征点坐标1(x,y), … , 特征点坐标n(x,y)}</p>
-<p><img src="/.io//timg.gif" data-original="LandMark.png"></p>
+<img src="/.io//timg.gif" data-original="LandMark.png">
+
 <h2 id="目标检测"><a href="#目标检测" class="headerlink" title="目标检测"></a>目标检测</h2><ul>
 <li>滑动窗口检测</li>
 </ul>
@@ -6345,7 +6455,8 @@
 <p>若当前窗口存在则这个区域的输出结果为1，否则为0。然后逐渐增大窗口再次遍历图片中的所有位置。</p>
 <p>这个做法十分朴素，但是显然的缺点是计算量非常大。</p>
 <p>若为了减少计算量采用较大的窗口与较大的步长则会导致目标定位不准确</p>
-<p><img src="/.io//timg.gif" data-original="SlideWindow.png"></p>
+<img src="/.io//timg.gif" data-original="SlideWindow.png">
+
 <ul>
 <li>FCN(全卷积神经网络)实现滑动窗口</li>
 </ul>
@@ -6356,7 +6467,8 @@
 <blockquote>
 <p>论文参考:[Sermanet et al.,2014,OverFeat: Intergrated recongnition, localization and detection using convolutional network.]</p>
 </blockquote>
-<p><img src="/.io//timg.gif" data-original="SlideWindowImplementation.png"></p>
+<img src="/.io//timg.gif" data-original="SlideWindowImplementation.png">
+
 <p>可以看到利用卷积代替全连接操作后图片信息压缩后各个区域的相对位置不变。</p>
 <p>这个性质避免了滑动窗口重复计算的劣势。</p>
 <p>此处Ng Andrew 没有详细描述最初的滑动窗口和最终”压缩”处理后得到的输出之间的关系。</p>
@@ -6382,25 +6494,29 @@
 <p>若被检测物体不能独立的存在于任何一个区域中内时，被检测物体的边界就不能被准确定位。</p>
 <p>Bounding Box预测则是规定了几个参数来辅助确定被检测物体边界Bounding。</p>
 <p>以YOLO算法为例。</p>
-<p><img src="/.io//timg.gif" data-original="BoundingBox.png"></p>
+<img src="/.io//timg.gif" data-original="BoundingBox.png">
+
 <p>对输出值标签增加$b_x b_y b_h b_w$ 分别表示物体中心坐标(x,y)以及物体的高度宽度。</p>
 <p>$P_c$ 表示当前Bounding box中存在被检测物体的概率, $C_x$表示这个物体属于某个类的概率</p>
 <p>这样预先将图片分割成3×3的区域然后利用FCN网络得到各个区域的Label输出值。</p>
 <h2 id="预测框的选择"><a href="#预测框的选择" class="headerlink" title="预测框的选择"></a>预测框的选择</h2><p>当运行算法时,同一个目标可能被检测多次而产生多个预测框,</p>
 <p>这时候就需要从预测狂中选择一个最优的预测框作为最终结果。</p>
-<p><img src="/.io//timg.gif" data-original="NonMaxSuppression.png"></p>
+<img src="/.io//timg.gif" data-original="NonMaxSuppression.png">
+
 <ul>
 <li><p>非极大值抑制 (Non-Max Suppression)</p>
 <p>非极大值抑制就是只保留检测到同一个目标物体的概率最大的预测框。</p>
 <p>具体的实现过程如下：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">Discard all Boxes <span class="keyword">with</span> p_c &lt;= threshold value.</span><br><span class="line"><span class="keyword">While</span> there <span class="keyword">are</span> <span class="keyword">any</span> remaining boxes unmarked:</span><br><span class="line">	Pick the Box <span class="keyword">with</span> the largest p_c <span class="keyword">as</span> a <span class="keyword">prediction</span> Box_A</span><br><span class="line">	<span class="keyword">If</span> there <span class="keyword">is</span> <span class="keyword">any</span> remaining box <span class="keyword">with</span> IoU &gt;= threshold <span class="keyword">value</span> <span class="keyword">with</span> Box_A</span><br><span class="line">		Discard those box.</span><br><span class="line">	<span class="keyword">Else</span> Box_A <span class="keyword">is</span> the <span class="keyword">only</span> one remaining box <span class="keyword">of</span> this target.</span><br><span class="line">		Mark the Box_A <span class="keyword">to</span> avoid picked <span class="keyword">at</span> <span class="keyword">next</span> loop.</span><br></pre></td></tr></table></figure>
+
 <p>如果存在多个不同分类(Class)的目标需要被检测,则需要对每种分类分别运行非极大值抑制操作。</p>
 <p>上述伪代码中出现了参数IoU即交并比(Intersection over union)。</p>
 <p>这是评估两个框的重叠程度的指标。</p>
 </li>
 <li><p>交并比(Intersection over union)</p>
 <p>交并比对于两个预测框A与B而言 就是相交面积/合并面积。$IoU=A∩B/A∪B$    </p>
-<p><img src="/.io//timg.gif" data-original="IoU.png"></p>
+<img src="/.io//timg.gif" data-original="IoU.png">
+
 <p>通过人为设定阈值,判断检测框之间的关系。</p>
 <p>IoU &gt;= Threshold 则认为两个检测框捕获了同一个物体。需要根据极大值抑制保留概率大的Box</p>
 <p>IoU &lt; Threshold 则认为两个检测框捕获了不同的物体。</p>
@@ -6413,18 +6529,21 @@
 <h2 id="Anchor-Boxes锚定框"><a href="#Anchor-Boxes锚定框" class="headerlink" title="Anchor Boxes锚定框"></a>Anchor Boxes锚定框</h2><p>在实际使用中不同物体的中心点可能会落在同一个预先划分的Bounding Box中，</p>
 <p>然而传统方法中一个格子(BoundingBox)只能检测到最多一个目标物体。</p>
 <p>而锚定框可以很好的改善这种情况。</p>
-<p><img src="/.io//timg.gif" data-original="AnchorBox.png"></p>
+<img src="/.io//timg.gif" data-original="AnchorBox.png">
+
 <p>图中汽车的中心点和人的中心点同时出现在同一个Bounding Box中,</p>
 <p>可以采用锚定框策略，预设一个AnchorBox1形状接近于一个站立的人(竖着的矩形)。</p>
 <p>同样的，预设另一个AnchorBox2形状接近于车辆的侧面(横着的矩形)。</p>
-<p><img src="/.io//timg.gif" data-original="AnchorBox_1.png"></p>
+<img src="/.io//timg.gif" data-original="AnchorBox_1.png">
+
 <p>这时对应的标签y也需要更改，它需要包括两个对应AnchorBox的参数。</p>
 <p>假如包裹检测目标的矩形框与预设的某个AnchorBox具有最大的IOU值。</p>
 <p>那么这个检测目标将会被归类为对应标签的物体如:人/车。</p>
 <ul>
 <li>此处疑问：这里吴恩达所说的$p_c$似乎是包含有分类$c$的概念。</li>
 </ul>
-<p><img src="/.io//timg.gif" data-original="AnchorBox_2.png"></p>
+<img src="/.io//timg.gif" data-original="AnchorBox_2.png">
+
 <p>若$p_c$包含有检测目标是否为对应目标的含义那为什么还需要$c_1,c_2,c_3$来进行分类。</p>
 <p>我个人认为$p_c$的定义应该是检测区域内出现目标的概率，具体是什么物体由$c_x$判断。</p>
 <p>AnchorBox能较好的解决两个对象中心出现在同一个BoundingBox的情况但是，</p>
@@ -6438,6 +6557,371 @@
       </categories>
       <tags>
         <tag>Convolutional Neural Networks</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>统计学习方法之监督学习</title>
+    <url>/2020/08/20/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E4%B9%8B%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文围绕李航《统计学习方法》第一版无监督学习中的部分章节撰写学习笔记，</p>
+<p>并将学习过程中个人遇到的问题与思考以及相应的解答进行记录总结。</p>
+<p>阅读《统计学习方法》的初衷是给之后深度学习作为铺垫，</p>
+<p>因此本文也将重点关注一些较为相关的基础理论算法内容。</p>
+<p>具体包括原书以下章节:</p>
+<p><strong>第1章，统计学习及监督学习概论</strong></p>
+<p><strong>第2章，感知机</strong></p>
+<p><strong>第4章，朴素贝叶斯法</strong></p>
+<p><strong>第6章，逻辑斯蒂回归与最大熵模型</strong></p>
+<p>未来可能会根据个人学习需求在陆续添加其他章节内容。</p>
+<h1 id="统计学习及监督学习概论"><a href="#统计学习及监督学习概论" class="headerlink" title="统计学习及监督学习概论"></a>统计学习及监督学习概论</h1><blockquote>
+<p>个人认为的本章重点:</p>
+<p>1.统计学习三要素(1.3节)</p>
+<p>2.模型评估与模型选择(1.4节)</p>
+<p>3.正则化与交叉验证(1.5节)</p>
+<p>4.生成模型与判别模型(1.7节)</p>
+<p>5.分类问题，标注问题，回归问题(1.8节-1.10节)</p>
+</blockquote>
+<h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><blockquote>
+<p>感知机是经典的线性二分类模型，是神经网络的基础。</p>
+<p>输入为实例的特征向量$x\in X$ 输出为$y\in Y={+1,-1}$</p>
+</blockquote>
+<h1 id="朴素贝叶斯法"><a href="#朴素贝叶斯法" class="headerlink" title="朴素贝叶斯法"></a>朴素贝叶斯法</h1><blockquote>
+<p>朴素贝叶斯法是经典的生成模型算法，是基于贝叶斯定理与特征条件独立假设的分类方法。</p>
+<p>对于某一问题设计朴素贝叶斯法模型关键是得到朴素贝叶斯法的参数估计。</p>
+</blockquote>
+<h1 id="逻辑斯谛回归"><a href="#逻辑斯谛回归" class="headerlink" title="逻辑斯谛回归"></a>逻辑斯谛回归</h1><blockquote>
+<p>逻辑斯谛回归模型与最大熵模型都属于对数线性模型。</p>
+<p>逻辑斯蒂回归虽然有回归二字但其实并非用于线性回归问题。</p>
+<p>最典型的逻辑斯蒂回归应用于输出值离散的二分类或多分类问题上。</p>
+<p>相关引用: <a href="https://www.cnblogs.com/pinard/p/6029432.html" target="_blank" rel="noopener">刘建平Pinard-逻辑回归原理小结</a></p>
+</blockquote>
+<h2 id="从线性回归到逻辑回归"><a href="#从线性回归到逻辑回归" class="headerlink" title="从线性回归到逻辑回归"></a>从线性回归到逻辑回归</h2><p>线性回归的模型是求出输出值 $y$ 和输入向量$x$之间的线性关系 $y=wx+b$，或者将偏置$b$并入特征矩阵$w$，记作$\hat{w}=(w^{T},b)^{T}$，</p>
+<p>同样也将输入向量加以扩充，加进常数 1，记作$\hat{x}=(x^{T},1)^{T}$，显然有$\hat{w}\hat{x}=wx+b$。</p>
+<p>对于线性回归问题，输入输出被映射成一个线性函数的关系，因此对于输出值 $y$ 是连续的。</p>
+<p>如果 $y$ 是离散值怎么办？一个想法是对 $y$ 在做一次函数转化，变为$g(y)$。</p>
+<p>如果我们令 $g(y)$ 的值在某个实数区间的时候是类别A，在另一个实数区间的时候是类别B，</p>
+<p>以此类推就得到了一个分类模型，这也是逻辑斯谛回归要做的。</p>
+<h2 id="逻辑斯谛分布到逻辑回归模型"><a href="#逻辑斯谛分布到逻辑回归模型" class="headerlink" title="逻辑斯谛分布到逻辑回归模型"></a>逻辑斯谛分布到逻辑回归模型</h2><p>在引入逻辑斯谛回归之前首先介绍逻辑斯谛分布。</p>
+<p>设 $X$ 是连续随机变量，$X$ 服从逻辑斯谛分布是指 $X$ 具有下列分布函数$F(x)$和密度函数$f(x)$:<br>$$<br>F(x)=P(X\leq x)= {1\over 1+e^{-(x-\mu)/\lambda} }\<br>f(x)=F’(X)= {e^{-(x-\mu)/\lambda}\over \lambda(1+e^{-(x-\mu)/\lambda})^2}<br>$$<br>这里顺便回顾一下分布函数与概率密度函数的含义。粗略的说概率密度函数$f(x)$就是$P(X=x)$的概率。</p>
+<p>对于离散事件$x$而言， $F(m) = P(X\leq m) = \sum_{x = -\infty}^m P(X=x)$。</p>
+<p>对于连续变量$x$而言，$F(m) = P(X\leq m) = \int_{x = -\infty}^m P(X=x)$。</p>
+<p>而逻辑斯谛分布的密度函数与分布函数形如下图所示。</p>
+<img src="/.io//timg.gif" data-original="LogisticDistribution.png">
+
+
+
+<p>密度函数图像(左图)反映了逻辑斯谛分布模型中随机事件 $x$ 符合以均值 $\mu $ 为对称轴的，类似正态分布的触发概率。</p>
+<p>而分布函数图像(右图)就是经典的sigmoid函数的原型。</p>
+<p>假如我们规定随机事件 $x$ 的概率分布以$F(x)&gt;0.5$ 和$F(x)&lt;0.5$分为两类来分别对应二分类中输出$y$ 的值，</p>
+<p>那么就能够应对输出值是离散值的情况，并用于求解分类问题。</p>
+<p>而这里分布函数$F$ 就是上文 <strong>从线性回归到逻辑回归</strong> 指代的函数 $g$ 的原型。<br>$$<br>g(z) = {1 \over 1+e^z}\<br>z = wx+b = \hat{w}\hat{x}\<br>\hat{w} = (w^{(1)},w^{(2)},\cdots, w^{(n)}, d)\<br>\hat{x} = (x^{(1)},x^{(2)},\cdots, x^{(n)}, 1)\<br>$$<br>(关于函数 $g$ 此处刘建平老师的博客和李航老师书中所记略有不同但本质一样)</p>
+<p>函数 $g$ 有个非常好的性质: $g’(z)=g(z)(g(z)-1)$ </p>
+<p>这让sigmoid函数在神经网络算法中反向传播更新计算更简便。</p>
+<h3 id="二项逻辑斯谛回归模型"><a href="#二项逻辑斯谛回归模型" class="headerlink" title="二项逻辑斯谛回归模型"></a>二项逻辑斯谛回归模型</h3><p>具体的二项逻辑斯谛回归模型是如下的条件概率分布:<br>$$<br>P(Y=1|x)={e^{wx+b} \over 1 + e^{wx+b} }\<br>P(Y=0|x)= 1 - P(Y=1|x) = {1 \over 1 + e^{wx+b} }\<br>$$<br>而逻辑回归模型所需要学习的就是权值向量 $w$ 以及偏置 $b$，</p>
+<p>刘建平老师的博客中将权值向量和偏置合并记作线性关系系数 $\theta$ (等同于此处的 $\hat{w}$)。</p>
+<p>计算二元逻辑回归模型中事件$x$发生的对数几率: $log{P(Y=1|x) \over P(Y=0|x)} = wx+b$</p>
+<p>这就是说，在逻辑斯谛回归模型中，输出 $Y=1$  的对数几率是输入 $x$ 的线性函数。</p>
+<p>或者说，输出 $Y=1$ 的对数几率是由输入 $x$ 的线性函数表示的模型，即逻辑斯谛回归模型。</p>
+<h3 id="多项逻辑斯谛回归模型"><a href="#多项逻辑斯谛回归模型" class="headerlink" title="多项逻辑斯谛回归模型"></a>多项逻辑斯谛回归模型</h3><p>二项逻辑回归可以推广到多项逻辑回归模型。假设输出离散值$Y = {1,2,\cdots,K }$，那么多项逻辑回归模型是:<br>$$<br>P(Y=k|x)={e^{\hat{w_k}x} \over 1 + \sum_{k=1}^{K-1} e^{\hat{w_k}x} }, \quad k = 1,2,\cdots, K-1\<br>P(Y=0|x)= 1 - P(Y=1|x) = {1 \over 1 + \sum_{k=1}^{K-1} e^{\hat{w_k}x} }\<br>$$<br>需要注意到$\hat{w_k}$ 是不同分类 $y$ 对应的一个向量参数。</p>
+<h2 id="模型参数估计"><a href="#模型参数估计" class="headerlink" title="模型参数估计"></a>模型参数估计</h2><blockquote>
+<p>相关参考:</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26614750" target="_blank" rel="noopener">一文搞懂极大似然估计</a></p>
+<p><a href="https://blog.csdn.net/u011508640/article/details/72815981" target="_blank" rel="noopener">详解最大似然估计（MLE）最大后验概率估计（MAP）以及贝叶斯公式的理解</a></p>
+</blockquote>
+<p>现在已经知道了逻辑回归模型，即上述条件概率分布。</p>
+<p>然而要使用逻辑回归模型去判断输入 $x$ 所对应的 $y$ 还需要求得模型中的参数$\hat{w}$ 。</p>
+<p>为了求得参数$\hat{w}$ 需要用到极大似然估计的思想。</p>
+<h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><p>通俗理解来说，<strong>就是利用已知的样本结果信息，反推最具有可能（最大概率）导致这些样本结果出现的模型参数值，</strong></p>
+<p><strong>即：“模型和样本已定，参数未知”</strong>。</p>
+<p><strong>极大似然估计中采样需满足一个重要的假设，就是所有的样本都是互相独立且服从同一概率分布规则的</strong>。</p>
+<p>一个比较好的例子是硬币的质地是否均匀，即想知道抛这枚硬币，正面出现的概率 $\theta$ 是多少。</p>
+<p>假设投掷硬币5次得到的训练数据集，即已知的样本结果信息 $T= {(x_1, 1),(x_2, 1),(x_3, 0),(x_4, 1),(x_5, 0)}$，其中$x_i$表示第i次投掷行为，输出为$y_i\in {0,1}$ ，0为反面，1为正面。</p>
+<p>我们想求的正面概率 $\theta$ 是模型参数，而抛硬币模型我们可以假设是二项分布。</p>
+<p>那么，出现实验结果 $T$ 的似然函数是 : $P(T|\theta) = \theta^3(1-\theta)^2 $，</p>
+<p>当 $P(T|\theta)$ 最大时，此时的 $\theta$ 才是最有可能导致出现样本结果 $T$ 的参数。</p>
+<p>找到函数 $P(T|\theta) = \theta^3(1-\theta)^2$  的最大值处的 $\theta$ :</p>
+<p>$\theta_{best} = \underset{ {\theta} }{argmax}\ P(T|\theta)$ ，求得对应的 $\theta_{best} = 0.6$ 。</p>
+<p>通常我们会对似然函数取对数从而将乘法改为 $log$ 项相加更方便讨论最大值。</p>
+<p>如果从经验角度来说，根据这个样本结果$T$ 很容易计算出投掷正面的概率为$\theta = 0.6$，也符合极大似然估计结果。</p>
+<h3 id="使用极大似然估计求二项逻辑回归中的参数-hat-w"><a href="#使用极大似然估计求二项逻辑回归中的参数-hat-w" class="headerlink" title="使用极大似然估计求二项逻辑回归中的参数$\hat{w}$"></a>使用极大似然估计求二项逻辑回归中的参数$\hat{w}$</h3><p>在逻辑斯蒂回归中，我们已经知道了概率分布模型是:<br>$$<br>P(Y=1|x)={e^{wx+b} \over 1 + e^{wx+b} }\<br>P(Y=0|x)= 1 - P(Y=1|x) = {1 \over 1 + e^{wx+b} }\<br>$$<br>我们需要求得的参数是$w$ 与 $b$ 或者说 $\hat{w}$，</p>
+<p>假设训练数据集，即已知的样本结果信息 $T = {(x_1, y_1), (x_2, y_2),\cdots, (x_N, y_N)}$ 其中$x_i\in R^n, y_i \in {0,1}$</p>
+<p>由于二项逻辑回归模型的输出$y\in{1,0}$ 符合二项分布。</p>
+<p>那么对应的似然函数为:<br>$$<br>\prod_{i=1}^N[P(Y=1|x_i)]^{y_i}[1-P(Y=1|x_i)]^{1-y_i}<br>$$<br>当样本 $y_i$ 输出为0，那么第 $i$ 个连乘项为 $P(Y=0|x_i)$，</p>
+<p>当样本 $y_i$ 输出为1，那么第 $i$ 个连乘项为 $P(Y=1|x_i)$，</p>
+<p>对似然函数取对数，并将结果化简得到二项逻辑回归的关于参数 $\hat{w}$ 的损失函数 $L(\hat{w})$:<br>$$<br>L(\hat{w}) = \sum_{i=1}^N[y_i(\hat{w}x_i)-log(1+e^{\hat{w}x_i})]\<br>\hat{w}<em>{best} = \underset{ {\hat{w} } }{argmax}\ L(\hat{w})<br>$$<br>可以使用梯度下降法或者拟牛顿法进行迭代更新计算得到$\hat{w}</em>{best}$。</p>
+<h1 id="最大熵模型"><a href="#最大熵模型" class="headerlink" title="最大熵模型"></a>最大熵模型</h1><blockquote>
+<p>最大熵是概率模型学习的一个准则，最大熵原理认为，学习概率模型时，</p>
+<p>在所有可能的概率模型（分布）中，熵最大的模型是最好的模型。</p>
+<p>相关参考:</p>
+<p><a href="https://www.cnblogs.com/pinard/p/6093948.html" target="_blank" rel="noopener">最大熵模型原理小结 - 刘建平Pinard</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/83765331" target="_blank" rel="noopener">李航《统计学习方法》最大熵模型p(y|x)推导的正确过程</a></p>
+</blockquote>
+<h2 id="信息熵与条件熵"><a href="#信息熵与条件熵" class="headerlink" title="信息熵与条件熵"></a>信息熵与条件熵</h2><blockquote>
+<p>相关参考:</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26486223" target="_blank" rel="noopener">通俗理解信息熵</a></p>
+</blockquote>
+<p>在学习最大熵模型之前，先要了解信息学中信息熵的概念。</p>
+<p>熵：表示随机变量的不确定性。</p>
+<p>假设 $P(X=x_i)$ 代表随机事件 $X$ 为 $x_i$ 的概率，则其熵为:<br>$$<br>H(X) = -\sum_{i=1}^n P(X=x_i)logP(X=x_i)<br>$$<br>在李航的书中此处的 $log$ 以 $e$ 为底数。</p>
+<p>公式中的 $log\ P(X=x_i)$ 用来衡量随机事件 $X$ 为 $x_i$ 时的信息量。</p>
+<p>那么信息熵公式就可以被理解成随机事件 $X$ 所含信息量的期望，即: 各项概率 × 对应信息量的总和。</p>
+<p>根据熵的定义，我们可以推广到两个变量 $X,Y$ 的联合熵:<br>$$<br>H(X,Y) = -\sum_{x_i\in X}\sum_{y_j \in Y} P(X=x_i,Y=y_j)logP(X=x_i,Y=y_j)<br>$$<br>在本节中我们需要使用条件熵来帮助进行推导最大熵模型。</p>
+<p>条件熵是指在一个条件下，随机变量的不确定性:<br>$$<br>\begin{aligned}<br>H(Y|X=x_j) &amp;= \sum_{y_i \in Y} P(Y=y_i|X=x_j)logP(Y=y_i|X=x_i)\<br>H(Y|X) &amp;= \sum_{x_j\in X}P(X=x_j)H(Y|X=x_j)\<br>&amp;= -\sum_{x_i\in X}\sum_{y_j \in Y}P(Y=y_i,X=x_j)logP(Y=y_i|X=x_j)<br>\end{aligned}<br>$$</p>
+<h2 id="最大熵原理以及最大熵模型"><a href="#最大熵原理以及最大熵模型" class="headerlink" title="最大熵原理以及最大熵模型"></a>最大熵原理以及最大熵模型</h2><p>最大熵原理认为要选择的概率模型首先必须满足已有的事实，即约束条件。</p>
+<p>在没有更多信息的情况下，那些不确定的部分都是“等可能的”。最大熵原理通过熵的最大化来表示等可能性。</p>
+<p>用一个例子解释一下这段话。</p>
+<p>假设随机变量$X$ 有4个取值 ${A,B,C,D}$ ，取各个值的概率为$P(A),\cdots,P(D)$。</p>
+<p>这些概率值满足以下约束条件: $P(A)+\cdots+P(D) = 1$</p>
+<p>满足这个约束条件的概率分布有无穷多个。如果没有任何其他信息，仍要对概率分布进行估计，</p>
+<p>一个办法就是认为这个分布中取各个值的概率是相等的，因为此时$H(X)$最大，符合最大熵准则。</p>
+<p>即: 熵最大的模型是最好的模型。</p>
+<p>根据最大熵原理得到最大熵模型定义。</p>
+<p><strong>下面需要先定义一系列函数</strong></p>
+<p>给定一个数据集 $T = {(x_1, y_1), (x_2, y_2),\cdots, (x_N, y_N)}$</p>
+<p>定义联合分布$P(X=x,Y=y)$ 的经验分布为 $\tilde{P}(X=x,Y=y)$</p>
+<p>定义边缘分布$P(X=x)$ 的经验分布为 $\tilde{P}(X=x)$<br>$$<br>\tilde{P}(X=x,Y=y) = {v(X=x,Y=y)\over N}\<br>\tilde{P}(X=x) = {v(X=x)\over N}\<br>$$<br>其中 $v(X=x,Y=y)$ 表示样本中出现 $(x,y)$ 的频数，$v(X=x)$ 表示训练数据中输入 $x$ 出现的频数。</p>
+<p>定义特征函数 $f(x,y)$ 描述输入 $x$ 和输出 $y$ 是否存在联系。</p>
+<p>可以认为只要出现在训练集中出现 $(x_i,y_j)$， 其$f(x_i,y_j)=1$， 否则 $f(x_i,y_j)=0$</p>
+<p>特征函数$f(x,y)$ 关于经验分布$\tilde{P}(X,Y)$ 的期望，用$E_{\tilde{P} }(f)$ 表示:<br>$$<br>E_{\tilde{P} }(f) = \sum_{x_i\in X}\sum_{y_j\in Y}\tilde{P}(X=x_i,Y=y_j)f(x_i,y_j)<br>$$<br>特征函数$f(x,y)$ 关于**模型$P(Y|X)$ **与经验分布$\tilde{P}(X)$的期望，用$E_{P}(f)$ 表示:<br>$$<br>E_{P}(f) = \sum_{x_i\in X}\sum_{y_j\in Y}\tilde{P}(X=x_i)P(Y=y_j|X=x_i)f(x_i,y_j)<br>$$<br>如果模型能够获取训练数据中的信息，那么就可以假设这两个期望值相等，即$E_{\tilde{P} }(f) = E_{P}(f)$。</p>
+<p>这个等式将作为模型学习的约束条件，假设存在n个特征函数$f_i(x,y),i=1,\cdots,n$ 那么就有n个约束条件。</p>
+<p><strong>最后根据以上公式给出最大熵模型</strong></p>
+<p>假设我们需要获得的最优模型是$P(Y|X)$ 简记为 $P$ ，也就是最终通过学习得到的结果。</p>
+<p>定义在条件概率分布$P(Y|X)$ 上的条件熵$H(P)$为<br>$$<br>H(P) =  -\sum_{x_i\in X}\sum_{y_j \in Y}\tilde{P}(X=x_i)P(Y=y_j|X=x_i)logP(Y=y_j|X=x_i)<br>$$<br>假设最大熵模型符合约束条件集合 $C$ ，那么最大熵模型的定义为:<br>$$<br>C={P| E_{\tilde{P} }(f_i) = E_{P}(f_i), i= 1,2,\cdots,n}\<br>P_{best} = \underset{P}{argmax} = H(P)<br>$$</p>
+<h2 id="最大熵模型的学习"><a href="#最大熵模型的学习" class="headerlink" title="最大熵模型的学习"></a>最大熵模型的学习</h2><p>最大熵模型的学习过程就是求解符合最大熵模型的$P(Y|X)$的过程，</p>
+<p>由于不容易直接根据最大熵模型的定义求解，需要将问题通过拉格朗日函数转化为约束最优问题。</p>
+<p>因此在展开讲解最大熵模型的学习之前需要先介绍一下拉格朗日函数以及拉格朗日对偶性。</p>
+<h3 id="拉格朗日函数与拉格朗日对偶性"><a href="#拉格朗日函数与拉格朗日对偶性" class="headerlink" title="拉格朗日函数与拉格朗日对偶性"></a>拉格朗日函数与拉格朗日对偶性</h3><blockquote>
+<p>相关参考:</p>
+<p><a href="https://zhuanlan.zhihu.com/p/99945521" target="_blank" rel="noopener">10幅图帮助理解拉格朗日乘数法的原理</a></p>
+<p><a href="https://blog.csdn.net/frostime/article/details/90291392" target="_blank" rel="noopener">从0到完全理解拉格朗日函数的对偶函数</a></p>
+<p><a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">“拉格朗日对偶问题”如何直观理解？“KKT条件” “Slater条件” “凸优化”打包理解</a></p>
+</blockquote>
+<p><strong>首先拉格朗日函数能做什么?</strong></p>
+<p>拉格朗日函数能够将约束最优化问题变为无约束优化问题并进行求解。</p>
+<p><strong>拉格朗日函数如何求解约束最优化问题?</strong></p>
+<p>假设$f(x),c_i(x),h_j(x)$ 是定义在$R^n$ 上的连续可微函数，考虑约束最优化问题:<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l<br>\end{aligned}<br>$$<br>存在 $k$ 个不等式约束条件 $c_i(x)$ ，以及 $l$ 个约束条件$h_j(x)$。</p>
+<p>引入拉格朗日函数将上述问题等价表述为:<br>$$<br>L(x,\alpha,\beta) = f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x), \quad \alpha_i\geq 0 \<br>set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta)\<br>p^{<em>} = \underset{x}{min} A(x)<br>$$<br>其中的乘子 $a$ 与 $\beta$ 是未定参数向量需要被求解。我们将上述两种表示称为原始问题的最优解 $p^{</em>}$。</p>
+<p>通常我们会将原始问题转化为对偶问题求解，对偶问题就是<strong>实质相同但从不同角度观察的一对问题</strong>。</p>
+<p>设对偶问题为$d^{<em>}$，对偶函数为 $I(\alpha,\beta)$ 那么有:<br>$$<br>set\quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta) \quad x\in R^n \<br>d^{</em>} = \underset{\alpha,\beta}{max} I(\alpha,\beta),\ s.t. \ \alpha_i\geq 0<br>$$<br>其中$a_i\geq 0$ 是对偶问题的约束条件，对于对偶问题中在求 $\underset{x}{min} L(x,\alpha,\beta)$ 时，</p>
+<p>$x$ 不受约束条件$c_i(x)$ 与 $h_j(x)$ 影响，因此$x \in R^n$。</p>
+<p>我们可以证明 $d^{<em>} \leq p^{</em>}$ ，证明如下:<br>$$<br>\begin{aligned}<br>&amp;\underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta) \geq L(x,\alpha,\beta) \geq \underset{x}{min} L(x,\alpha,\beta)\<br>&amp;set\quad A(x)= \underset{\alpha,\beta;\alpha_i\geq 0}{max} L(x,\alpha,\beta), \quad I(\alpha,\beta) =\underset{x}{min} L(x,\alpha,\beta)\<br>&amp;\because \quad A(x) \geq I(\alpha,\beta)\<br>&amp;\therefore \quad  \underset{x}{min} A(x) \geq \underset{\alpha,\beta;\alpha_i\geq 0}{max}I(\alpha,\beta)\<br>&amp;\therefore \quad p^{<em>} \geq d^{</em>}<br>\end{aligned}<br>$$<br>更形象的图解证明可以参考<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右。</p>
+<p>满足 $d^{<em>} \leq p^{</em>}$ 关系的对偶性称为弱对偶性，通过弱对偶性，我们可以给出原始问题 $p^{*}$ 的范围。</p>
+<p>当原始问题 $p^{<em>}$ 是<strong>凸优化问题且满足Slater条件</strong>时，有 $d^{</em>} = p^{*}$ ，即原始问题的最优解。 </p>
+<p>(但是一般情况是凸优化问题就有$d^{<em>}=p^{</em>}$，上述凸优化问题且满足Slater条件是充分条件)</p>
+<p><strong>什么是凸优化问题?</strong></p>
+<p>当 $f(x),c_i(x)$ 是凸函数，$h_j(x)$ 是仿射函数时，原问题 $p^{*}$ 是一个凸优化问题。</p>
+<p><strong>凸函数定义:</strong> ${f(x_1)+f(x_2) \over2} \geq f({x_1+x_2 \over 2})$ 且 定义域为凸集。$f(x)=x^2$ 就是一个典型的凸函数。</p>
+<p>凸集的定义如下，假设集合 $C$ 是一个定义在 $n$ 维的定义域。</p>
+<img src="/.io//timg.gif" data-original="ConvexSet.png">
+
+<p>那么右侧橙色所表示的集合 $C$ 是凸集，而左侧蓝色所表示的集合不是凸集。</p>
+<p>关于求最大熵问题一般都是凸优化问题，下面给出一个简单的例子感受一下。<br>$$<br>p^{<em>}=\underset{P}{max} \ H(P) = -\sum_x P(x)logP(x)\<br>p^{</em>}=\underset{P}{min} \ -H(P) = \sum_x P(x)logP(x)\<br>s.t. \ E_p(f_i) = E_{\tilde{P} }(f_i), \ i=1,\cdots,n\<br>\sum_{x}P(x)=\sum_{x}\tilde{P}(x)=1<br>$$<br>假设随机变量$X={x_1,x_2}$  那么有 $- H(P) = P(x_1)logP(x_1) + (1-P(x_1))log(1-P(x_1))$ 函数图像:</p>
+<img src="/.io//timg.gif" data-original="HP.png">
+
+<p>从函数图像可以看出关于熵的函数$-H(P)$ 是一个凸函数。</p>
+<p>同时关于最大熵模型的约束条件(仅有等式约束)，符合仿射函数条件。</p>
+<p>所以求最大熵问题一般情况下符合凸优化问题定义。</p>
+<p><strong>什么是仿射函数?</strong></p>
+<p>仿射函数指符合 $c = Wx+b$ 且 $ x,w\in R^n$ 关系的函数， 当$x,w$是一维时，它就是典型的线性函数。</p>
+<p>而它的解集 $C={x|c=Wx+b}$  是仿射集。</p>
+<p><strong>什么是Slater条件?</strong></p>
+<p>Slater条件定义如下:</p>
+<p>存在一个点$x \in relint \ D$ ($relint \ D$ 表示非边界定义域)，</p>
+<p>使得 $c_i(x) &lt; 0, \ i=1,2,\cdots,k$ 且 $Wx = b $ ，即 $x$ 属于$h_j(x)$的解集。</p>
+<p><strong>为何选择求解对偶问题 $b^{<em>}$ 而不是直接求解 $p^{</em>}$ ?</strong></p>
+<p>原始问题求解比较困难，主要是因为原始问题中 $f(x)$ 或 $A(x)$ 凹凸性不明确。</p>
+<p>而对偶问题中 $I(\alpha,\beta)$ ，一定是一个凹函数 (与凸函数相反)，即一定存在最大值。</p>
+<p>关于$I(\alpha,\beta)$ 是凹函数的证明可以看<a href="https://blog.csdn.net/frostime/article/details/90291392" target="_blank" rel="noopener">此博客</a></p>
+<h3 id="原始问题与对偶问题的求解"><a href="#原始问题与对偶问题的求解" class="headerlink" title="原始问题与对偶问题的求解"></a>原始问题与对偶问题的求解</h3><p>前文简单介绍了使用对偶问题求解拉格朗日函数表示的约束最优化问题。</p>
+<p>但是无论是原始问题 $p^{<em>}$ 还是对偶问题 $d^{</em>}$ 它们要求极小极大值或极大极小值，这在理解时非常抽象。</p>
+<p><a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 28分钟左右，证明了$p^{<em>}\geq d^{</em>}$ 的同时也展示了如何直接求解原始问题和对偶问题:</p>
+<p>设有原始问题$p^{<em>}$:<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l\\<br>L(x,\alpha,\beta) &amp;= f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)<br>\end{aligned}<br>$$<br>其对偶问题$d^{</em>}$为:<br>$$<br>d^{*} = \underset{\alpha,\beta}{max} \ \underset{x}{min} L(x,\alpha,\beta)\<br>s.t. \alpha_i \geq 0<br>$$<br>由于$h_j(x)=0$ 它对$L(x,\alpha,\beta)$的大小没有贡献，在讨论拉格朗日函数 $L$ 的具体值时可以省略。</p>
+<p>但是我们仍然需要在拉格朗日函数中加入 $h_j(x)$ 因为它的导数对求解问题有意义。</p>
+<p>同时我们可以令$f(x) = t$，$\sum_{i=1}^k\alpha_ic_i(x) = \lambda^T u$ 。</p>
+<p>那么拉格朗日函数的形式被简化成:<br>$$<br>L(x,\alpha,\beta) = L(t,u)= t + \lambda^T u<br>$$<br>其中 $t$ 是标量，$u$是一个向量，其维度大小等于约束条件 $c_i(x)$ 的个数$i$。</p>
+<p>为了简化问题我们可以将拉格朗日函数看成关于变量 $t$ 和 $u$ 的函数 $L$ 。</p>
+<p>同时简化后的原始问题和对偶问题为:<br>$$<br>p^{<em>} = \underset{x}{min}{t|(t,u)\in G_1, u\leq0 }\<br>d^{</em>} = \underset{\lambda}{max} \ \underset{x}{min} {t + \lambda^T u|(t,u)\in G_2,\lambda \geq 0}\<br>$$<br>其中 $G_1$ 表示原始问题的可行域，$G_2$ 表示对偶问题的可行域，且 $G_1 \in G_2$，</p>
+<p>因为对偶问题中 $x$ 不受约束条件影响因此 $G_1$ 是 $G_2$ 的子集。</p>
+<img src="/.io//timg.gif" data-original="p_d_problem.png">
+
+<p>那么对于原始问题就是在可行域 $G_1$ 处找到一个点$(t,u)$ 使得 $t$ 最小。</p>
+<p>而对于对偶问题:</p>
+<p>第一步</p>
+<p>假定斜率 $\lambda$ 已知，在$G_2$ 内找到一个点 $(t,u)$ ，即调整 $x$ 使得函数 $L(t,u)$  过该点，且它的截距最小。</p>
+<p>这里可能不太好理解为什么找截距$c$ ，即 $c = \underset{x}{min} L(t,u)$ 。</p>
+<p>假设找到的函数$L(t,u)$ 过点 $(t^{<em>}, u^{</em>})\in G_2$ 且斜率 $\lambda$ 已知，那么截距 $c = t^{<em>}+\lambda^Tu^{</em>}$ 。</p>
+<p>因为一旦确定了 $(t^{<em>}, u^{</em>})$ ，那么二元函数$L(t,u)$ 就退化成了一元函数 $c -\lambda^Tu= t$。</p>
+<p>而对于一元函数带入直线上任意一点都等于同一个值 $c$ 。</p>
+<p>第二步</p>
+<p>调整 $\lambda$ ，重复第一步，每个斜率各自对应一条直线，找出这些直线中截距最大的那一条。</p>
+<p>那么最终的截距$c$ 就是我们要求的对偶问题的解，即$d^{*} = \underset{\lambda}{max} \ \underset{x}{min} {t + \lambda^T u|(t,u)\in G_2,\lambda \geq 0}$。</p>
+<p><strong>KKT条件</strong></p>
+<p>由于直接求解对偶问题中的极大极小值问题比较抽象，</p>
+<p>我们通常会使用 $KKT$ 条件中梯度为0的条件求解拉格朗日函数中的参数$\alpha,\beta$ 以及变量 $x$ , </p>
+<p>可以说只要满足强对偶关系，那么可以使用$KKT$条件求解最优值。</p>
+<p>对于凸优化原始问题 $p^{*}$<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x)\<br>s.t \quad &amp; c_i(x) \leq 0, i=1,2,\cdots,k\<br>&amp; h_j(x) = 0, j=1,2,\cdots,l\<br>L(x,\alpha,\beta) =&amp; f(x) + \sum_{i=1}^k\alpha_ic_i(x)+\sum_{j=1}^l\beta_jh_j(x)<br>\end{aligned}<br>$$<br>其对应的$KKT$ 条件表述如下 :<br>$$<br>c_i(x) \leq 0\<br>h_i(x) = 0\\</p>
+<p>\nabla_xL(x,\alpha,\beta) = 0\<br>\nabla_{\alpha}L(x,\alpha,\beta) = 0\<br>\nabla_{\beta}L(x,\alpha,\beta) = 0\<br>a_i \geq 0\\<br>\alpha_ic_i(x) = 0<br>$$<br>$KKT$ 条件的前两条对应原问题中的约束条件。</p>
+<p>中间梯度为0以及$a_i\geq 0$ 是对偶问题的约束条件。</p>
+<p>统计学习方法附录中有$\nabla_{\alpha}L(x,\alpha,\beta) = 0$ ，$\nabla_{\beta}L(x,\alpha,\beta) = 0$，将这种KKT条件作为强对偶性的充分必要条件。</p>
+<p>而其他资料中只有前一条$\nabla_xL(x,\alpha,\beta) = 0$，将这种KKT条件作为强对偶性的必要条件。</p>
+<p>最后一个条件被称为互补松弛条件。</p>
+<p>在最大熵模型的学习问题中只有等式约束条件，因此不用太关注互补松弛条件。</p>
+<p>关于互补松弛条件的含义具体可以查看<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 40分左右的讲解。</p>
+<p>可以参考统计学习方法书中的例6.2来感受一下如何使用对偶性以及$KKT$条件求解最大熵模型:</p>
+<p>已知随机事件$X = {A,B,C,D,E}$ 各自发生的概率$P(y_i), \ i = 1,\cdots,5$。</p>
+<p>要求解随机事件$X$ 的最大熵模型$P(y_i),\ i=1,\cdots, 5$</p>
+<p>对于随机事件$X$ 有约束条件: </p>
+<p>$P(y_1) + P(y_2) = \tilde{P}(y_1) + \tilde{P}(y_2)= 3/10$，且 $\sum_i P(y_i) = \sum_i \tilde{P}(y_i) = 1$。</p>
+<p>则原始问题 $p^{<em>}$ 表示为:<br>$$<br>\begin{aligned}<br>&amp;min \ -H(P)=\sum_{i=1}^5P(y_i)logP(y_i)\<br>&amp;s.t \  P(y_1) + P(y_2) = \tilde{P}(y_1) + \tilde{P}(y_2)= 3/10\<br>&amp;\quad \quad \sum_i P(y_i) = \sum_i \tilde{P}(y_i) = 1<br>\end{aligned}<br>$$<br>设拉格朗日函数 $L(P,w)$ , 其中 $w$ 是前面介绍拉格朗日函数里等式约束中的参数向量 $\alpha$。<br>$$<br>L(P,w) = -H(P) + w_1(P_(y_1)+P(y_2)-3/10) + w_0(\sum_{i=1}^5P(y_i)-1)\<br>p^{</em>} = \underset{x}{min} \ \underset{w}{max} L(x,w)\<br>d^{*} = \underset{w}{max} \ \underset{x}{min} L(x,w)<br>$$<br>$P$ 则指代最大熵模型中的$P(y_i)$，</p>
+<p>将 $w$ 作为参数求解 ${\partial L \over \partial P(y_i)} = 0$， 此时偏导的零点为原函数的最小值点，</p>
+<p>得到用参数$w = {w_0,w_1}$ 表示的 $P_w(y_i)$。</p>
+<p>再使用 $P_w(y_i)$ 表示 $L(P_w,w)$ 。</p>
+<p>最后求解 ${\partial L \over \partial w_i} = 0$， 此时偏导的零点为原函数的最大值点，</p>
+<p>得到参数 $w$ 的解，将 $w$ 带入 $P_w(y_i)$ 得到随机事件 $X$ 的最大熵模型。</p>
+<p>在这个例题中拉格朗日对偶性告诉我们:</p>
+<p>由于原问题$min \ -H(P)$ 是一个凸优化问题，</p>
+<p>先将 $w$ 作为参数 $P(y_i)$ 作为变量求解问题($d^{*}$)，</p>
+<p>和先将 $P(y_i)$ 作为参数 $w$ 作为变量求解问题( $p^{*}$)。</p>
+<p>最终的解是一样的($d^{<em>} = p^{</em>}$)。</p>
+<p>上述例题在求解对偶问题时可以看到使用了求偏导找零点求最值的过程，</p>
+<p>这其实就是在使用 $KKT$ 条件求解强对偶关系问题中最优值的方法。</p>
+<p><strong>KKT条件为什么能求出对偶问题最优解?</strong></p>
+<p>KKT条件中的梯度为0的条件其实引出了如何构造出拉格朗日函数的问题。</p>
+<p>下面以 <a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 中的例子结合 <a href="https://zhuanlan.zhihu.com/p/99945521" target="_blank" rel="noopener">知乎</a> 的推导进行讲解。</p>
+<p>设有原始问题如下，其中$x=(x_1,x_2)$ 是一个二维向量，讨论仅含有一个等式约束 $h(x)$ 的情况。<br>$$<br>\begin{aligned}<br>\underset{x\in R^n}{min}\quad &amp; f(x) = x_1^2+x_2^2\<br>s.t \quad &amp; h(x) = 0\<br>\end{aligned}<br>$$<br>下图中蓝色同心圆为 $f(x)$ 的等高线，其梯度$\nabla_x f(x)$为圆上向外的法线，即蓝色箭头。</p>
+<p>黄色曲线为等式约束 $h(x)$，其梯度 $\nabla_x h(x)$  为黄色曲线上的法线，即黄色箭头。</p>
+<img src="/.io//timg.gif" data-original="explain_kkt.png" height="500" width="600/">
+
+<p>假设已有点$x=(x_1,x_2)$ ，我们想找到符合约束条件 $h(x)$ 的点$x^*=(x_1^*,x_2^*)$ 使得 $f(x)$ 最小。</p>
+<p>设 $x^*-x = \delta x$ 那么 $\delta x$ 要满足: $f(x+\delta x) &lt; f(x)$ 且 $h(x+\delta x) = 0$ 。</p>
+<p>我们知道从 $x$ 到 $x^*$ ， $\delta x$ 必须在约束条件 $h(x)$ 上移动，即只能沿着与 $\nabla_x h(x)$ 垂直的方向移动，</p>
+<p>所以有等式 $\delta x\nabla_x h(x) = 0$ 。</p>
+<p>同时从上图中可以看到在 $\nabla f(x) = \beta \nabla h(x)$ 时能取到符合约束条件的极值点$x^*$。<br>$$<br>\because \nabla_x f(x) = \beta \nabla_x h(x),\ \delta x\nabla_x h(x) = 0\<br>\therefore \delta x \nabla_x f(x) = \delta x \beta \nabla_x h(x) = 0\<br>\therefore \nabla_x L(x,\beta) = \nabla_x f(x) + \beta \nabla_x h(x) = 0\<br>\therefore L(x,\beta) = f(x) + \beta h(x)<br>$$<br>由于在求解最大熵模型中没有涉及到不等式约束，</p>
+<p>这里不再展示不等式约束情况下推导拉格朗日函数的具体细节。可以查看<a href="https://www.bilibili.com/video/BV1HP4y1Y79e" target="_blank" rel="noopener">视频</a> 6min30s 左右的讲解。</p>
+<h3 id="推导最大熵模型的学习过程"><a href="#推导最大熵模型的学习过程" class="headerlink" title="推导最大熵模型的学习过程"></a>推导最大熵模型的学习过程</h3><blockquote>
+<p>相关参考:</p>
+<p><a href="https://zhuanlan.zhihu.com/p/83765331" target="_blank" rel="noopener">李航《统计学习方法》最大熵模型p(y|x)推导的正确过程</a></p>
+</blockquote>
+<p>前文已经介绍了最大熵模型的定义，现在结合拉格朗日函数以及对偶性求解最大熵模型。</p>
+<p>首先写出原始问题以及其约束条件。</p>
+<p>统计学习此处给出的约束条件与其推导过程存在问题，此处推导过程主要参考上方参考链接处的方式。<br>$$<br>\begin{aligned}<br>min  \ -H(P) &amp;=  \sum_{x\in X,y \in Y}\tilde{P}(x)P(y|x)logP(y|x)\<br>s.t. &amp;\quad 1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x) = 0\<br>&amp;\quad E_p(f_i) - E_{\tilde{P} }(f_i) = 0, \ i=1,\cdots,n\\</p>
+<p>E_{\tilde{P} }(f) &amp;= \sum_{x\in X,y\in Y}\tilde{P}(x,y)f(x,y)\<br>E_{P}(f) &amp;= \sum_{x\in X,y\in Y}\tilde{P}(x)P(x|y)f(x,y)<br>\end{aligned}<br>$$<br>此处将$P(X=x_i)$ 简写为 $P(x)$ ，将$P(Y=y_j)$ 简写为 $P(y)$，将 $P(Y=y_j|X=x_i)$ 简写为$P(y|x)$，</p>
+<p>将$P(X=x_i, Y=y_j)$ 简写为 $P(x,y)$。</p>
+<p>最大熵模型中共有n个特征函数$f_i(x,y)$ ，其中变量$P$ 指代最大熵模型$P(y|x)$。</p>
+<p>将上述原始问题用拉格朗日函数改写为等价问题。<br>$$<br>\begin{aligned}<br>L(P,w) =&amp; -H(P) + w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]+\sum_{i=1}^nw_i(E_p(f_i) - E_{\tilde{P} }(f_i))\</p>
+<p>L(P,w) =&amp; \sum_{x\in X,y \in Y}\tilde{P}(x)P(y|x)logP(y|x) + w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]\<br>&amp; +\sum_{i=1}^nw_i[\sum_{x\in X,y\in Y}\tilde{P}(x,y)f(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P(x|y)f(x,y)]\\<br>p^* =&amp; \underset{P\in C}{min} \ \underset{w}{max} L(P,w)\<br>d^* =&amp; \underset{w}{max}\ \underset{P\in C}{min} L(P,w)\<br>\end{aligned}<br>$$<br>最大熵模型的学习最终就是要求出给定训练集$T$ 对应的$P(Y=y_i|X=x_i)$ ，即 $L(P,w)$ 中的 $P$。</p>
+<p>根据 $KKT$ 条件，我们需要先求出$\nabla_P L(P,w) = 0$ 时 $P$ 关于参数 $w$ 的表达式。</p>
+<p>对每个 $x_i$ 和 $y_j$ 的条件概率 $P(Y=y_i|X=x_i)$ 求 $L(P,w)$ 的偏导，(下文为了简洁用$P(y|x)$表示)。<br>$$<br>\begin{aligned}<br>{\partial L(P,w) \over \partial P(y|x)} =&amp; \tilde{P}(x)[logP(y|x)+1] - \tilde{P}(x)w_0 + \tilde{P}(x)\sum_{i=1}^n w_i f_i(x,y)\<br>=&amp;\tilde{P}(x)[logP(y|x) + 1 - w_0 - \sum_{i=1}^n w_i f_i(x,y) ]\<br>\because &amp;\quad \tilde{P}(x) \not= 0 \quad and \quad  {\partial L(P,w) \over \partial P(y|x)}=0\<br>\therefore &amp;\quad logP(y|x) + 1 - w_0 - \sum_{i=1}^n w_i f_i(x,y) = 0\<br>\therefore &amp;\quad P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over exp(1-w_0)}\<br>\because &amp;\quad \sum_{y\in Y}P(y|x) = 1\<br>\therefore &amp;\quad \sum_{y\in Y}P(y|x) = {\sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))\over exp(1-w_0) } = 1\<br>\therefore &amp;\quad Z_w(x) = exp(1-w_0) = \sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))\<br>\therefore &amp;\quad P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over Z_w(x)} = {exp(\sum_{i=1}^nw_if_i(x,y))\over \sum_{y\in Y}exp(\sum_{i=1}^nw_if_i(x,y))}<br>\end{aligned}<br>$$<br>其中 $Z_w(x)$ 表示最优化参数 $w$ 下的规范化因子，$P_w(y|x)$ 表示最优化参数 $w$ 下的最大熵模型。</p>
+<p>注意到我们使用$Z_w(x)$ 去替换分母$exp(1-w_0)$ 有一个好处就是能说明 $P_w(y|x)$ 的值与 $w_0$ 无关，</p>
+<p>或者说$w_0$ 的值是由$w_i,\ i=1,\cdots,n$ 共同决定的。</p>
+<p>目前我们只求出了 $P(y|x)$ 关于 $w$ 的表达式 $P_w(y|x)$，我们需要求解出 $w$ 才能真正求出 $P_w$。</p>
+<p>或者说我们只求出了对偶问题中的 $I(w)=\underset{P}{min} \ L(P,w) = L(P_w,w)$ ，还需要求解 $w^*=\underset{w}{argmax}\ I(w)$。</p>
+<p>那么最大熵模型的学习归结为对偶函数 $I(w)$ 的极大化，最终最大熵模型为 $P_{w^*}(y|x)$。</p>
+<p>由于$P_w(y|x)$ 的值与 $w_0$ 无关，且 $w_0[1 - \sum_{x\in X,y\in Y}P(y|x)\tilde{P}(x)]=0$ 对$L(P_w,w)$ 的值没有贡献，</p>
+<p>因此此项在化简中可行省略。现在将 $P_w$ 带入$L(P_w,w)$ 并化简:<br>$$<br>\begin{aligned}<br>L(P_w,w) =&amp; \sum_{x\in X,y \in Y}\tilde{P}(x)P_w(y|x)logP_w(y|x) \<br>&amp; +\sum_{i=1}^nw_i[\sum_{x\in X,y\in Y}\tilde{P}(x,y)f_i(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(x|y)f_i(x,y)]\<br>=&amp; \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) + \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(y|x)[logP_w(y|x)-\sum_{i=1}^nw_if_i(x,y)]\<br>=&amp; \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) - \sum_{x\in X,y\in Y}\tilde{P}(x)P_w(y|x)logZ_w(x)\\<br>\because &amp;\quad \sum_yP(y|x) = 1\<br>\therefore &amp;\quad I(w) = L(P_w,w)= \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) - \sum_{x\in X}\tilde{P}(x)logZ_w(x)<br>\end{aligned}<br>$$</p>
+<p>统计学习方法在 <strong>6.2.4 极大似然估计</strong>中证明了对偶函数 $I(w)$ 的极大化等价于最大熵模型的极大似然估计。</p>
+<p>设条件概率分布$P_w(y|x)$ 的对数似然函数为$L(P_w)$，那么有以下等式关系:<br>$$<br>\begin{aligned}<br>L(P_w) =&amp; log\prod_{x\in X,y\in Y} P_w(y|x)^{\tilde{P}(y,x)} \<br>=&amp; \sum_{x\in X,y\in Y}\tilde{P}(y,x) logP_w(y|x)\<br>=&amp; \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y) - \sum_{x\in X}\tilde{P}(x)logZ_w(x)\<br>\therefore &amp;\quad L(P_w) = I(w)<br>\end{aligned}<br>$$<br>这样，最大熵模型的学习问题就转换为具体求解对数似然函数极大化或对偶函数极大化的问题。</p>
+<h2 id="模型学习的最优化算法"><a href="#模型学习的最优化算法" class="headerlink" title="模型学习的最优化算法"></a>模型学习的最优化算法</h2><blockquote>
+<p>常用的方法有改进的迭代尺度法、梯度下降法、牛顿法或拟牛顿法。</p>
+<p>此处主要针对最大熵模型讨论改进的迭代尺度法(IIS)和牛顿法。</p>
+<p>相关参考:</p>
+<p><a href="https://www.bilibili.com/video/BV1g64y1h7Lc" target="_blank" rel="noopener">深度之眼《李航统计学习方法》课程</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6093948.html" target="_blank" rel="noopener">最大熵模型原理小结 - 刘建平Pinard</a></p>
+</blockquote>
+<p>可以想到将$P_w$ 代入原式中再求解 $\nabla_w L(P_w,w) = 0$，</p>
+<p>但实际上直接对$L(P_w,w)$ 求 $w$ 的偏导数求解十分困难，需要用到最优化算法求解。</p>
+<h3 id="改进的尺度迭代法"><a href="#改进的尺度迭代法" class="headerlink" title="改进的尺度迭代法"></a>改进的尺度迭代法</h3><p>改进的尺度迭代法 (IIS) 一般只用于最大熵模型，</p>
+<p>它假设当前的参数向量是 $w$ , 我们希望找到一个新的参数向量 $w+\delta$ , 使得对偶函数 $I(w)$ 增大, </p>
+<p>重复此操作, 以达到 $\underset{w}{max}\ I(w)$  的目的。</p>
+<p>将这个过程表述为等式:<br>$$<br>\begin{aligned}<br>&amp; I(w+\delta) - I(w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y)-\sum_{x\in X} \tilde{P}(x)log{Z_{w+\delta}(x)\over Z_w(x)}\\</p>
+<p>\because &amp; -log\ x \geq 1-x \ ,\ (x&gt;0)\<br>\therefore &amp; \ I(w+\delta) - I(w)  \geq \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x){Z_{w+\delta}(x)\over Z_w(x)}\\</p>
+<p>set \ &amp; A(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x){Z_{w+\delta}(x)\over Z_w(x)}\<br>&amp; A(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x)\sum_{y\in Y}P_w(y|x)exp\sum_{i=1}^n\delta_if_i(x,y)\<br>\therefore \ &amp;I(w+\delta) - I(w) \geq A(\delta|w)<br>\end{aligned}<br>$$<br>我们可以最大化$A()$ 来间接找到能使 $I(w)$ 增大最快的 $\delta$ 。</p>
+<p>于是想到求解 $A(\delta|w)$ 的最大值，即求出$A(\delta|w)$ 关于 $\delta$ 的导数，找到零点。</p>
+<p>但是如果这么做的话会发现，由于$\delta$ 是和 $w$ 同维度的向量，就需要对每个分量$\delta_i$求导。</p>
+<p>那么原式中的 $exp\sum_i^n\delta_if_i(x,y)$ 在对$\delta_i$ 求导后就会变成 $f_i(x,y)exp\sum_i^n\delta_if_i(x,y)$ ,</p>
+<p>我们发现由于指数函数的存在求导不能将偏导数摆脱其他 $\delta_j$ 分量，使其成为只关于$\delta_i$ 的函数，</p>
+<p>我们不能使用未知的 $\delta_j$ 求解$\delta_i$ 的偏导数零点。</p>
+<p>为了解决这个问题我们需要引入一个函数：$f^{ # }(x,y) = \sum_if_i(x,y)$ </p>
+<p>以及一个不等式 Jensen不等式: </p>
+<p>对于凸函数 $\phi$ 以及满足$\sum_ia_i = 1$ 的权重 $a_i$，那么就有$\phi(\sum_ia_ib_i)\leq \sum_i a_i\phi(b_i)$<br>$$<br>\begin{aligned}<br>&amp; set \ a_i = {f_i(x,y)\over f^{ # }(x,y)} \ ,\ b_i = \delta_if^{ # }(x,y)\<br>&amp; A(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x)\sum_{y\in Y}P_w(y|x)exp\sum_{i=1}^n a_ix_i\\</p>
+<p>\because &amp; \phi(x) = exp(x)\\<br>\therefore &amp; \phi(\sum_ia_ib_i)\leq \sum_i a_i\phi(b_i)\<br>\therefore &amp; exp(\sum_i^n {f_i(x,y)\over f^{ # }(x,y)}\delta_if^{ # }(x,y)) \leq \sum_i^n {f_i(x,y)\over f^{ # }(x,y)} exp(\delta_if^{ # }(x,y))\\<br>&amp; B(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x)\sum_{y\in Y}P_w(y|x)\sum_i^n {f_i(x,y)\over f^{ # }(x,y)} exp(\delta_if^{ # }(x,y))\<br>&amp; A(\delta|w) \geq B(\delta|w)<br>\end{aligned}<br>$$<br>于是我们从 $A(\delta|w)$ 放缩得到 $B(\delta|w)$ , 即有$I(w+\delta) - I(w) \geq B(\delta|w)$ 。</p>
+<p>由于现在的指数函数在求和内，那么无关变量$\delta_j$ 就是无关变量对$\delta_i$求导为0，</p>
+<p>现在再求$B(\delta|w)$ 对 $\delta_i$ 的偏导数:<br>$$<br>{\part B(\delta|w)\over \part \delta_i} = \sum_{x\in X y\in Y} \tilde{P}(x,y)f_i(x,y) - \sum_{x\in X} \tilde{P}(x)\sum_{y \in Y}P_w(y|x)f_i(x,y)exp(\delta_i f^{ # }(x,y))\<br> set \quad {\part B(\delta|w)\over \part \delta_i} = 0\<br> E_{\tilde{P} }(f_i) = \sum_{x\in X y\in Y} \tilde{P}(x,y)f_i(x,y) = \sum_{x\in X,y\in Y} \tilde{P}(x)P_w(y|x)f_i(x,y)exp(\delta_i f^{ # }(x,y))<br>$$<br>现在只要求解上述关于 $\delta_i$ 的方程就能求出 $w$ 的最优解。</p>
+<p>由于$f^{ # }(x,y)$ 并不是对任何$x,y$ 都有 $f^{ # }(x,y)=M$ 因此需要通过牛顿迭代法来求解。</p>
+<h3 id="牛顿法与拟牛顿法"><a href="#牛顿法与拟牛顿法" class="headerlink" title="牛顿法与拟牛顿法"></a>牛顿法与拟牛顿法</h3><blockquote>
+<p>相关参考:</p>
+<p><a href="https://cloud.tencent.com/developer/article/1390228" target="_blank" rel="noopener">优化算法——牛顿法(Newton Method)</a></p>
+</blockquote>
+<p><strong>首先牛顿法能做什么？</strong></p>
+<p>牛顿法可以通过迭代逼近的方法找到函数极值点。</p>
+<p><strong>牛顿法如何找到极值点？</strong></p>
+<p>牛顿法可以通过泰勒二阶展开推导得到。假设我们要求 $f(x)$ 的极值点, 即 $f’(x)$ 的零点。</p>
+<p>我们知道 $f(x)$ 可以通过二阶泰勒展开近似表示为: </p>
+<p>$f(x)= f(x_k) + f’(x_k)(x-x_k) + {1\over2}f’’(x_k)(x-x_k)^2$</p>
+<p>对上述式子求导并令其为0得到: $f’(x_k) + f’’(x_k)(x-x_k) = 0$ 。 </p>
+<p>因此有  $x= x_k- {f’(x_k)\over f’’(x_k)}$, 假设我们已经到达了点$(x_k, f(x_k))$ 我们可以用这个等式迭代毕竟极值点。</p>
+<p>当然$f(x)$ 需要存在极值点 即存在 $\nabla f(x) = 0$</p>
+<p><strong>那么什么是拟牛顿法?</strong></p>
+<p>当 $f(x)$ 是一个关于向量 $x$ 的函数时求解其导数和二阶导数会使问题变得复杂。</p>
+<p>当 $x$ 为向量时其二阶泰勒展开变为: $f(x) = f(x_k) + g(x_k)(x-x_k) + {1\over2}(x-x_k)^TH(x_k)(x-x_k) $。</p>
+<p>其中 $g(x_k)= \nabla f(x_k)$ , $H(x_k)$ 是 $f(x)$ 的海赛矩阵(Hesse matrix):<br>$$<br>H(x) =<br>\begin{bmatrix}<br>{\part^2f \over \part x_i\part x_j}<br>\end{bmatrix}<em>{n\times n}<br>$$<br>那么迭代公式则改写为: $x</em>{k+1} = x_k - H_k^{-1}g_k$ , 其中 $H_k = H(x_k)$ , $g_k = g(x_k)$</p>
+<p>为了求解下一个点$x_{k+1}$ 我们需要反复计算 $n\times n $ 矩阵的逆 $H^{-1}_k$ , 这对计算机非常的不友好。</p>
+<p>为了避免求解逆矩阵的运算我们可以将迭代公式稍微变化一下, 于是产生了拟牛顿法。</p>
+<p>在统计学习方法的附录中介绍了两种拟牛顿法 DFP算法和 BFGS算法, </p>
+<p>其中后者更为流行因此这里仅介绍 BFGS算法。</p>
+<p><strong>BFGS算法</strong></p>
+<p>记 $y_k = g(x_{k+1}) - g(x_k)$ , $\delta_k = x_{k+1} - x_k$ 。<br>$$<br>\because \nabla f(x) = g(x_k) + H_k(x-x_k),\quad set \ x= x_{k+1}\<br>\therefore \nabla f(x_{k+1}) = g(x_{k+1}) \<br>\therefore g(x_{k+1}) - g(x_k) = H_k(x_{k+1} - x_k)\<br>\therefore y_k = H_k\delta_k<br>$$<br>BFGS算法考虑使用$B_{k+1}$ 逼近 $H_k$  </p>
+<p>将原先的迭代公式改为: $B_{k+1} \delta_k= y_k$</p>
+<p>我们假设构造的矩阵$B_k$ 存在这样的递推关系: $ B_{k+1} = B_k +P_k+Q_k$</p>
+<p>为了满足迭代公式$B_{k+1} \delta_k= y_k$, 则有:<br>$$<br>B_{k+1}\delta_k = B_k\delta_k +P_k\delta_k + Q_k\delta_k\<br> P_k\delta_k = y_k\<br> Q_k\delta_k = - B_k\delta_k\<br> P_k = { y_k y_k^T\over y_k^T\delta_k}\<br> Q_k = { B_k \delta_k\delta_k^T B_k \over \delta_k^T B_k\delta_k}<br>$$<br>当取 $B_0$ 为正定对称矩阵则能保证之后求得的 $B_k$ 都为正定矩阵。</p>
+<p>BFGS算法引入了矩阵$B$ 代替海赛矩阵 $H$,   虽然重点推导了$B_k$ 的递推式但是不要忘记</p>
+<p>我们最终要求的是令 $g(x_k)=0$ 的解 $x_k$ 。</p>
+<p>具体的算法见李航书中附录B，拟牛顿法 —— 算法B.3。</p>
+<img src="/.io//timg.gif" data-original="BFGS.png">
+
+<p>其中第三步中的 $p_k = \delta_k = x_{k+1} - x_k$ , 这里可能会令人疑惑: </p>
+<p>为什么会与 $B_k \delta_k = y_k$ 冲突？因为我们要求令 $g(x_{k+1})=0$ 的解$x_{k+1}$ ,</p>
+<p>因此我们令 $y_k = g(x_{k-1}) -g(x_k) = 0 - g(x_k)$ , 于是就有了 $B_kp_k=-g_k$ 。</p>
+<p><strong>使用拟牛顿算法求解最大熵模型参数$w$</strong></p>
+<p>回到最大熵模型的学习问题上。</p>
+<p>我们已经求出了最大熵模型 $P(y|x)$ 关于参数 $w$ 的表达式:<br>$$<br>P_w(y|x) = {exp(\sum_{i=1}^nw_if_i(x,y))\over \sum_{y\in Y} exp(\sum_{i=1}^nw_if_i(x,y))}\<br>$$<br>我们希望通过极大化对偶函数$I(w)$ 或似然函数$L(P_w)$ 找到对应的参数 $w$ 。</p>
+<p>于是在 改进的迭代尺度法 中我们通过放缩找到了$I(w+\delta) - I(w)$ 的下界函数 $B(\delta|w)$ :<br>$$<br> B(\delta|w) = \sum_{x\in X, y\in Y}\tilde{P}(x,y)\sum_{i=1}^n\delta_if_i(x,y) + 1 - \sum_{x\in X}\tilde{P}(x)\sum_{y\in Y}P_w(y|x)\sum_i^n {f_i(x,y)\over f^{ # }(x,y)} exp(\delta_if^{ # }(x,y))\<br>$$<br>我们要做的就是求解$B(\delta|w)$ 的最大值。使用拟牛顿法进行迭代求解,</p>
+<p>其中$\delta_i^k=w_i^{k+1}-w_i^{k}$ 表示第k次迭代参数$w_i$ 的增量, $\delta^<em>_i$ 为最终解则有:<br>$$<br>g(\delta_i) = {\part B(\delta|w)\over \part \delta_i} \<br>g(\delta_i^</em>) = {\part B(\delta^*|w)\over \part \delta_i^*}=0\<br>\delta_i^{k+1} = \delta_i^{k} - {g(\delta_i^k) \over g’(\delta_i^k)}<br>$$<br>我们也可以不使用改进的迭代尺度算法(IIS) 而是直接针对对偶函数$I(w)$ 使用拟牛顿法求解参数 $w$。</p>
+<p>求解最大熵模型$P_w(y|x)$ 要求我们最大化对偶函数 $I(w)$ , 书中设$f(w) = - I(w)$ 有最小值, </p>
+<p>则目标函数为 $\underset{w}{min} \ f(w)$, 对$f(w)$ 的一阶导数向量 $g(w)$, 其中$w$  为n维的向量, $w_i$ 表示第i个分量:<br>$$<br>\underset{w}{min} \ f(w) =  \sum_{x\in X}\tilde{P}(x)logZ_w(x) - \sum_{x\in X,y \in Y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y)\<br>g(w) = { {\part f(w)\over w_1}, \cdots,{\part f(w)\over w_n} }\<br>{\part f(w)\over w_i} = \sum_{x\in X y\in Y} \tilde{P}(x)P_w(y|x)f_i(x,y)-\sum_{x\in X y\in Y} \tilde{P}(x,y)f_i(x,y)\<br>$$<br>使用BFGS算法求解目标函数最优解过程如下:</p>
+<img src="/.io//timg.gif" data-original="BFGS_for_ME.png">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>Machine Learning</tag>
       </tags>
   </entry>
 </search>
